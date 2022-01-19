@@ -10,12 +10,12 @@ using std::cout;
 
 namespace the_wonder_boy
 {
-	Vector2u GameManager::windowSize;
+	Vector2u GameManager::windowSize; // Menciono la variable estática sólo para evitar un error.
 
 	GameManager::GameManager(unsigned int width, unsigned int height, const std::string windowTitle)
 	{
-		window = new RenderWindow(sf::VideoMode(width, height), windowTitle);
-		windowSize = { width, height };
+		window = new RenderWindow(sf::VideoMode(width, height), windowTitle); // Creo la ventana.
+		windowSize = { width, height }; // Guardo el tamaño de la ventana en una variable Vector2u.
 
 		cout << "Se ha creado un game manager.\n\n";
 	}
@@ -26,19 +26,20 @@ namespace the_wonder_boy
 
 	void GameManager::run()
 	{
-		init();
+		init(); // Inicializa todo.
 
+		// Loop de juego. La condición del while es que esté la ventana del juego abierta.
 		while (window->isOpen())
 		{
-			sf::Clock clock;
-			float elapsedTime = clock.getElapsedTime().asSeconds();
+			sf::Clock clock; // Se declara un reloj, cuya cuenta comienza a correr apenas se declara.
+			float elapsedTime = clock.getElapsedTime().asSeconds(); // Se guarda en una variable el tiempo transcurrido en el frame.
 
-			update(elapsedTime);
+			update(elapsedTime); // Actualiza usando el deltaTime.
 
-			draw();
+			draw(); // Dibuja.
 		}
 
-		destroy();
+		destroy(); // Destruye.
 	}
 
 	Vector2u GameManager::getWindowSize()
@@ -50,30 +51,28 @@ namespace the_wonder_boy
 		windowSize = { static_cast<unsigned int>(width), static_cast<unsigned int>(height) };
 	}
 
+
 	void GameManager::init()
 	{
-		SceneManager::loadNewScene(new LevelTest(window));
+		SceneManager::loadNewScene(new LevelTest(window)); // Inicio la primera escena del juego.
 	}
 	void GameManager::update(float deltaTime)
 	{
-		checkEvents();
+		checkEvents(); // Compruebo si hay eventos (cerrar la ventana, presionar una tecla, hacer click, etc).
 
-		SceneManager::getActualScene()->update(deltaTime);
+		SceneManager::getActualScene()->update(deltaTime); // Se "refresca" todo lo que hay en la escena actual.
 	}
 	void GameManager::draw()
 	{
-		window->clear();
+		window->clear(); // Se limpia toda la pantalla (por defecto, de color negro).
 
-		SceneManager::getActualScene()->draw();
+		SceneManager::getActualScene()->draw(); // Se dibuja todo lo que hay en la escena actual.
 
-		window->display();
+		window->display(); // Muestra todo lo dibujado en la ventana.
 	}
 	void GameManager::destroy()
 	{
-		if (SceneManager::getActualScene() != NULL)
-		{
-			delete SceneManager::getActualScene();
-		}
+		delete SceneManager::getActualScene(); // Se elimina la escena actual para liberar memoria.
 	}
 
 	void GameManager::checkEvents()

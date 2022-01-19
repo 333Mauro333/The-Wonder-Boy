@@ -12,7 +12,7 @@ namespace the_wonder_boy
 	{
 		if (scene != NULL)
 		{
-			delete scene;
+			delete scene; // Se elimina la escena sólo si hay una cargada.
 		}
 
 		scene = newScene;

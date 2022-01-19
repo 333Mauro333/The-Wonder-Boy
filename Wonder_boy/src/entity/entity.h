@@ -14,10 +14,11 @@ namespace the_wonder_boy
 		Entity(float x, float y);
 		~Entity();
 
-		Vector2f getPosition();
+		Vector2f getInitialPosition();
+		void setInitialPosition(float x, float y);
 
 	private:
-		Vector2f position;
+		Vector2f initialPosition;
 	};
 }
 

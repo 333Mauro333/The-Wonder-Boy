@@ -14,6 +14,8 @@ namespace the_wonder_boy
 		cout << "Se ha creado un nivel de prueba.\n\n";
 
 		this->window = window;
+
+		// Se hacen conversiones de datos para evitar advertencias de Visual Studio.
 		player = new Player(static_cast<float>(GameManager::getWindowSize().x / 2), static_cast<float>(GameManager::getWindowSize().y / 4 * 3));
 	}
 	LevelTest::~LevelTest()
@@ -25,11 +27,11 @@ namespace the_wonder_boy
 
 	void LevelTest::init()
 	{
-
+		// Seteos acorde a lo que se configure para el nivel.
 	}
 	void LevelTest::update(float deltaTime)
 	{
-
+		// Actualización de todos los componentes del nivel.
 	}
 	void LevelTest::draw()
 	{
