@@ -1,12 +1,10 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
+#include "SFML/Window.hpp"
 
-struct Vector2f
-{
-	float x;
-	float y;
-};
+using sf::Vector2f;
+
 
 namespace the_wonder_boy
 {
