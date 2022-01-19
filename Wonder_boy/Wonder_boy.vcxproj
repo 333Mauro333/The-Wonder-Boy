@@ -152,12 +152,14 @@
   <ItemGroup>
     <ClCompile Include="src\entity\entity.cpp" />
     <ClCompile Include="src\game_manager\game_manager.cpp" />
+    <ClCompile Include="src\game_scenes\levels\0_test\level_test.cpp" />
     <ClCompile Include="src\game_scenes\scene.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\entity\entity.h" />
     <ClInclude Include="src\game_manager\game_manager.h" />
+    <ClInclude Include="src\game_scenes\levels\0_test\level_test.h" />
     <ClInclude Include="src\game_scenes\scene.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

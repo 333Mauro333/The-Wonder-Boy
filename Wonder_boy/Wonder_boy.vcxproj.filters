@@ -19,6 +19,15 @@
     <Filter Include="allFiles\src\game_scenes">
       <UniqueIdentifier>{5e3b33fb-7277-4921-9360-15a96487c13c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="allFiles\src\game_scenes\levels">
+      <UniqueIdentifier>{e9344ba3-d6d7-4e78-a92a-8180e0ce345c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="allFiles\src\game_scenes\screens">
+      <UniqueIdentifier>{b1de9955-f739-42ac-97ec-f0180f3ecd61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="allFiles\src\game_scenes\levels\0_test">
+      <UniqueIdentifier>{91b7e9bd-edf9-4ad6-aea7-784046ac4cc2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -33,6 +42,9 @@
     <ClCompile Include="src\game_scenes\scene.cpp">
       <Filter>allFiles\src\game_scenes</Filter>
     </ClCompile>
+    <ClCompile Include="src\game_scenes\levels\0_test\level_test.cpp">
+      <Filter>allFiles\src\game_scenes\levels\0_test</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\entity\entity.h">
@@ -43,6 +55,9 @@
     </ClInclude>
     <ClInclude Include="src\game_scenes\scene.h">
       <Filter>allFiles\src\game_scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game_scenes\levels\0_test\level_test.h">
+      <Filter>allFiles\src\game_scenes\levels\0_test</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
