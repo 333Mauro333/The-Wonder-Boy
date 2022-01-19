@@ -10,10 +10,21 @@
     <Filter Include="allFiles\lib">
       <UniqueIdentifier>{a088bdc8-5227-4bac-96d7-21b6de05904a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="allFiles\src\entity">
+      <UniqueIdentifier>{9246abf5-35f4-460d-9302-1b7451171a3a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
       <Filter>allFiles\src</Filter>
     </ClCompile>
+    <ClCompile Include="src\entity\entity.cpp">
+      <Filter>allFiles\src\entity</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\entity\entity.h">
+      <Filter>allFiles\src\entity</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
