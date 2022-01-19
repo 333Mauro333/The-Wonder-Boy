@@ -28,6 +28,9 @@
     <Filter Include="allFiles\src\game_scenes\levels\0_test">
       <UniqueIdentifier>{91b7e9bd-edf9-4ad6-aea7-784046ac4cc2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="allFiles\src\scene_manager">
+      <UniqueIdentifier>{5ff187c4-9f07-459a-95bc-20c7ca1992d5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -45,6 +48,9 @@
     <ClCompile Include="src\game_scenes\levels\0_test\level_test.cpp">
       <Filter>allFiles\src\game_scenes\levels\0_test</Filter>
     </ClCompile>
+    <ClCompile Include="src\scene_manager\scene_manager.cpp">
+      <Filter>allFiles\src\scene_manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\entity\entity.h">
@@ -58,6 +64,9 @@
     </ClInclude>
     <ClInclude Include="src\game_scenes\levels\0_test\level_test.h">
       <Filter>allFiles\src\game_scenes\levels\0_test</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scene_manager\scene_manager.h">
+      <Filter>allFiles\src\scene_manager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
