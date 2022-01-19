@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+#include "game_manager/game_manager.h"
+
 using std::cout;
 
 
@@ -12,6 +14,7 @@ namespace the_wonder_boy
 		cout << "Se ha creado un nivel de prueba.\n\n";
 
 		this->window = window;
+		player = new Player(static_cast<float>(GameManager::getWindowSize().x / 2), static_cast<float>(GameManager::getWindowSize().y / 4 * 3));
 	}
 	LevelTest::~LevelTest()
 	{
@@ -30,11 +33,11 @@ namespace the_wonder_boy
 	}
 	void LevelTest::draw()
 	{
-
+		player->draw(window);
 	}
 
 	void LevelTest::destroy()
 	{
-
+		delete player;
 	}
 }

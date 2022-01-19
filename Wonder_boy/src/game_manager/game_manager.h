@@ -5,6 +5,7 @@
 #include "SFML/Graphics.hpp"
 
 using sf::RenderWindow;
+using sf::Vector2u;
 
 
 namespace the_wonder_boy
@@ -19,7 +20,12 @@ namespace the_wonder_boy
 
 		void run();
 
+		static Vector2u getWindowSize();
+		static void setWindowSize(int width, int height);
+
 	private:
+		static Vector2u windowSize;
+
 		void init();
 		void update(float deltaTime);
 		void draw();

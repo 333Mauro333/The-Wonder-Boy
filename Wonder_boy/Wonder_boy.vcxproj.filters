@@ -54,6 +54,9 @@
     <ClCompile Include="src\scene_manager\scene_manager.cpp">
       <Filter>allFiles\src\scene_manager</Filter>
     </ClCompile>
+    <ClCompile Include="src\player\player.cpp">
+      <Filter>allFiles\src\player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\entity\entity.h">

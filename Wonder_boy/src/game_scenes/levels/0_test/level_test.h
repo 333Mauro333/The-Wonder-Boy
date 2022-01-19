@@ -2,6 +2,7 @@
 #define LEVEL_TEST_H
 
 #include "game_scenes/scene.h"
+#include "player/player.h"
 
 
 namespace the_wonder_boy
@@ -17,8 +18,9 @@ namespace the_wonder_boy
 		void draw() override;
 
 	private:
-		void destroy() override;
+		Player* player;
 
+		void destroy() override;
 	};
 }
 

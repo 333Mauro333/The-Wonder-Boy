@@ -10,9 +10,12 @@ using std::cout;
 
 namespace the_wonder_boy
 {
+	Vector2u GameManager::windowSize;
+
 	GameManager::GameManager(unsigned int width, unsigned int height, const std::string windowTitle)
 	{
 		window = new RenderWindow(sf::VideoMode(width, height), windowTitle);
+		windowSize = { width, height };
 
 		cout << "Se ha creado un game manager.\n\n";
 	}
@@ -36,6 +39,15 @@ namespace the_wonder_boy
 		}
 
 		destroy();
+	}
+
+	Vector2u GameManager::getWindowSize()
+	{
+		return windowSize;
+	}
+	void GameManager::setWindowSize(int width, int height)
+	{
+		windowSize = { static_cast<unsigned int>(width), static_cast<unsigned int>(height) };
 	}
 
 	void GameManager::init()

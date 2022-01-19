@@ -155,6 +155,7 @@
     <ClCompile Include="src\game_scenes\levels\0_test\level_test.cpp" />
     <ClCompile Include="src\game_scenes\scene.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\player\player.cpp" />
     <ClCompile Include="src\scene_manager\scene_manager.cpp" />
   </ItemGroup>
   <ItemGroup>
