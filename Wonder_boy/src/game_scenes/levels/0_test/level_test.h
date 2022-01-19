@@ -6,7 +6,7 @@
 
 namespace the_wonder_boy
 {
-	class LevelTest : Scene
+	class LevelTest : public Scene
 	{
 	public:
 		LevelTest(RenderWindow* window);

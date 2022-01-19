@@ -2,6 +2,9 @@
 
 #include <iostream>
 
+#include "scene_manager/scene_manager.h"
+#include "game_scenes/levels/0_test/level_test.h"
+
 using std::cout;
 
 
@@ -20,41 +23,42 @@ namespace the_wonder_boy
 
 	void GameManager::run()
 	{
-		// Se llama al iniciado de la primera escena.
+		init();
 
 		while (window->isOpen())
 		{
 			sf::Clock clock;
 			float elapsedTime = clock.getElapsedTime().asSeconds();
 
-			// update
-			// draw
+			update(elapsedTime);
+
+			draw();
 		}
 
-		// destroy
+		destroy();
 	}
 
 	void GameManager::init()
 	{
-		// Carga de la primera escena.
+		SceneManager::loadNewScene(new LevelTest(window));
 	}
 	void GameManager::update(float deltaTime)
 	{
 		checkEvents();
 
-		// Update de la escena actual.
+		SceneManager::getActualScene()->update(deltaTime);
 	}
 	void GameManager::draw()
 	{
 		window->clear();
 
-		// Se dibuja la escena actual.
+		SceneManager::getActualScene()->draw();
 
 		window->display();
 	}
 	void GameManager::destroy()
 	{
-		// Se destruye la escena actual.
+		SceneManager::getActualScene()->destroy();
 	}
 
 	void GameManager::checkEvents()
