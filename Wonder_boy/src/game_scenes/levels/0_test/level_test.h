@@ -15,9 +15,9 @@ namespace the_wonder_boy
 		void init() override;
 		void update(float deltaTime) override;
 		void draw() override;
-		void destroy() override;
 
 	private:
+		void destroy() override;
 
 	};
 }

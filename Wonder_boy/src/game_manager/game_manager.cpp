@@ -58,7 +58,10 @@ namespace the_wonder_boy
 	}
 	void GameManager::destroy()
 	{
-		SceneManager::getActualScene()->destroy();
+		if (SceneManager::getActualScene() != NULL)
+		{
+			delete SceneManager::getActualScene();
+		}
 	}
 
 	void GameManager::checkEvents()

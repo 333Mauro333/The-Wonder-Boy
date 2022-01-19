@@ -31,6 +31,9 @@
     <Filter Include="allFiles\src\scene_manager">
       <UniqueIdentifier>{5ff187c4-9f07-459a-95bc-20c7ca1992d5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="allFiles\src\player">
+      <UniqueIdentifier>{979570ca-81e2-4467-b388-7d48d163c271}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -67,6 +70,9 @@
     </ClInclude>
     <ClInclude Include="src\scene_manager\scene_manager.h">
       <Filter>allFiles\src\scene_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="src\player\player.h">
+      <Filter>allFiles\src\player</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -7,7 +7,7 @@ using std::cout;
 
 namespace the_wonder_boy
 {
-	LevelTest::LevelTest(RenderWindow* window)
+	LevelTest::LevelTest(RenderWindow* window) : Scene()
 	{
 		cout << "Se ha creado un nivel de prueba.\n\n";
 
@@ -15,6 +15,8 @@ namespace the_wonder_boy
 	}
 	LevelTest::~LevelTest()
 	{
+		destroy();
+
 		cout << "El nivel de prueba ha sido eliminado de la memoria.\n";
 	}
 
@@ -30,6 +32,7 @@ namespace the_wonder_boy
 	{
 
 	}
+
 	void LevelTest::destroy()
 	{
 

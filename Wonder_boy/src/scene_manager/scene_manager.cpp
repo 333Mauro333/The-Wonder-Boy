@@ -12,7 +12,7 @@ namespace the_wonder_boy
 	{
 		if (scene != NULL)
 		{
-			scene->destroy();
+			delete scene;
 		}
 
 		scene = newScene;

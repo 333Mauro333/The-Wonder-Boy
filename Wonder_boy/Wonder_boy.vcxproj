@@ -162,6 +162,7 @@
     <ClInclude Include="src\game_manager\game_manager.h" />
     <ClInclude Include="src\game_scenes\levels\0_test\level_test.h" />
     <ClInclude Include="src\game_scenes\scene.h" />
+    <ClInclude Include="src\player\player.h" />
     <ClInclude Include="src\scene_manager\scene_manager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
