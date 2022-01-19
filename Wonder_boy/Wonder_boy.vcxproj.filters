@@ -13,6 +13,9 @@
     <Filter Include="allFiles\src\entity">
       <UniqueIdentifier>{9246abf5-35f4-460d-9302-1b7451171a3a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="allFiles\src\game_manager">
+      <UniqueIdentifier>{17528e91-87c0-4e6b-b832-c8ed52449409}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -21,10 +24,16 @@
     <ClCompile Include="src\entity\entity.cpp">
       <Filter>allFiles\src\entity</Filter>
     </ClCompile>
+    <ClCompile Include="src\game_manager\game_manager.cpp">
+      <Filter>allFiles\src\game_manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\entity\entity.h">
       <Filter>allFiles\src\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game_manager\game_manager.h">
+      <Filter>allFiles\src\game_manager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
