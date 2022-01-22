@@ -6,6 +6,13 @@
 using sf::Vector2f;
 
 
+struct GRAVITY
+{
+	float acceleration;
+	float gravityForce;
+	float speedLimit;
+};
+
 namespace the_wonder_boy
 {
 	class Entity

@@ -9,6 +9,7 @@ using sf::RenderWindow;
 using sf::Texture;
 using sf::Sprite;
 
+
 namespace the_wonder_boy
 {
 	class Player : public Entity
