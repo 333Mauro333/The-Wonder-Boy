@@ -19,6 +19,8 @@ namespace the_wonder_boy
 
 		void draw(RenderWindow* window);
 
+		Sprite getRenderer();
+
 	private:
 		Texture tex_floor;
 		Sprite spr_floor;

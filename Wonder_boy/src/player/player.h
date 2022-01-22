@@ -2,6 +2,7 @@
 #define PLAYER_H
 
 #include "entity/entity.h"
+#include "floor/floor.h"
 
 #include "SFML/Graphics.hpp"
 
@@ -21,6 +22,8 @@ namespace the_wonder_boy
 		void update(float deltaTime);
 		void draw(RenderWindow* window);
 		void keyPressed(float deltaTime);
+		bool isCollidingWith(Floor* floor);
+		void collisionWith(Floor* floor);
 
 	private:
 		Texture tex_idle;

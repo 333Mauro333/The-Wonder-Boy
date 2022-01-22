@@ -15,7 +15,7 @@ namespace the_wonder_boy
 		}
 
 		spr_floor.setTexture(tex_floor);
-		spr_floor.setOrigin(spr_floor.getGlobalBounds().width / 2.0f, spr_floor.getGlobalBounds().height);
+		spr_floor.setOrigin(spr_floor.getGlobalBounds().width / 2.0f, spr_floor.getGlobalBounds().height / 2.0f);
 		spr_floor.setPosition(x, y);
 	}
 	Floor::~Floor()
@@ -26,5 +26,10 @@ namespace the_wonder_boy
 	void Floor::draw(RenderWindow* window)
 	{
 		window->draw(spr_floor);
+	}
+
+	Sprite Floor::getRenderer()
+	{
+		return spr_floor;
 	}
 }

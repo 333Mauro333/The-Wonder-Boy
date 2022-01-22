@@ -54,7 +54,14 @@ namespace the_wonder_boy
 			spr_idle.move(speedX * deltaTime, 0.0f);
 		}
 	}
-
+	bool Player::isCollidingWith(Floor* floor)
+	{
+		return spr_idle.getPosition().y > floor->getRenderer().getPosition().y - floor->getRenderer().getGlobalBounds().height / 2.0f;
+	}
+	void Player::collisionWith(Floor* floor)
+	{
+		spr_idle.setPosition(spr_idle.getPosition().x, floor->getRenderer().getPosition().y - floor->getRenderer().getGlobalBounds().height / 2.0f);
+	}
 
 	void Player::gravityForce(float deltaTime)
 	{
