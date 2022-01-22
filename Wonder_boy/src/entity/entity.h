@@ -8,8 +8,8 @@ using sf::Vector2f;
 
 struct GRAVITY
 {
+	float actualSpeed;
 	float acceleration;
-	float gravityForce;
 	float speedLimit;
 };
 

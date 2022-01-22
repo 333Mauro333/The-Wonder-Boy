@@ -21,7 +21,11 @@ namespace the_wonder_boy
 		spr_idle.setOrigin(spr_idle.getGlobalBounds().width / 2.0f, spr_idle.getGlobalBounds().height);
 		spr_idle.setPosition(x, y);
 
-		speed = 250.0f;
+		gravity.actualSpeed = 0.0f;
+		gravity.acceleration = 1000.0f;
+		gravity.speedLimit = 1000.0f;
+
+		speedX = 250.0f;
 
 		cout << "Se ha creado un jugador.\n\n";
 	}
@@ -32,6 +36,7 @@ namespace the_wonder_boy
 
 	void Player::update(float deltaTime)
 	{
+		gravityForce(deltaTime);
 		keyPressed(deltaTime);
 	}
 	void Player::draw(RenderWindow* window)
@@ -42,11 +47,20 @@ namespace the_wonder_boy
 	{
 		if (sf::Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayLeft)))
 		{
-			spr_idle.move(-speed * deltaTime, 0.0f);
+			spr_idle.move(-speedX * deltaTime, 0.0f);
 		}
 		if (sf::Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayRight)))
 		{
-			spr_idle.move(speed * deltaTime, 0.0f);
+			spr_idle.move(speedX * deltaTime, 0.0f);
 		}
 	}
+
+
+	void Player::gravityForce(float deltaTime)
+	{
+		gravity.actualSpeed += gravity.acceleration * deltaTime;
+
+		spr_idle.move(0.0f, gravity.actualSpeed * deltaTime);
+	}
+
 }

@@ -26,7 +26,11 @@ namespace the_wonder_boy
 		Texture tex_idle;
 		Sprite spr_idle;
 
-		float speed;
+		GRAVITY gravity;
+
+		float speedX;
+
+		void gravityForce(float deltaTime);
 	};
 }
 
