@@ -37,6 +37,9 @@
     <Filter Include="allFiles\src\game_controls">
       <UniqueIdentifier>{1ecf0f20-35f6-49ee-aec4-8b2b769e16c3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="allFiles\src\floor">
+      <UniqueIdentifier>{79b7e8b2-490c-4157-ae2a-2b4d721d449d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -63,6 +66,9 @@
     <ClCompile Include="src\game_controls\game_controls.cpp">
       <Filter>allFiles\src\game_controls</Filter>
     </ClCompile>
+    <ClCompile Include="src\floor\floor.cpp">
+      <Filter>allFiles\src\floor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\entity\entity.h">
@@ -85,6 +91,9 @@
     </ClInclude>
     <ClInclude Include="src\game_controls\game_controls.h">
       <Filter>allFiles\src\game_controls</Filter>
+    </ClInclude>
+    <ClInclude Include="src\floor\floor.h">
+      <Filter>allFiles\src\floor</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

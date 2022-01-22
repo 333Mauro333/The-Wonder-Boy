@@ -17,6 +17,7 @@ namespace the_wonder_boy
 
 		// Se hacen conversiones de datos para evitar advertencias de Visual Studio.
 		player = new Player(static_cast<float>(GameManager::getWindowSize().x / 2), static_cast<float>(GameManager::getWindowSize().y / 4 * 3));
+		floor = new Floor(window->getSize().x / 2.0f, window->getSize().y / 4.0f * 3.5f);
 	}
 	LevelTest::~LevelTest()
 	{

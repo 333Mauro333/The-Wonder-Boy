@@ -3,6 +3,7 @@
 
 #include "game_scenes/scene.h"
 #include "player/player.h"
+#include "floor/floor.h"
 
 
 namespace the_wonder_boy
@@ -19,6 +20,7 @@ namespace the_wonder_boy
 
 	private:
 		Player* player;
+		Floor* floor;
 
 		void destroy() override;
 	};

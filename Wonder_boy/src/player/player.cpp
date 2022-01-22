@@ -44,7 +44,6 @@ namespace the_wonder_boy
 		{
 			spr_idle.move(-speed * deltaTime, 0.0f);
 		}
-
 		if (sf::Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayRight)))
 		{
 			spr_idle.move(speed * deltaTime, 0.0f);
