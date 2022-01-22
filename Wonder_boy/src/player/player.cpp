@@ -21,6 +21,8 @@ namespace the_wonder_boy
 		spr_idle.setOrigin(spr_idle.getGlobalBounds().width / 2.0f, spr_idle.getGlobalBounds().height);
 		spr_idle.setPosition(x, y);
 
+		speed = 250.0f;
+
 		cout << "Se ha creado un jugador.\n\n";
 	}
 	Player::~Player()
@@ -32,17 +34,12 @@ namespace the_wonder_boy
 	{
 		if (sf::Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayLeft)))
 		{
-			spr_idle.move(-10, 0.0f);
+			spr_idle.move(-speed * deltaTime, 0.0f);
 		}
 
 		if (sf::Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayRight)))
 		{
-			spr_idle.move(10, 0.0f);
-		}
-
-		if (sf::Keyboard::isKeyPressed(Keyboard::Down))
-		{
-			spr_idle.move(0.0f, 1.0f);
+			spr_idle.move(speed * deltaTime, 0.0f);
 		}
 
 		//keyPressed(deltaTime);

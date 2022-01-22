@@ -24,6 +24,8 @@ namespace the_wonder_boy
 	private:
 		Texture tex_idle;
 		Sprite spr_idle;
+
+		float speed;
 	};
 }
 

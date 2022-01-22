@@ -17,6 +17,7 @@ namespace the_wonder_boy
 	{
 		window = new RenderWindow(sf::VideoMode(width, height), windowTitle); // Creo la ventana.
 		windowSize = { width, height }; // Guardo el tamaño de la ventana en una variable Vector2u.
+		fps = 60;
 
 		cout << "Se ha creado un game manager.\n\n";
 	}
@@ -33,6 +34,7 @@ namespace the_wonder_boy
 		while (window->isOpen())
 		{
 			sf::Clock clock; // Se declara un reloj, cuya cuenta comienza a correr apenas se declara.
+			limitFrames();
 			float elapsedTime = clock.getElapsedTime().asSeconds(); // Se guarda en una variable el tiempo transcurrido en el frame.
 
 			update(elapsedTime); // Actualiza usando el deltaTime.
@@ -55,8 +57,6 @@ namespace the_wonder_boy
 
 	void GameManager::init()
 	{
-		// window->setFramerateLimit(30); Verificar el tema del framerate porque esta línea no funciona.
-
 		SceneManager::loadNewScene(new LevelTest(window)); // Inicio la primera escena del juego.
 	}
 	void GameManager::update(float deltaTime)
@@ -89,5 +89,10 @@ namespace the_wonder_boy
 				window->close();
 			}
 		}
+	}
+
+	void GameManager::limitFrames()
+	{
+		Sleep(1000 / fps);
 	}
 }
