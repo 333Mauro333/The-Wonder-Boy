@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "game_manager/game_manager.h"
+#include "game_controls/game_controls.h"
 
 using std::cout;
 
@@ -11,7 +12,7 @@ namespace the_wonder_boy
 {
 	Player::Player(float x, float y) : Entity(x, y)
 	{
-		if (!tex_idle.loadFromFile("../res/sprites/player/idle.png"))
+		if (!tex_idle.loadFromFile("res/sprites/player/idle.png"))
 		{
 			cout << "La textura idle.png no se ha cargado.\n";
 		}
@@ -29,10 +30,37 @@ namespace the_wonder_boy
 
 	void Player::update(float deltaTime)
 	{
+		if (sf::Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayLeft)))
+		{
+			spr_idle.move(-10, 0.0f);
+		}
 
+		if (sf::Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayRight)))
+		{
+			spr_idle.move(10, 0.0f);
+		}
+
+		if (sf::Keyboard::isKeyPressed(Keyboard::Down))
+		{
+			spr_idle.move(0.0f, 1.0f);
+		}
+
+		//keyPressed(deltaTime);
 	}
 	void Player::draw(RenderWindow* window)
 	{
 		window->draw(spr_idle);
+	}
+	void Player::keyPressed(float deltaTime)
+	{
+		if (sf::Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayLeft)))
+		{
+			spr_idle.move(-100.0f * 0.5, 0.0f);
+		}
+		
+		if (sf::Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayRight)))
+		{
+			spr_idle.move(10.0f * 0.5f, 0.0f);
+		}
 	}
 }

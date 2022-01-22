@@ -25,7 +25,7 @@ namespace the_wonder_boy
 
 	private:
 		static Vector2u windowSize;
-
+		// Agregar función de deltaTime 1000/frames en un sleep.
 		void init();
 		void update(float deltaTime);
 		void draw();

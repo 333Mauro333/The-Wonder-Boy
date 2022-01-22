@@ -31,7 +31,7 @@ namespace the_wonder_boy
 	}
 	void LevelTest::update(float deltaTime)
 	{
-		// Actualización de todos los componentes del nivel.
+		player->update(deltaTime);
 	}
 	void LevelTest::draw()
 	{

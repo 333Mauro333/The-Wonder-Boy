@@ -1,6 +1,7 @@
 #include "game_manager.h"
 
 #include <iostream>
+#include <Windows.h>
 
 #include "scene_manager/scene_manager.h"
 #include "game_scenes/levels/0_test/level_test.h"
@@ -54,6 +55,8 @@ namespace the_wonder_boy
 
 	void GameManager::init()
 	{
+		// window->setFramerateLimit(30); Verificar el tema del framerate porque esta línea no funciona.
+
 		SceneManager::loadNewScene(new LevelTest(window)); // Inicio la primera escena del juego.
 	}
 	void GameManager::update(float deltaTime)

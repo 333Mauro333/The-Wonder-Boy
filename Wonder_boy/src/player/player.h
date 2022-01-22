@@ -19,6 +19,7 @@ namespace the_wonder_boy
 
 		void update(float deltaTime);
 		void draw(RenderWindow* window);
+		void keyPressed(float deltaTime);
 
 	private:
 		Texture tex_idle;
