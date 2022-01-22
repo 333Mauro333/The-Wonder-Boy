@@ -9,7 +9,7 @@ namespace the_wonder_boy
 {
 	Floor::Floor(float x, float y) : Entity(x, y)
 	{
-		if (!tex_floor.loadFromFile("res/sprites/player/idle.png"))
+		if (!tex_floor.loadFromFile("res/sprites/levels/level_test/floor.png"))
 		{
 			cout << "La textura idle.png no se ha cargado.\n";
 		}
@@ -27,7 +27,4 @@ namespace the_wonder_boy
 	{
 		window->draw(spr_floor);
 	}
-
-
-
 }

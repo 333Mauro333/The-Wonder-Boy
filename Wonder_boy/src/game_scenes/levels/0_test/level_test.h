@@ -20,7 +20,8 @@ namespace the_wonder_boy
 
 	private:
 		Player* player;
-		Floor* floor;
+		static const int floorSize = 15;
+		Floor* floor[floorSize];
 
 		void destroy() override;
 	};
