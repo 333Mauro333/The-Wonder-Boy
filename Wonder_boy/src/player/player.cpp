@@ -24,6 +24,7 @@ namespace the_wonder_boy
 		gravity.actualSpeed = 0.0f;
 		gravity.acceleration = 1000.0f;
 		gravity.speedLimit = 1000.0f;
+		gravity.onTheFloor = false;
 
 		speedX = 250.0f;
 
@@ -53,6 +54,15 @@ namespace the_wonder_boy
 		{
 			spr_idle.move(speedX * deltaTime, 0.0f);
 		}
+		if (sf::Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayJump)))
+		{
+			if (gravity.onTheFloor)
+			{
+				gravity.actualSpeed = -600;
+				gravity.onTheFloor = false;
+				cout << "Salta\n";
+			}
+		}
 	}
 	bool Player::isCollidingWith(Floor* floor)
 	{
@@ -61,6 +71,7 @@ namespace the_wonder_boy
 	void Player::collisionWith(Floor* floor)
 	{
 		spr_idle.setPosition(spr_idle.getPosition().x, floor->getRenderer().getPosition().y - floor->getRenderer().getGlobalBounds().height / 2.0f);
+		gravity.onTheFloor = true;
 	}
 
 	void Player::gravityForce(float deltaTime)

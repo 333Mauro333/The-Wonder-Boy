@@ -11,6 +11,7 @@ struct GRAVITY
 	float actualSpeed;
 	float acceleration;
 	float speedLimit;
+	bool onTheFloor;
 };
 
 namespace the_wonder_boy
