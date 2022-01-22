@@ -32,17 +32,7 @@ namespace the_wonder_boy
 
 	void Player::update(float deltaTime)
 	{
-		if (sf::Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayLeft)))
-		{
-			spr_idle.move(-speed * deltaTime, 0.0f);
-		}
-
-		if (sf::Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayRight)))
-		{
-			spr_idle.move(speed * deltaTime, 0.0f);
-		}
-
-		//keyPressed(deltaTime);
+		keyPressed(deltaTime);
 	}
 	void Player::draw(RenderWindow* window)
 	{
@@ -52,12 +42,12 @@ namespace the_wonder_boy
 	{
 		if (sf::Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayLeft)))
 		{
-			spr_idle.move(-100.0f * 0.5, 0.0f);
+			spr_idle.move(-speed * deltaTime, 0.0f);
 		}
-		
+
 		if (sf::Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayRight)))
 		{
-			spr_idle.move(10.0f * 0.5f, 0.0f);
+			spr_idle.move(speed * deltaTime, 0.0f);
 		}
 	}
 }
