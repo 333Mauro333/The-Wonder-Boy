@@ -22,11 +22,11 @@ namespace the_wonder_boy
 		spr_idle.setPosition(x, y);
 
 		gravity.actualSpeed = 0.0f;
-		gravity.acceleration = 1000.0f;
+		gravity.acceleration = 2000.0f;
 		gravity.speedLimit = 1000.0f;
 		gravity.onTheFloor = false;
 
-		speedX = 250.0f;
+		speedX = 500.0f;
 
 		cout << "Se ha creado un jugador.\n\n";
 	}
@@ -58,7 +58,7 @@ namespace the_wonder_boy
 		{
 			if (gravity.onTheFloor)
 			{
-				gravity.actualSpeed = -600;
+				gravity.actualSpeed = -1000;
 				gravity.onTheFloor = false;
 				cout << "Salta\n";
 			}
