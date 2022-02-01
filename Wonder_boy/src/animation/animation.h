@@ -1,12 +1,12 @@
 #ifndef ANIMATION_H
 #define ANIMATION_H
 
-#include "SFML/Graphics.hpp"
+#include <vector>
 
-#include <list>
+#include "frame/frame.h"
 
 using sf::Sprite;
-using std::list;
+using std::vector;
 
 
 enum class ANIMATION_MODE { ONCE, LOOP };
@@ -19,11 +19,12 @@ namespace the_wonder_boy
 		Animation(Sprite& target, ANIMATION_MODE animationMode);
 		~Animation();
 
-		void addFrame();
+		void addFrame(Frame frame);
 		void update(float elapsed);
 		int getNumberOfFrame();
 
 	private:
+		vector<Frame> frameVector;
 		ANIMATION_MODE animationMode;
 		Sprite target;
 		int actualFrame;

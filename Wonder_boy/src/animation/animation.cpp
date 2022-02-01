@@ -21,9 +21,9 @@ namespace the_wonder_boy
 		cout << "La animacion ha sido eliminada de la memoria.\n\n";
 	}
 
-	void Animation::addFrame() // Parámetro: clase Frame.
+	void Animation::addFrame(Frame frame)
 	{
-		// Agrego a mi lista de frames.
+		frameVector.push_back(frame); // Lo agrega al final.
 	}
 	void Animation::update(float elapsed)
 	{
@@ -31,7 +31,27 @@ namespace the_wonder_boy
 
 		float p = progress;
 
-		// Hacer el for con tamaño de la lista de frames.
+		for (int i = 0; i < frameVector.size(); i++)
+		{
+			actualFrame = i;
+
+			p -= frameVector[i].getDuration();
+
+			if (animationMode == ANIMATION_MODE::LOOP && p > 0.0f && i == frameVector.size() - 1)
+			{
+				// Vuelve al comienzo de la iteración (reiniciando la cuenta).
+				i = 0;
+				continue;
+			}
+
+			if (p <= 0.0f || i == frameVector.size() - 1)
+			{
+				// Deja el último frame, sin repetir.
+				target.setTextureRect(frameVector[i].getRect());
+				break;
+			}
+		}
+
 	}
 	int Animation::getNumberOfFrame()
 	{
