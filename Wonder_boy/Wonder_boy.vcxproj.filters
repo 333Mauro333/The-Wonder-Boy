@@ -43,6 +43,9 @@
     <Filter Include="allFiles\src\animation">
       <UniqueIdentifier>{0e43581f-f9a1-4780-bd38-f5681af737f6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="allFiles\src\animation\frame">
+      <UniqueIdentifier>{6f0b569d-b628-4e59-a789-b6a8e573ad53}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -75,6 +78,9 @@
     <ClCompile Include="src\animation\animation.cpp">
       <Filter>allFiles\src\animation</Filter>
     </ClCompile>
+    <ClCompile Include="src\animation\frame\frame.cpp">
+      <Filter>allFiles\src\animation\frame</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\entity\entity.h">
@@ -103,6 +109,9 @@
     </ClInclude>
     <ClInclude Include="src\animation\animation.h">
       <Filter>allFiles\src\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="src\animation\frame\frame.h">
+      <Filter>allFiles\src\animation\frame</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
