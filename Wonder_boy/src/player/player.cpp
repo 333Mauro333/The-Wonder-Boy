@@ -46,6 +46,7 @@ namespace the_wonder_boy
 
 	void Player::update(float deltaTime)
 	{
+		// Agregar animacion para el otro lado para así, mejorar código.
 		animIdleRight->target.setPosition(renderer.getPosition().x, renderer.getPosition().y);
 		animIdleRight->update(deltaTime);
 		gravityForce(deltaTime);

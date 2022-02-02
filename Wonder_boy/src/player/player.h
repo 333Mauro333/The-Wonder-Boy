@@ -30,12 +30,14 @@ namespace the_wonder_boy
 
 	private:
 		ANIMATION_STATE animationState; // Enumerador de animación actual para controlar el renderer.
-		Texture textureLoader;
-		Sprite spriteLoader;
+		Texture textureLoader; // Variable para cargar texturas.
+		Sprite spriteLoader; // Variable para cargar sprites.
 		Sprite renderer; // Sprite "central", el que todas las animaciones van a tener como base.
-		Animation* animIdleRight; // Comienzo de animaciones.
 		GRAVITY gravity; // Estructura con valores de gravedad.
 		float speedX; // Velocidad horizontal.
+
+		Animation* animIdleRight; // Animación parado mirando hacia la derecha.
+		Animation* animIdleLeft; // Animación parado mirando hacia la izquierda.
 
 		void gravityForce(float deltaTime);
 		void initAnimations(float x, float y);
