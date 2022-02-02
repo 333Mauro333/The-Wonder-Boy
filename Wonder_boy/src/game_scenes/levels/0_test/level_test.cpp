@@ -38,8 +38,6 @@ namespace the_wonder_boy
 	}
 	void LevelTest::update(float deltaTime)
 	{
-		player->update(deltaTime);
-
 		for (int i = 0; i < floorSize; i++)
 		{
 			if (player->isCollidingWith(floor[i]))
@@ -47,6 +45,8 @@ namespace the_wonder_boy
 				player->collisionWith(floor[i]);
 			}
 		}
+
+		player->update(deltaTime);
 	}
 	void LevelTest::draw()
 	{

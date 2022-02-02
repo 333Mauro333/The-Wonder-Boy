@@ -12,14 +12,23 @@ namespace the_wonder_boy
 {
 	Player::Player(float x, float y) : Entity(x, y)
 	{
-		if (!tex_idle.loadFromFile("res/sprites/player/idle.png"))
+		animationState = ANIMATION_STATE::IDLE_RIGHT;
+
+		initAnimations(x, y);
+
+		switch (animationState)
 		{
-			cout << "La textura idle.png no se ha cargado.\n";
+		case ANIMATION_STATE::IDLE_RIGHT:
+			break;
+
+		case ANIMATION_STATE::IDLE_LEFT:
+			break;
+
+		default:
+			break;
 		}
 
-		spr_idle.setTexture(tex_idle);
-		spr_idle.setOrigin(spr_idle.getGlobalBounds().width / 2.0f, spr_idle.getGlobalBounds().height);
-		spr_idle.setPosition(x, y);
+		renderer.setPosition(x, y);
 
 		gravity.actualSpeed = 0.0f;
 		gravity.acceleration = 2000.0f;
@@ -37,22 +46,24 @@ namespace the_wonder_boy
 
 	void Player::update(float deltaTime)
 	{
+		animIdleRight->target.setPosition(renderer.getPosition().x, renderer.getPosition().y);
+		animIdleRight->update(deltaTime);
 		gravityForce(deltaTime);
 		keyPressed(deltaTime);
 	}
 	void Player::draw(RenderWindow* window)
 	{
-		window->draw(spr_idle);
+		window->draw(animIdleRight->target); // Ver igualación de los sprites (renderer, animations, etc).
 	}
 	void Player::keyPressed(float deltaTime)
 	{
 		if (sf::Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayLeft)))
 		{
-			spr_idle.move(-speedX * deltaTime, 0.0f);
+			renderer.move(-speedX * deltaTime, 0.0f);
 		}
 		if (sf::Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayRight)))
 		{
-			spr_idle.move(speedX * deltaTime, 0.0f);
+			renderer.move(speedX * deltaTime, 0.0f);
 		}
 		if (sf::Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayJump)))
 		{
@@ -66,19 +77,47 @@ namespace the_wonder_boy
 	}
 	bool Player::isCollidingWith(Floor* floor)
 	{
-		return spr_idle.getPosition().y > floor->getRenderer().getPosition().y - floor->getRenderer().getGlobalBounds().height / 2.0f;
+		return renderer.getPosition().y > floor->getRenderer().getPosition().y - floor->getRenderer().getGlobalBounds().height / 2.0f;
 	}
 	void Player::collisionWith(Floor* floor)
 	{
-		spr_idle.setPosition(spr_idle.getPosition().x, floor->getRenderer().getPosition().y - floor->getRenderer().getGlobalBounds().height / 2.0f);
 		gravity.onTheFloor = true;
+		renderer.setPosition(renderer.getPosition().x, floor->getRenderer().getPosition().y - floor->getRenderer().getGlobalBounds().height / 2.0f);
 	}
 
 	void Player::gravityForce(float deltaTime)
 	{
 		gravity.actualSpeed += gravity.acceleration * deltaTime;
 
-		spr_idle.move(0.0f, gravity.actualSpeed * deltaTime);
+		if (!gravity.onTheFloor)
+		{
+			renderer.move(0.0f, gravity.actualSpeed * deltaTime);
+		}
 	}
+	void Player::initAnimations(float x, float y)
+	{
+		int left = 0; // Variable para agregar los frames a través del ancho del total de la imagen.
 
+		#pragma region PARADO HACIA LA DERECHA
+
+		if (!textureLoader.loadFromFile("res/sprites/player/idle_right.png"))
+		{
+			cout << "La textura idle_right.png no se ha cargado.\n";
+		}
+		spriteLoader.setTexture(textureLoader);
+		spriteLoader.setOrigin(33, 126);
+		spriteLoader.setPosition(x, y);
+		animIdleRight = new Animation(spriteLoader, ANIMATION_MODE::LOOP);
+		for (int i = 0; i < 2; i++)
+		{
+			IntRect intRect = IntRect(left, 0, 67, 126);
+			Frame* frame = new Frame(intRect, 0.1f);
+
+			animIdleRight->addFrame(frame);
+			left += 67;
+		}
+		left = 0;
+
+		#pragma endregion
+	}
 }

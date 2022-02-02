@@ -19,14 +19,15 @@ namespace the_wonder_boy
 		Animation(Sprite& target, ANIMATION_MODE animationMode);
 		~Animation();
 
-		void addFrame(Frame frame);
+		Sprite target;
+
+		void addFrame(Frame* frame);
 		void update(float elapsed);
 		int getNumberOfFrame();
 
 	private:
-		vector<Frame> frameVector;
+		vector<Frame*> frameVector;
 		ANIMATION_MODE animationMode;
-		Sprite target;
 		int actualFrame;
 		float progress;
 	};
