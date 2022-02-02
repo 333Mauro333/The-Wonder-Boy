@@ -16,18 +16,6 @@ namespace the_wonder_boy
 
 		initAnimations(x, y);
 
-		switch (animationState)
-		{
-		case ANIMATION_STATE::IDLE_RIGHT:
-			break;
-
-		case ANIMATION_STATE::IDLE_LEFT:
-			break;
-
-		default:
-			break;
-		}
-
 		renderer.setPosition(x, y);
 
 		gravity.actualSpeed = 0.0f;
@@ -47,24 +35,34 @@ namespace the_wonder_boy
 	void Player::update(float deltaTime)
 	{
 		// Agregar animacion para el otro lado para así, mejorar código.
-		animIdleRight->target.setPosition(renderer.getPosition().x, renderer.getPosition().y);
-		animIdleRight->update(deltaTime);
-		gravityForce(deltaTime);
 		keyPressed(deltaTime);
+		updateAnimations(deltaTime);
+		gravityForce(deltaTime);
 	}
 	void Player::draw(RenderWindow* window)
 	{
-		window->draw(animIdleRight->target); // Ver igualación de los sprites (renderer, animations, etc).
+		switch (animationState)
+		{
+		case ANIMATION_STATE::IDLE_RIGHT:
+			window->draw(animIdleRight->target); // Ver igualación de los sprites (renderer, animations, etc).
+			break;
+
+		case ANIMATION_STATE::IDLE_LEFT:
+			window->draw(animIdleLeft->target);
+			break;
+		}
 	}
 	void Player::keyPressed(float deltaTime)
 	{
 		if (sf::Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayLeft)))
 		{
 			renderer.move(-speedX * deltaTime, 0.0f);
+			animationState = ANIMATION_STATE::IDLE_LEFT;
 		}
 		if (sf::Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayRight)))
 		{
 			renderer.move(speedX * deltaTime, 0.0f);
+			animationState = ANIMATION_STATE::IDLE_RIGHT;
 		}
 		if (sf::Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayJump)))
 		{
@@ -99,13 +97,14 @@ namespace the_wonder_boy
 	{
 		int left = 0; // Variable para agregar los frames a través del ancho del total de la imagen.
 
+
 		#pragma region PARADO HACIA LA DERECHA
 
-		if (!textureLoader.loadFromFile("res/sprites/player/idle_right.png"))
+		if (!texIdleRight.loadFromFile("res/sprites/player/idle_right.png"))
 		{
 			cout << "La textura idle_right.png no se ha cargado.\n";
 		}
-		spriteLoader.setTexture(textureLoader);
+		spriteLoader.setTexture(texIdleRight);
 		spriteLoader.setOrigin(33, 126);
 		spriteLoader.setPosition(x, y);
 		animIdleRight = new Animation(spriteLoader, ANIMATION_MODE::LOOP);
@@ -120,5 +119,44 @@ namespace the_wonder_boy
 		left = 0;
 
 		#pragma endregion
+
+		#pragma region PARADO HACIA LA IZQUIERDA
+
+		if (!texIdleLeft.loadFromFile("res/sprites/player/idle_left.png"))
+		{
+			cout << "La textura idle_left.png no se ha cargado.\n";
+		}
+		spriteLoader.setTexture(texIdleLeft);
+		spriteLoader.setOrigin(33, 126);
+		spriteLoader.setPosition(x, y);
+		animIdleLeft = new Animation(spriteLoader, ANIMATION_MODE::LOOP);
+		for (int i = 0; i < 2; i++)
+		{
+			IntRect intRect = IntRect(left, 0, 67, 126);
+			Frame* frame = new Frame(intRect, 0.1f);
+
+			animIdleLeft->addFrame(frame);
+			left += 67;
+		}
+		left = 0;
+
+		#pragma endregion
+	}
+	void Player::updateAnimations(float deltaTime)
+	{
+		switch (animationState)
+		{
+		case ANIMATION_STATE::IDLE_RIGHT:
+			animIdleRight->target.setPosition(renderer.getPosition().x, renderer.getPosition().y);
+			animIdleRight->update(deltaTime);
+			break;
+
+		case ANIMATION_STATE::IDLE_LEFT:
+			animIdleLeft->target.setPosition(renderer.getPosition().x, renderer.getPosition().y);
+			animIdleLeft->update(deltaTime);
+			break;
+		default:
+			break;
+		}
 	}
 }

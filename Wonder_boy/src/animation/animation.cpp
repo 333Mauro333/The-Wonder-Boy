@@ -7,7 +7,7 @@ using std::cout;
 
 namespace the_wonder_boy
 {
-	Animation::Animation(Sprite& target, ANIMATION_MODE animationMode)
+	Animation::Animation(Sprite target, ANIMATION_MODE animationMode)
 	{
 		this->animationMode = animationMode;
 		this->target = target;

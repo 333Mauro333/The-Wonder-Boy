@@ -16,7 +16,7 @@ namespace the_wonder_boy
 	class Animation
 	{
 	public:
-		Animation(Sprite& target, ANIMATION_MODE animationMode);
+		Animation(Sprite target, ANIMATION_MODE animationMode);
 		~Animation();
 
 		Sprite target;

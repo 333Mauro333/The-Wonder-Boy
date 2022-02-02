@@ -29,9 +29,11 @@ namespace the_wonder_boy
 		void collisionWith(Floor* floor);
 
 	private:
-		ANIMATION_STATE animationState; // Enumerador de animación actual para controlar el renderer.
-		Texture textureLoader; // Variable para cargar texturas.
+		ANIMATION_STATE animationState; // Enumerador de animaciones para asignar valores.
+		Texture texIdleRight;
+		Texture texIdleLeft;
 		Sprite spriteLoader; // Variable para cargar sprites.
+
 		Sprite renderer; // Sprite "central", el que todas las animaciones van a tener como base.
 		GRAVITY gravity; // Estructura con valores de gravedad.
 		float speedX; // Velocidad horizontal.
@@ -41,6 +43,7 @@ namespace the_wonder_boy
 
 		void gravityForce(float deltaTime);
 		void initAnimations(float x, float y);
+		void updateAnimations(float deltaTime);
 	};
 }
 
