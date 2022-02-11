@@ -2,8 +2,11 @@
 #define LEVEL_TEST_H
 
 #include "game_scenes/scene.h"
+
 #include "player/player.h"
 #include "floor/floor.h"
+
+using sf::View;
 
 
 namespace the_wonder_boy
@@ -14,16 +17,18 @@ namespace the_wonder_boy
 		LevelTest(RenderWindow* window);
 		~LevelTest();
 
-		void init() override;
 		void update(float deltaTime) override;
 		void draw() override;
 
 	private:
+		View view;
 		Player* player;
 		static const int floorSize = 15;
 		Floor* floor[floorSize];
 
+		void init() override;
 		void destroy() override;
+		void updateCamera();
 	};
 }
 

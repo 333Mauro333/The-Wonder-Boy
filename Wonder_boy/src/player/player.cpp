@@ -34,17 +34,17 @@ namespace the_wonder_boy
 
 	void Player::update(float deltaTime)
 	{
-		// Agregar animacion para el otro lado para así, mejorar código.
-		keyPressed(deltaTime);
-		updateAnimations(deltaTime);
-		gravityForce(deltaTime);
+		keyPressed(deltaTime); // Función que verifica si determinadas teclas están siendo presionadas.
+		updateAnimations(deltaTime); // Actualiza las animaciones.
+		gravityForce(deltaTime); // Aplica la fuerza gravitatoria.
 	}
 	void Player::draw(RenderWindow* window)
 	{
+		// Dibuja la animación correspondiente.
 		switch (animationState)
 		{
 		case ANIMATION_STATE::IDLE_RIGHT:
-			window->draw(animIdleRight->target); // Ver igualación de los sprites (renderer, animations, etc).
+			window->draw(animIdleRight->target);
 			break;
 
 		case ANIMATION_STATE::IDLE_LEFT:
@@ -56,7 +56,7 @@ namespace the_wonder_boy
 	{
 		if (sf::Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayLeft)))
 		{
-			renderer.move(-speedX * deltaTime, 0.0f);
+			renderer.move(-speedX * deltaTime, 0.0f); // Se mueve hacia la izquierda.
 			animationState = ANIMATION_STATE::IDLE_LEFT;
 		}
 		if (sf::Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayRight)))
@@ -82,6 +82,10 @@ namespace the_wonder_boy
 	{
 		gravity.onTheFloor = true;
 		renderer.setPosition(renderer.getPosition().x, floor->getRenderer().getPosition().y - floor->getRenderer().getGlobalBounds().height / 2.0f);
+	}
+	Sprite Player::getRenderer()
+	{
+		return renderer;
 	}
 
 	void Player::gravityForce(float deltaTime)
@@ -154,8 +158,6 @@ namespace the_wonder_boy
 		case ANIMATION_STATE::IDLE_LEFT:
 			animIdleLeft->target.setPosition(renderer.getPosition().x, renderer.getPosition().y);
 			animIdleLeft->update(deltaTime);
-			break;
-		default:
 			break;
 		}
 	}

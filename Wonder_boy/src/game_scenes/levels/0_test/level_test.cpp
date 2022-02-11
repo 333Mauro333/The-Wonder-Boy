@@ -15,15 +15,7 @@ namespace the_wonder_boy
 
 		this->window = window;
 
-		// Se hacen conversiones de datos para evitar advertencias de Visual Studio.
-		player = new Player(static_cast<float>(GameManager::getWindowSize().x / 2), static_cast<float>(GameManager::getWindowSize().y / 4 * 3));
-
-		int aux = 0;
-		for (int i = 0; i < floorSize; i++)
-		{
-			floor[i] = new Floor(aux, window->getSize().y / 4.0f * 3.5f);
-			aux += 64;
-		}
+		init();
 	}
 	LevelTest::~LevelTest()
 	{
@@ -32,10 +24,6 @@ namespace the_wonder_boy
 		cout << "El nivel de prueba ha sido eliminado de la memoria.\n";
 	}
 
-	void LevelTest::init()
-	{
-		// Seteos acorde a lo que se configure para el nivel.
-	}
 	void LevelTest::update(float deltaTime)
 	{
 		for (int i = 0; i < floorSize; i++)
@@ -47,6 +35,8 @@ namespace the_wonder_boy
 		}
 
 		player->update(deltaTime);
+
+		updateCamera();
 	}
 	void LevelTest::draw()
 	{
@@ -57,8 +47,35 @@ namespace the_wonder_boy
 		}
 	}
 
+	void LevelTest::init()
+	{
+		// Se hacen conversiones de datos para evitar advertencias de Visual Studio.
+		player = new Player(static_cast<float>(GameManager::getWindowSize().x / 2), static_cast<float>(GameManager::getWindowSize().y / 4 * 3));
+
+		int aux = 0;
+		for (int i = 0; i < floorSize; i++)
+		{
+			floor[i] = new Floor(aux, window->getSize().y / 4.0f * 3.5f);
+			aux += 64;
+		}
+
+		view.setSize(window->getSize().x, window->getSize().y);
+		view.setCenter(player->getRenderer().getPosition().x, player->getRenderer().getPosition().y - 100);
+		window->setView(view);
+	}
 	void LevelTest::destroy()
 	{
 		delete player;
+
+		for (int i = 0; i < floorSize; i++)
+		{
+			delete floor[i];
+		}
+	}
+	void LevelTest::updateCamera()
+	{
+		view.setCenter(player->getRenderer().getPosition().x, view.getCenter().y);
+
+		window->setView(view);
 	}
 }
