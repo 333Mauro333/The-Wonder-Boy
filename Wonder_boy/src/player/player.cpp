@@ -29,6 +29,10 @@ namespace the_wonder_boy
 		boxEntire.setSize(Vector2f(67, 126));
 		boxEntire.setOrigin(Vector2f(33, 126));
 
+		boxFeet.setFillColor(sf::Color(255, 0, 0, 128));
+		boxFeet.setSize(Vector2f(67, 20));
+		boxFeet.setOrigin(Vector2f(33, 20));
+
 		cout << "Se ha creado un jugador.\n\n";
 	}
 	Player::~Player()
@@ -106,7 +110,7 @@ namespace the_wonder_boy
 			break;
 
 		case BOX_COLLISION_TYPE::FEET:
-			return boxEntire;
+			return boxFeet;
 			break;
 		}
 

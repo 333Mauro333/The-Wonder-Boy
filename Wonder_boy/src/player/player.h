@@ -42,6 +42,7 @@ namespace the_wonder_boy
 		Sprite spriteLoader; // Variable para cargar sprites.
 
 		RectangleShape boxEntire; // Caja de colisión (todo el personaje).
+		RectangleShape boxFeet; // Caja de colisión (pies).
 
 		Sprite renderer; // Sprite "central", el que todas las animaciones van a tener como base.
 		GRAVITY gravity; // Estructura con valores de gravedad.

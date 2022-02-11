@@ -78,6 +78,7 @@ namespace the_wonder_boy
 		const int playerRightEdgePosition = player->getBoxCollision(BOX_COLLISION_TYPE::ENTIRE).getPosition().x + player->getBoxCollision(BOX_COLLISION_TYPE::ENTIRE).getSize().x / 2.0f;
 		const int playerLeftEdgePosition = player->getBoxCollision(BOX_COLLISION_TYPE::ENTIRE).getPosition().x - player->getBoxCollision(BOX_COLLISION_TYPE::ENTIRE).getSize().x / 2.0f;
 
+
 		if (playerRightEdgePosition > view.getCenter().x + distanceToCenter)
 		{
 			view.setCenter(playerRightEdgePosition - distanceToCenter, view.getCenter().y);
