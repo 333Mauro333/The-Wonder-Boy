@@ -65,6 +65,7 @@ namespace the_wonder_boy
 		}
 
 		window->draw(boxEntire);
+		window->draw(boxFeet);
 	}
 	void Player::keyPressed(float deltaTime)
 	{
@@ -90,11 +91,15 @@ namespace the_wonder_boy
 	}
 	bool Player::isCollidingWith(Floor* floor)
 	{
-		return boxEntire.getPosition().y > floor->getRenderer().getPosition().y - floor->getRenderer().getGlobalBounds().height / 2.0f;
+		return	boxFeet.getPosition().y > floor->getRenderer().getPosition().y - floor->getRenderer().getGlobalBounds().height / 2.0f &&
+			boxFeet.getPosition().y - boxFeet.getSize().y < floor->getRenderer().getPosition().y + floor->getRenderer().getGlobalBounds().height / 2.0f &&
+			boxFeet.getPosition().x + boxFeet.getSize().x / 2.0f > floor->getRenderer().getPosition().x - floor->getRenderer().getGlobalBounds().width / 2.0f &&
+			boxFeet.getPosition().x - boxFeet.getSize().x / 2.0f < floor->getRenderer().getPosition().x + floor->getRenderer().getGlobalBounds().width / 2.0f;
 	}
 	void Player::collisionWith(Floor* floor)
 	{
 		gravity.onTheFloor = true;
+		gravity.actualSpeed = 0.0f;
 		setPosition(Vector2f(renderer.getPosition().x, floor->getRenderer().getPosition().y - floor->getRenderer().getGlobalBounds().height / 2.0f));
 	}
 	Vector2f Player::getPosition()
@@ -124,12 +129,15 @@ namespace the_wonder_boy
 
 	void Player::gravityForce(float deltaTime)
 	{
+		if (gravity.actualSpeed > 0.0f)
+		{
+			gravity.onTheFloor = false;
+		}
+
 		gravity.actualSpeed += gravity.acceleration * deltaTime;
 
-		if (!gravity.onTheFloor)
-		{
-			renderer.move(0.0f, gravity.actualSpeed * deltaTime);
-		}
+		renderer.move(0.0f, gravity.actualSpeed * deltaTime);
+
 	}
 	void Player::initAnimations(float x, float y)
 	{
@@ -198,6 +206,7 @@ namespace the_wonder_boy
 	void Player::accommodateAnimations()
 	{
 		boxEntire.setPosition(renderer.getPosition());
+		boxFeet.setPosition(renderer.getPosition());
 		updateAnimations(0.0f);
 	}
 }
