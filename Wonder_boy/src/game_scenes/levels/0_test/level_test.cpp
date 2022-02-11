@@ -52,15 +52,15 @@ namespace the_wonder_boy
 		// Se hacen conversiones de datos para evitar advertencias de Visual Studio.
 		player = new Player(static_cast<float>(GameManager::getWindowSize().x / 2), static_cast<float>(GameManager::getWindowSize().y / 4 * 3));
 
-		int aux = 0;
+		float aux = 0;
 		for (int i = 0; i < floorSize; i++)
 		{
 			floor[i] = new Floor(aux, window->getSize().y / 4.0f * 3.5f);
 			aux += 64;
 		}
 
-		view.setSize(window->getSize().x, window->getSize().y);
-		view.setCenter(player->getRenderer().getPosition().x, player->getRenderer().getPosition().y - 100);
+		view.setSize(Vector2f(window->getSize().x, window->getSize().y));
+		view.setCenter(player->getPosition().x, player->getPosition().y - 100);
 		window->setView(view);
 	}
 	void LevelTest::destroy()
@@ -77,14 +77,14 @@ namespace the_wonder_boy
 		const int distanceToCenter = window->getSize().x / 10;
 
 
-		if (player->getRenderer().getPosition().x > view.getCenter().x + distanceToCenter)
+		if (player->getPosition().x > view.getCenter().x + distanceToCenter)
 		{
-			view.setCenter(player->getRenderer().getPosition().x - distanceToCenter, view.getCenter().y);
+			view.setCenter(player->getPosition().x - distanceToCenter, view.getCenter().y);
 		}
 
-		if (player->getRenderer().getPosition().x < view.getCenter().x - view.getSize().x / 2.0f)
+		if (player->getPosition().x < view.getCenter().x - view.getSize().x / 2.0f)
 		{
-			player->setPosition(Vector2f(view.getCenter().x - view.getSize().x / 2.0f, player->getRenderer().getPosition().y));
+			player->setPosition(Vector2f(view.getCenter().x - view.getSize().x / 2.0f, player->getPosition().y));
 		}
 
 		window->setView(view);

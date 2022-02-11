@@ -29,8 +29,9 @@ namespace the_wonder_boy
 		void keyPressed(float deltaTime);
 		bool isCollidingWith(Floor* floor);
 		void collisionWith(Floor* floor);
-		Sprite getRenderer();
+		Vector2f getPosition();
 		void setPosition(Vector2f position);
+
 
 	private:
 		ANIMATION_STATE animationState; // Enumerador de animaciones para asignar valores.

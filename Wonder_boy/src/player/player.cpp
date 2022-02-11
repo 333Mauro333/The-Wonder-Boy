@@ -93,9 +93,9 @@ namespace the_wonder_boy
 		gravity.onTheFloor = true;
 		setPosition(Vector2f(renderer.getPosition().x, floor->getRenderer().getPosition().y - floor->getRenderer().getGlobalBounds().height / 2.0f));
 	}
-	Sprite Player::getRenderer()
+	Vector2f Player::getPosition()
 	{
-		return renderer;
+		return renderer.getPosition();
 	}
 	void Player::setPosition(Vector2f position)
 	{
