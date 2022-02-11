@@ -26,6 +26,10 @@ namespace the_wonder_boy
 
 	void LevelTest::update(float deltaTime)
 	{
+		player->update(deltaTime);
+
+		updateCamera();
+
 		for (int i = 0; i < floorSize; i++)
 		{
 			if (player->isCollidingWith(floor[i]))
@@ -33,10 +37,6 @@ namespace the_wonder_boy
 				player->collisionWith(floor[i]);
 			}
 		}
-
-		player->update(deltaTime);
-
-		updateCamera();
 	}
 	void LevelTest::draw()
 	{
@@ -74,7 +74,18 @@ namespace the_wonder_boy
 	}
 	void LevelTest::updateCamera()
 	{
-		view.setCenter(player->getRenderer().getPosition().x, view.getCenter().y);
+		const int distanceToCenter = window->getSize().x / 10;
+
+
+		if (player->getRenderer().getPosition().x > view.getCenter().x + distanceToCenter)
+		{
+			view.setCenter(player->getRenderer().getPosition().x - distanceToCenter, view.getCenter().y);
+		}
+
+		if (player->getRenderer().getPosition().x < view.getCenter().x - view.getSize().x / 2.0f)
+		{
+			player->setPosition(Vector2f(view.getCenter().x - view.getSize().x / 2.0f, player->getRenderer().getPosition().y));
+		}
 
 		window->setView(view);
 	}

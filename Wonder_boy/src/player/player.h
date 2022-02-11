@@ -11,6 +11,7 @@ using sf::RenderWindow;
 using sf::Texture;
 using sf::Sprite;
 using sf::View;
+using sf::RectangleShape;
 
 
 enum class ANIMATION_STATE { IDLE_RIGHT, IDLE_LEFT };
@@ -29,13 +30,15 @@ namespace the_wonder_boy
 		bool isCollidingWith(Floor* floor);
 		void collisionWith(Floor* floor);
 		Sprite getRenderer();
+		void setPosition(Vector2f position);
 
 	private:
-		View myView;
 		ANIMATION_STATE animationState; // Enumerador de animaciones para asignar valores.
 		Texture texIdleRight;
-		Texture texIdleLeft; // HACER LO DE LA CÁMARA PARA QUE SIGA AL JUGADOR. TAMBIÉN; AGREGAR CAJAS DE COLISIONES.
+		Texture texIdleLeft;
 		Sprite spriteLoader; // Variable para cargar sprites.
+
+		RectangleShape boxCollisionCharacter; // Caja de colisión (todo el personaje).
 
 		Sprite renderer; // Sprite "central", el que todas las animaciones van a tener como base.
 		GRAVITY gravity; // Estructura con valores de gravedad.
@@ -47,6 +50,7 @@ namespace the_wonder_boy
 		void gravityForce(float deltaTime);
 		void initAnimations(float x, float y);
 		void updateAnimations(float deltaTime);
+		void accommodateAnimations();
 	};
 }
 

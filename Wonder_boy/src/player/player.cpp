@@ -12,7 +12,7 @@ namespace the_wonder_boy
 {
 	Player::Player(float x, float y) : Entity(x, y)
 	{
-		animationState = ANIMATION_STATE::IDLE_RIGHT;
+		animationState = ANIMATION_STATE::IDLE_RIGHT; // Defino con qué sprite comienza.
 
 		initAnimations(x, y);
 
@@ -25,18 +25,26 @@ namespace the_wonder_boy
 
 		speedX = 500.0f;
 
+		boxCollisionCharacter.setFillColor(sf::Color(255, 0, 0, 128));
+		boxCollisionCharacter.setSize(Vector2f(67, 126));
+		boxCollisionCharacter.setOrigin(Vector2f(33, 126));
+
 		cout << "Se ha creado un jugador.\n\n";
 	}
 	Player::~Player()
 	{
+		delete animIdleLeft;
+		delete animIdleRight;
+
 		cout << "El jugador ha sido eliminado de la memoria.\n";
 	}
 
 	void Player::update(float deltaTime)
 	{
 		keyPressed(deltaTime); // Función que verifica si determinadas teclas están siendo presionadas.
-		updateAnimations(deltaTime); // Actualiza las animaciones.
 		gravityForce(deltaTime); // Aplica la fuerza gravitatoria.
+		updateAnimations(deltaTime); // Actualiza las animaciones.
+		accommodateAnimations();
 	}
 	void Player::draw(RenderWindow* window)
 	{
@@ -51,6 +59,8 @@ namespace the_wonder_boy
 			window->draw(animIdleLeft->target);
 			break;
 		}
+
+		window->draw(boxCollisionCharacter);
 	}
 	void Player::keyPressed(float deltaTime)
 	{
@@ -76,16 +86,21 @@ namespace the_wonder_boy
 	}
 	bool Player::isCollidingWith(Floor* floor)
 	{
-		return renderer.getPosition().y > floor->getRenderer().getPosition().y - floor->getRenderer().getGlobalBounds().height / 2.0f;
+		return boxCollisionCharacter.getPosition().y > floor->getRenderer().getPosition().y - floor->getRenderer().getGlobalBounds().height / 2.0f;
 	}
 	void Player::collisionWith(Floor* floor)
 	{
 		gravity.onTheFloor = true;
-		renderer.setPosition(renderer.getPosition().x, floor->getRenderer().getPosition().y - floor->getRenderer().getGlobalBounds().height / 2.0f);
+		setPosition(Vector2f(renderer.getPosition().x, floor->getRenderer().getPosition().y - floor->getRenderer().getGlobalBounds().height / 2.0f));
 	}
 	Sprite Player::getRenderer()
 	{
 		return renderer;
+	}
+	void Player::setPosition(Vector2f position)
+	{
+		renderer.setPosition(position);
+		accommodateAnimations();
 	}
 
 	void Player::gravityForce(float deltaTime)
@@ -160,5 +175,10 @@ namespace the_wonder_boy
 			animIdleLeft->update(deltaTime);
 			break;
 		}
+	}
+	void Player::accommodateAnimations()
+	{
+		boxCollisionCharacter.setPosition(renderer.getPosition());
+		updateAnimations(0.0f);
 	}
 }

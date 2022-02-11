@@ -18,6 +18,11 @@ namespace the_wonder_boy
 	}
 	Animation::~Animation()
 	{
+		for (int i = 0; i < frameVector.size(); i++)
+		{
+			delete frameVector[i];
+		}
+
 		cout << "La animacion ha sido eliminada de la memoria.\n\n";
 	}
 
