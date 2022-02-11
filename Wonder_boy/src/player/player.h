@@ -15,6 +15,7 @@ using sf::RectangleShape;
 
 
 enum class ANIMATION_STATE { IDLE_RIGHT, IDLE_LEFT };
+enum class BOX_COLLISION_TYPE { ENTIRE, FEET };
 
 namespace the_wonder_boy
 {
@@ -30,6 +31,7 @@ namespace the_wonder_boy
 		bool isCollidingWith(Floor* floor);
 		void collisionWith(Floor* floor);
 		Vector2f getPosition();
+		RectangleShape getBoxCollision(BOX_COLLISION_TYPE boxCollisionType);
 		void setPosition(Vector2f position);
 
 
@@ -39,7 +41,7 @@ namespace the_wonder_boy
 		Texture texIdleLeft;
 		Sprite spriteLoader; // Variable para cargar sprites.
 
-		RectangleShape boxCollisionCharacter; // Caja de colisión (todo el personaje).
+		RectangleShape boxEntire; // Caja de colisión (todo el personaje).
 
 		Sprite renderer; // Sprite "central", el que todas las animaciones van a tener como base.
 		GRAVITY gravity; // Estructura con valores de gravedad.

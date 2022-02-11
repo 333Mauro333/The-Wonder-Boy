@@ -75,16 +75,17 @@ namespace the_wonder_boy
 	void LevelTest::updateCamera()
 	{
 		const int distanceToCenter = window->getSize().x / 10;
+		const int playerRightEdgePosition = player->getBoxCollision(BOX_COLLISION_TYPE::ENTIRE).getPosition().x + player->getBoxCollision(BOX_COLLISION_TYPE::ENTIRE).getSize().x / 2.0f;
+		const int playerLeftEdgePosition = player->getBoxCollision(BOX_COLLISION_TYPE::ENTIRE).getPosition().x - player->getBoxCollision(BOX_COLLISION_TYPE::ENTIRE).getSize().x / 2.0f;
 
-
-		if (player->getPosition().x > view.getCenter().x + distanceToCenter)
+		if (playerRightEdgePosition > view.getCenter().x + distanceToCenter)
 		{
-			view.setCenter(player->getPosition().x - distanceToCenter, view.getCenter().y);
+			view.setCenter(playerRightEdgePosition - distanceToCenter, view.getCenter().y);
 		}
 
-		if (player->getPosition().x < view.getCenter().x - view.getSize().x / 2.0f)
+		if (playerLeftEdgePosition < view.getCenter().x - view.getSize().x / 2.0f)
 		{
-			player->setPosition(Vector2f(view.getCenter().x - view.getSize().x / 2.0f, player->getPosition().y));
+			player->setPosition(Vector2f(view.getCenter().x - view.getSize().x / 2.0f + player->getBoxCollision(BOX_COLLISION_TYPE::ENTIRE).getSize().x / 2.0f, player->getPosition().y));
 		}
 
 		window->setView(view);

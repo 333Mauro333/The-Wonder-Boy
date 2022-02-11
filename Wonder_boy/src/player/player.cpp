@@ -25,9 +25,9 @@ namespace the_wonder_boy
 
 		speedX = 500.0f;
 
-		boxCollisionCharacter.setFillColor(sf::Color(255, 0, 0, 128));
-		boxCollisionCharacter.setSize(Vector2f(67, 126));
-		boxCollisionCharacter.setOrigin(Vector2f(33, 126));
+		boxEntire.setFillColor(sf::Color(255, 0, 0, 128));
+		boxEntire.setSize(Vector2f(67, 126));
+		boxEntire.setOrigin(Vector2f(33, 126));
 
 		cout << "Se ha creado un jugador.\n\n";
 	}
@@ -60,7 +60,7 @@ namespace the_wonder_boy
 			break;
 		}
 
-		window->draw(boxCollisionCharacter);
+		window->draw(boxEntire);
 	}
 	void Player::keyPressed(float deltaTime)
 	{
@@ -86,7 +86,7 @@ namespace the_wonder_boy
 	}
 	bool Player::isCollidingWith(Floor* floor)
 	{
-		return boxCollisionCharacter.getPosition().y > floor->getRenderer().getPosition().y - floor->getRenderer().getGlobalBounds().height / 2.0f;
+		return boxEntire.getPosition().y > floor->getRenderer().getPosition().y - floor->getRenderer().getGlobalBounds().height / 2.0f;
 	}
 	void Player::collisionWith(Floor* floor)
 	{
@@ -96,6 +96,21 @@ namespace the_wonder_boy
 	Vector2f Player::getPosition()
 	{
 		return renderer.getPosition();
+	}
+	RectangleShape Player::getBoxCollision(BOX_COLLISION_TYPE boxCollisionType)
+	{
+		switch (boxCollisionType)
+		{
+		case BOX_COLLISION_TYPE::ENTIRE:
+			return boxEntire;
+			break;
+
+		case BOX_COLLISION_TYPE::FEET:
+			return boxEntire;
+			break;
+		}
+
+		return boxEntire;
 	}
 	void Player::setPosition(Vector2f position)
 	{
@@ -178,7 +193,7 @@ namespace the_wonder_boy
 	}
 	void Player::accommodateAnimations()
 	{
-		boxCollisionCharacter.setPosition(renderer.getPosition());
+		boxEntire.setPosition(renderer.getPosition());
 		updateAnimations(0.0f);
 	}
 }
