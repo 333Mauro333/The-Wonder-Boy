@@ -4,8 +4,8 @@
 #include "SFML/Graphics.hpp"
 
 #include "entity/entity.h"
-#include "floor/floor.h"
 #include "animation/animation.h"
+#include "floor/floor.h"
 
 using sf::RenderWindow;
 using sf::Texture;
@@ -16,6 +16,14 @@ using sf::RectangleShape;
 
 enum class ANIMATION_STATE { IDLE_RIGHT, IDLE_LEFT };
 enum class BOX_COLLISION_TYPE { ENTIRE, FEET };
+enum class DIRECTION { LEFT, RIGHT };
+
+struct WALKING_ACCELERATION
+{
+	float actualSpeed;
+	float speedLimit;
+	float acceleration;
+};
 
 namespace the_wonder_boy
 {
@@ -46,15 +54,18 @@ namespace the_wonder_boy
 
 		Sprite renderer; // Sprite "central", el que todas las animaciones van a tener como base.
 		GRAVITY gravity; // Estructura con valores de gravedad.
+		WALKING_ACCELERATION walkingSpeed;
 		float speedX; // Velocidad horizontal.
 
 		Animation* animIdleRight; // Animación parado mirando hacia la derecha.
 		Animation* animIdleLeft; // Animación parado mirando hacia la izquierda.
 
 		void gravityForce(float deltaTime);
+		void walkingAccelerationForce(float deltaTime);
 		void initAnimations(float x, float y);
 		void updateAnimations(float deltaTime);
 		void accommodateAnimations();
+		void move(DIRECTION direction, float deltaTime);
 	};
 }
 

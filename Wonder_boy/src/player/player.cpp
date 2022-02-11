@@ -6,6 +6,7 @@
 #include "game_controls/game_controls.h"
 
 using std::cout;
+using sf::Keyboard;
 
 
 namespace the_wonder_boy
@@ -23,7 +24,9 @@ namespace the_wonder_boy
 		gravity.speedLimit = 1000.0f;
 		gravity.onTheFloor = false;
 
-		speedX = 500.0f;
+		walkingSpeed.actualSpeed = 500.0f;
+		walkingSpeed.acceleration = 2000.0f;
+		walkingSpeed.speedLimit = 500.0f;
 
 		boxEntire.setFillColor(sf::Color(255, 0, 0, 128));
 		boxEntire.setSize(Vector2f(67, 126));
@@ -47,6 +50,7 @@ namespace the_wonder_boy
 	{
 		keyPressed(deltaTime); // Función que verifica si determinadas teclas están siendo presionadas.
 		gravityForce(deltaTime); // Aplica la fuerza gravitatoria.
+		walkingAccelerationForce(deltaTime);
 		updateAnimations(deltaTime); // Actualiza las animaciones.
 		accommodateAnimations();
 	}
@@ -69,17 +73,17 @@ namespace the_wonder_boy
 	}
 	void Player::keyPressed(float deltaTime)
 	{
-		if (sf::Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayLeft)))
+		if (Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayLeft)))
 		{
-			renderer.move(-speedX * deltaTime, 0.0f); // Se mueve hacia la izquierda.
+			move(DIRECTION::LEFT, deltaTime);
 			animationState = ANIMATION_STATE::IDLE_LEFT;
 		}
-		if (sf::Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayRight)))
+		if (Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayRight)))
 		{
-			renderer.move(speedX * deltaTime, 0.0f);
+			move(DIRECTION::RIGHT, deltaTime);
 			animationState = ANIMATION_STATE::IDLE_RIGHT;
 		}
-		if (sf::Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayJump)))
+		if (Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayJump)))
 		{
 			if (gravity.onTheFloor)
 			{
@@ -138,6 +142,32 @@ namespace the_wonder_boy
 
 		renderer.move(0.0f, gravity.actualSpeed * deltaTime);
 
+	}
+	void Player::walkingAccelerationForce(float deltaTime)
+	{
+		const float multipler = 1.5f;
+
+		// Si no está caminando para ninguno de los dos lados...
+		if (!Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayLeft)) && !Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayRight)))
+		{
+			// Si está yendo para la derecha...
+			if (walkingSpeed.actualSpeed > 0.0f)
+			{
+				walkingSpeed.actualSpeed = (walkingSpeed.actualSpeed > walkingSpeed.acceleration * deltaTime) ? walkingSpeed.actualSpeed - walkingSpeed.acceleration * deltaTime : 0.0f;
+			}
+			else if (walkingSpeed.actualSpeed < 0.0f)
+			{
+				walkingSpeed.actualSpeed = (walkingSpeed.actualSpeed < -walkingSpeed.acceleration * deltaTime) ? walkingSpeed.actualSpeed + walkingSpeed.acceleration * deltaTime : 0.0f;
+			}
+
+		}
+		renderer.move(walkingSpeed.actualSpeed * deltaTime, 0.0f);
+		//	Si está a pie...
+		//		Si no está caminando para ninguno de los dos lados, baja a cero.
+		//		Si está en el aire, no aplica.
+		//	Si está en skate...
+		//		Siempre para la derecha (movimiento robótico).
+		//		Si presiona izquierda, sólo va más lento. Para adelante no hace nada.
 	}
 	void Player::initAnimations(float x, float y)
 	{
@@ -208,5 +238,22 @@ namespace the_wonder_boy
 		boxEntire.setPosition(renderer.getPosition());
 		boxFeet.setPosition(renderer.getPosition());
 		updateAnimations(0.0f);
+	}
+	void Player::move(DIRECTION direction, float deltaTime)
+	{
+		switch (direction)
+		{
+		case DIRECTION::LEFT:
+			walkingSpeed.actualSpeed = (walkingSpeed.actualSpeed - walkingSpeed.acceleration * deltaTime > -walkingSpeed.speedLimit) ? walkingSpeed.actualSpeed - walkingSpeed.acceleration * deltaTime : -walkingSpeed.speedLimit;
+			break;
+
+		case DIRECTION::RIGHT:
+			walkingSpeed.actualSpeed = (walkingSpeed.actualSpeed + walkingSpeed.acceleration * deltaTime < walkingSpeed.speedLimit) ? walkingSpeed.actualSpeed + walkingSpeed.acceleration * deltaTime : walkingSpeed.speedLimit;
+			break;
+
+		default:
+			walkingSpeed.actualSpeed = 0.0f;
+			break;
+		}
 	}
 }
