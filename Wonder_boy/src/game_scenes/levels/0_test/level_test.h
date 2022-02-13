@@ -23,7 +23,7 @@ namespace the_wonder_boy
 	private:
 		View view;
 		Player* player;
-		static const int floorSize = 15;
+		static const int floorSize = 25;
 		Floor* floor[floorSize];
 
 		void init() override;

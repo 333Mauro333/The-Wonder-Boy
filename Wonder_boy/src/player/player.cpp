@@ -20,12 +20,12 @@ namespace the_wonder_boy
 		renderer.setPosition(x, y);
 
 		gravity.actualSpeed = 0.0f;
-		gravity.acceleration = 2000.0f;
+		gravity.acceleration = 3000.0f;
 		gravity.speedLimit = 1000.0f;
 		gravity.onTheFloor = false;
 
-		walkingSpeed.actualSpeed = 500.0f;
-		walkingSpeed.acceleration = 2000.0f;
+		walkingSpeed.actualSpeed = 0.0f;
+		walkingSpeed.acceleration = 2500.0f;
 		walkingSpeed.speedLimit = 500.0f;
 
 		boxEntire.setFillColor(sf::Color(255, 0, 0, 128));
@@ -136,9 +136,11 @@ namespace the_wonder_boy
 		{
 			if (gravity.onTheFloor)
 			{
-				gravity.actualSpeed = -1000;
-				gravity.onTheFloor = false;
-				cout << "Salta\n";
+				bool high = Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayRight)) ||
+					Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayAttack)) ||
+					Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayLeft));
+
+				jump(high);
 			}
 		}
 	}
@@ -304,5 +306,24 @@ namespace the_wonder_boy
 			walkingSpeed.actualSpeed = 0.0f;
 			break;
 		}
+	}
+	void Player::jump(bool high)
+	{
+		const float forceJump = 1250.0f;
+
+
+		if (high)
+		{
+			gravity.actualSpeed = -forceJump;
+			gravity.onTheFloor = false;
+			cout << "Salto fuerte.\n";
+		}
+		else
+		{
+			gravity.actualSpeed = -forceJump / 1.5f;
+			cout << "Salto debil.\n";
+		}
+
+		gravity.onTheFloor = false;
 	}
 }

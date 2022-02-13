@@ -55,7 +55,7 @@ namespace the_wonder_boy
 		Sprite renderer; // Sprite "central", el que todas las animaciones van a tener como base.
 		GRAVITY gravity; // Estructura con valores de gravedad.
 		WALKING_ACCELERATION walkingSpeed;
-		float speedX; // Velocidad horizontal.
+		float speedX; // Limpiar el cpp de player. Borrar esta variable. Hacer una variable sola de multiplier.
 
 		Animation* animIdleRight; // Animación parado mirando hacia la derecha.
 		Animation* animIdleLeft; // Animación parado mirando hacia la izquierda.
@@ -66,6 +66,7 @@ namespace the_wonder_boy
 		void updateAnimations(float deltaTime);
 		void accommodateAnimations();
 		void move(DIRECTION direction, float deltaTime);
+		void jump(bool high);
 	};
 }
 
