@@ -20,7 +20,7 @@ namespace the_wonder_boy
 		renderer.setPosition(x, y);
 
 		gravity.actualSpeed = 0.0f;
-		gravity.acceleration = 3000.0f;
+		gravity.acceleration = 3750.0f;
 		gravity.speedLimit = 1000.0f;
 		gravity.onTheFloor = false;
 
@@ -309,7 +309,7 @@ namespace the_wonder_boy
 	}
 	void Player::jump(bool high)
 	{
-		const float forceJump = 1250.0f;
+		const float forceJump = 1400.0f;
 
 
 		if (high)
@@ -320,7 +320,7 @@ namespace the_wonder_boy
 		}
 		else
 		{
-			gravity.actualSpeed = -forceJump / 1.5f;
+			gravity.actualSpeed = -forceJump / 1.25f;
 			cout << "Salto debil.\n";
 		}
 
