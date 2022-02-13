@@ -6,7 +6,7 @@
 #include "game_controls/game_controls.h"
 
 using std::cout;
-using sf::Keyboard;
+using sf::Keyboard ;
 
 
 namespace the_wonder_boy
@@ -73,15 +73,64 @@ namespace the_wonder_boy
 	}
 	void Player::keyPressed(float deltaTime)
 	{
+		// Preguntar por sus estados (A pie o en skate)
+		cout << "Velocidad del player: " << walkingSpeed.actualSpeed << std::endl;
+
 		if (Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayLeft)))
 		{
-			move(DIRECTION::LEFT, deltaTime);
-			animationState = ANIMATION_STATE::IDLE_LEFT;
+			if (gravity.onTheFloor) // Si está en el piso...
+			{
+				move(DIRECTION::LEFT, deltaTime);
+				animationState = ANIMATION_STATE::IDLE_LEFT;
+			}
+			else // Si está en el aire...
+			{
+				if (animationState == ANIMATION_STATE::IDLE_RIGHT) // Si su animación va para la derecha...
+				{
+					const float modifier = 1.25f;
+
+
+					animationState = ANIMATION_STATE::IDLE_LEFT;
+
+					if (walkingSpeed.actualSpeed > 0.0f) // Si su velocidad es positiva (hacia la derecha)
+					{
+						walkingSpeed.actualSpeed /= modifier; // Se resta un poquito.
+					}
+					else if (walkingSpeed.actualSpeed < 0.0f) // Si su velocidad es negativa (hacia la izquierda)
+					{
+						// Va un poco más para la izquierda, siempre y cuando no exceda su propio límite de velocidad.
+						walkingSpeed.actualSpeed = (walkingSpeed.actualSpeed * modifier < -walkingSpeed.speedLimit) ? -walkingSpeed.speedLimit : walkingSpeed.actualSpeed * modifier;
+					}
+				}
+			}
 		}
 		if (Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayRight)))
 		{
-			move(DIRECTION::RIGHT, deltaTime);
-			animationState = ANIMATION_STATE::IDLE_RIGHT;
+			if (gravity.onTheFloor)
+			{
+				move(DIRECTION::RIGHT, deltaTime);
+				animationState = ANIMATION_STATE::IDLE_RIGHT;
+			}
+			else
+			{
+				if (animationState == ANIMATION_STATE::IDLE_LEFT) // Si su animación va para la derecha...
+				{
+					const float modifier = 1.25f;
+
+
+					animationState = ANIMATION_STATE::IDLE_RIGHT;
+
+					if (walkingSpeed.actualSpeed < 0.0f) // Si su velocidad es negativa (hacia la izquierda)
+					{
+						walkingSpeed.actualSpeed /= modifier; // Se resta un poquito.
+					}
+					else if (walkingSpeed.actualSpeed > 0.0f) // Si su velocidad es positiva (hacia la derecha)
+					{
+						// Va un poco más para la izquierda, siempre y cuando no exceda su propio límite de velocidad.
+						walkingSpeed.actualSpeed = (walkingSpeed.actualSpeed > walkingSpeed.actualSpeed * modifier) ? walkingSpeed.speedLimit : walkingSpeed.actualSpeed * modifier;
+					}
+				}
+			}
 		}
 		if (Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayJump)))
 		{
@@ -148,7 +197,7 @@ namespace the_wonder_boy
 		const float multipler = 1.5f;
 
 		// Si no está caminando para ninguno de los dos lados...
-		if (!Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayLeft)) && !Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayRight)))
+		if (gravity.onTheFloor && !Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayLeft)) && !Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayRight)))
 		{
 			// Si está yendo para la derecha...
 			if (walkingSpeed.actualSpeed > 0.0f)
