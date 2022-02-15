@@ -6,7 +6,7 @@
 #include "game_controls/game_controls.h"
 
 using std::cout;
-using sf::Keyboard ;
+using sf::Keyboard;
 
 
 namespace the_wonder_boy
@@ -46,13 +46,14 @@ namespace the_wonder_boy
 		cout << "El jugador ha sido eliminado de la memoria.\n";
 	}
 
+	// Funciones públicas.
 	void Player::update(float deltaTime)
 	{
 		keyPressed(deltaTime); // Función que verifica si determinadas teclas están siendo presionadas.
 		gravityForce(deltaTime); // Aplica la fuerza gravitatoria.
-		walkingAccelerationForce(deltaTime);
+		walkingAccelerationForce(deltaTime); // Aplica la velocidad al caminar.
 		updateAnimations(deltaTime); // Actualiza las animaciones.
-		accommodateAnimations();
+		accommodateAnimations(); // Acomoda las animaciones a la posición del sprite central.
 	}
 	void Player::draw(RenderWindow* window)
 	{
@@ -68,13 +69,18 @@ namespace the_wonder_boy
 			break;
 		}
 
+		// Dibujado de las cajas de colisiones.
+		#if _DEBUG
+
 		window->draw(boxEntire);
 		window->draw(boxFeet);
+
+		#endif // _DEBUG
 	}
 	void Player::keyPressed(float deltaTime)
 	{
-		// Preguntar por sus estados (A pie o en skate)
-		cout << "Velocidad del player: " << walkingSpeed.actualSpeed << std::endl;
+		const float modifier = 1.25f; // Divide/multiplica la velocidad actual al estar en el aire.
+
 
 		if (Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayLeft)))
 		{
@@ -87,10 +93,7 @@ namespace the_wonder_boy
 			{
 				if (animationState == ANIMATION_STATE::IDLE_RIGHT) // Si su animación va para la derecha...
 				{
-					const float modifier = 1.25f;
-
-
-					animationState = ANIMATION_STATE::IDLE_LEFT;
+					animationState = ANIMATION_STATE::IDLE_LEFT; // Gira hacia la izquierda
 
 					if (walkingSpeed.actualSpeed > 0.0f) // Si su velocidad es positiva (hacia la derecha)
 					{
@@ -98,7 +101,7 @@ namespace the_wonder_boy
 					}
 					else if (walkingSpeed.actualSpeed < 0.0f) // Si su velocidad es negativa (hacia la izquierda)
 					{
-						// Va un poco más para la izquierda, siempre y cuando no exceda su propio límite de velocidad.
+						// Va un poco más para la izquierda, siempre y cuando no exceda su límite de velocidad.
 						walkingSpeed.actualSpeed = (walkingSpeed.actualSpeed * modifier < -walkingSpeed.speedLimit) ? -walkingSpeed.speedLimit : walkingSpeed.actualSpeed * modifier;
 					}
 				}
@@ -113,11 +116,8 @@ namespace the_wonder_boy
 			}
 			else
 			{
-				if (animationState == ANIMATION_STATE::IDLE_LEFT) // Si su animación va para la derecha...
+				if (animationState == ANIMATION_STATE::IDLE_LEFT) // Si su animación va para la izquierda...
 				{
-					const float modifier = 1.25f;
-
-
 					animationState = ANIMATION_STATE::IDLE_RIGHT;
 
 					if (walkingSpeed.actualSpeed < 0.0f) // Si su velocidad es negativa (hacia la izquierda)
@@ -126,7 +126,7 @@ namespace the_wonder_boy
 					}
 					else if (walkingSpeed.actualSpeed > 0.0f) // Si su velocidad es positiva (hacia la derecha)
 					{
-						// Va un poco más para la izquierda, siempre y cuando no exceda su propio límite de velocidad.
+						// Va un poco más para la derecha, siempre y cuando no exceda su límite de velocidad.
 						walkingSpeed.actualSpeed = (walkingSpeed.actualSpeed > walkingSpeed.actualSpeed * modifier) ? walkingSpeed.speedLimit : walkingSpeed.actualSpeed * modifier;
 					}
 				}
@@ -134,8 +134,9 @@ namespace the_wonder_boy
 		}
 		if (Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayJump)))
 		{
-			if (gravity.onTheFloor)
+			if (gravity.onTheFloor) // Si está en el piso...
 			{
+				// Verifica si alguna de las teclas (IZQ, DER o ATTACK) se están presionando. Si es así, salta alto.
 				bool high = Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayRight)) ||
 					Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayAttack)) ||
 					Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayLeft));
@@ -143,6 +144,8 @@ namespace the_wonder_boy
 				jump(high);
 			}
 		}
+
+		cout << "Velocidad del player: " << walkingSpeed.actualSpeed << std::endl;
 	}
 	bool Player::isCollidingWith(Floor* floor)
 	{
@@ -153,6 +156,7 @@ namespace the_wonder_boy
 	}
 	void Player::collisionWith(Floor* floor)
 	{
+		// Se establecen sus valores a 0 y se posiciona al personaje justo sobre el piso.
 		gravity.onTheFloor = true;
 		gravity.actualSpeed = 0.0f;
 		setPosition(Vector2f(renderer.getPosition().x, floor->getRenderer().getPosition().y - floor->getRenderer().getGlobalBounds().height / 2.0f));
@@ -172,9 +176,11 @@ namespace the_wonder_boy
 		case BOX_COLLISION_TYPE::FEET:
 			return boxFeet;
 			break;
-		}
 
-		return boxEntire;
+		default:
+			return boxEntire;
+			break;
+		}
 	}
 	void Player::setPosition(Vector2f position)
 	{
@@ -182,6 +188,7 @@ namespace the_wonder_boy
 		accommodateAnimations();
 	}
 
+	// Funciones privadas.
 	void Player::gravityForce(float deltaTime)
 	{
 		if (gravity.actualSpeed > 0.0f)

@@ -35,11 +35,11 @@ namespace the_wonder_boy
 
 		void update(float deltaTime);
 		void draw(RenderWindow* window);
-		void keyPressed(float deltaTime);
-		bool isCollidingWith(Floor* floor);
-		void collisionWith(Floor* floor);
+		void keyPressed(float deltaTime); // Realiza acciones según qué tecla esté presionada.
+		bool isCollidingWith(Floor* floor); // Responde a si el jugador está pisando el piso.
+		void collisionWith(Floor* floor); // Reacciona ante una colisión con el piso.
 		Vector2f getPosition();
-		RectangleShape getBoxCollision(BOX_COLLISION_TYPE boxCollisionType);
+		RectangleShape getBoxCollision(BOX_COLLISION_TYPE boxCollisionType); // Obtiene la caja de colisión que se decida.
 		void setPosition(Vector2f position);
 
 
@@ -54,8 +54,7 @@ namespace the_wonder_boy
 
 		Sprite renderer; // Sprite "central", el que todas las animaciones van a tener como base.
 		GRAVITY gravity; // Estructura con valores de gravedad.
-		WALKING_ACCELERATION walkingSpeed;
-		float speedX; // Limpiar el cpp de player. Borrar esta variable. Hacer una variable sola de multiplier.
+		WALKING_ACCELERATION walkingSpeed; // Estructura con valores para la aceleración al caminar.
 
 		Animation* animIdleRight; // Animación parado mirando hacia la derecha.
 		Animation* animIdleLeft; // Animación parado mirando hacia la izquierda.
