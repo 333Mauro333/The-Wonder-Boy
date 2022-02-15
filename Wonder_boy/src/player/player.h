@@ -8,6 +8,7 @@
 #include "floor/floor.h"
 
 using sf::RenderWindow;
+using sf::Keyboard;
 using sf::Texture;
 using sf::Sprite;
 using sf::View;
@@ -41,7 +42,7 @@ namespace the_wonder_boy
 		Vector2f getPosition();
 		RectangleShape getBoxCollision(BOX_COLLISION_TYPE boxCollisionType); // Obtiene la caja de colisión que se decida.
 		void setPosition(Vector2f position);
-
+		void keyPressedOnce(Keyboard::Key key);
 
 	private:
 		ANIMATION_STATE animationState; // Enumerador de animaciones para asignar valores.

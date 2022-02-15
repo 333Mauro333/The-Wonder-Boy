@@ -7,6 +7,7 @@
 #include "game_scenes/levels/0_test/level_test.h"
 
 using std::cout;
+using sf::Event;
 
 
 namespace the_wonder_boy
@@ -18,6 +19,7 @@ namespace the_wonder_boy
 		window = new RenderWindow(sf::VideoMode(width, height), windowTitle); // Creo la ventana.
 		windowSize = { width, height }; // Guardo el tamaño de la ventana en una variable Vector2u.
 		fps = 60;
+		window->setKeyRepeatEnabled(false);
 
 		cout << "Se ha creado un game manager.\n\n";
 	}
@@ -80,13 +82,19 @@ namespace the_wonder_boy
 
 	void GameManager::checkEvents()
 	{
-		sf::Event event;
+		Event event;
+
 
 		while (window->pollEvent(event))
 		{
-			if (event.type == sf::Event::Closed())
+			if (event.type == Event::Closed())
 			{
 				window->close();
+			}
+
+			if (event.type == Event::KeyPressed)
+			{
+				SceneManager::getActualScene()->checkEvents(event.key.code);
 			}
 		}
 	}

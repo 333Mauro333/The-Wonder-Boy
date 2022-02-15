@@ -7,8 +7,10 @@ using std::cout;
 
 namespace the_wonder_boy
 {
-	Scene::Scene()
+	Scene::Scene(RenderWindow* window)
 	{
+		this->window = window;
+
 		cout << "Se ha creado una escena.\n";
 	}
 	Scene::~Scene()

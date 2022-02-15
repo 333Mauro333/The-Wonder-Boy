@@ -132,18 +132,6 @@ namespace the_wonder_boy
 				}
 			}
 		}
-		if (Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayJump)))
-		{
-			if (gravity.onTheFloor) // Si está en el piso...
-			{
-				// Verifica si alguna de las teclas (IZQ, DER o ATTACK) se están presionando. Si es así, salta alto.
-				bool high = Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayRight)) ||
-					Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayAttack)) ||
-					Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayLeft));
-
-				jump(high);
-			}
-		}
 
 		cout << "Velocidad del player: " << walkingSpeed.actualSpeed << std::endl;
 	}
@@ -186,6 +174,21 @@ namespace the_wonder_boy
 	{
 		renderer.setPosition(position);
 		accommodateAnimations();
+	}
+	void Player::keyPressedOnce(Keyboard::Key key)
+	{
+		if (key == GameControls::gameplayJump)
+		{
+			if (gravity.onTheFloor) // Si está en el piso...
+			{
+				// Verifica si alguna de las teclas (IZQ, DER o ATTACK) se están presionando. Si es así, salta alto.
+				bool high = Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayRight)) ||
+					Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayAttack)) ||
+					Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayLeft));
+
+				jump(high);
+			}
+		}
 	}
 
 	// Funciones privadas.

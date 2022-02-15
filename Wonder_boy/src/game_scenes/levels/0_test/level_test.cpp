@@ -9,11 +9,9 @@ using std::cout;
 
 namespace the_wonder_boy
 {
-	LevelTest::LevelTest(RenderWindow* window) : Scene()
+	LevelTest::LevelTest(RenderWindow* window) : Scene(window)
 	{
 		cout << "Se ha creado un nivel de prueba.\n\n";
-
-		this->window = window;
 
 		init();
 	}
@@ -46,6 +44,10 @@ namespace the_wonder_boy
 			floor[i]->draw(window);
 		}
 	}
+	void LevelTest::checkEvents(Keyboard::Key key)
+	{
+		player->keyPressedOnce(key);
+	}
 
 	void LevelTest::init()
 	{
@@ -64,7 +66,7 @@ namespace the_wonder_boy
 			}
 		}
 
-		view.setSize(Vector2f(window->getSize().x, window->getSize().y));
+		view.setSize(Vector2f(static_cast<float>(window->getSize().x), static_cast<float>(window->getSize().y)));
 		view.setCenter(player->getPosition().x, player->getPosition().y - 100);
 		window->setView(view);
 	}
@@ -79,9 +81,9 @@ namespace the_wonder_boy
 	}
 	void LevelTest::updateCamera()
 	{
-		const int distanceToCenter = window->getSize().x / 10;
-		const int playerRightEdgePosition = player->getBoxCollision(BOX_COLLISION_TYPE::ENTIRE).getPosition().x + player->getBoxCollision(BOX_COLLISION_TYPE::ENTIRE).getSize().x / 2.0f;
-		const int playerLeftEdgePosition = player->getBoxCollision(BOX_COLLISION_TYPE::ENTIRE).getPosition().x - player->getBoxCollision(BOX_COLLISION_TYPE::ENTIRE).getSize().x / 2.0f;
+		const float distanceToCenter = static_cast<float>(window->getSize().x) / 10.0f;
+		const float playerRightEdgePosition = player->getBoxCollision(BOX_COLLISION_TYPE::ENTIRE).getPosition().x + player->getBoxCollision(BOX_COLLISION_TYPE::ENTIRE).getSize().x / 2.0f;
+		const float playerLeftEdgePosition = player->getBoxCollision(BOX_COLLISION_TYPE::ENTIRE).getPosition().x - player->getBoxCollision(BOX_COLLISION_TYPE::ENTIRE).getSize().x / 2.0f;
 
 
 		if (playerRightEdgePosition > view.getCenter().x + distanceToCenter)

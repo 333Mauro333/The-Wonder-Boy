@@ -4,6 +4,7 @@
 #include "SFML/Graphics.hpp"
 
 using sf::RenderWindow;
+using sf::Keyboard;
 
 
 namespace the_wonder_boy
@@ -11,11 +12,12 @@ namespace the_wonder_boy
 	class Scene
 	{
 	public:
-		Scene();
+		Scene(RenderWindow* window);
 		virtual ~Scene();
 
 		virtual void update(float deltaTime) = 0;
 		virtual void draw() = 0;
+		virtual void checkEvents(Keyboard::Key key) = 0;
 
 	protected:
 		RenderWindow* window;

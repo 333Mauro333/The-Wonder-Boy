@@ -19,6 +19,7 @@ namespace the_wonder_boy
 
 		void update(float deltaTime) override;
 		void draw() override;
+		void checkEvents(Keyboard::Key key) override;
 
 	private:
 		View view;
