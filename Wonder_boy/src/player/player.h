@@ -8,11 +8,11 @@
 #include "floor/floor.h"
 
 using sf::RenderWindow;
+using sf::View;
 using sf::Keyboard;
+using sf::RectangleShape;
 using sf::Texture;
 using sf::Sprite;
-using sf::View;
-using sf::RectangleShape;
 
 
 enum class ANIMATION_STATE { IDLE_RIGHT, IDLE_LEFT, WALKING_RIGHT, WALKING_LEFT, JUMPING_RIGHT, JUMPING_LEFT };
@@ -36,13 +36,16 @@ namespace the_wonder_boy
 
 		void update(float deltaTime);
 		void draw(RenderWindow* window);
+
 		bool isCollidingWith(Floor* floor); // Responde a si el jugador está pisando el piso.
 		void collisionWith(Floor* floor); // Reacciona ante una colisión con el piso.
+		
 		Vector2f getPosition();
 		RectangleShape getBoxCollision(BOX_COLLISION_TYPE boxCollisionType); // Obtiene la caja de colisión que se decida.
 		void setPosition(Vector2f position);
-		void keyPressedOnce(Keyboard::Key key);
-		void keyReleased(Keyboard::Key key);
+		
+		void keyPressedOnce(Keyboard::Key key); // Realiza acciones según qué tecla se phaya presionado en el frame actual.
+		void keyReleased(Keyboard::Key key); // Realiza acciones según qué tecla se haya levantado.
 
 	private:
 		Texture texIdleRight;
@@ -70,16 +73,17 @@ namespace the_wonder_boy
 
 		float forceJump = 1400.0f;
 
-
 		void initAnimations(float x, float y);
 		void updateAnimations(float deltaTime);
 		void drawAnimations(RenderWindow* window);
-		void keyPressed(float deltaTime); // Realiza acciones según qué tecla esté presionada.
-		void gravityForce(float deltaTime);
-		void walkingAccelerationForce(float deltaTime);
 		void accommodateAnimations();
+
+		void keyPressed(float deltaTime); // Realiza acciones según qué tecla esté presionada.
 		void move(DIRECTION direction, float deltaTime);
 		void jump(bool high);
+		void gravityForce(float deltaTime);
+		void walkingAccelerationForce(float deltaTime);
+		
 		bool bothSidesPressed();
 		bool noSidePressed();
 	};

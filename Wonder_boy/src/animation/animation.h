@@ -5,8 +5,8 @@
 
 #include "frame/frame.h"
 
-using sf::Sprite;
 using std::vector;
+using sf::Sprite;
 
 
 enum class ANIMATION_MODE { ONCE, LOOP };
@@ -19,7 +19,7 @@ namespace the_wonder_boy
 		Animation(Sprite target, ANIMATION_MODE animationMode);
 		~Animation();
 
-		Sprite target;
+		Sprite target; // Este campo se declaró público porque al querer obtenerlo con un getter, se inhabilitan ciertas funcionalidades.
 
 		void addFrame(Frame* frame);
 		void update(float elapsed);

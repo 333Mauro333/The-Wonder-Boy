@@ -2,11 +2,9 @@
 
 #include <iostream>
 
-#include "game_manager/game_manager.h"
 #include "game_controls/game_controls.h"
 
 using std::cout;
-using sf::Keyboard;
 
 
 namespace the_wonder_boy
@@ -20,7 +18,7 @@ namespace the_wonder_boy
 		renderer.setPosition(x, y);
 
 		gravity.actualSpeed = 0.0f;
-		gravity.acceleration = 3750.0f; // 3750.0f
+		gravity.acceleration = 3750.0f;
 		gravity.speedLimit = 1000.0f;
 		gravity.onTheFloor = false;
 
@@ -42,6 +40,10 @@ namespace the_wonder_boy
 	{
 		delete animIdleLeft;
 		delete animIdleRight;
+		delete animWalkingLeft;
+		delete animWalkingRight;
+		delete animJumpingLeft;
+		delete animJumpingRight;
 
 		cout << "El jugador ha sido eliminado de la memoria.\n";
 	}
@@ -49,8 +51,6 @@ namespace the_wonder_boy
 	// Funciones públicas.
 	void Player::update(float deltaTime)
 	{
-		cout << "Velocidad actual de la gravedad: " << gravity.actualSpeed << ".\n";
-
 		keyPressed(deltaTime); // Función que verifica si determinadas teclas están siendo presionadas.
 		gravityForce(deltaTime); // Aplica la fuerza gravitatoria.
 		walkingAccelerationForce(deltaTime); // Aplica la velocidad al caminar.
@@ -69,6 +69,7 @@ namespace the_wonder_boy
 
 		#endif // _DEBUG
 	}
+
 	bool Player::isCollidingWith(Floor* floor)
 	{
 		return	gravity.actualSpeed > -100.0f && boxFeet.getPosition().y > floor->getRenderer().getPosition().y - floor->getRenderer().getGlobalBounds().height / 2.0f &&
@@ -94,6 +95,7 @@ namespace the_wonder_boy
 		}
 		accommodateAnimations();
 	}
+
 	Vector2f Player::getPosition()
 	{
 		return renderer.getPosition();
@@ -120,6 +122,7 @@ namespace the_wonder_boy
 		renderer.setPosition(position);
 		accommodateAnimations();
 	}
+	
 	void Player::keyPressedOnce(Keyboard::Key key)
 	{
 		if (key == GameControls::gameplayJump)
@@ -158,6 +161,7 @@ namespace the_wonder_boy
 		}
 	}
 
+
 	// Funciones privadas.
 	void Player::initAnimations(float x, float y)
 	{
@@ -180,7 +184,7 @@ namespace the_wonder_boy
 			cout << "La textura idle_right.png no se ha cargado.\n";
 		}
 		spriteLoader.setTexture(texIdleRight);
-		spriteLoader.setOrigin(frameWidth / 2.0f, frameHeight);
+		spriteLoader.setOrigin(frameWidth / 2.0f, static_cast<float>(frameHeight));
 		spriteLoader.setPosition(x, y);
 		animIdleRight = new Animation(spriteLoader, ANIMATION_MODE::LOOP);
 		for (int i = 0; i < amountOfFrames; i++)
@@ -207,7 +211,7 @@ namespace the_wonder_boy
 			cout << "La textura idle_left.png no se ha cargado.\n";
 		}
 		spriteLoader.setTexture(texIdleLeft);
-		spriteLoader.setOrigin(frameWidth / 2.0f, frameHeight);
+		spriteLoader.setOrigin(frameWidth / 2.0f, static_cast<float>(frameHeight));
 		spriteLoader.setPosition(x, y);
 		animIdleLeft = new Animation(spriteLoader, ANIMATION_MODE::LOOP);
 		for (int i = 0; i < amountOfFrames; i++)
@@ -234,7 +238,7 @@ namespace the_wonder_boy
 			cout << "La textura walking_right.png no se ha cargado.\n";
 		}
 		spriteLoader.setTexture(texWalkingRight);
-		spriteLoader.setOrigin(frameWidth / 2.0f - 10.0f, frameHeight);
+		spriteLoader.setOrigin(frameWidth / 2.0f - 10.0f, static_cast<float>(frameHeight));
 		spriteLoader.setPosition(x, y);
 		animWalkingRight = new Animation(spriteLoader, ANIMATION_MODE::LOOP);
 		for (int i = 0; i < amountOfFrames; i++)
@@ -261,7 +265,7 @@ namespace the_wonder_boy
 			cout << "La textura walking_left.png no se ha cargado.\n";
 		}
 		spriteLoader.setTexture(texWalkingLeft);
-		spriteLoader.setOrigin(frameWidth / 2.0f + 10.0f, frameHeight);
+		spriteLoader.setOrigin(frameWidth / 2.0f + 10.0f, static_cast<float>(frameHeight));
 		spriteLoader.setPosition(x, y);
 		animWalkingLeft = new Animation(spriteLoader, ANIMATION_MODE::LOOP);
 		for (int i = 0; i < 4; i++)
@@ -288,7 +292,7 @@ namespace the_wonder_boy
 			cout << "La textura jumping_right.png no se ha cargado.\n";
 		}
 		spriteLoader.setTexture(texJumpingRight);
-		spriteLoader.setOrigin(frameWidth / 2.0f - 10.0f, frameHeight);
+		spriteLoader.setOrigin(frameWidth / 2.0f - 10.0f, static_cast<float>(frameHeight));
 		spriteLoader.setPosition(x, y);
 		animJumpingRight = new Animation(spriteLoader, ANIMATION_MODE::ONCE);
 		for (int i = 0; i < amountOfFrames; i++)
@@ -315,7 +319,7 @@ namespace the_wonder_boy
 			cout << "La textura jumping_left.png no se ha cargado.\n";
 		}
 		spriteLoader.setTexture(texJumpingLeft);
-		spriteLoader.setOrigin(frameWidth / 2.0f + 10.0f, frameHeight);
+		spriteLoader.setOrigin(frameWidth / 2.0f + 10.0f, static_cast<float>(frameHeight));
 		spriteLoader.setPosition(x, y);
 		animJumpingLeft = new Animation(spriteLoader, ANIMATION_MODE::ONCE);
 		for (int i = 0; i < amountOfFrames; i++)
@@ -395,6 +399,13 @@ namespace the_wonder_boy
 			break;
 		}
 	}
+	void Player::accommodateAnimations()
+	{
+		boxEntire.setPosition(renderer.getPosition());
+		boxFeet.setPosition(renderer.getPosition());
+		updateAnimations(0.0f);
+	}
+
 	void Player::keyPressed(float deltaTime)
 	{
 		const float modifier = 1.25f; // Divide/multiplica la velocidad actual al estar en el aire.
@@ -479,52 +490,6 @@ namespace the_wonder_boy
 
 		cout << "Velocidad del player: " << walkingSpeed.actualSpeed << std::endl;
 	}
-	void Player::gravityForce(float deltaTime)
-	{
-		if (gravity.actualSpeed > 0.0f)
-		{
-			gravity.onTheFloor = false;
-		}
-
-		gravity.actualSpeed += gravity.acceleration * deltaTime;
-
-		renderer.move(0.0f, gravity.actualSpeed * deltaTime);
-
-	}
-	void Player::walkingAccelerationForce(float deltaTime)
-	{
-		const float multipler = 1.5f;
-
-		// Si está sobre el piso...
-		if (gravity.onTheFloor)
-		{
-			// Si no está caminando para ninguno de los dos lados...
-			if (bothSidesPressed() || noSidePressed())
-			{
-				// Si está yendo para la derecha...
-				if (walkingSpeed.actualSpeed > 0.0f)
-				{
-					walkingSpeed.actualSpeed = (walkingSpeed.actualSpeed > walkingSpeed.acceleration * deltaTime) ? walkingSpeed.actualSpeed - walkingSpeed.acceleration * deltaTime : 0.0f;
-				}
-				else if (walkingSpeed.actualSpeed < 0.0f)
-				{
-					walkingSpeed.actualSpeed = (walkingSpeed.actualSpeed < -walkingSpeed.acceleration * deltaTime) ? walkingSpeed.actualSpeed + walkingSpeed.acceleration * deltaTime : 0.0f;
-				}
-			}
-		}
-
-		//	Si está en skate...
-		//		Siempre para la derecha (movimiento robótico).
-		//		Si presiona izquierda, sólo va más lento. Para adelante no hace nada.
-
-		renderer.move(walkingSpeed.actualSpeed * deltaTime, 0.0f);
-	}
-	void Player::accommodateAnimations()
-	{
-		boxEntire.setPosition(renderer.getPosition());
-		boxFeet.setPosition(renderer.getPosition());
-		updateAnimations(0.0f);
-	}
 	void Player::move(DIRECTION direction, float deltaTime)
 	{
 		switch (direction)
@@ -567,6 +532,47 @@ namespace the_wonder_boy
 
 		gravity.onTheFloor = false;
 	}
+	void Player::gravityForce(float deltaTime)
+	{
+		if (gravity.actualSpeed > 0.0f)
+		{
+			gravity.onTheFloor = false;
+		}
+
+		gravity.actualSpeed += gravity.acceleration * deltaTime;
+
+		renderer.move(0.0f, gravity.actualSpeed * deltaTime);
+
+	}
+	void Player::walkingAccelerationForce(float deltaTime)
+	{
+		const float multipler = 1.5f;
+
+		// Si está sobre el piso...
+		if (gravity.onTheFloor)
+		{
+			// Si no está caminando para ninguno de los dos lados...
+			if (bothSidesPressed() || noSidePressed())
+			{
+				// Si está yendo para la derecha...
+				if (walkingSpeed.actualSpeed > 0.0f)
+				{
+					walkingSpeed.actualSpeed = (walkingSpeed.actualSpeed > walkingSpeed.acceleration * deltaTime) ? walkingSpeed.actualSpeed - walkingSpeed.acceleration * deltaTime : 0.0f;
+				}
+				else if (walkingSpeed.actualSpeed < 0.0f)
+				{
+					walkingSpeed.actualSpeed = (walkingSpeed.actualSpeed < -walkingSpeed.acceleration * deltaTime) ? walkingSpeed.actualSpeed + walkingSpeed.acceleration * deltaTime : 0.0f;
+				}
+			}
+		}
+
+		//	Si está en skate...
+		//		Siempre para la derecha (movimiento robótico).
+		//		Si presiona izquierda, sólo va más lento. Para adelante no hace nada.
+
+		renderer.move(walkingSpeed.actualSpeed * deltaTime, 0.0f);
+	}
+	
 	bool Player::bothSidesPressed()
 	{
 		return Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayLeft)) && Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayRight));

@@ -2,8 +2,6 @@
 
 #include <iostream>
 
-#include "game_manager/game_manager.h"
-
 using std::cout;
 
 
@@ -22,6 +20,7 @@ namespace the_wonder_boy
 		cout << "El nivel de prueba ha sido eliminado de la memoria.\n";
 	}
 
+	// Funciones públicas.
 	void LevelTest::update(float deltaTime)
 	{
 		player->update(deltaTime);
@@ -53,6 +52,8 @@ namespace the_wonder_boy
 		player->keyReleased(key);
 	}
 
+
+	// Funciones privadas.
 	void LevelTest::init()
 	{
 		// Se hacen conversiones de datos para evitar advertencias de Visual Studio.
@@ -83,6 +84,7 @@ namespace the_wonder_boy
 			delete floor[i];
 		}
 	}
+
 	void LevelTest::updateCamera()
 	{
 		const float distanceToCenter = static_cast<float>(window->getSize().x) / 10.0f;
@@ -90,16 +92,20 @@ namespace the_wonder_boy
 		const float playerLeftEdgePosition = player->getBoxCollision(BOX_COLLISION_TYPE::ENTIRE).getPosition().x - player->getBoxCollision(BOX_COLLISION_TYPE::ENTIRE).getSize().x / 2.0f;
 
 
+		// Si el jugador avanza lo suficiente hacia la derecha...
 		if (playerRightEdgePosition > view.getCenter().x + distanceToCenter)
 		{
+			// ...lo sigue la cámara.
 			view.setCenter(playerRightEdgePosition - distanceToCenter, view.getCenter().y);
 		}
 
+		// Si el jugador choca contra el límite izquierdo de la pantalla...
 		if (playerLeftEdgePosition < view.getCenter().x - view.getSize().x / 2.0f)
 		{
+			// ...no retrocede más.
 			player->setPosition(Vector2f(view.getCenter().x - view.getSize().x / 2.0f + player->getBoxCollision(BOX_COLLISION_TYPE::ENTIRE).getSize().x / 2.0f, player->getPosition().y));
 		}
 
-		window->setView(view);
+		window->setView(view); // Se le pasa a la ventana la view actualizada.
 	}
 }

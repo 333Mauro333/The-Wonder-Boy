@@ -3,6 +3,7 @@
 
 #include "game_scenes/scene.h"
 
+
 namespace the_wonder_boy
 {
 	class SceneManager

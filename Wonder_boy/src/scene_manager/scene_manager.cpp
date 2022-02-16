@@ -1,9 +1,11 @@
 #include "scene_manager.h"
 
+
 namespace the_wonder_boy
 {
 	Scene* SceneManager::scene;
 
+	// Funciones públicas.
 	Scene* SceneManager::getActualScene()
 	{
 		return scene;

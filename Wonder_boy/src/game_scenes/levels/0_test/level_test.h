@@ -30,6 +30,7 @@ namespace the_wonder_boy
 
 		void init() override;
 		void destroy() override;
+
 		void updateCamera();
 	};
 }

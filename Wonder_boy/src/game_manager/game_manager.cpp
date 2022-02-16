@@ -19,7 +19,8 @@ namespace the_wonder_boy
 		window = new RenderWindow(sf::VideoMode(width, height), windowTitle); // Creo la ventana.
 		windowSize = { width, height }; // Guardo el tamaño de la ventana en una variable Vector2u.
 		fps = 60;
-		window->setKeyRepeatEnabled(false); // Deshabilita el repetimiento de una tecla al mantenerse presionada.
+		window->setKeyRepeatEnabled(false); // Deshabilita el repetimiento de una tecla al mantenerse presionada (aplica para
+		// el evento de obtener la tecla en el momento que fue presionada).
 
 		cout << "Se ha creado un game manager.\n\n";
 	}
@@ -31,13 +32,13 @@ namespace the_wonder_boy
 	// Funciones públicas.
 	void GameManager::run()
 	{
-		init(); // Inicializa todo.
+		init(); // Inicializa.
 
 		// Loop de juego. La condición del while es que esté la ventana del juego abierta.
 		while (window->isOpen())
 		{
 			sf::Clock clock; // Se declara un reloj, cuya cuenta comienza a correr apenas se declara.
-			limitFrames();
+			limitFrames(); // Función para simular un deltaTime, ya que el propio de la ventana es propenso a imprecisiones.
 			float elapsedTime = clock.getElapsedTime().asSeconds(); // Se guarda en una variable el tiempo transcurrido en el frame.
 
 			update(elapsedTime); // Actualiza usando el deltaTime.
@@ -45,7 +46,7 @@ namespace the_wonder_boy
 			draw(); // Dibuja.
 		}
 
-		destroy(); // Destruye.
+		destroy(); // Destruye todos los elementos del nivel, incluyendo el mismo.
 	}
 
 	Vector2u GameManager::getWindowSize()
@@ -57,6 +58,7 @@ namespace the_wonder_boy
 		windowSize = { static_cast<unsigned int>(width), static_cast<unsigned int>(height) };
 	}
 
+
 	// Funciones privadas.
 	void GameManager::init()
 	{
@@ -66,7 +68,7 @@ namespace the_wonder_boy
 	{
 		checkEvents(); // Compruebo si hay eventos (cerrar la ventana, presionar una tecla, hacer click, etc).
 
-		SceneManager::getActualScene()->update(deltaTime); // Se "refresca" todo lo que hay en la escena actual.
+		SceneManager::getActualScene()->update(deltaTime); // Se actualiza todo lo que hay en la escena actual.
 	}
 	void GameManager::draw()
 	{
@@ -74,7 +76,7 @@ namespace the_wonder_boy
 
 		SceneManager::getActualScene()->draw(); // Se dibuja todo lo que hay en la escena actual.
 
-		window->display(); // Muestra todo lo dibujado en la ventana.
+		window->display(); // Se muestra en la ventana todo lo dibujado.
 	}
 	void GameManager::destroy()
 	{
@@ -88,18 +90,20 @@ namespace the_wonder_boy
 
 		while (window->pollEvent(event))
 		{
-			if (event.type == Event::Closed())
+			if (event.type == Event::Closed)
 			{
-				window->close();
+				window->close(); // Cierra la ventana.
 			}
 
 			if (event.type == Event::KeyPressed)
 			{
+				// Envía a la escena actual la tecla soltada y comprueba reacciones en base a esa tecla soltada.
 				SceneManager::getActualScene()->checkKeyPressedOnce(event.key.code);
 			}
 
 			if (event.type == Event::KeyReleased)
 			{
+				// Envía a la escena actual la tecla soltada y comprueba reacciones en base a esa tecla soltada.
 				SceneManager::getActualScene()->checkKeyReleased(event.key.code);
 			}
 		}

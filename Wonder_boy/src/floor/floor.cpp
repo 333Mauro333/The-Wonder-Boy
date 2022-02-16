@@ -13,7 +13,6 @@ namespace the_wonder_boy
 		{
 			cout << "La textura idle.png no se ha cargado.\n";
 		}
-
 		spr_floor.setTexture(tex_floor);
 		spr_floor.setOrigin(spr_floor.getGlobalBounds().width / 2.0f, spr_floor.getGlobalBounds().height / 2.0f);
 		spr_floor.setPosition(x, y);
@@ -23,6 +22,7 @@ namespace the_wonder_boy
 		cout << "El piso ha sido eliminado de la memoria.\n";
 	}
 
+	// Funciones públicas.
 	void Floor::draw(RenderWindow* window)
 	{
 		window->draw(spr_floor);

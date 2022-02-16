@@ -18,6 +18,7 @@ namespace the_wonder_boy
 		cout << "La entidad ha sido eliminada de la memoria.\n\n";
 	}
 
+	// Funciones públicas.
 	Vector2f Entity::getInitialPosition()
 	{
 		return initialPosition;
