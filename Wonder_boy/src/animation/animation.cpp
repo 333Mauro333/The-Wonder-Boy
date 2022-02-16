@@ -58,6 +58,7 @@ namespace the_wonder_boy
 			}
 		}
 	}
+
 	int Animation::getNumberOfFrame()
 	{
 		return actualFrame;
@@ -69,5 +70,11 @@ namespace the_wonder_boy
 	void Animation::setDurationOfFrame(int ind, float newDuration)
 	{
 		frameVector[ind]->setDuration(newDuration);
+	}
+
+	void Animation::resetAnimation()
+	{
+		actualFrame = 0;
+		progress = 0.0f;
 	}
 }

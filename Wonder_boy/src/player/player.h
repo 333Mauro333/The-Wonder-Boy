@@ -15,7 +15,8 @@ using sf::Texture;
 using sf::Sprite;
 
 
-enum class ANIMATION_STATE { IDLE_RIGHT, IDLE_LEFT, WALKING_RIGHT, WALKING_LEFT, JUMPING_RIGHT, JUMPING_LEFT };
+enum class ANIMATION_STATE { IDLE_RIGHT, IDLE_LEFT, WALKING_RIGHT, WALKING_LEFT,
+							JUMPING_RIGHT, JUMPING_LEFT, ATTACKING_RIGHT, ATTACKING_LEFT };
 enum class BOX_COLLISION_TYPE { ENTIRE, FEET };
 enum class DIRECTION { LEFT, RIGHT };
 enum class SPEED { NORMAL, FAST };
@@ -55,6 +56,8 @@ namespace the_wonder_boy
 		Texture texWalkingLeft;
 		Texture texJumpingRight;
 		Texture texJumpingLeft;
+		Texture texAttackingRight;
+		Texture texAttackingLeft;
 
 		RectangleShape boxEntire; // Caja de colisión (todo el personaje).
 		RectangleShape boxFeet; // Caja de colisión (pies).
@@ -71,6 +74,8 @@ namespace the_wonder_boy
 		Animation* animWalkingLeft; // Animación caminando hacia la izquierda.
 		Animation* animJumpingRight; // Animación saltando hacia la derecha.
 		Animation* animJumpingLeft; // Animación saltando hacia la izquierda.
+		Animation* animAttackingRight; // Animación atacando hacia la derecha.
+		Animation* animAttackingLeft; // Animación atacando hacia la izquierda.
 
 		float walkingAnimationSpeed = 0.075f;
 		float forceJump = 1400.0f;
@@ -81,6 +86,7 @@ namespace the_wonder_boy
 		void drawAnimations(RenderWindow* window);
 		void accommodateAnimations();
 		void setWalkingAnimationMode(SPEED speed);
+		void updateAnimationEvents();
 
 		void keyPressed(float deltaTime); // Realiza acciones según qué tecla esté presionada.
 		void move(DIRECTION direction, float deltaTime);
@@ -90,6 +96,7 @@ namespace the_wonder_boy
 		
 		bool bothSidesPressed();
 		bool noSidePressed();
+		bool isAttacking(DIRECTION direction);
 	};
 }
 

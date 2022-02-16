@@ -9,7 +9,7 @@ using std::cout;
 
 namespace the_wonder_boy
 {
-	// Agregar la velocidad extra del jugador al presionar la tecla de ataque. Después, que pueda atacar.
+	// Después, que pueda atacar.
 	// Luego, agregar los sprites y funcionalidades con el skate.
 	// Hacer un nivel más largo y con algunos elementos en el fondo.
 	// Agregar un menú principal para empezar a hacer interacción entre escenas.
@@ -149,6 +149,21 @@ namespace the_wonder_boy
 		}
 		if (key == GameControls::gameplayAttack)
 		{
+			switch (animationState)
+			{
+			case ANIMATION_STATE::IDLE_RIGHT:
+			case ANIMATION_STATE::WALKING_RIGHT:
+			case ANIMATION_STATE::JUMPING_RIGHT:
+				animationState = ANIMATION_STATE::ATTACKING_RIGHT;
+				break;
+
+			case ANIMATION_STATE::IDLE_LEFT:
+			case ANIMATION_STATE::WALKING_LEFT:
+			case ANIMATION_STATE::JUMPING_LEFT:
+				animationState = ANIMATION_STATE::ATTACKING_LEFT;
+				break;
+			}
+
 			setWalkingAnimationMode(SPEED::FAST);
 			walkingSpeed.speedLimit = speedLimit * 1.5f;
 		}
@@ -348,9 +363,77 @@ namespace the_wonder_boy
 		left = 0;
 
 		#pragma endregion
+
+		#pragma region ATACANDO HACIA LA DERECHA
+
+		frameWidth = 116;
+		frameHeight = 126;
+		frameDuration = 0.1f;
+		amountOfFrames = 3;
+
+		if (!texAttackingRight.loadFromFile("res/sprites/player/attacking_right.png"))
+		{
+			cout << "La textura attacking_right.png no se ha cargado.\n";
+		}
+		spriteLoader.setTexture(texAttackingRight);
+		spriteLoader.setOrigin(frameWidth / 2.0f - 10.0f, static_cast<float>(frameHeight));
+		spriteLoader.setPosition(x, y);
+		animAttackingRight = new Animation(spriteLoader, ANIMATION_MODE::ONCE);
+		for (int i = 0; i < amountOfFrames; i++)
+		{
+			IntRect intRect = IntRect(left, 0, frameWidth, frameHeight);
+
+			if (i != 0)
+			{
+				frameDuration = 0.15f;
+			}
+
+			Frame* frame = new Frame(intRect, frameDuration);
+
+			animAttackingRight->addFrame(frame);
+			left += frameWidth;
+		}
+		left = 0;
+
+		#pragma endregion
+
+		#pragma region ATACANDO HACIA LA IZQUIERDA
+
+		frameWidth = 116;
+		frameHeight = 126;
+		frameDuration = 0.1f;
+		amountOfFrames = 3;
+
+		if (!texAttackingLeft.loadFromFile("res/sprites/player/attacking_left.png"))
+		{
+			cout << "La textura attacking_left.png no se ha cargado.\n";
+		}
+		spriteLoader.setTexture(texAttackingLeft);
+		spriteLoader.setOrigin(frameWidth / 2.0f - 10.0f, static_cast<float>(frameHeight));
+		spriteLoader.setPosition(x, y);
+		animAttackingLeft = new Animation(spriteLoader, ANIMATION_MODE::ONCE);
+		for (int i = 0; i < amountOfFrames; i++)
+		{
+			IntRect intRect = IntRect(left, 0, frameWidth, frameHeight);
+
+			if (i != 0)
+			{
+				frameDuration = 0.15f;
+			}
+
+			Frame* frame = new Frame(intRect, frameDuration);
+
+			animAttackingLeft->addFrame(frame);
+			left += frameWidth;
+		}
+		left = 0;
+
+		#pragma endregion
 	}
 	void Player::updateAnimations(float deltaTime)
 	{
+		updateAnimationEvents();
+
 		switch (animationState)
 		{
 		case ANIMATION_STATE::IDLE_RIGHT:
@@ -382,6 +465,16 @@ namespace the_wonder_boy
 			animJumpingLeft->target.setPosition(renderer.getPosition().x, renderer.getPosition().y);
 			animJumpingLeft->update(deltaTime);
 			break;
+
+		case ANIMATION_STATE::ATTACKING_RIGHT:
+			animAttackingRight->target.setPosition(renderer.getPosition().x, renderer.getPosition().y);
+			animAttackingRight->update(deltaTime);
+			break;
+
+		case ANIMATION_STATE::ATTACKING_LEFT:
+			animAttackingLeft->target.setPosition(renderer.getPosition().x, renderer.getPosition().y);
+			animAttackingLeft->update(deltaTime);
+			break;
 		}
 	}
 	void Player::drawAnimations(RenderWindow* window)
@@ -411,6 +504,14 @@ namespace the_wonder_boy
 
 		case ANIMATION_STATE::JUMPING_LEFT:
 			window->draw(animJumpingLeft->target);
+			break;
+
+		case ANIMATION_STATE::ATTACKING_RIGHT:
+			window->draw(animAttackingRight->target);
+			break;
+
+		case ANIMATION_STATE::ATTACKING_LEFT:
+			window->draw(animAttackingLeft->target);
 			break;
 		}
 	}
@@ -449,6 +550,34 @@ namespace the_wonder_boy
 			break;
 		}
 	}
+	void Player::updateAnimationEvents()
+	{
+		if (animAttackingRight->getNumberOfFrame() == 2)
+		{
+			animAttackingRight->resetAnimation();
+			if (gravity.onTheFloor)
+			{
+				animationState = ANIMATION_STATE::IDLE_RIGHT;
+			}
+			else
+			{
+				animationState = ANIMATION_STATE::JUMPING_RIGHT;
+			}
+		}
+
+		if (animAttackingLeft->getNumberOfFrame() == 2)
+		{
+			animAttackingLeft->resetAnimation();
+			if (gravity.onTheFloor)
+			{
+				animationState = ANIMATION_STATE::IDLE_LEFT;
+			}
+			else
+			{
+				animationState = ANIMATION_STATE::JUMPING_LEFT;
+			}
+		}
+	}
 
 	void Player::keyPressed(float deltaTime)
 	{
@@ -461,8 +590,15 @@ namespace the_wonder_boy
 			{
 				if (!Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayRight)))
 				{
+					if (isAttacking(DIRECTION::RIGHT))
+					{
+						animAttackingRight->resetAnimation();
+					}
 					move(DIRECTION::LEFT, deltaTime);
-					animationState = ANIMATION_STATE::WALKING_LEFT;
+					if (!isAttacking(DIRECTION::LEFT))
+					{
+						animationState = ANIMATION_STATE::WALKING_LEFT;
+					}
 				}
 				else
 				{
@@ -499,8 +635,15 @@ namespace the_wonder_boy
 			{
 				if (!Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayLeft))) // Si NO está presionando izquierda...
 				{
+					if (isAttacking(DIRECTION::LEFT))
+					{
+						animAttackingLeft->resetAnimation();
+					}
 					move(DIRECTION::RIGHT, deltaTime);
-					animationState = ANIMATION_STATE::WALKING_RIGHT;
+					if (!isAttacking(DIRECTION::RIGHT))
+					{
+						animationState = ANIMATION_STATE::WALKING_RIGHT;
+					}
 				}
 				else // Si sí está presionando...
 				{
@@ -624,5 +767,22 @@ namespace the_wonder_boy
 	bool Player::noSidePressed()
 	{
 		return !Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayLeft)) && !Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayRight));
+	}
+	bool Player::isAttacking(DIRECTION direction)
+	{
+		switch (direction)
+		{
+		case DIRECTION::LEFT:
+			return animationState == ANIMATION_STATE::ATTACKING_LEFT;
+			break;
+
+		case DIRECTION::RIGHT:
+			return animationState == ANIMATION_STATE::ATTACKING_RIGHT;
+			break;
+
+		default:
+			return animationState == ANIMATION_STATE::ATTACKING_RIGHT;
+			break;
+		}
 	}
 }
