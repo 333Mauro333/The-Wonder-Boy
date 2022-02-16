@@ -17,7 +17,8 @@ namespace the_wonder_boy
 
 		virtual void update(float deltaTime) = 0;
 		virtual void draw() = 0;
-		virtual void checkEvents(Keyboard::Key key) = 0;
+		virtual void checkKeyPressedOnce(Keyboard::Key key) = 0;
+		virtual void checkKeyReleased(Keyboard::Key key) = 0;
 
 	protected:
 		RenderWindow* window;

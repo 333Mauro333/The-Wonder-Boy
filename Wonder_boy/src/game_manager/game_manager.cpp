@@ -94,7 +94,12 @@ namespace the_wonder_boy
 
 			if (event.type == Event::KeyPressed)
 			{
-				SceneManager::getActualScene()->checkEvents(event.key.code);
+				SceneManager::getActualScene()->checkKeyPressedOnce(event.key.code);
+			}
+
+			if (event.type == Event::KeyReleased)
+			{
+				SceneManager::getActualScene()->checkKeyReleased(event.key.code);
 			}
 		}
 	}

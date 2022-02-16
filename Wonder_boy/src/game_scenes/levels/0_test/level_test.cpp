@@ -44,9 +44,13 @@ namespace the_wonder_boy
 			floor[i]->draw(window);
 		}
 	}
-	void LevelTest::checkEvents(Keyboard::Key key)
+	void LevelTest::checkKeyPressedOnce(Keyboard::Key key)
 	{
 		player->keyPressedOnce(key);
+	}
+	void LevelTest::checkKeyReleased(Keyboard::Key key)
+	{
+
 	}
 
 	void LevelTest::init()
