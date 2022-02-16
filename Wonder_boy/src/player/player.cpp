@@ -149,25 +149,32 @@ namespace the_wonder_boy
 	void Player::initAnimations(float x, float y)
 	{
 		int left = 0; // Variable para agregar los frames a través del ancho del total de la imagen.
+		int frameWidth = 0;
+		int frameHeight = 0;
+		float frameDuration = 0.0f;
 
 
 		#pragma region PARADO HACIA LA DERECHA
+
+		frameWidth = 67;
+		frameHeight = 126;
+		frameDuration = 0.1f;
 
 		if (!texIdleRight.loadFromFile("res/sprites/player/idle_right.png"))
 		{
 			cout << "La textura idle_right.png no se ha cargado.\n";
 		}
 		spriteLoader.setTexture(texIdleRight);
-		spriteLoader.setOrigin(33.0f, 126.0f);
+		spriteLoader.setOrigin(frameWidth / 2.0f, frameHeight);
 		spriteLoader.setPosition(x, y);
 		animIdleRight = new Animation(spriteLoader, ANIMATION_MODE::LOOP);
 		for (int i = 0; i < 2; i++)
 		{
-			IntRect intRect = IntRect(left, 0, 67, 126);
-			Frame* frame = new Frame(intRect, 0.1f);
+			IntRect intRect = IntRect(left, 0, frameWidth, frameHeight);
+			Frame* frame = new Frame(intRect, frameDuration);
 
 			animIdleRight->addFrame(frame);
-			left += 67;
+			left += frameWidth;
 		}
 		left = 0;
 
@@ -175,21 +182,25 @@ namespace the_wonder_boy
 
 		#pragma region PARADO HACIA LA IZQUIERDA
 
+		frameWidth = 67;
+		frameHeight = 126;
+		frameDuration = 0.1f;
+
 		if (!texIdleLeft.loadFromFile("res/sprites/player/idle_left.png"))
 		{
 			cout << "La textura idle_left.png no se ha cargado.\n";
 		}
 		spriteLoader.setTexture(texIdleLeft);
-		spriteLoader.setOrigin(33.0f, 126.0f);
+		spriteLoader.setOrigin(frameWidth / 2.0f, frameHeight);
 		spriteLoader.setPosition(x, y);
 		animIdleLeft = new Animation(spriteLoader, ANIMATION_MODE::LOOP);
 		for (int i = 0; i < 2; i++)
 		{
-			IntRect intRect = IntRect(left, 0, 67, 126);
-			Frame* frame = new Frame(intRect, 0.1f);
+			IntRect intRect = IntRect(left, 0, frameWidth, frameHeight);
+			Frame* frame = new Frame(intRect, frameDuration);
 
 			animIdleLeft->addFrame(frame);
-			left += 67;
+			left += frameWidth;
 		}
 		left = 0;
 
@@ -197,21 +208,25 @@ namespace the_wonder_boy
 
 		#pragma region CAMINANDO HACIA LA DERECHA
 
+		frameWidth = 83;
+		frameHeight = 126;
+		frameDuration = 0.075f;
+
 		if (!texWalkingRight.loadFromFile("res/sprites/player/walking_right.png"))
 		{
 			cout << "La textura walking_right.png no se ha cargado.\n";
 		}
 		spriteLoader.setTexture(texWalkingRight);
-		spriteLoader.setOrigin(31.0f, 126.0f); // x: 41.0f
+		spriteLoader.setOrigin(frameWidth / 2.0f - 10.0f, frameHeight);
 		spriteLoader.setPosition(x, y);
 		animWalkingRight = new Animation(spriteLoader, ANIMATION_MODE::LOOP);
 		for (int i = 0; i < 4; i++)
 		{
-			IntRect intRect = IntRect(left, 0, 83, 126);
-			Frame* frame = new Frame(intRect, 0.075f);
+			IntRect intRect = IntRect(left, 0, frameWidth, frameHeight);
+			Frame* frame = new Frame(intRect, frameDuration);
 
 			animWalkingRight->addFrame(frame);
-			left += 83;
+			left += frameWidth;
 		}
 		left = 0;
 
@@ -219,21 +234,24 @@ namespace the_wonder_boy
 
 		#pragma region CAMINANDO HACIA LA IZQUIERDA
 
+		frameWidth = 83;
+		frameHeight = 126;
+
 		if (!texWalkingLeft.loadFromFile("res/sprites/player/walking_left.png"))
 		{
 			cout << "La textura walking_left.png no se ha cargado.\n";
 		}
 		spriteLoader.setTexture(texWalkingLeft);
-		spriteLoader.setOrigin(51.0f, 126.0f);
+		spriteLoader.setOrigin(frameWidth / 2.0f + 10.0f, frameHeight);
 		spriteLoader.setPosition(x, y);
 		animWalkingLeft = new Animation(spriteLoader, ANIMATION_MODE::LOOP);
 		for (int i = 0; i < 4; i++)
 		{
-			IntRect intRect = IntRect(left, 0, 83, 126);
-			Frame* frame = new Frame(intRect, 0.075f);
+			IntRect intRect = IntRect(left, 0, frameWidth, frameHeight);
+			Frame* frame = new Frame(intRect, frameDuration);
 
 			animWalkingLeft->addFrame(frame);
-			left += 83;
+			left += frameWidth;
 		}
 		left = 0;
 
