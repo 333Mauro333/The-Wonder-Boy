@@ -49,6 +49,8 @@ namespace the_wonder_boy
 	// Funciones públicas.
 	void Player::update(float deltaTime)
 	{
+		cout << "Velocidad actual de la gravedad: " << gravity.actualSpeed << ".\n";
+
 		keyPressed(deltaTime); // Función que verifica si determinadas teclas están siendo presionadas.
 		gravityForce(deltaTime); // Aplica la fuerza gravitatoria.
 		walkingAccelerationForce(deltaTime); // Aplica la velocidad al caminar.
@@ -69,7 +71,7 @@ namespace the_wonder_boy
 	}
 	bool Player::isCollidingWith(Floor* floor)
 	{
-		return	boxFeet.getPosition().y > floor->getRenderer().getPosition().y - floor->getRenderer().getGlobalBounds().height / 2.0f &&
+		return	gravity.actualSpeed > -100.0f && boxFeet.getPosition().y > floor->getRenderer().getPosition().y - floor->getRenderer().getGlobalBounds().height / 2.0f &&
 			boxFeet.getPosition().y - boxFeet.getSize().y < floor->getRenderer().getPosition().y + floor->getRenderer().getGlobalBounds().height / 2.0f &&
 			boxFeet.getPosition().x + boxFeet.getSize().x / 2.0f > floor->getRenderer().getPosition().x - floor->getRenderer().getGlobalBounds().width / 2.0f &&
 			boxFeet.getPosition().x - boxFeet.getSize().x / 2.0f < floor->getRenderer().getPosition().x + floor->getRenderer().getGlobalBounds().width / 2.0f;

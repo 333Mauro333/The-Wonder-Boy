@@ -66,7 +66,7 @@ namespace the_wonder_boy
 			floorX += 64;
 			if (i != 0 && i % 10 == 0)
 			{
-				floorY -= 100;
+				floorY -= 180;
 			}
 		}
 
