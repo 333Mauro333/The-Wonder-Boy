@@ -20,7 +20,7 @@ namespace the_wonder_boy
 		renderer.setPosition(x, y);
 
 		gravity.actualSpeed = 0.0f;
-		gravity.acceleration = 3750.0f;
+		gravity.acceleration = 3750.0f; // 3750.0f
 		gravity.speedLimit = 1000.0f;
 		gravity.onTheFloor = false;
 
@@ -80,6 +80,17 @@ namespace the_wonder_boy
 		gravity.onTheFloor = true;
 		gravity.actualSpeed = 0.0f;
 		setPosition(Vector2f(renderer.getPosition().x, floor->getRenderer().getPosition().y - floor->getRenderer().getGlobalBounds().height / 2.0f));
+
+		// Se establece a la animacion correspondiente.
+		if (animationState == ANIMATION_STATE::JUMPING_RIGHT)
+		{
+			animationState = ANIMATION_STATE::IDLE_RIGHT;
+		}
+		else if (animationState == ANIMATION_STATE::JUMPING_LEFT)
+		{
+			animationState = ANIMATION_STATE::IDLE_LEFT;
+		}
+		accommodateAnimations();
 	}
 	Vector2f Player::getPosition()
 	{
@@ -256,6 +267,58 @@ namespace the_wonder_boy
 		left = 0;
 
 		#pragma endregion
+
+		#pragma region SALTANDO HACIA LA DERECHA
+
+		frameWidth = 83;
+		frameHeight = 126;
+		frameDuration = 1.0f;
+
+		if (!texJumpingRight.loadFromFile("res/sprites/player/jumping_right.png"))
+		{
+			cout << "La textura jumping_right.png no se ha cargado.\n";
+		}
+		spriteLoader.setTexture(texJumpingRight);
+		spriteLoader.setOrigin(frameWidth / 2.0f - 10.0f, frameHeight);
+		spriteLoader.setPosition(x, y);
+		animJumpingRight = new Animation(spriteLoader, ANIMATION_MODE::ONCE);
+		for (int i = 0; i < 1; i++)
+		{
+			IntRect intRect = IntRect(left, 0, frameWidth, frameHeight);
+			Frame* frame = new Frame(intRect, frameDuration);
+
+			animJumpingRight->addFrame(frame);
+			left += frameWidth;
+		}
+		left = 0;
+
+		#pragma endregion
+
+		#pragma region SALTANDO HACIA LA IZQUIERDA
+
+		frameWidth = 83;
+		frameHeight = 126;
+		frameDuration = 1.0f;
+
+		if (!texJumpingLeft.loadFromFile("res/sprites/player/jumping_left.png"))
+		{
+			cout << "La textura jumping_left.png no se ha cargado.\n";
+		}
+		spriteLoader.setTexture(texJumpingLeft);
+		spriteLoader.setOrigin(frameWidth / 2.0f + 10.0f, frameHeight);
+		spriteLoader.setPosition(x, y);
+		animJumpingLeft = new Animation(spriteLoader, ANIMATION_MODE::ONCE);
+		for (int i = 0; i < 1; i++)
+		{
+			IntRect intRect = IntRect(left, 0, frameWidth, frameHeight);
+			Frame* frame = new Frame(intRect, frameDuration);
+
+			animJumpingLeft->addFrame(frame);
+			left += frameWidth;
+		}
+		left = 0;
+
+		#pragma endregion
 	}
 	void Player::updateAnimations(float deltaTime)
 	{
@@ -280,6 +343,16 @@ namespace the_wonder_boy
 			animWalkingLeft->target.setPosition(renderer.getPosition().x, renderer.getPosition().y);
 			animWalkingLeft->update(deltaTime);
 			break;
+
+		case ANIMATION_STATE::JUMPING_RIGHT:
+			animJumpingRight->target.setPosition(renderer.getPosition().x, renderer.getPosition().y);
+			animJumpingRight->update(deltaTime);
+			break;
+
+		case ANIMATION_STATE::JUMPING_LEFT:
+			animJumpingLeft->target.setPosition(renderer.getPosition().x, renderer.getPosition().y);
+			animJumpingLeft->update(deltaTime);
+			break;
 		}
 	}
 	void Player::drawAnimations(RenderWindow* window)
@@ -301,6 +374,14 @@ namespace the_wonder_boy
 
 		case ANIMATION_STATE::WALKING_LEFT:
 			window->draw(animWalkingLeft->target);
+			break;
+
+		case ANIMATION_STATE::JUMPING_RIGHT:
+			window->draw(animJumpingRight->target);
+			break;
+
+		case ANIMATION_STATE::JUMPING_LEFT:
+			window->draw(animJumpingLeft->target);
 			break;
 		}
 	}
@@ -328,18 +409,21 @@ namespace the_wonder_boy
 			}
 			else // Si está en el aire...
 			{
-				if (animationState == ANIMATION_STATE::WALKING_RIGHT) // Si su animación va para la derecha...
+				if (!Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayRight)))
 				{
-					animationState = ANIMATION_STATE::WALKING_LEFT; // Gira hacia la izquierda
+					if (animationState == ANIMATION_STATE::JUMPING_RIGHT) // Si su animación va para la derecha...
+					{
+						animationState = ANIMATION_STATE::JUMPING_LEFT; // Gira hacia la izquierda
 
-					if (walkingSpeed.actualSpeed > 0.0f) // Si su velocidad es positiva (hacia la derecha)
-					{
-						walkingSpeed.actualSpeed /= modifier; // Se resta un poquito.
-					}
-					else if (walkingSpeed.actualSpeed < 0.0f) // Si su velocidad es negativa (hacia la izquierda)
-					{
-						// Va un poco más para la izquierda, siempre y cuando no exceda su límite de velocidad.
-						walkingSpeed.actualSpeed = (walkingSpeed.actualSpeed * modifier < -walkingSpeed.speedLimit) ? -walkingSpeed.speedLimit : walkingSpeed.actualSpeed * modifier;
+						if (walkingSpeed.actualSpeed > 0.0f) // Si su velocidad es positiva (hacia la derecha)
+						{
+							walkingSpeed.actualSpeed /= modifier; // Se resta un poquito.
+						}
+						else if (walkingSpeed.actualSpeed < 0.0f) // Si su velocidad es negativa (hacia la izquierda)
+						{
+							// Va un poco más para la izquierda, siempre y cuando no exceda su límite de velocidad.
+							walkingSpeed.actualSpeed = (walkingSpeed.actualSpeed * modifier < -walkingSpeed.speedLimit) ? -walkingSpeed.speedLimit : walkingSpeed.actualSpeed * modifier;
+						}
 					}
 				}
 			}
@@ -363,18 +447,21 @@ namespace the_wonder_boy
 			}
 			else
 			{
-				if (animationState == ANIMATION_STATE::WALKING_LEFT) // Si su animación va para la izquierda...
+				if (!Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayLeft)))
 				{
-					animationState = ANIMATION_STATE::WALKING_RIGHT;
+					if (animationState == ANIMATION_STATE::JUMPING_LEFT) // Si su animación va para la izquierda...
+					{
+						animationState = ANIMATION_STATE::JUMPING_RIGHT;
 
-					if (walkingSpeed.actualSpeed < 0.0f) // Si su velocidad es negativa (hacia la izquierda)
-					{
-						walkingSpeed.actualSpeed /= modifier; // Se resta un poquito.
-					}
-					else if (walkingSpeed.actualSpeed > 0.0f) // Si su velocidad es positiva (hacia la derecha)
-					{
-						// Va un poco más para la derecha, siempre y cuando no exceda su límite de velocidad.
-						walkingSpeed.actualSpeed = (walkingSpeed.actualSpeed > walkingSpeed.actualSpeed * modifier) ? walkingSpeed.speedLimit : walkingSpeed.actualSpeed * modifier;
+						if (walkingSpeed.actualSpeed < 0.0f) // Si su velocidad es negativa (hacia la izquierda)
+						{
+							walkingSpeed.actualSpeed /= modifier; // Se resta un poquito.
+						}
+						else if (walkingSpeed.actualSpeed > 0.0f) // Si su velocidad es positiva (hacia la derecha)
+						{
+							// Va un poco más para la derecha, siempre y cuando no exceda su límite de velocidad.
+							walkingSpeed.actualSpeed = (walkingSpeed.actualSpeed > walkingSpeed.actualSpeed * modifier) ? walkingSpeed.speedLimit : walkingSpeed.actualSpeed * modifier;
+						}
 					}
 				}
 			}
@@ -398,17 +485,21 @@ namespace the_wonder_boy
 	{
 		const float multipler = 1.5f;
 
-		// Si no está caminando para ninguno de los dos lados...
-		if (gravity.onTheFloor && (bothSidesPressed()) || noSidePressed())
+		// Si está sobre el piso...
+		if (gravity.onTheFloor)
 		{
-			// Si está yendo para la derecha...
-			if (walkingSpeed.actualSpeed > 0.0f)
+			// Si no está caminando para ninguno de los dos lados...
+			if (bothSidesPressed() || noSidePressed())
 			{
-				walkingSpeed.actualSpeed = (walkingSpeed.actualSpeed > walkingSpeed.acceleration * deltaTime) ? walkingSpeed.actualSpeed - walkingSpeed.acceleration * deltaTime : 0.0f;
-			}
-			else if (walkingSpeed.actualSpeed < 0.0f)
-			{
-				walkingSpeed.actualSpeed = (walkingSpeed.actualSpeed < -walkingSpeed.acceleration * deltaTime) ? walkingSpeed.actualSpeed + walkingSpeed.acceleration * deltaTime : 0.0f;
+				// Si está yendo para la derecha...
+				if (walkingSpeed.actualSpeed > 0.0f)
+				{
+					walkingSpeed.actualSpeed = (walkingSpeed.actualSpeed > walkingSpeed.acceleration * deltaTime) ? walkingSpeed.actualSpeed - walkingSpeed.acceleration * deltaTime : 0.0f;
+				}
+				else if (walkingSpeed.actualSpeed < 0.0f)
+				{
+					walkingSpeed.actualSpeed = (walkingSpeed.actualSpeed < -walkingSpeed.acceleration * deltaTime) ? walkingSpeed.actualSpeed + walkingSpeed.acceleration * deltaTime : 0.0f;
+				}
 			}
 		}
 
@@ -443,9 +534,6 @@ namespace the_wonder_boy
 	}
 	void Player::jump(bool high)
 	{
-		const float forceJump = 1400.0f;
-
-
 		if (high)
 		{
 			gravity.actualSpeed = -forceJump;
@@ -456,6 +544,15 @@ namespace the_wonder_boy
 		{
 			gravity.actualSpeed = -forceJump / 1.25f;
 			cout << "Salto debil.\n";
+		}
+
+		if (animationState == ANIMATION_STATE::IDLE_RIGHT || animationState == ANIMATION_STATE::WALKING_RIGHT)
+		{
+			animationState = ANIMATION_STATE::JUMPING_RIGHT;
+		}
+		else if (animationState == ANIMATION_STATE::IDLE_LEFT || animationState == ANIMATION_STATE::WALKING_LEFT)
+		{
+			animationState = ANIMATION_STATE::JUMPING_LEFT;
 		}
 
 		gravity.onTheFloor = false;

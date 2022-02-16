@@ -58,15 +58,15 @@ namespace the_wonder_boy
 		// Se hacen conversiones de datos para evitar advertencias de Visual Studio.
 		player = new Player(static_cast<float>(window->getSize().x / 2), static_cast<float>(window->getSize().y / 4.0f * 3.0f));
 
-		float aux = 0;
-		float aux2 = window->getSize().y / 4.0f * 3.5f;
+		float floorX = 0;
+		float floorY = window->getSize().y / 4.0f * 3.5f;
 		for (int i = 0; i < floorSize; i++)
 		{
-			floor[i] = new Floor(aux, aux2);
-			aux += 64;
+			floor[i] = new Floor(floorX, floorY);
+			floorX += 64;
 			if (i != 0 && i % 10 == 0)
 			{
-				aux2 -= 100;
+				floorY -= 100;
 			}
 		}
 
