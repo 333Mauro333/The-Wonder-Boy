@@ -36,7 +36,6 @@ namespace the_wonder_boy
 
 		void update(float deltaTime);
 		void draw(RenderWindow* window);
-		void keyPressed(float deltaTime); // Realiza acciones según qué tecla esté presionada.
 		bool isCollidingWith(Floor* floor); // Responde a si el jugador está pisando el piso.
 		void collisionWith(Floor* floor); // Reacciona ante una colisión con el piso.
 		Vector2f getPosition();
@@ -45,25 +44,27 @@ namespace the_wonder_boy
 		void keyPressedOnce(Keyboard::Key key);
 
 	private:
-		ANIMATION_STATE animationState; // Enumerador de animaciones para asignar valores.
 		Texture texIdleRight;
 		Texture texIdleLeft;
-		Sprite spriteLoader; // Variable para cargar sprites.
 
 		RectangleShape boxEntire; // Caja de colisión (todo el personaje).
 		RectangleShape boxFeet; // Caja de colisión (pies).
 
+		Sprite spriteLoader; // Variable para cargar sprites.
 		Sprite renderer; // Sprite "central", el que todas las animaciones van a tener como base.
 		GRAVITY gravity; // Estructura con valores de gravedad.
 		WALKING_ACCELERATION walkingSpeed; // Estructura con valores para la aceleración al caminar.
 
+		ANIMATION_STATE animationState; // Enumerador de animaciones para asignar valores.
 		Animation* animIdleRight; // Animación parado mirando hacia la derecha.
 		Animation* animIdleLeft; // Animación parado mirando hacia la izquierda.
 
-		void gravityForce(float deltaTime);
-		void walkingAccelerationForce(float deltaTime);
 		void initAnimations(float x, float y);
 		void updateAnimations(float deltaTime);
+		void drawAnimations(RenderWindow* window);
+		void keyPressed(float deltaTime); // Realiza acciones según qué tecla esté presionada.
+		void gravityForce(float deltaTime);
+		void walkingAccelerationForce(float deltaTime);
 		void accommodateAnimations();
 		void move(DIRECTION direction, float deltaTime);
 		void jump(bool high);
