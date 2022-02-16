@@ -15,7 +15,7 @@ using sf::View;
 using sf::RectangleShape;
 
 
-enum class ANIMATION_STATE { IDLE_RIGHT, IDLE_LEFT };
+enum class ANIMATION_STATE { IDLE_RIGHT, IDLE_LEFT, WALKING_RIGHT, WALKING_LEFT };
 enum class BOX_COLLISION_TYPE { ENTIRE, FEET };
 enum class DIRECTION { LEFT, RIGHT };
 
@@ -46,6 +46,8 @@ namespace the_wonder_boy
 	private:
 		Texture texIdleRight;
 		Texture texIdleLeft;
+		Texture texWalkingRight;
+		Texture texWalkingLeft;
 
 		RectangleShape boxEntire; // Caja de colisión (todo el personaje).
 		RectangleShape boxFeet; // Caja de colisión (pies).
@@ -58,6 +60,8 @@ namespace the_wonder_boy
 		ANIMATION_STATE animationState; // Enumerador de animaciones para asignar valores.
 		Animation* animIdleRight; // Animación parado mirando hacia la derecha.
 		Animation* animIdleLeft; // Animación parado mirando hacia la izquierda.
+		Animation* animWalkingRight; // Animación caminando hacia la derecha.
+		Animation* animWalkingLeft; // Animación caminando hacia la izquierda.
 
 		void initAnimations(float x, float y);
 		void updateAnimations(float deltaTime);

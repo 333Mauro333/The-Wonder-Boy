@@ -136,7 +136,7 @@ namespace the_wonder_boy
 			cout << "La textura idle_right.png no se ha cargado.\n";
 		}
 		spriteLoader.setTexture(texIdleRight);
-		spriteLoader.setOrigin(33, 126);
+		spriteLoader.setOrigin(33.0f, 126.0f);
 		spriteLoader.setPosition(x, y);
 		animIdleRight = new Animation(spriteLoader, ANIMATION_MODE::LOOP);
 		for (int i = 0; i < 2; i++)
@@ -158,7 +158,7 @@ namespace the_wonder_boy
 			cout << "La textura idle_left.png no se ha cargado.\n";
 		}
 		spriteLoader.setTexture(texIdleLeft);
-		spriteLoader.setOrigin(33, 126);
+		spriteLoader.setOrigin(33.0f, 126.0f);
 		spriteLoader.setPosition(x, y);
 		animIdleLeft = new Animation(spriteLoader, ANIMATION_MODE::LOOP);
 		for (int i = 0; i < 2; i++)
@@ -168,6 +168,50 @@ namespace the_wonder_boy
 
 			animIdleLeft->addFrame(frame);
 			left += 67;
+		}
+		left = 0;
+
+		#pragma endregion
+
+		#pragma region CAMINANDO HACIA LA DERECHA
+
+		if (!texWalkingRight.loadFromFile("res/sprites/player/walking_right.png"))
+		{
+			cout << "La textura walking_right.png no se ha cargado.\n";
+		}
+		spriteLoader.setTexture(texWalkingRight);
+		spriteLoader.setOrigin(31.0f, 126.0f); // x: 41.0f
+		spriteLoader.setPosition(x, y);
+		animWalkingRight = new Animation(spriteLoader, ANIMATION_MODE::LOOP);
+		for (int i = 0; i < 4; i++)
+		{
+			IntRect intRect = IntRect(left, 0, 83, 126);
+			Frame* frame = new Frame(intRect, 0.075f);
+
+			animWalkingRight->addFrame(frame);
+			left += 83;
+		}
+		left = 0;
+
+		#pragma endregion
+
+		#pragma region CAMINANDO HACIA LA IZQUIERDA
+
+		if (!texWalkingLeft.loadFromFile("res/sprites/player/walking_left.png"))
+		{
+			cout << "La textura walking_left.png no se ha cargado.\n";
+		}
+		spriteLoader.setTexture(texWalkingLeft);
+		spriteLoader.setOrigin(51.0f, 126.0f);
+		spriteLoader.setPosition(x, y);
+		animWalkingLeft = new Animation(spriteLoader, ANIMATION_MODE::LOOP);
+		for (int i = 0; i < 4; i++)
+		{
+			IntRect intRect = IntRect(left, 0, 83, 126);
+			Frame* frame = new Frame(intRect, 0.075f);
+
+			animWalkingLeft->addFrame(frame);
+			left += 83;
 		}
 		left = 0;
 
@@ -186,6 +230,16 @@ namespace the_wonder_boy
 			animIdleLeft->target.setPosition(renderer.getPosition().x, renderer.getPosition().y);
 			animIdleLeft->update(deltaTime);
 			break;
+
+		case ANIMATION_STATE::WALKING_RIGHT:
+			animWalkingRight->target.setPosition(renderer.getPosition().x, renderer.getPosition().y);
+			animWalkingRight->update(deltaTime);
+			break;
+
+		case ANIMATION_STATE::WALKING_LEFT:
+			animWalkingLeft->target.setPosition(renderer.getPosition().x, renderer.getPosition().y);
+			animWalkingLeft->update(deltaTime);
+			break;
 		}
 	}
 	void Player::drawAnimations(RenderWindow* window)
@@ -200,6 +254,14 @@ namespace the_wonder_boy
 		case ANIMATION_STATE::IDLE_LEFT:
 			window->draw(animIdleLeft->target);
 			break;
+
+		case ANIMATION_STATE::WALKING_RIGHT:
+			window->draw(animWalkingRight->target);
+			break;
+
+		case ANIMATION_STATE::WALKING_LEFT:
+			window->draw(animWalkingLeft->target);
+			break;
 		}
 	}
 	void Player::keyPressed(float deltaTime)
@@ -212,13 +274,13 @@ namespace the_wonder_boy
 			if (gravity.onTheFloor) // Si está en el piso...
 			{
 				move(DIRECTION::LEFT, deltaTime);
-				animationState = ANIMATION_STATE::IDLE_LEFT;
+				animationState = ANIMATION_STATE::WALKING_LEFT;
 			}
 			else // Si está en el aire...
 			{
-				if (animationState == ANIMATION_STATE::IDLE_RIGHT) // Si su animación va para la derecha...
+				if (animationState == ANIMATION_STATE::WALKING_RIGHT) // Si su animación va para la derecha...
 				{
-					animationState = ANIMATION_STATE::IDLE_LEFT; // Gira hacia la izquierda
+					animationState = ANIMATION_STATE::WALKING_LEFT; // Gira hacia la izquierda
 
 					if (walkingSpeed.actualSpeed > 0.0f) // Si su velocidad es positiva (hacia la derecha)
 					{
@@ -237,13 +299,13 @@ namespace the_wonder_boy
 			if (gravity.onTheFloor)
 			{
 				move(DIRECTION::RIGHT, deltaTime);
-				animationState = ANIMATION_STATE::IDLE_RIGHT;
+				animationState = ANIMATION_STATE::WALKING_RIGHT;
 			}
 			else
 			{
-				if (animationState == ANIMATION_STATE::IDLE_LEFT) // Si su animación va para la izquierda...
+				if (animationState == ANIMATION_STATE::WALKING_LEFT) // Si su animación va para la izquierda...
 				{
-					animationState = ANIMATION_STATE::IDLE_RIGHT;
+					animationState = ANIMATION_STATE::WALKING_RIGHT;
 
 					if (walkingSpeed.actualSpeed < 0.0f) // Si su velocidad es negativa (hacia la izquierda)
 					{
