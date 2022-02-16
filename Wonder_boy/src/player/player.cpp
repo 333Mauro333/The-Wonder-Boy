@@ -163,6 +163,7 @@ namespace the_wonder_boy
 		int frameWidth = 0;
 		int frameHeight = 0;
 		float frameDuration = 0.0f;
+		int amountOfFrames = 0;
 
 
 		#pragma region PARADO HACIA LA DERECHA
@@ -170,6 +171,7 @@ namespace the_wonder_boy
 		frameWidth = 67;
 		frameHeight = 126;
 		frameDuration = 0.1f;
+		amountOfFrames = 2;
 
 		if (!texIdleRight.loadFromFile("res/sprites/player/idle_right.png"))
 		{
@@ -179,7 +181,7 @@ namespace the_wonder_boy
 		spriteLoader.setOrigin(frameWidth / 2.0f, frameHeight);
 		spriteLoader.setPosition(x, y);
 		animIdleRight = new Animation(spriteLoader, ANIMATION_MODE::LOOP);
-		for (int i = 0; i < 2; i++)
+		for (int i = 0; i < amountOfFrames; i++)
 		{
 			IntRect intRect = IntRect(left, 0, frameWidth, frameHeight);
 			Frame* frame = new Frame(intRect, frameDuration);
@@ -196,6 +198,7 @@ namespace the_wonder_boy
 		frameWidth = 67;
 		frameHeight = 126;
 		frameDuration = 0.1f;
+		amountOfFrames = 2;
 
 		if (!texIdleLeft.loadFromFile("res/sprites/player/idle_left.png"))
 		{
@@ -205,7 +208,7 @@ namespace the_wonder_boy
 		spriteLoader.setOrigin(frameWidth / 2.0f, frameHeight);
 		spriteLoader.setPosition(x, y);
 		animIdleLeft = new Animation(spriteLoader, ANIMATION_MODE::LOOP);
-		for (int i = 0; i < 2; i++)
+		for (int i = 0; i < amountOfFrames; i++)
 		{
 			IntRect intRect = IntRect(left, 0, frameWidth, frameHeight);
 			Frame* frame = new Frame(intRect, frameDuration);
@@ -222,6 +225,7 @@ namespace the_wonder_boy
 		frameWidth = 83;
 		frameHeight = 126;
 		frameDuration = 0.075f;
+		amountOfFrames = 4;
 
 		if (!texWalkingRight.loadFromFile("res/sprites/player/walking_right.png"))
 		{
@@ -231,7 +235,7 @@ namespace the_wonder_boy
 		spriteLoader.setOrigin(frameWidth / 2.0f - 10.0f, frameHeight);
 		spriteLoader.setPosition(x, y);
 		animWalkingRight = new Animation(spriteLoader, ANIMATION_MODE::LOOP);
-		for (int i = 0; i < 4; i++)
+		for (int i = 0; i < amountOfFrames; i++)
 		{
 			IntRect intRect = IntRect(left, 0, frameWidth, frameHeight);
 			Frame* frame = new Frame(intRect, frameDuration);
@@ -247,6 +251,8 @@ namespace the_wonder_boy
 
 		frameWidth = 83;
 		frameHeight = 126;
+		frameDuration = 0.075f;
+		amountOfFrames = 4;
 
 		if (!texWalkingLeft.loadFromFile("res/sprites/player/walking_left.png"))
 		{
@@ -273,6 +279,7 @@ namespace the_wonder_boy
 		frameWidth = 83;
 		frameHeight = 126;
 		frameDuration = 1.0f;
+		amountOfFrames = 1;
 
 		if (!texJumpingRight.loadFromFile("res/sprites/player/jumping_right.png"))
 		{
@@ -282,7 +289,7 @@ namespace the_wonder_boy
 		spriteLoader.setOrigin(frameWidth / 2.0f - 10.0f, frameHeight);
 		spriteLoader.setPosition(x, y);
 		animJumpingRight = new Animation(spriteLoader, ANIMATION_MODE::ONCE);
-		for (int i = 0; i < 1; i++)
+		for (int i = 0; i < amountOfFrames; i++)
 		{
 			IntRect intRect = IntRect(left, 0, frameWidth, frameHeight);
 			Frame* frame = new Frame(intRect, frameDuration);
@@ -299,6 +306,7 @@ namespace the_wonder_boy
 		frameWidth = 83;
 		frameHeight = 126;
 		frameDuration = 1.0f;
+		amountOfFrames = 1;
 
 		if (!texJumpingLeft.loadFromFile("res/sprites/player/jumping_left.png"))
 		{
@@ -308,7 +316,7 @@ namespace the_wonder_boy
 		spriteLoader.setOrigin(frameWidth / 2.0f + 10.0f, frameHeight);
 		spriteLoader.setPosition(x, y);
 		animJumpingLeft = new Animation(spriteLoader, ANIMATION_MODE::ONCE);
-		for (int i = 0; i < 1; i++)
+		for (int i = 0; i < amountOfFrames; i++)
 		{
 			IntRect intRect = IntRect(left, 0, frameWidth, frameHeight);
 			Frame* frame = new Frame(intRect, frameDuration);
