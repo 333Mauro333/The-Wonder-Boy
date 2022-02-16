@@ -28,6 +28,7 @@ namespace the_wonder_boy
 		cout << "El game manager ha sido eliminado de la memoria.\n\n";
 	}
 
+	// Funciones públicas.
 	void GameManager::run()
 	{
 		init(); // Inicializa todo.
@@ -56,7 +57,7 @@ namespace the_wonder_boy
 		windowSize = { static_cast<unsigned int>(width), static_cast<unsigned int>(height) };
 	}
 
-
+	// Funciones privadas.
 	void GameManager::init()
 	{
 		SceneManager::loadNewScene(new LevelTest(window)); // Inicio la primera escena del juego.

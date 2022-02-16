@@ -113,10 +113,15 @@ namespace the_wonder_boy
 		{
 			if (gravity.onTheFloor) // Si está en el piso...
 			{
-				// Verifica si alguna de las teclas (IZQ, DER o ATTACK) se están presionando. Si es así, salta alto.
-				bool high = Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayRight)) ||
-					Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayAttack)) ||
-					Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayLeft));
+				// Orden de verificaciones:
+				// 1. Si la tecla de ataque está siendo presionada. Si es así, salta alto.
+				// 2. Evalúa las siguientes 2 condiciones para que pueda:
+					// a. Que no esté presionando ambos lados a la vez.
+					// b. Que esté presionando alguno.
+				bool high = Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayAttack)) ||
+					!bothSidesPressed() &&
+					(Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayLeft)) ||
+					Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayRight)));
 
 				jump(high);
 			}
@@ -290,8 +295,18 @@ namespace the_wonder_boy
 		{
 			if (gravity.onTheFloor) // Si está en el piso...
 			{
-				move(DIRECTION::LEFT, deltaTime);
-				animationState = ANIMATION_STATE::WALKING_LEFT;
+				if (!Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayRight)))
+				{
+					move(DIRECTION::LEFT, deltaTime);
+					animationState = ANIMATION_STATE::WALKING_LEFT;
+				}
+				else
+				{
+					if (animationState == ANIMATION_STATE::WALKING_LEFT)
+					{
+						animationState = ANIMATION_STATE::IDLE_LEFT;
+					}
+				}
 			}
 			else // Si está en el aire...
 			{
@@ -315,8 +330,18 @@ namespace the_wonder_boy
 		{
 			if (gravity.onTheFloor)
 			{
-				move(DIRECTION::RIGHT, deltaTime);
-				animationState = ANIMATION_STATE::WALKING_RIGHT;
+				if (!Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayLeft))) // Si NO está presionando izquierda...
+				{
+					move(DIRECTION::RIGHT, deltaTime);
+					animationState = ANIMATION_STATE::WALKING_RIGHT;
+				}
+				else // Si sí está presionando...
+				{
+					if (animationState == ANIMATION_STATE::WALKING_RIGHT) // Si se ve caminando hacia la derecha...
+					{
+						animationState = ANIMATION_STATE::IDLE_RIGHT; // Se lo ve parado.
+					}
+				}
 			}
 			else
 			{
@@ -356,7 +381,7 @@ namespace the_wonder_boy
 		const float multipler = 1.5f;
 
 		// Si no está caminando para ninguno de los dos lados...
-		if (gravity.onTheFloor && !Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayLeft)) && !Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayRight)))
+		if (gravity.onTheFloor && (bothSidesPressed()) || noSidePressed())
 		{
 			// Si está yendo para la derecha...
 			if (walkingSpeed.actualSpeed > 0.0f)
@@ -367,15 +392,13 @@ namespace the_wonder_boy
 			{
 				walkingSpeed.actualSpeed = (walkingSpeed.actualSpeed < -walkingSpeed.acceleration * deltaTime) ? walkingSpeed.actualSpeed + walkingSpeed.acceleration * deltaTime : 0.0f;
 			}
-
 		}
-		renderer.move(walkingSpeed.actualSpeed * deltaTime, 0.0f);
-		//	Si está a pie...
-		//		Si no está caminando para ninguno de los dos lados, baja a cero.
-		//		Si está en el aire, no aplica.
+
 		//	Si está en skate...
 		//		Siempre para la derecha (movimiento robótico).
 		//		Si presiona izquierda, sólo va más lento. Para adelante no hace nada.
+
+		renderer.move(walkingSpeed.actualSpeed * deltaTime, 0.0f);
 	}
 	void Player::accommodateAnimations()
 	{
@@ -418,5 +441,13 @@ namespace the_wonder_boy
 		}
 
 		gravity.onTheFloor = false;
+	}
+	bool Player::bothSidesPressed()
+	{
+		return Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayLeft)) && Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayRight));
+	}
+	bool Player::noSidePressed()
+	{
+		return !Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayLeft)) && !Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayRight));
 	}
 }

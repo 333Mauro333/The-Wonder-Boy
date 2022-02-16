@@ -73,6 +73,8 @@ namespace the_wonder_boy
 		void accommodateAnimations();
 		void move(DIRECTION direction, float deltaTime);
 		void jump(bool high);
+		bool bothSidesPressed();
+		bool noSidePressed();
 	};
 }
 
