@@ -42,6 +42,7 @@ namespace the_wonder_boy
 		RectangleShape getBoxCollision(BOX_COLLISION_TYPE boxCollisionType); // Obtiene la caja de colisión que se decida.
 		void setPosition(Vector2f position);
 		void keyPressedOnce(Keyboard::Key key);
+		void keyReleased(Keyboard::Key key);
 
 	private:
 		Texture texIdleRight;

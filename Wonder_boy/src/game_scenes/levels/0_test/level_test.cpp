@@ -50,7 +50,7 @@ namespace the_wonder_boy
 	}
 	void LevelTest::checkKeyReleased(Keyboard::Key key)
 	{
-
+		player->keyReleased(key);
 	}
 
 	void LevelTest::init()

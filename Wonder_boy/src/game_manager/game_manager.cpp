@@ -19,7 +19,7 @@ namespace the_wonder_boy
 		window = new RenderWindow(sf::VideoMode(width, height), windowTitle); // Creo la ventana.
 		windowSize = { width, height }; // Guardo el tamaño de la ventana en una variable Vector2u.
 		fps = 60;
-		window->setKeyRepeatEnabled(false);
+		window->setKeyRepeatEnabled(false); // Deshabilita el repetimiento de una tecla al mantenerse presionada.
 
 		cout << "Se ha creado un game manager.\n\n";
 	}

@@ -122,6 +122,23 @@ namespace the_wonder_boy
 			}
 		}
 	}
+	void Player::keyReleased(Keyboard::Key key)
+	{
+		if (key == GameControls::gameplayLeft)
+		{
+			if (gravity.onTheFloor)
+			{
+				animationState = ANIMATION_STATE::IDLE_LEFT;
+			}
+		}
+		if (key == GameControls::gameplayRight)
+		{
+			if (gravity.onTheFloor)
+			{
+				animationState = ANIMATION_STATE::IDLE_RIGHT;
+			}
+		}
+	}
 
 	// Funciones privadas.
 	void Player::initAnimations(float x, float y)
