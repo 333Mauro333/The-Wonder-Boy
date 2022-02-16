@@ -90,13 +90,14 @@ namespace the_wonder_boy
 		setPosition(Vector2f(renderer.getPosition().x, floor->getRenderer().getPosition().y - floor->getRenderer().getGlobalBounds().height / 2.0f));
 
 		// Se establece a la animacion correspondiente.
-		if (animationState == ANIMATION_STATE::JUMPING_RIGHT)
+
+		if (actualAnimationIs(ANIMATION_STATE::JUMPING_RIGHT))
 		{
-			animationState = ANIMATION_STATE::IDLE_RIGHT;
+			setNewAnimation(ANIMATION_STATE::IDLE_RIGHT);
 		}
-		else if (animationState == ANIMATION_STATE::JUMPING_LEFT)
+		else if (actualAnimationIs(ANIMATION_STATE::JUMPING_LEFT))
 		{
-			animationState = ANIMATION_STATE::IDLE_LEFT;
+			setNewAnimation(ANIMATION_STATE::IDLE_LEFT);
 		}
 		accommodateAnimations();
 	}
@@ -174,14 +175,14 @@ namespace the_wonder_boy
 		{
 			if (gravity.onTheFloor)
 			{
-				animationState = ANIMATION_STATE::IDLE_LEFT;
+				setNewAnimation(ANIMATION_STATE::IDLE_LEFT);
 			}
 		}
 		if (key == GameControls::gameplayRight)
 		{
 			if (gravity.onTheFloor)
 			{
-				animationState = ANIMATION_STATE::IDLE_RIGHT;
+				setNewAnimation(ANIMATION_STATE::IDLE_RIGHT);
 			}
 		}
 		if (key == GameControls::gameplayAttack)
@@ -555,26 +556,28 @@ namespace the_wonder_boy
 		if (animAttackingRight->getNumberOfFrame() == 2)
 		{
 			animAttackingRight->resetAnimation();
+
 			if (gravity.onTheFloor)
 			{
-				animationState = ANIMATION_STATE::IDLE_RIGHT;
+				setNewAnimation(ANIMATION_STATE::IDLE_RIGHT);
 			}
 			else
 			{
-				animationState = ANIMATION_STATE::JUMPING_RIGHT;
+				setNewAnimation(ANIMATION_STATE::JUMPING_RIGHT);
 			}
 		}
 
 		if (animAttackingLeft->getNumberOfFrame() == 2)
 		{
 			animAttackingLeft->resetAnimation();
+
 			if (gravity.onTheFloor)
 			{
-				animationState = ANIMATION_STATE::IDLE_LEFT;
+				setNewAnimation(ANIMATION_STATE::IDLE_LEFT);
 			}
 			else
 			{
-				animationState = ANIMATION_STATE::JUMPING_LEFT;
+				setNewAnimation(ANIMATION_STATE::JUMPING_LEFT);
 			}
 		}
 	}
@@ -590,21 +593,21 @@ namespace the_wonder_boy
 			{
 				if (!Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayRight)))
 				{
-					if (isAttacking(DIRECTION::RIGHT))
+					move(DIRECTION::LEFT, deltaTime);
+					if (actualAnimationIs(ANIMATION_STATE::ATTACKING_RIGHT))
 					{
 						animAttackingRight->resetAnimation();
 					}
-					move(DIRECTION::LEFT, deltaTime);
-					if (!isAttacking(DIRECTION::LEFT))
+					if (!actualAnimationIs(ANIMATION_STATE::ATTACKING_LEFT))
 					{
-						animationState = ANIMATION_STATE::WALKING_LEFT;
+						setNewAnimation(ANIMATION_STATE::WALKING_LEFT);
 					}
 				}
 				else
 				{
-					if (animationState == ANIMATION_STATE::WALKING_LEFT)
+					if (actualAnimationIs(ANIMATION_STATE::WALKING_LEFT))
 					{
-						animationState = ANIMATION_STATE::IDLE_LEFT;
+						setNewAnimation(animationState = ANIMATION_STATE::IDLE_LEFT);
 					}
 				}
 			}
@@ -612,9 +615,9 @@ namespace the_wonder_boy
 			{
 				if (!Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayRight)))
 				{
-					if (animationState == ANIMATION_STATE::JUMPING_RIGHT) // Si su animación va para la derecha...
+					if (actualAnimationIs(ANIMATION_STATE::JUMPING_RIGHT)) // Si su animación va para la derecha...
 					{
-						animationState = ANIMATION_STATE::JUMPING_LEFT; // Gira hacia la izquierda
+						setNewAnimation(ANIMATION_STATE::JUMPING_LEFT); // Gira hacia la izquierda
 
 						if (walkingSpeed.actualSpeed > 0.0f) // Si su velocidad es positiva (hacia la derecha)
 						{
@@ -635,21 +638,21 @@ namespace the_wonder_boy
 			{
 				if (!Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayLeft))) // Si NO está presionando izquierda...
 				{
-					if (isAttacking(DIRECTION::LEFT))
+					move(DIRECTION::RIGHT, deltaTime);
+					if (actualAnimationIs(ANIMATION_STATE::ATTACKING_LEFT))
 					{
 						animAttackingLeft->resetAnimation();
 					}
-					move(DIRECTION::RIGHT, deltaTime);
-					if (!isAttacking(DIRECTION::RIGHT))
+					if (!actualAnimationIs(ANIMATION_STATE::ATTACKING_RIGHT))
 					{
-						animationState = ANIMATION_STATE::WALKING_RIGHT;
+						setNewAnimation(ANIMATION_STATE::WALKING_RIGHT);
 					}
 				}
 				else // Si sí está presionando...
 				{
-					if (animationState == ANIMATION_STATE::WALKING_RIGHT) // Si se ve caminando hacia la derecha...
+					if (actualAnimationIs(ANIMATION_STATE::WALKING_RIGHT)) // Si se ve caminando hacia la derecha...
 					{
-						animationState = ANIMATION_STATE::IDLE_RIGHT; // Se lo ve parado.
+						setNewAnimation(ANIMATION_STATE::IDLE_RIGHT); // Se lo ve parado.
 					}
 				}
 			}
@@ -657,9 +660,9 @@ namespace the_wonder_boy
 			{
 				if (!Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayLeft)))
 				{
-					if (animationState == ANIMATION_STATE::JUMPING_LEFT) // Si su animación va para la izquierda...
+					if (actualAnimationIs(ANIMATION_STATE::JUMPING_LEFT)) // Si su animación va para la izquierda...
 					{
-						animationState = ANIMATION_STATE::JUMPING_RIGHT;
+						setNewAnimation(ANIMATION_STATE::JUMPING_RIGHT);
 
 						if (walkingSpeed.actualSpeed < 0.0f) // Si su velocidad es negativa (hacia la izquierda)
 						{
@@ -708,13 +711,14 @@ namespace the_wonder_boy
 			cout << "Salto debil.\n";
 		}
 
-		if (animationState == ANIMATION_STATE::IDLE_RIGHT || animationState == ANIMATION_STATE::WALKING_RIGHT)
+		
+		if (actualAnimationIs(ANIMATION_STATE::IDLE_RIGHT) || actualAnimationIs(ANIMATION_STATE::WALKING_RIGHT))
 		{
-			animationState = ANIMATION_STATE::JUMPING_RIGHT;
+			setNewAnimation(ANIMATION_STATE::JUMPING_RIGHT);
 		}
-		else if (animationState == ANIMATION_STATE::IDLE_LEFT || animationState == ANIMATION_STATE::WALKING_LEFT)
+		else if (actualAnimationIs(ANIMATION_STATE::IDLE_LEFT) || actualAnimationIs(ANIMATION_STATE::WALKING_LEFT))
 		{
-			animationState = ANIMATION_STATE::JUMPING_LEFT;
+			setNewAnimation(ANIMATION_STATE::JUMPING_LEFT);
 		}
 
 		gravity.onTheFloor = false;
@@ -729,7 +733,6 @@ namespace the_wonder_boy
 		gravity.actualSpeed += gravity.acceleration * deltaTime;
 
 		renderer.move(0.0f, gravity.actualSpeed * deltaTime);
-
 	}
 	void Player::walkingAccelerationForce(float deltaTime)
 	{
@@ -768,21 +771,13 @@ namespace the_wonder_boy
 	{
 		return !Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayLeft)) && !Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayRight));
 	}
-	bool Player::isAttacking(DIRECTION direction)
+
+	bool Player::actualAnimationIs(ANIMATION_STATE animation)
 	{
-		switch (direction)
-		{
-		case DIRECTION::LEFT:
-			return animationState == ANIMATION_STATE::ATTACKING_LEFT;
-			break;
-
-		case DIRECTION::RIGHT:
-			return animationState == ANIMATION_STATE::ATTACKING_RIGHT;
-			break;
-
-		default:
-			return animationState == ANIMATION_STATE::ATTACKING_RIGHT;
-			break;
-		}
+		return animationState == animation;
+	}
+	void Player::setNewAnimation(ANIMATION_STATE animation)
+	{
+		animationState = animation;
 	}
 }

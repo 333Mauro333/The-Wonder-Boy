@@ -96,7 +96,9 @@ namespace the_wonder_boy
 		
 		bool bothSidesPressed();
 		bool noSidePressed();
-		bool isAttacking(DIRECTION direction);
+
+		bool actualAnimationIs(ANIMATION_STATE animationState);
+		void setNewAnimation(ANIMATION_STATE animationState);
 	};
 }
 
