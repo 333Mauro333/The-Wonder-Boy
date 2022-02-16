@@ -28,4 +28,9 @@ namespace the_wonder_boy
 	{
 		return duration;
 	}
+
+	void Frame::setDuration(float duration)
+	{
+		this->duration = duration;
+	}
 }

@@ -65,7 +65,7 @@ namespace the_wonder_boy
 		{
 			floor[i] = new Floor(floorX, floorY);
 			floorX += 64;
-			if (i != 0 && i % 10 == 0)
+			if (i != 0 && i % 20 == 0)
 			{
 				floorY -= 180;
 			}

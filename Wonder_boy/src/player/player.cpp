@@ -9,6 +9,11 @@ using std::cout;
 
 namespace the_wonder_boy
 {
+	// Agregar la velocidad extra del jugador al presionar la tecla de ataque. Después, que pueda atacar.
+	// Luego, agregar los sprites y funcionalidades con el skate.
+	// Hacer un nivel más largo y con algunos elementos en el fondo.
+	// Agregar un menú principal para empezar a hacer interacción entre escenas.
+	// Agregar un fade entre escenas.
 	Player::Player(float x, float y) : Entity(x, y)
 	{
 		animationState = ANIMATION_STATE::IDLE_RIGHT; // Defino con qué sprite comienza.
@@ -142,6 +147,11 @@ namespace the_wonder_boy
 				jump(high);
 			}
 		}
+		if (key == GameControls::gameplayAttack)
+		{
+			setWalkingAnimationMode(SPEED::FAST);
+			walkingSpeed.speedLimit = speedLimit * 1.5f;
+		}
 	}
 	void Player::keyReleased(Keyboard::Key key)
 	{
@@ -158,6 +168,11 @@ namespace the_wonder_boy
 			{
 				animationState = ANIMATION_STATE::IDLE_RIGHT;
 			}
+		}
+		if (key == GameControls::gameplayAttack)
+		{
+			setWalkingAnimationMode(SPEED::NORMAL);
+			walkingSpeed.speedLimit = speedLimit;
 		}
 	}
 
@@ -230,7 +245,7 @@ namespace the_wonder_boy
 
 		frameWidth = 83;
 		frameHeight = 126;
-		frameDuration = 0.075f;
+		frameDuration = walkingAnimationSpeed;
 		amountOfFrames = 4;
 
 		if (!texWalkingRight.loadFromFile("res/sprites/player/walking_right.png"))
@@ -257,7 +272,7 @@ namespace the_wonder_boy
 
 		frameWidth = 83;
 		frameHeight = 126;
-		frameDuration = 0.075f;
+		frameDuration = walkingAnimationSpeed;
 		amountOfFrames = 4;
 
 		if (!texWalkingLeft.loadFromFile("res/sprites/player/walking_left.png"))
@@ -404,6 +419,35 @@ namespace the_wonder_boy
 		boxEntire.setPosition(renderer.getPosition());
 		boxFeet.setPosition(renderer.getPosition());
 		updateAnimations(0.0f);
+	}
+	void Player::setWalkingAnimationMode(SPEED speed)
+	{
+		switch (speed)
+		{
+		case SPEED::NORMAL:
+			for (int i = 0; i < animWalkingRight->getAmountOfFrames(); i++)
+			{
+				animWalkingRight->setDurationOfFrame(i, walkingAnimationSpeed);
+			}
+			for (int i = 0; i < animWalkingLeft->getAmountOfFrames(); i++)
+			{
+				animWalkingLeft->setDurationOfFrame(i, walkingAnimationSpeed);
+			}
+			break;
+
+		case SPEED::FAST:
+			float modifier = 2.5f;
+
+			for (int i = 0; i < animWalkingRight->getAmountOfFrames(); i++)
+			{
+				animWalkingRight->setDurationOfFrame(i, walkingAnimationSpeed / modifier);
+			}
+			for (int i = 0; i < animWalkingLeft->getAmountOfFrames(); i++)
+			{
+				animWalkingLeft->setDurationOfFrame(i, walkingAnimationSpeed / modifier);
+			}
+			break;
+		}
 	}
 
 	void Player::keyPressed(float deltaTime)

@@ -24,6 +24,8 @@ namespace the_wonder_boy
 		void addFrame(Frame* frame);
 		void update(float elapsed);
 		int getNumberOfFrame();
+		int getAmountOfFrames();
+		void setDurationOfFrame(int ind, float newDuration);
 
 	private:
 		vector<Frame*> frameVector;

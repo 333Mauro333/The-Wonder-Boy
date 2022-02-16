@@ -17,6 +17,8 @@ namespace the_wonder_boy
 		IntRect getRect();
 		float getDuration();
 
+		void setDuration(float duration);
+
 	private:
 		IntRect rect;
 		float duration;

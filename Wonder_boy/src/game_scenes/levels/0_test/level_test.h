@@ -25,7 +25,7 @@ namespace the_wonder_boy
 	private:
 		View view;
 		Player* player;
-		static const int floorSize = 25;
+		static const int floorSize = 50;
 		Floor* floor[floorSize];
 
 		void init() override;

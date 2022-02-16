@@ -18,6 +18,7 @@ using sf::Sprite;
 enum class ANIMATION_STATE { IDLE_RIGHT, IDLE_LEFT, WALKING_RIGHT, WALKING_LEFT, JUMPING_RIGHT, JUMPING_LEFT };
 enum class BOX_COLLISION_TYPE { ENTIRE, FEET };
 enum class DIRECTION { LEFT, RIGHT };
+enum class SPEED { NORMAL, FAST };
 
 struct WALKING_ACCELERATION
 {
@@ -71,12 +72,15 @@ namespace the_wonder_boy
 		Animation* animJumpingRight; // Animación saltando hacia la derecha.
 		Animation* animJumpingLeft; // Animación saltando hacia la izquierda.
 
+		float walkingAnimationSpeed = 0.075f;
 		float forceJump = 1400.0f;
+		float speedLimit = 500.0f;
 
 		void initAnimations(float x, float y);
 		void updateAnimations(float deltaTime);
 		void drawAnimations(RenderWindow* window);
 		void accommodateAnimations();
+		void setWalkingAnimationMode(SPEED speed);
 
 		void keyPressed(float deltaTime); // Realiza acciones según qué tecla esté presionada.
 		void move(DIRECTION direction, float deltaTime);

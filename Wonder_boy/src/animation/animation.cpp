@@ -62,4 +62,12 @@ namespace the_wonder_boy
 	{
 		return actualFrame;
 	}
+	int Animation::getAmountOfFrames()
+	{
+		return static_cast<int>(frameVector.size());
+	}
+	void Animation::setDurationOfFrame(int ind, float newDuration)
+	{
+		frameVector[ind]->setDuration(newDuration);
+	}
 }
