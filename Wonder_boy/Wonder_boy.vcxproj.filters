@@ -46,6 +46,9 @@
     <Filter Include="allFiles\src\animation\frame">
       <UniqueIdentifier>{6f0b569d-b628-4e59-a789-b6a8e573ad53}</UniqueIdentifier>
     </Filter>
+    <Filter Include="allFiles\src\game_scenes\screens\main_menu">
+      <UniqueIdentifier>{ad88c3d7-7012-49d9-a47c-28e16c840a65}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -81,6 +84,9 @@
     <ClCompile Include="src\animation\frame\frame.cpp">
       <Filter>allFiles\src\animation\frame</Filter>
     </ClCompile>
+    <ClCompile Include="src\game_scenes\screens\main_menu\main_menu.cpp">
+      <Filter>allFiles\src\game_scenes\screens\main_menu</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\entity\entity.h">
@@ -112,6 +118,9 @@
     </ClInclude>
     <ClInclude Include="src\animation\frame\frame.h">
       <Filter>allFiles\src\animation\frame</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game_scenes\screens\main_menu\main_menu.h">
+      <Filter>allFiles\src\game_scenes\screens\main_menu</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

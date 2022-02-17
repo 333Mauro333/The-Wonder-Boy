@@ -5,6 +5,7 @@
 
 #include "scene_manager/scene_manager.h"
 #include "game_scenes/levels/0_test/level_test.h"
+#include "game_scenes/screens/main_menu/main_menu.h"
 
 using std::cout;
 using sf::Event;
@@ -62,7 +63,7 @@ namespace the_wonder_boy
 	// Funciones privadas.
 	void GameManager::init()
 	{
-		SceneManager::loadNewScene(new LevelTest(window)); // Inicio la primera escena del juego.
+		SceneManager::loadNewScene(new MainMenu(window)); // Inicio la primera escena del juego.
 	}
 	void GameManager::update(float deltaTime)
 	{

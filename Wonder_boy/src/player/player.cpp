@@ -9,7 +9,8 @@ using std::cout;
 
 namespace the_wonder_boy
 {
-	// Después, que pueda atacar.
+	// Configurar lo de los .bat para que realice lo de los recursos. Mirar clases.
+	// Agregar los martillos (crear una nueva clase de este elemento).
 	// Luego, agregar los sprites y funcionalidades con el skate.
 	// Hacer un nivel más largo y con algunos elementos en el fondo.
 	// Agregar un menú principal para empezar a hacer interacción entre escenas.
