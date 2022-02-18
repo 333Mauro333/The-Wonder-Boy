@@ -2,15 +2,19 @@
 
 #include <iostream>
 
+#include "game_controls/game_controls.h"
+
 using std::cout;
 using sf::Vector2f;
 
 
 namespace the_wonder_boy
 {
-	MainMenu::MainMenu(RenderWindow* window) : Scene(window)
+	MainMenu::MainMenu(RenderWindow* window, SELECTED_OPTION selectedOption) : Scene(window)
 	{
 		cout << "Se ha creado una pantalla de menu principal.\n\n";
+
+		option = static_cast<int>(selectedOption);
 
 		init();
 	}
@@ -37,11 +41,17 @@ namespace the_wonder_boy
 		{
 			buttons[i]->draw(window);
 		}
-
 	}
 	void MainMenu::checkKeyPressedOnce(Keyboard::Key key)
 	{
-
+		if (Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::screenUp)))
+		{
+			changeOption(OPTION_DIRECTION::PREVIOUS);
+		}
+		if (Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::screenDown)))
+		{
+			changeOption(OPTION_DIRECTION::NEXT);
+		}
 	}
 	void MainMenu::checkKeyReleased(Keyboard::Key key)
 	{
@@ -68,12 +78,32 @@ namespace the_wonder_boy
 			buttons[i] = new Button(window->getSize().x / 2.0f, firstPosition, window->getSize().x / 3.0f, totalSize / (buttonsSize + 2), optionsList[i]); // Hacer una clase para el botón.
 			firstPosition += distanceBetweenButtons;
 		}
+
+		buttons[option - 1]->setSelected(true);
 	}
 	void MainMenu::destroy()
 	{
 		for (int i = 0; i < buttonsSize; i++)
 		{
 			delete buttons[i];
+		}
+	}
+
+	void MainMenu::changeOption(OPTION_DIRECTION optionDirection)
+	{
+		switch (optionDirection)
+		{
+		case OPTION_DIRECTION::PREVIOUS:
+			buttons[option - 1]->setSelected(false);
+			option = (option == 1) ? buttonsSize : --option;
+			buttons[option - 1]->setSelected(true);
+			break;
+
+		case OPTION_DIRECTION::NEXT:
+			buttons[option - 1]->setSelected(false);
+			option = (option == buttonsSize) ? 1 : ++option;
+			buttons[option - 1]->setSelected(true);
+			break;
 		}
 	}
 }

@@ -63,7 +63,7 @@ namespace the_wonder_boy
 	// Funciones privadas.
 	void GameManager::init()
 	{
-		SceneManager::loadNewScene(new MainMenu(window)); // Inicio la primera escena del juego.
+		SceneManager::loadNewScene(new MainMenu(window, SELECTED_OPTION::PLAY)); // Inicio la primera escena del juego.
 	}
 	void GameManager::update(float deltaTime)
 	{

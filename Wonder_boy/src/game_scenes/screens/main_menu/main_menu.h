@@ -8,12 +8,15 @@
 using sf::RectangleShape;
 
 
+enum class SELECTED_OPTION { PLAY = 1, OPTIONS, CREDITS, QUIT };
+enum class OPTION_DIRECTION { PREVIOUS, NEXT };
+
 namespace the_wonder_boy
 {
 	class MainMenu : public Scene
 	{
 	public:
-		MainMenu(RenderWindow* window);
+		MainMenu(RenderWindow* window, SELECTED_OPTION selectedOption);
 		~MainMenu();
 
 		void update(float deltaTime) override;
@@ -28,8 +31,12 @@ namespace the_wonder_boy
 		Button* buttons[buttonsSize];
 		string optionsList[buttonsSize];
 
+		int option;
+
 		void init() override;
 		void destroy() override;
+
+		void changeOption(OPTION_DIRECTION optionDirection);
 	};
 
 }
