@@ -60,15 +60,15 @@ namespace the_wonder_boy
 
 	void MainMenu::init()
 	{
-		int totalSize = window->getSize().y / 1.5f;
-		int firstPosition = window->getSize().y - totalSize;
-		int distanceBetweenButtons = totalSize / buttonsSize;
+		int totalSize = window->getSize().y / 1.5f; // Espacio que va a ocupar toda la lista de botones.
+		int firstPosition = window->getSize().y - totalSize; // Posición del primer botón.
+		int distanceBetweenButtons = totalSize / buttonsSize; // Diferencia de posiciones (sobre y) entre botones.
 
 
-		background = RectangleShape(static_cast<Vector2f>(window->getSize()));
-		background.setFillColor(sf::Color(0, 180, 0, 255));
+		background = RectangleShape(static_cast<Vector2f>(window->getSize())); // Fondo del menú.
+		background.setFillColor(sf::Color(0, 180, 0, 255)); // Color verde opaco.
 
-		optionsList[0] = "JUGAR";
+		optionsList[0] = "JUGAR"; // Texto que irá sobre los botones.
 		optionsList[1] = "OPCIONES";
 		optionsList[2] = "CREDITOS";
 		optionsList[3] = "SALIR";
@@ -94,15 +94,15 @@ namespace the_wonder_boy
 		switch (optionDirection)
 		{
 		case OPTION_DIRECTION::PREVIOUS:
-			buttons[option - 1]->setSelected(false);
-			option = (option == 1) ? buttonsSize : --option;
-			buttons[option - 1]->setSelected(true);
+			buttons[option - 1]->setSelected(false); // Apaga el botón sobre el que se está parado.
+			option = (option == 1) ? buttonsSize : --option; // Cambia a la opción anterior (la última si se está sobre la primera).
+			buttons[option - 1]->setSelected(true); // Se enciende el nuevo botón.
 			break;
 
 		case OPTION_DIRECTION::NEXT:
-			buttons[option - 1]->setSelected(false);
-			option = (option == buttonsSize) ? 1 : ++option;
-			buttons[option - 1]->setSelected(true);
+			buttons[option - 1]->setSelected(false); // Apaga el botón sobre el que se está parado.
+			option = (option == buttonsSize) ? 1 : ++option; // Cambia a la opción siguiente (la primera si se está sobre la última).
+			buttons[option - 1]->setSelected(true); // Se enciende el nuevo botón.
 			break;
 		}
 	}

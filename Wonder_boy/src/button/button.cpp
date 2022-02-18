@@ -11,6 +11,7 @@ namespace the_wonder_boy
 	{
 		isSelected = false;
 
+		// Carga de la imagen del botón.
 		if (!texButton.loadFromFile("res/button.png"))
 		{
 			cout << "No se pudo cargar el boton.\n";
@@ -20,6 +21,7 @@ namespace the_wonder_boy
 		sprButton.setScale(1.0f / sprButton.getGlobalBounds().width * w, 1.0f / sprButton.getGlobalBounds().height * h);
 		sprButton.setPosition(x, y);
 
+		// Carga del texto que va a ir sobre el botón.
 		if (!font.loadFromFile("res/fonts/8_bit.ttf"))
 		{
 			cout << "No se ha podido cargar la fuente de 8_bit.ttf.\n";
@@ -28,7 +30,6 @@ namespace the_wonder_boy
 		text.setString(optionName);
 		text.setFillColor(sf::Color::Black);
 		text.setCharacterSize(h / 1.6575f);
-		
 		if (text.getGlobalBounds().width < sprButton.getGlobalBounds().width)
 		{
 			text.setScale(text.getScale().x, 1.0f / sprButton.getGlobalBounds().height * h);
@@ -39,7 +40,6 @@ namespace the_wonder_boy
 			text.setOrigin(text.getGlobalBounds().width / 2.0f, text.getGlobalBounds().height / 2.0f);
 			text.setScale(1.0f / text.getGlobalBounds().width * (w - (w / 20.0f)), 1.0f / sprButton.getGlobalBounds().height * h);
 		}
-
 		text.setPosition(x, y);
 
 		cout << "Se ha creado un boton.\n\n";
@@ -63,7 +63,6 @@ namespace the_wonder_boy
 	}
 	void Button::draw(RenderWindow* window)
 	{
-		window->draw(back);
 		window->draw(sprButton);
 		window->draw(text);
 	}

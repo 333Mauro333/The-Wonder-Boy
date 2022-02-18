@@ -30,14 +30,12 @@ namespace the_wonder_boy
 		void setSelected(bool isSelected);
 
 	private:
-		RectangleShape back;
 		Texture texButton;
 		Sprite sprButton;
 		Font font;
 		Text text;
 
-		bool isSelected;
-
+		bool isSelected; // Define si el botón está seleccionado o no.
 	};
 }
 

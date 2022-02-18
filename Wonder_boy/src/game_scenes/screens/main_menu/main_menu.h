@@ -25,20 +25,19 @@ namespace the_wonder_boy
 		void checkKeyReleased(Keyboard::Key key) override;
 
 	private:
-		RectangleShape background;
+		RectangleShape background; // Rectángulo para pintar el fondo.
 
 		static const int buttonsSize = 4;
 		Button* buttons[buttonsSize];
-		string optionsList[buttonsSize];
+		string optionsList[buttonsSize]; // Lista de nombres para las opciones para facilitar la asignación en el init.
 
-		int option;
+		int option; // Número de opción actual, la cual va a definir sobre qué opción estoy parado.
 
 		void init() override;
 		void destroy() override;
 
 		void changeOption(OPTION_DIRECTION optionDirection);
 	};
-
 }
 
 #endif // !MAIN_MENU_H
