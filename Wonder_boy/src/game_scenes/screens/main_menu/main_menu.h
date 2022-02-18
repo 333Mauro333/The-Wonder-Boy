@@ -22,9 +22,8 @@ namespace the_wonder_boy
 	private:
 		RectangleShape background;
 
-		static const int buttonsSize = 5;
+		static const int buttonsSize = 4;
 		RectangleShape buttons[buttonsSize];
-		int numeros[5];
 
 		void init() override;
 		void destroy() override;
