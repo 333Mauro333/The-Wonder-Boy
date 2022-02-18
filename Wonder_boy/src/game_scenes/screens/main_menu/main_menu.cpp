@@ -32,8 +32,9 @@ namespace the_wonder_boy
 
 		for (int i = 0; i < buttonsSize; i++)
 		{
-			window->draw(buttons[i]);
+			buttons[i]->draw(window);
 		}
+
 	}
 	void MainMenu::checkKeyPressedOnce(Keyboard::Key key)
 	{
@@ -54,23 +55,22 @@ namespace the_wonder_boy
 		background = RectangleShape(static_cast<Vector2f>(window->getSize()));
 		background.setFillColor(sf::Color(0, 180, 0, 255));
 
+		optionsList[0] = "JUGAR";
+		optionsList[1] = "OPCIONES";
+		optionsList[2] = "CREDITOS";
+		optionsList[3] = "SALIR";
+
 		for (int i = 0; i < buttonsSize; i++)
 		{
-			buttons[i] = RectangleShape(Vector2f(window->getSize().x / 3.0f, totalSize / (buttonsSize + 2)));
-		}
-		for (int i = 0; i < buttonsSize; i++)
-		{
-			buttons[i].setPosition(window->getSize().x / 2.0f, firstPosition); // Hacer una clase para el botón.
+			buttons[i] = new Button(window->getSize().x / 2.0f, firstPosition, window->getSize().x / 3.0f, totalSize / (buttonsSize + 2), optionsList[i]); // Hacer una clase para el botón.
 			firstPosition += distanceBetweenButtons;
-		}
-		for (int i = 0; i < buttonsSize; i++)
-		{
-			buttons[i].setOrigin(buttons[i].getGlobalBounds().width / 2.0f, 0.0f);
-			buttons[i].setFillColor(sf::Color(255, 255, 255, 64));
 		}
 	}
 	void MainMenu::destroy()
 	{
-
+		for (int i = 0; i < buttonsSize; i++)
+		{
+			delete buttons[i];
+		}
 	}
 }

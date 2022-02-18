@@ -3,6 +3,8 @@
 
 #include "game_scenes/scene.h"
 
+#include "button/Button.h"
+
 using sf::RectangleShape;
 
 
@@ -23,7 +25,8 @@ namespace the_wonder_boy
 		RectangleShape background;
 
 		static const int buttonsSize = 4;
-		RectangleShape buttons[buttonsSize];
+		Button* buttons[buttonsSize];
+		string optionsList[buttonsSize];
 
 		void init() override;
 		void destroy() override;
