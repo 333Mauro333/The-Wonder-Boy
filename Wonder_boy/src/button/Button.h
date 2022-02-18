@@ -36,6 +36,8 @@ namespace the_wonder_boy
 		Text text;
 
 		bool isSelected; // Define si el botón está seleccionado o no.
+
+		// Probar el cambio de tamaño de los botones para remarcar la opcion seleccionada.
 	};
 }
 

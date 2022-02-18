@@ -12,9 +12,9 @@ namespace the_wonder_boy
 		isSelected = false;
 
 		// Carga de la imagen del botón.
-		if (!texButton.loadFromFile("res/button.png"))
+		if (!texButton.loadFromFile("res/sprites/scenes/main_menu/button.png"))
 		{
-			cout << "No se pudo cargar el boton.\n";
+			cout << "La textura del boton no se ha cargado.\n";
 		}
 		sprButton.setTexture(texButton);
 		sprButton.setOrigin(sprButton.getGlobalBounds().width / 2.0f, sprButton.getGlobalBounds().height / 2.0f);
