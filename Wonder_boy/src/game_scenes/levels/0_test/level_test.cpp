@@ -2,6 +2,11 @@
 
 #include <iostream>
 
+#include "game_manager/game_manager.h"
+#include "game_controls/game_controls.h"
+#include "scene_manager/scene_manager.h"
+#include "game_scenes/screens/main_menu/main_menu.h"
+
 using std::cout;
 
 
@@ -46,6 +51,14 @@ namespace the_wonder_boy
 	void LevelTest::checkKeyPressedOnce(Keyboard::Key key)
 	{
 		player->keyPressedOnce(key);
+
+		if (Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::screenReturn)))
+		{
+			view.setCenter(window->getSize().x / 2.0f, window->getSize().y / 2.0f);
+			
+			window->setView(view);
+			SceneManager::loadNewScene(new MainMenu(window, SELECTED_OPTION::PLAY));
+		}
 	}
 	void LevelTest::checkKeyReleased(Keyboard::Key key)
 	{

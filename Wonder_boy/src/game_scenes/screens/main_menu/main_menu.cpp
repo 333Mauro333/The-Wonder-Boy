@@ -3,6 +3,8 @@
 #include <iostream>
 
 #include "game_controls/game_controls.h"
+#include "scene_manager/scene_manager.h"
+#include "game_scenes/levels/0_test/level_test.h"
 
 using std::cout;
 using sf::Vector2f;
@@ -51,6 +53,24 @@ namespace the_wonder_boy
 		if (Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::screenDown)))
 		{
 			changeOption(OPTION_DIRECTION::NEXT);
+		}
+		if (Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::screenEnter)))
+		{
+			switch (option)
+			{
+			case 1:
+				SceneManager::loadNewScene(new LevelTest(window));
+				break;
+
+			case 2:
+				break;
+
+			case 3:
+				break;
+
+			case 4:
+				break;
+			}
 		}
 	}
 	void MainMenu::checkKeyReleased(Keyboard::Key key)
