@@ -24,7 +24,10 @@ namespace the_wonder_boy
 	// Funciones públicas.
 	void MainMenu::update(float deltaTime)
 	{
-
+		for (int i = 0; i < buttonsSize; i++)
+		{
+			buttons[i]->update(deltaTime);
+		}
 	}
 	void MainMenu::draw()
 	{

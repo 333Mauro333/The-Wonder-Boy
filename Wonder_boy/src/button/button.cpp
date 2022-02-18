@@ -9,6 +9,8 @@ namespace the_wonder_boy
 {
 	Button::Button(float x, float y, float w, float h, string optionName) : Entity(x, y)
 	{
+		isSelected = false;
+
 		if (!texButton.loadFromFile("res/button.png"))
 		{
 			cout << "No se pudo cargar el boton.\n";
@@ -48,10 +50,28 @@ namespace the_wonder_boy
 	}
 
 	// Funciones públicas.
+	void Button::update(float deltaTime)
+	{
+		if (isSelected)
+		{
+			sprButton.setColor(sf::Color::White);
+		}
+		else
+		{
+			sprButton.setColor(sf::Color(128, 128, 128));
+		}
+	}
 	void Button::draw(RenderWindow* window)
 	{
 		window->draw(back);
 		window->draw(sprButton);
 		window->draw(text);
 	}
+
+	void Button::setSelected(bool isSelected)
+	{
+		this->isSelected = isSelected;
+	}
+
+	// Funciones privadas
 }

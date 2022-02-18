@@ -24,7 +24,10 @@ namespace the_wonder_boy
 		Button(float x, float y, float w, float h, string optionName);
 		~Button();
 
+		void update(float deltaTime);
 		void draw(RenderWindow* window);
+
+		void setSelected(bool isSelected);
 
 	private:
 		RectangleShape back;
@@ -32,6 +35,9 @@ namespace the_wonder_boy
 		Sprite sprButton;
 		Font font;
 		Text text;
+
+		bool isSelected;
+
 	};
 }
 
