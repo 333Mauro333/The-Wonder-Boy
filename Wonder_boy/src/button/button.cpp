@@ -46,7 +46,7 @@ namespace the_wonder_boy
 	}
 	Button::~Button()
 	{
-		cout << "El boton ha sido eliminado de la memoria.\n";
+		cout << "El boton de " << text.getString().toAnsiString() << " ha sido eliminado de la memoria.\n";
 	}
 
 	// Funciones públicas.

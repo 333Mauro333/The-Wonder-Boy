@@ -69,6 +69,7 @@ namespace the_wonder_boy
 				break;
 
 			case 4:
+				window->close();
 				break;
 			}
 		}
@@ -125,5 +126,7 @@ namespace the_wonder_boy
 			buttons[option - 1]->setSelected(true); // Se enciende el nuevo botón.
 			break;
 		}
+
+		cout << "Opcion actual: " << option << ".\n";
 	}
 }
