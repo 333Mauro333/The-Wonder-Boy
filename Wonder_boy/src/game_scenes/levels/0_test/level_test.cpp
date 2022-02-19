@@ -30,7 +30,7 @@ namespace the_wonder_boy
 	{
 		player->update(deltaTime);
 
-		updateCamera();
+		updateCamera(deltaTime);
 
 		for (int i = 0; i < floorSize; i++)
 		{
@@ -51,6 +51,11 @@ namespace the_wonder_boy
 	void LevelTest::checkKeyPressedOnce(Keyboard::Key key)
 	{
 		player->keyPressedOnce(key);
+
+		if (key == Keyboard::Key::Space)
+		{
+			view.setCenter(view.getCenter().x, view.getCenter().y + 500);
+		}
 
 		if (Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::screenReturn)))
 		{
@@ -107,7 +112,17 @@ namespace the_wonder_boy
 		}
 	}
 
-	void LevelTest::updateCamera()
+	void LevelTest::moveCameraInY(float start, float end, float pixelsToMove, float deltaTime)
+	{
+		if (player->getPosition().x >= start && player->getPosition().x <= end)
+		{
+			float distanceTrayectory = end - start; // Distancia total de principio a fin.
+
+			// Movimiento total / distancia entre la que se va a mover * velocidad del jugador en cada frame.
+			view.setCenter(view.getCenter().x, view.getCenter().y + pixelsToMove / distanceTrayectory * player->getSpeed() * deltaTime);
+		}
+	}
+	void LevelTest::updateCamera(float deltaTime)
 	{
 		const float distanceToCenter = static_cast<float>(window->getSize().x) / 10.0f;
 		const float playerRightEdgePosition = player->getBoxCollision(BOX_COLLISION_TYPE::ENTIRE).getPosition().x + player->getBoxCollision(BOX_COLLISION_TYPE::ENTIRE).getSize().x / 2.0f;
@@ -117,6 +132,11 @@ namespace the_wonder_boy
 		// Si el jugador avanza lo suficiente hacia la derecha...
 		if (playerRightEdgePosition + distanceToCenter > view.getCenter().x)
 		{
+			moveCameraInY(1500.0f, 2000.0f, 500.0f, deltaTime);
+			moveCameraInY(2500.0f, 4000.0f, -500.0f, deltaTime);
+			moveCameraInY(4500.0f, 4600.0f, 200.0f, deltaTime);
+			moveCameraInY(4700.0f, 5000.0f, -200.0f, deltaTime);
+
 			// ...lo sigue la cámara.
 			view.setCenter(playerRightEdgePosition + distanceToCenter, view.getCenter().y);
 		}

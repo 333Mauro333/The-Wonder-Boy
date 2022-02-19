@@ -31,7 +31,12 @@ namespace the_wonder_boy
 		void init() override;
 		void destroy() override;
 
-		void updateCamera();
+		// Start: Posición de la escena donde la cámara va a empezar a moverse.
+		// End: Posición de la escena donde la cámara va a terminar de moverse.
+		// Distance: La cantidad total que va a moverse sobre "y" desde el comienzo hasta el final. Una cantidad negativa movería la
+		// cámara hacia arriba.
+		void moveCameraInY(float start, float end, float pixelsToMove, float deltaTime);
+		void updateCamera(float deltaTime);
 	};
 }
 

@@ -44,6 +44,7 @@ namespace the_wonder_boy
 		
 		Vector2f getPosition();
 		RectangleShape getBoxCollision(BOX_COLLISION_TYPE boxCollisionType); // Obtiene la caja de colisión que se decida.
+		float getSpeed();
 		void setPosition(Vector2f position);
 		void stopWalkSpeed();
 		

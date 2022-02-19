@@ -118,6 +118,10 @@ namespace the_wonder_boy
 			break;
 		}
 	}
+	float Player::getSpeed()
+	{
+		return walkingSpeed.actualSpeed;
+	}
 	void Player::setPosition(Vector2f position)
 	{
 		renderer.setPosition(position);
