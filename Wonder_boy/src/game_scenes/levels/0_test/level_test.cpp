@@ -115,17 +115,18 @@ namespace the_wonder_boy
 
 
 		// Si el jugador avanza lo suficiente hacia la derecha...
-		if (playerRightEdgePosition > view.getCenter().x + distanceToCenter)
+		if (playerRightEdgePosition + distanceToCenter > view.getCenter().x)
 		{
 			// ...lo sigue la cámara.
-			view.setCenter(playerRightEdgePosition - distanceToCenter, view.getCenter().y);
+			view.setCenter(playerRightEdgePosition + distanceToCenter, view.getCenter().y);
 		}
 
 		// Si el jugador choca contra el límite izquierdo de la pantalla...
 		if (playerLeftEdgePosition < view.getCenter().x - view.getSize().x / 2.0f)
 		{
-			// ...no retrocede más.
+			// ...no puede retroceder más.
 			player->setPosition(Vector2f(view.getCenter().x - view.getSize().x / 2.0f + player->getBoxCollision(BOX_COLLISION_TYPE::ENTIRE).getSize().x / 2.0f, player->getPosition().y));
+			player->stopWalkSpeed();
 		}
 
 		window->setView(view); // Se le pasa a la ventana la view actualizada.

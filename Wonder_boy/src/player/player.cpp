@@ -123,6 +123,10 @@ namespace the_wonder_boy
 		renderer.setPosition(position);
 		accommodateAnimations();
 	}
+	void Player::stopWalkSpeed()
+	{
+		walkingSpeed.actualSpeed = 0.0f;
+	}
 	
 	void Player::keyPressedOnce(Keyboard::Key key)
 	{

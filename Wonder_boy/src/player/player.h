@@ -45,6 +45,7 @@ namespace the_wonder_boy
 		Vector2f getPosition();
 		RectangleShape getBoxCollision(BOX_COLLISION_TYPE boxCollisionType); // Obtiene la caja de colisión que se decida.
 		void setPosition(Vector2f position);
+		void stopWalkSpeed();
 		
 		void keyPressedOnce(Keyboard::Key key); // Realiza acciones según qué tecla se phaya presionado en el frame actual.
 		void keyReleased(Keyboard::Key key); // Realiza acciones según qué tecla se haya levantado.
