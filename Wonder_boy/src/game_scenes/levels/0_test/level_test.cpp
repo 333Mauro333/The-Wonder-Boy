@@ -42,6 +42,7 @@ namespace the_wonder_boy
 	}
 	void LevelTest::draw()
 	{
+		window->draw(background);
 		player->draw(window);
 		for (int i = 0; i < floorSize; i++)
 		{
@@ -51,11 +52,6 @@ namespace the_wonder_boy
 	void LevelTest::checkKeyPressedOnce(Keyboard::Key key)
 	{
 		player->keyPressedOnce(key);
-
-		if (key == Keyboard::Key::Space)
-		{
-			view.setCenter(view.getCenter().x, view.getCenter().y + 500);
-		}
 
 		if (Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::screenReturn)))
 		{
@@ -74,6 +70,10 @@ namespace the_wonder_boy
 	// Funciones privadas.
 	void LevelTest::init()
 	{
+		background.setSize(static_cast<Vector2f>(window->getSize()));
+		background.setFillColor(sf::Color(128, 128, 255)); // Celeste
+		background.setOrigin(background.getGlobalBounds().width / 2.0f, background.getGlobalBounds().height / 2.0f);
+
 		// Se hacen conversiones de datos para evitar advertencias de Visual Studio.
 		player = new Player(static_cast<float>(window->getSize().x / 2), static_cast<float>(window->getSize().y / 4.0f * 3.0f));
 
@@ -154,6 +154,8 @@ namespace the_wonder_boy
 			player->setLost(true);
 			cout << "Perdio\n";
 		}
+
+		background.setPosition(view.getCenter());
 
 		window->setView(view); // Se le pasa a la ventana la view actualizada.
 	}

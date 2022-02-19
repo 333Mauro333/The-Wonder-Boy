@@ -23,6 +23,7 @@ namespace the_wonder_boy
 		void checkKeyReleased(Keyboard::Key key) override;
 
 	private:
+		RectangleShape background;
 		View view;
 		Player* player;
 		static const int floorSize = 50;
