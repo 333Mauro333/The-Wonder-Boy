@@ -77,17 +77,17 @@ namespace the_wonder_boy
 
 	bool Player::isCollidingWith(Floor* floor)
 	{
-		return	gravity.actualSpeed > -100.0f && boxFeet.getPosition().y > floor->getRenderer().getPosition().y - floor->getRenderer().getGlobalBounds().height / 2.0f &&
-			boxFeet.getPosition().y - boxFeet.getSize().y < floor->getRenderer().getPosition().y + floor->getRenderer().getGlobalBounds().height / 2.0f &&
-			boxFeet.getPosition().x + boxFeet.getSize().x / 2.0f > floor->getRenderer().getPosition().x - floor->getRenderer().getGlobalBounds().width / 2.0f &&
-			boxFeet.getPosition().x - boxFeet.getSize().x / 2.0f < floor->getRenderer().getPosition().x + floor->getRenderer().getGlobalBounds().width / 2.0f;
+		return	gravity.actualSpeed > -100.0f && boxFeet.getPosition().y > floor->getBoxCollision().getPosition().y - floor->getBoxCollision().getGlobalBounds().height / 2.0f &&
+			boxFeet.getPosition().y - boxFeet.getSize().y < floor->getBoxCollision().getPosition().y + floor->getBoxCollision().getGlobalBounds().height / 2.0f &&
+			boxFeet.getPosition().x + boxFeet.getSize().x / 2.0f > floor->getBoxCollision().getPosition().x - floor->getBoxCollision().getGlobalBounds().width / 2.0f &&
+			boxFeet.getPosition().x - boxFeet.getSize().x / 2.0f < floor->getBoxCollision().getPosition().x + floor->getBoxCollision().getGlobalBounds().width / 2.0f;
 	}
 	void Player::collisionWith(Floor* floor)
 	{
 		// Se establecen sus valores a 0 y se posiciona al personaje justo sobre el piso.
 		gravity.onTheFloor = true;
 		gravity.actualSpeed = 0.0f;
-		setPosition(Vector2f(renderer.getPosition().x, floor->getRenderer().getPosition().y - floor->getRenderer().getGlobalBounds().height / 2.0f));
+		setPosition(Vector2f(renderer.getPosition().x, floor->getBoxCollision().getPosition().y - floor->getBoxCollision().getGlobalBounds().height / 2.0f));
 
 		// Se establece a la animacion correspondiente.
 

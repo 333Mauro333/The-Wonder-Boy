@@ -7,6 +7,7 @@
 using sf::RenderWindow;
 using sf::Texture;
 using sf::Sprite;
+using sf::RectangleShape;
 
 
 namespace the_wonder_boy
@@ -19,11 +20,12 @@ namespace the_wonder_boy
 
 		void draw(RenderWindow* window);
 
-		Sprite getRenderer();
+		RectangleShape getBoxCollision();
 
 	private:
-		Texture tex_floor;
-		Sprite spr_floor;
+		Texture texFloor;
+		Sprite sprFloor;
+		RectangleShape boxCollision;
 	};
 }
 
