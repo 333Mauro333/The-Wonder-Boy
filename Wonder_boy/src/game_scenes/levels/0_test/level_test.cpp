@@ -76,12 +76,21 @@ namespace the_wonder_boy
 		float floorY = window->getSize().y / 4.0f * 3.5f;
 		for (int i = 0; i < floorSize; i++)
 		{
-			floor[i] = new Floor(floorX, floorY);
-			floorX += 64;
-			if (i != 0 && i % 20 == 0)
+			if (i == 8 || i == 10)
 			{
-				floorY -= 180;
+				floor[i] = new Floor(floorX, floorY, FLOOR_TYPE::END);
+				floorX += floor[i]->getBoxCollision().getGlobalBounds().width * 2;
 			}
+			else if (i == 9 || i == 11)
+			{
+				floor[i] = new Floor(floorX, floorY, FLOOR_TYPE::START);
+			}
+			else
+			{
+				floor[i] = new Floor(floorX, floorY, FLOOR_TYPE::NORMAL);
+			}
+
+			floorX += floor[i]->getBoxCollision().getGlobalBounds().width;
 		}
 
 		view.setSize(Vector2f(static_cast<float>(window->getSize().x), static_cast<float>(window->getSize().y)));

@@ -5,7 +5,7 @@ using the_wonder_boy::GameManager;
 
 int main()
 {
-	GameManager* gameManager = new GameManager(800, 600, "The Wonder Boy");
+	GameManager* gameManager = new GameManager(1024, 768, "The Wonder Boy");
 
 	gameManager->run();
 

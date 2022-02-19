@@ -9,11 +9,6 @@ using std::cout;
 
 namespace the_wonder_boy
 {
-	// Configurar lo de los .bat para que realice lo de los recursos. Mirar clases.
-	// Agregar los martillos (crear una nueva clase de este elemento).
-	// Luego, agregar los sprites y funcionalidades con el skate.
-	// Hacer un nivel más largo y con algunos elementos en el fondo.
-	// Agregar un fade entre escenas.
 	Player::Player(float x, float y) : Entity(x, y)
 	{
 		animationState = ANIMATION_STATE::IDLE_RIGHT; // Defino con qué sprite comienza.
@@ -77,8 +72,8 @@ namespace the_wonder_boy
 
 	bool Player::isCollidingWith(Floor* floor)
 	{
-		return	gravity.actualSpeed > -100.0f && boxFeet.getPosition().y > floor->getBoxCollision().getPosition().y - floor->getBoxCollision().getGlobalBounds().height / 2.0f &&
-			boxFeet.getPosition().y - boxFeet.getSize().y < floor->getBoxCollision().getPosition().y + floor->getBoxCollision().getGlobalBounds().height / 2.0f &&
+		return	gravity.actualSpeed > -100.0f && boxFeet.getPosition().y > floor->getBoxCollision().getPosition().y &&
+			boxFeet.getPosition().y - boxFeet.getSize().y < floor->getBoxCollision().getPosition().y + floor->getBoxCollision().getGlobalBounds().height &&
 			boxFeet.getPosition().x + boxFeet.getSize().x / 2.0f > floor->getBoxCollision().getPosition().x - floor->getBoxCollision().getGlobalBounds().width / 2.0f &&
 			boxFeet.getPosition().x - boxFeet.getSize().x / 2.0f < floor->getBoxCollision().getPosition().x + floor->getBoxCollision().getGlobalBounds().width / 2.0f;
 	}
@@ -87,10 +82,10 @@ namespace the_wonder_boy
 		// Se establecen sus valores a 0 y se posiciona al personaje justo sobre el piso.
 		gravity.onTheFloor = true;
 		gravity.actualSpeed = 0.0f;
-		setPosition(Vector2f(renderer.getPosition().x, floor->getBoxCollision().getPosition().y - floor->getBoxCollision().getGlobalBounds().height / 2.0f));
+
+		setPosition(Vector2f(renderer.getPosition().x, floor->getBoxCollision().getPosition().y));
 
 		// Se establece a la animacion correspondiente.
-
 		if (actualAnimationIs(ANIMATION_STATE::JUMPING_RIGHT))
 		{
 			setNewAnimation(ANIMATION_STATE::IDLE_RIGHT);

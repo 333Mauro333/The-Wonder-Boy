@@ -10,12 +10,14 @@ using sf::Sprite;
 using sf::RectangleShape;
 
 
+enum class FLOOR_TYPE { NORMAL, START, END };
+
 namespace the_wonder_boy
 {
 	class Floor : public Entity
 	{
 	public:
-		Floor(float x, float y);
+		Floor(float x, float y, FLOOR_TYPE floorType);
 		~Floor();
 
 		void draw(RenderWindow* window);
