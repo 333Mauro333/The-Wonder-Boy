@@ -17,6 +17,8 @@ namespace the_wonder_boy
 
 		renderer.setPosition(x, y);
 
+		lost = false;
+
 		gravity.actualSpeed = 0.0f;
 		gravity.acceleration = 3750.0f;
 		gravity.speedLimit = 1000.0f;
@@ -127,6 +129,10 @@ namespace the_wonder_boy
 		renderer.setPosition(position);
 		accommodateAnimations();
 	}
+	void Player::setLost(bool lost)
+	{
+		this->lost = lost;
+	}
 	void Player::stopWalkSpeed()
 	{
 		walkingSpeed.actualSpeed = 0.0f;
@@ -134,64 +140,70 @@ namespace the_wonder_boy
 	
 	void Player::keyPressedOnce(Keyboard::Key key)
 	{
-		if (key == GameControls::gameplayJump)
+		if (!lost)
 		{
-			if (gravity.onTheFloor) // Si está en el piso...
+			if (key == GameControls::gameplayJump)
 			{
-				// Orden de verificaciones:
-				// 1. Si la tecla de ataque está siendo presionada. Si es así, salta alto.
-				// 2. Evalúa las siguientes 2 condiciones para que pueda:
-					// a. Que no esté presionando ambos lados a la vez.
-					// b. Que esté presionando alguno.
-				bool high = Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayAttack)) ||
-					!bothSidesPressed() &&
-					(Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayLeft)) ||
-					Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayRight)));
+				if (gravity.onTheFloor) // Si está en el piso...
+				{
+					// Orden de verificaciones:
+					// 1. Si la tecla de ataque está siendo presionada. Si es así, salta alto.
+					// 2. Evalúa las siguientes 2 condiciones para que pueda:
+						// a. Que no esté presionando ambos lados a la vez.
+						// b. Que esté presionando alguno.
+					bool high = Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayAttack)) ||
+						!bothSidesPressed() &&
+						(Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayLeft)) ||
+							Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayRight)));
 
-				jump(high);
+					jump(high);
+				}
 			}
-		}
-		if (key == GameControls::gameplayAttack)
-		{
-			switch (animationState)
+			if (key == GameControls::gameplayAttack)
 			{
-			case ANIMATION_STATE::IDLE_RIGHT:
-			case ANIMATION_STATE::WALKING_RIGHT:
-			case ANIMATION_STATE::JUMPING_RIGHT:
-				animationState = ANIMATION_STATE::ATTACKING_RIGHT;
-				break;
+				switch (animationState)
+				{
+				case ANIMATION_STATE::IDLE_RIGHT:
+				case ANIMATION_STATE::WALKING_RIGHT:
+				case ANIMATION_STATE::JUMPING_RIGHT:
+					animationState = ANIMATION_STATE::ATTACKING_RIGHT;
+					break;
 
-			case ANIMATION_STATE::IDLE_LEFT:
-			case ANIMATION_STATE::WALKING_LEFT:
-			case ANIMATION_STATE::JUMPING_LEFT:
-				animationState = ANIMATION_STATE::ATTACKING_LEFT;
-				break;
+				case ANIMATION_STATE::IDLE_LEFT:
+				case ANIMATION_STATE::WALKING_LEFT:
+				case ANIMATION_STATE::JUMPING_LEFT:
+					animationState = ANIMATION_STATE::ATTACKING_LEFT;
+					break;
+				}
+
+				setWalkingAnimationMode(SPEED::FAST);
+				walkingSpeed.speedLimit = speedLimit * 1.5f;
 			}
-
-			setWalkingAnimationMode(SPEED::FAST);
-			walkingSpeed.speedLimit = speedLimit * 1.5f;
 		}
 	}
 	void Player::keyReleased(Keyboard::Key key)
 	{
-		if (key == GameControls::gameplayLeft)
+		if (!lost)
 		{
-			if (gravity.onTheFloor)
+			if (key == GameControls::gameplayLeft)
 			{
-				setNewAnimation(ANIMATION_STATE::IDLE_LEFT);
+				if (gravity.onTheFloor)
+				{
+					setNewAnimation(ANIMATION_STATE::IDLE_LEFT);
+				}
 			}
-		}
-		if (key == GameControls::gameplayRight)
-		{
-			if (gravity.onTheFloor)
+			if (key == GameControls::gameplayRight)
 			{
-				setNewAnimation(ANIMATION_STATE::IDLE_RIGHT);
+				if (gravity.onTheFloor)
+				{
+					setNewAnimation(ANIMATION_STATE::IDLE_RIGHT);
+				}
 			}
-		}
-		if (key == GameControls::gameplayAttack)
-		{
-			setWalkingAnimationMode(SPEED::NORMAL);
-			walkingSpeed.speedLimit = speedLimit;
+			if (key == GameControls::gameplayAttack)
+			{
+				setWalkingAnimationMode(SPEED::NORMAL);
+				walkingSpeed.speedLimit = speedLimit;
+			}
 		}
 	}
 
@@ -587,94 +599,97 @@ namespace the_wonder_boy
 
 	void Player::keyPressed(float deltaTime)
 	{
-		const float modifier = 1.25f; // Divide/multiplica la velocidad actual al estar en el aire.
-
-
-		if (Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayLeft)))
+		if (!lost)
 		{
-			if (gravity.onTheFloor) // Si está en el piso...
+			const float modifier = 1.25f; // Divide/multiplica la velocidad actual al estar en el aire.
+
+
+			if (Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayLeft)))
 			{
-				if (!Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayRight)))
+				if (gravity.onTheFloor) // Si está en el piso...
 				{
-					move(DIRECTION::LEFT, deltaTime);
-					if (actualAnimationIs(ANIMATION_STATE::ATTACKING_RIGHT))
+					if (!Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayRight)))
 					{
-						animAttackingRight->resetAnimation();
+						move(DIRECTION::LEFT, deltaTime);
+						if (actualAnimationIs(ANIMATION_STATE::ATTACKING_RIGHT))
+						{
+							animAttackingRight->resetAnimation();
+						}
+						if (!actualAnimationIs(ANIMATION_STATE::ATTACKING_LEFT))
+						{
+							setNewAnimation(ANIMATION_STATE::WALKING_LEFT);
+						}
 					}
-					if (!actualAnimationIs(ANIMATION_STATE::ATTACKING_LEFT))
+					else
 					{
-						setNewAnimation(ANIMATION_STATE::WALKING_LEFT);
+						if (actualAnimationIs(ANIMATION_STATE::WALKING_LEFT))
+						{
+							setNewAnimation(animationState = ANIMATION_STATE::IDLE_LEFT);
+						}
+					}
+				}
+				else // Si está en el aire...
+				{
+					if (!Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayRight)))
+					{
+						if (actualAnimationIs(ANIMATION_STATE::JUMPING_RIGHT)) // Si su animación va para la derecha...
+						{
+							setNewAnimation(ANIMATION_STATE::JUMPING_LEFT); // Gira hacia la izquierda
+
+							if (walkingSpeed.actualSpeed > 0.0f) // Si su velocidad es positiva (hacia la derecha)
+							{
+								walkingSpeed.actualSpeed /= modifier; // Se resta un poquito.
+							}
+							else if (walkingSpeed.actualSpeed < 0.0f) // Si su velocidad es negativa (hacia la izquierda)
+							{
+								// Va un poco más para la izquierda, siempre y cuando no exceda su límite de velocidad.
+								walkingSpeed.actualSpeed = (walkingSpeed.actualSpeed * modifier < -walkingSpeed.speedLimit) ? -walkingSpeed.speedLimit : walkingSpeed.actualSpeed * modifier;
+							}
+						}
+					}
+				}
+			}
+			if (Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayRight)))
+			{
+				if (gravity.onTheFloor)
+				{
+					if (!Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayLeft))) // Si NO está presionando izquierda...
+					{
+						move(DIRECTION::RIGHT, deltaTime);
+						if (actualAnimationIs(ANIMATION_STATE::ATTACKING_LEFT))
+						{
+							animAttackingLeft->resetAnimation();
+						}
+						if (!actualAnimationIs(ANIMATION_STATE::ATTACKING_RIGHT))
+						{
+							setNewAnimation(ANIMATION_STATE::WALKING_RIGHT);
+						}
+					}
+					else // Si sí está presionando...
+					{
+						if (actualAnimationIs(ANIMATION_STATE::WALKING_RIGHT)) // Si se ve caminando hacia la derecha...
+						{
+							setNewAnimation(ANIMATION_STATE::IDLE_RIGHT); // Se lo ve parado.
+						}
 					}
 				}
 				else
 				{
-					if (actualAnimationIs(ANIMATION_STATE::WALKING_LEFT))
+					if (!Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayLeft)))
 					{
-						setNewAnimation(animationState = ANIMATION_STATE::IDLE_LEFT);
-					}
-				}
-			}
-			else // Si está en el aire...
-			{
-				if (!Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayRight)))
-				{
-					if (actualAnimationIs(ANIMATION_STATE::JUMPING_RIGHT)) // Si su animación va para la derecha...
-					{
-						setNewAnimation(ANIMATION_STATE::JUMPING_LEFT); // Gira hacia la izquierda
+						if (actualAnimationIs(ANIMATION_STATE::JUMPING_LEFT)) // Si su animación va para la izquierda...
+						{
+							setNewAnimation(ANIMATION_STATE::JUMPING_RIGHT);
 
-						if (walkingSpeed.actualSpeed > 0.0f) // Si su velocidad es positiva (hacia la derecha)
-						{
-							walkingSpeed.actualSpeed /= modifier; // Se resta un poquito.
-						}
-						else if (walkingSpeed.actualSpeed < 0.0f) // Si su velocidad es negativa (hacia la izquierda)
-						{
-							// Va un poco más para la izquierda, siempre y cuando no exceda su límite de velocidad.
-							walkingSpeed.actualSpeed = (walkingSpeed.actualSpeed * modifier < -walkingSpeed.speedLimit) ? -walkingSpeed.speedLimit : walkingSpeed.actualSpeed * modifier;
-						}
-					}
-				}
-			}
-		}
-		if (Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayRight)))
-		{
-			if (gravity.onTheFloor)
-			{
-				if (!Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayLeft))) // Si NO está presionando izquierda...
-				{
-					move(DIRECTION::RIGHT, deltaTime);
-					if (actualAnimationIs(ANIMATION_STATE::ATTACKING_LEFT))
-					{
-						animAttackingLeft->resetAnimation();
-					}
-					if (!actualAnimationIs(ANIMATION_STATE::ATTACKING_RIGHT))
-					{
-						setNewAnimation(ANIMATION_STATE::WALKING_RIGHT);
-					}
-				}
-				else // Si sí está presionando...
-				{
-					if (actualAnimationIs(ANIMATION_STATE::WALKING_RIGHT)) // Si se ve caminando hacia la derecha...
-					{
-						setNewAnimation(ANIMATION_STATE::IDLE_RIGHT); // Se lo ve parado.
-					}
-				}
-			}
-			else
-			{
-				if (!Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayLeft)))
-				{
-					if (actualAnimationIs(ANIMATION_STATE::JUMPING_LEFT)) // Si su animación va para la izquierda...
-					{
-						setNewAnimation(ANIMATION_STATE::JUMPING_RIGHT);
-
-						if (walkingSpeed.actualSpeed < 0.0f) // Si su velocidad es negativa (hacia la izquierda)
-						{
-							walkingSpeed.actualSpeed /= modifier; // Se resta un poquito.
-						}
-						else if (walkingSpeed.actualSpeed > 0.0f) // Si su velocidad es positiva (hacia la derecha)
-						{
-							// Va un poco más para la derecha, siempre y cuando no exceda su límite de velocidad.
-							walkingSpeed.actualSpeed = (walkingSpeed.actualSpeed > walkingSpeed.actualSpeed * modifier) ? walkingSpeed.speedLimit : walkingSpeed.actualSpeed * modifier;
+							if (walkingSpeed.actualSpeed < 0.0f) // Si su velocidad es negativa (hacia la izquierda)
+							{
+								walkingSpeed.actualSpeed /= modifier; // Se resta un poquito.
+							}
+							else if (walkingSpeed.actualSpeed > 0.0f) // Si su velocidad es positiva (hacia la derecha)
+							{
+								// Va un poco más para la derecha, siempre y cuando no exceda su límite de velocidad.
+								walkingSpeed.actualSpeed = (walkingSpeed.actualSpeed > walkingSpeed.actualSpeed * modifier) ? walkingSpeed.speedLimit : walkingSpeed.actualSpeed * modifier;
+							}
 						}
 					}
 				}
@@ -728,42 +743,48 @@ namespace the_wonder_boy
 	}
 	void Player::gravityForce(float deltaTime)
 	{
-		if (gravity.actualSpeed > 0.0f)
+		if (!lost)
 		{
-			gravity.onTheFloor = false;
+			if (gravity.actualSpeed > 0.0f)
+			{
+				gravity.onTheFloor = false;
+			}
+
+			gravity.actualSpeed += gravity.acceleration * deltaTime;
+
+			renderer.move(0.0f, gravity.actualSpeed * deltaTime);
 		}
-
-		gravity.actualSpeed += gravity.acceleration * deltaTime;
-
-		renderer.move(0.0f, gravity.actualSpeed * deltaTime);
 	}
 	void Player::walkingAccelerationForce(float deltaTime)
 	{
-		const float multipler = 1.5f;
-
-		// Si está sobre el piso...
-		if (gravity.onTheFloor)
+		if (!lost)
 		{
-			// Si no está caminando para ninguno de los dos lados...
-			if (bothSidesPressed() || noSidePressed())
+			const float multipler = 1.5f;
+
+			// Si está sobre el piso...
+			if (gravity.onTheFloor)
 			{
-				// Si está yendo para la derecha...
-				if (walkingSpeed.actualSpeed > 0.0f)
+				// Si no está caminando para ninguno de los dos lados...
+				if (bothSidesPressed() || noSidePressed())
 				{
-					walkingSpeed.actualSpeed = (walkingSpeed.actualSpeed > walkingSpeed.acceleration * deltaTime) ? walkingSpeed.actualSpeed - walkingSpeed.acceleration * deltaTime : 0.0f;
-				}
-				else if (walkingSpeed.actualSpeed < 0.0f)
-				{
-					walkingSpeed.actualSpeed = (walkingSpeed.actualSpeed < -walkingSpeed.acceleration * deltaTime) ? walkingSpeed.actualSpeed + walkingSpeed.acceleration * deltaTime : 0.0f;
+					// Si está yendo para la derecha...
+					if (walkingSpeed.actualSpeed > 0.0f)
+					{
+						walkingSpeed.actualSpeed = (walkingSpeed.actualSpeed > walkingSpeed.acceleration * deltaTime) ? walkingSpeed.actualSpeed - walkingSpeed.acceleration * deltaTime : 0.0f;
+					}
+					else if (walkingSpeed.actualSpeed < 0.0f)
+					{
+						walkingSpeed.actualSpeed = (walkingSpeed.actualSpeed < -walkingSpeed.acceleration * deltaTime) ? walkingSpeed.actualSpeed + walkingSpeed.acceleration * deltaTime : 0.0f;
+					}
 				}
 			}
+
+			//	Si está en skate...
+			//		Siempre para la derecha (movimiento robótico).
+			//		Si presiona izquierda, sólo va más lento. Para adelante no hace nada.
+
+			renderer.move(walkingSpeed.actualSpeed * deltaTime, 0.0f);
 		}
-
-		//	Si está en skate...
-		//		Siempre para la derecha (movimiento robótico).
-		//		Si presiona izquierda, sólo va más lento. Para adelante no hace nada.
-
-		renderer.move(walkingSpeed.actualSpeed * deltaTime, 0.0f);
 	}
 	
 	bool Player::bothSidesPressed()

@@ -99,7 +99,7 @@ namespace the_wonder_boy
 		}
 
 		view.setSize(Vector2f(static_cast<float>(window->getSize().x), static_cast<float>(window->getSize().y)));
-		view.setCenter(player->getPosition().x, player->getPosition().y - 100);
+		view.setCenter(player->getPosition().x, player->getPosition().y - window->getSize().y / 8.0f);
 		window->setView(view);
 	}
 	void LevelTest::destroy()
@@ -147,6 +147,12 @@ namespace the_wonder_boy
 			// ...no puede retroceder más.
 			player->setPosition(Vector2f(view.getCenter().x - view.getSize().x / 2.0f + player->getBoxCollision(BOX_COLLISION_TYPE::ENTIRE).getSize().x / 2.0f, player->getPosition().y));
 			player->stopWalkSpeed();
+		}
+
+		if (player->getPosition().y > view.getCenter().y + view.getSize().y / 1.5f)
+		{
+			player->setLost(true);
+			cout << "Perdio\n";
 		}
 
 		window->setView(view); // Se le pasa a la ventana la view actualizada.

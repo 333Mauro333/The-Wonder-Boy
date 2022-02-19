@@ -46,6 +46,7 @@ namespace the_wonder_boy
 		RectangleShape getBoxCollision(BOX_COLLISION_TYPE boxCollisionType); // Obtiene la caja de colisión que se decida.
 		float getSpeed();
 		void setPosition(Vector2f position);
+		void setLost(bool lost);
 		void stopWalkSpeed();
 		
 		void keyPressedOnce(Keyboard::Key key); // Realiza acciones según qué tecla se phaya presionado en el frame actual.
@@ -79,8 +80,10 @@ namespace the_wonder_boy
 		Animation* animAttackingRight; // Animación atacando hacia la derecha.
 		Animation* animAttackingLeft; // Animación atacando hacia la izquierda.
 
-		float walkingAnimationSpeed = 0.075f;
+		bool lost;
+
 		float forceJump = 1400.0f;
+		float walkingAnimationSpeed = 0.075f;
 		float speedLimit = 500.0f;
 
 		void initAnimations(float x, float y);
