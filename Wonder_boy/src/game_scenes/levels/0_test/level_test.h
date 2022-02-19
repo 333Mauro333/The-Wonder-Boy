@@ -5,6 +5,7 @@
 
 #include "player/player.h"
 #include "floor/floor.h"
+#include "hud/hud.h"
 
 using sf::View;
 
@@ -26,6 +27,7 @@ namespace the_wonder_boy
 		RectangleShape background;
 		View view;
 		Player* player;
+		HUD* hud;
 		static const int floorSize = 50;
 		Floor* floor[floorSize];
 

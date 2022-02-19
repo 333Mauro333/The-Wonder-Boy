@@ -52,6 +52,9 @@
     <Filter Include="allFiles\src\button">
       <UniqueIdentifier>{daa4cedd-1b6a-47e8-9208-2a1935485941}</UniqueIdentifier>
     </Filter>
+    <Filter Include="allFiles\src\hud">
+      <UniqueIdentifier>{c95c53ef-8692-4881-91f0-77e1fb89fcaf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -93,6 +96,9 @@
     <ClCompile Include="src\button\button.cpp">
       <Filter>allFiles\src\button</Filter>
     </ClCompile>
+    <ClCompile Include="src\hud\hud.cpp">
+      <Filter>allFiles\src\hud</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\entity\entity.h">
@@ -130,6 +136,9 @@
     </ClInclude>
     <ClInclude Include="src\button\Button.h">
       <Filter>allFiles\src\button</Filter>
+    </ClInclude>
+    <ClInclude Include="src\hud\hud.h">
+      <Filter>allFiles\src\hud</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

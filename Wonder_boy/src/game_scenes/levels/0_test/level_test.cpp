@@ -32,6 +32,8 @@ namespace the_wonder_boy
 
 		updateCamera();
 
+		hud->update();
+
 		for (int i = 0; i < floorSize; i++)
 		{
 			if (player->isCollidingWith(floor[i]))
@@ -48,6 +50,7 @@ namespace the_wonder_boy
 		{
 			floor[i]->draw(window);
 		}
+		hud->draw(window);
 	}
 	void LevelTest::checkKeyPressedOnce(Keyboard::Key key)
 	{
@@ -101,15 +104,19 @@ namespace the_wonder_boy
 		view.setSize(Vector2f(static_cast<float>(window->getSize().x), static_cast<float>(window->getSize().y)));
 		view.setCenter(player->getPosition().x, player->getPosition().y - window->getSize().y / 8.0f);
 		window->setView(view);
+
+		hud = new HUD(window, player);
 	}
 	void LevelTest::destroy()
 	{
 		delete player;
+		delete hud;
 
 		for (int i = 0; i < floorSize; i++)
 		{
 			delete floor[i];
 		}
+
 	}
 
 	void LevelTest::moveCameraInY(float start, float end, float pixelsToMove)

@@ -160,6 +160,7 @@
     <ClCompile Include="src\game_scenes\levels\0_test\level_test.cpp" />
     <ClCompile Include="src\game_scenes\scene.cpp" />
     <ClCompile Include="src\game_scenes\screens\main_menu\main_menu.cpp" />
+    <ClCompile Include="src\hud\hud.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\player\player.cpp" />
     <ClCompile Include="src\scene_manager\scene_manager.cpp" />
@@ -175,6 +176,7 @@
     <ClInclude Include="src\game_scenes\levels\0_test\level_test.h" />
     <ClInclude Include="src\game_scenes\scene.h" />
     <ClInclude Include="src\game_scenes\screens\main_menu\main_menu.h" />
+    <ClInclude Include="src\hud\hud.h" />
     <ClInclude Include="src\player\player.h" />
     <ClInclude Include="src\scene_manager\scene_manager.h" />
   </ItemGroup>
