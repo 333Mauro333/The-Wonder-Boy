@@ -26,11 +26,11 @@ namespace the_wonder_boy
 	}
 
 	// Funciones públicas.
-	void LevelTest::update(float deltaTime)
+	void LevelTest::update()
 	{
-		player->update(deltaTime);
+		player->update(GameManager::getDeltaTime());
 
-		updateCamera(deltaTime);
+		updateCamera();
 
 		for (int i = 0; i < floorSize; i++)
 		{
@@ -112,17 +112,17 @@ namespace the_wonder_boy
 		}
 	}
 
-	void LevelTest::moveCameraInY(float start, float end, float pixelsToMove, float deltaTime)
+	void LevelTest::moveCameraInY(float start, float end, float pixelsToMove)
 	{
 		if (player->getPosition().x >= start && player->getPosition().x <= end)
 		{
 			float distanceTrayectory = end - start; // Distancia total de principio a fin.
 
 			// Movimiento total / distancia entre la que se va a mover * velocidad del jugador en cada frame.
-			view.setCenter(view.getCenter().x, view.getCenter().y + pixelsToMove / distanceTrayectory * player->getSpeed() * deltaTime);
+			view.setCenter(view.getCenter().x, view.getCenter().y + pixelsToMove / distanceTrayectory * player->getSpeed() * GameManager::getDeltaTime());
 		}
 	}
-	void LevelTest::updateCamera(float deltaTime)
+	void LevelTest::updateCamera()
 	{
 		const float distanceToCenter = static_cast<float>(window->getSize().x) / 10.0f;
 		const float playerRightEdgePosition = player->getBoxCollision(BOX_COLLISION_TYPE::ENTIRE).getPosition().x + player->getBoxCollision(BOX_COLLISION_TYPE::ENTIRE).getSize().x / 2.0f;
@@ -132,10 +132,10 @@ namespace the_wonder_boy
 		// Si el jugador avanza lo suficiente hacia la derecha...
 		if (playerRightEdgePosition + distanceToCenter > view.getCenter().x)
 		{
-			moveCameraInY(1500.0f, 2000.0f, 500.0f, deltaTime);
-			moveCameraInY(2500.0f, 4000.0f, -500.0f, deltaTime);
-			moveCameraInY(4500.0f, 4600.0f, 200.0f, deltaTime);
-			moveCameraInY(4700.0f, 5000.0f, -200.0f, deltaTime);
+			moveCameraInY(1500.0f, 2000.0f, 500.0f);
+			moveCameraInY(2500.0f, 4000.0f, -500.0f);
+			moveCameraInY(4500.0f, 4600.0f, 200.0f);
+			moveCameraInY(4700.0f, 5000.0f, -200.0f);
 
 			// ...lo sigue la cámara.
 			view.setCenter(playerRightEdgePosition + distanceToCenter, view.getCenter().y);

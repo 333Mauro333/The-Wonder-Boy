@@ -15,6 +15,8 @@ namespace the_wonder_boy
 {
 	Vector2u GameManager::windowSize; // Menciono la variable estática sólo para evitar un error.
 
+	float GameManager::deltaTime = 0.0f;
+
 	GameManager::GameManager(unsigned int width, unsigned int height, const std::string windowTitle)
 	{
 		window = new RenderWindow(sf::VideoMode(width, height), windowTitle); // Creo la ventana.
@@ -40,9 +42,9 @@ namespace the_wonder_boy
 		{
 			sf::Clock clock; // Se declara un reloj, cuya cuenta comienza a correr apenas se declara.
 			limitFrames(); // Función para simular un deltaTime, ya que el propio de la ventana es propenso a imprecisiones.
-			float elapsedTime = clock.getElapsedTime().asSeconds(); // Se guarda en una variable el tiempo transcurrido en el frame.
+			deltaTime = clock.getElapsedTime().asSeconds(); // Se guarda en una variable el tiempo transcurrido en el frame.
 
-			update(elapsedTime); // Actualiza usando el deltaTime.
+			update(); // Actualiza usando el deltaTime.
 
 			draw(); // Dibuja.
 		}
@@ -59,17 +61,22 @@ namespace the_wonder_boy
 		windowSize = { static_cast<unsigned int>(width), static_cast<unsigned int>(height) };
 	}
 
+	float GameManager::getDeltaTime()
+	{
+		return deltaTime;
+	}
+
 
 	// Funciones privadas.
 	void GameManager::init()
 	{
 		SceneManager::loadNewScene(new MainMenu(window, SELECTED_OPTION::PLAY)); // Inicio la primera escena del juego.
 	}
-	void GameManager::update(float deltaTime)
+	void GameManager::update()
 	{
 		checkEvents(); // Compruebo si hay eventos (cerrar la ventana, presionar una tecla, hacer click, etc).
 
-		SceneManager::getActualScene()->update(deltaTime); // Se actualiza todo lo que hay en la escena actual.
+		SceneManager::getActualScene()->update(); // Se actualiza todo lo que hay en la escena actual.
 	}
 	void GameManager::draw()
 	{

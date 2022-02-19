@@ -19,7 +19,7 @@ namespace the_wonder_boy
 		MainMenu(RenderWindow* window, SELECTED_OPTION selectedOption);
 		~MainMenu();
 
-		void update(float deltaTime) override;
+		void update() override;
 		void draw() override;
 		void checkKeyPressedOnce(Keyboard::Key key) override;
 		void checkKeyReleased(Keyboard::Key key) override;

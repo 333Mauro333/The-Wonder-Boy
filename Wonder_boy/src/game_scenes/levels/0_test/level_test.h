@@ -17,7 +17,7 @@ namespace the_wonder_boy
 		LevelTest(RenderWindow* window);
 		~LevelTest();
 
-		void update(float deltaTime) override;
+		void update() override;
 		void draw() override;
 		void checkKeyPressedOnce(Keyboard::Key key) override;
 		void checkKeyReleased(Keyboard::Key key) override;
@@ -35,8 +35,8 @@ namespace the_wonder_boy
 		// End: Posición de la escena donde la cámara va a terminar de moverse.
 		// Distance: La cantidad total que va a moverse sobre "y" desde el comienzo hasta el final. Una cantidad negativa movería la
 		// cámara hacia arriba.
-		void moveCameraInY(float start, float end, float pixelsToMove, float deltaTime);
-		void updateCamera(float deltaTime);
+		void moveCameraInY(float start, float end, float pixelsToMove);
+		void updateCamera();
 	};
 }
 

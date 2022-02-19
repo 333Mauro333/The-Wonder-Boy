@@ -23,12 +23,15 @@ namespace the_wonder_boy
 		static Vector2u getWindowSize();
 		static void setWindowSize(int width, int height);
 
+		static float getDeltaTime();
+
 	private:
 		static Vector2u windowSize;
+		static float deltaTime;
 		int fps;
 		
 		void init();
-		void update(float deltaTime);
+		void update();
 		void draw();
 		void destroy();
 

@@ -15,7 +15,7 @@ namespace the_wonder_boy
 		Scene(RenderWindow* window);
 		virtual ~Scene();
 
-		virtual void update(float deltaTime) = 0;
+		virtual void update() = 0;
 		virtual void draw() = 0;
 		virtual void checkKeyPressedOnce(Keyboard::Key key) = 0;
 		virtual void checkKeyReleased(Keyboard::Key key) = 0;

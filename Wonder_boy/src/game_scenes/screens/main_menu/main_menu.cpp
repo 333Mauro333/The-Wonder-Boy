@@ -2,6 +2,7 @@
 
 #include <iostream>
 
+#include "game_manager/game_manager.h"
 #include "game_controls/game_controls.h"
 #include "scene_manager/scene_manager.h"
 #include "game_scenes/levels/0_test/level_test.h"
@@ -28,11 +29,11 @@ namespace the_wonder_boy
 	}
 
 	// Funciones públicas.
-	void MainMenu::update(float deltaTime)
+	void MainMenu::update()
 	{
 		for (int i = 0; i < buttonsSize; i++)
 		{
-			buttons[i]->update(deltaTime);
+			buttons[i]->update(GameManager::getDeltaTime());
 		}
 	}
 	void MainMenu::draw()
