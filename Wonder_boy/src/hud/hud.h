@@ -6,7 +6,6 @@
 #include "player/player.h"
 
 using sf::RenderWindow;
-using sf::RectangleShape;
 
 
 namespace the_wonder_boy
@@ -24,7 +23,6 @@ namespace the_wonder_boy
 		RenderWindow* window;
 		RectangleShape backHud;
 		Player* player;
-
 	};
 }
 

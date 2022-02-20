@@ -13,11 +13,13 @@ namespace the_wonder_boy
 	{
 		animationState = ANIMATION_STATE::IDLE_RIGHT; // Defino con qué sprite comienza.
 
+		initSprites();
 		initAnimations(x, y);
 
 		renderer.setPosition(x, y);
 
 		lost = false;
+		health = 100.0f;
 
 		gravity.actualSpeed = 0.0f;
 		gravity.acceleration = 3750.0f;
@@ -71,73 +73,6 @@ namespace the_wonder_boy
 
 		#endif // _DEBUG
 	}
-
-	bool Player::isCollidingWith(Floor* floor)
-	{
-		return	gravity.actualSpeed > -100.0f && boxFeet.getPosition().y > floor->getBoxCollision().getPosition().y &&
-			boxFeet.getPosition().y - boxFeet.getSize().y < floor->getBoxCollision().getPosition().y + floor->getBoxCollision().getGlobalBounds().height &&
-			boxFeet.getPosition().x + boxFeet.getSize().x / 2.0f > floor->getBoxCollision().getPosition().x - floor->getBoxCollision().getGlobalBounds().width / 2.0f &&
-			boxFeet.getPosition().x - boxFeet.getSize().x / 2.0f < floor->getBoxCollision().getPosition().x + floor->getBoxCollision().getGlobalBounds().width / 2.0f;
-	}
-	void Player::collisionWith(Floor* floor)
-	{
-		// Se establecen sus valores a 0 y se posiciona al personaje justo sobre el piso.
-		gravity.onTheFloor = true;
-		gravity.actualSpeed = 0.0f;
-
-		setPosition(Vector2f(renderer.getPosition().x, floor->getBoxCollision().getPosition().y));
-
-		// Se establece a la animacion correspondiente.
-		if (actualAnimationIs(ANIMATION_STATE::JUMPING_RIGHT))
-		{
-			setNewAnimation(ANIMATION_STATE::IDLE_RIGHT);
-		}
-		else if (actualAnimationIs(ANIMATION_STATE::JUMPING_LEFT))
-		{
-			setNewAnimation(ANIMATION_STATE::IDLE_LEFT);
-		}
-		accommodateAnimations();
-	}
-
-	Vector2f Player::getPosition()
-	{
-		return renderer.getPosition();
-	}
-	RectangleShape Player::getBoxCollision(BOX_COLLISION_TYPE boxCollisionType)
-	{
-		switch (boxCollisionType)
-		{
-		case BOX_COLLISION_TYPE::ENTIRE:
-			return boxEntire;
-			break;
-
-		case BOX_COLLISION_TYPE::FEET:
-			return boxFeet;
-			break;
-
-		default:
-			return boxEntire;
-			break;
-		}
-	}
-	float Player::getSpeed()
-	{
-		return walkingSpeed.actualSpeed;
-	}
-	void Player::setPosition(Vector2f position)
-	{
-		renderer.setPosition(position);
-		accommodateAnimations();
-	}
-	void Player::setLost(bool lost)
-	{
-		this->lost = lost;
-	}
-	void Player::stopWalkSpeed()
-	{
-		walkingSpeed.actualSpeed = 0.0f;
-	}
-	
 	void Player::keyPressedOnce(Keyboard::Key key)
 	{
 		if (!lost)
@@ -207,8 +142,107 @@ namespace the_wonder_boy
 		}
 	}
 
+	bool Player::isCollidingWith(Floor* floor)
+	{
+		return	gravity.actualSpeed > -100.0f && boxFeet.getPosition().y > floor->getBoxCollision().getPosition().y &&
+			boxFeet.getPosition().y - boxFeet.getSize().y < floor->getBoxCollision().getPosition().y + floor->getBoxCollision().getGlobalBounds().height &&
+			boxFeet.getPosition().x + boxFeet.getSize().x / 2.0f > floor->getBoxCollision().getPosition().x - floor->getBoxCollision().getGlobalBounds().width / 2.0f &&
+			boxFeet.getPosition().x - boxFeet.getSize().x / 2.0f < floor->getBoxCollision().getPosition().x + floor->getBoxCollision().getGlobalBounds().width / 2.0f;
+	}
+	void Player::collisionWith(Floor* floor)
+	{
+		// Se establecen sus valores a 0 y se posiciona al personaje justo sobre el piso.
+		gravity.onTheFloor = true;
+		gravity.actualSpeed = 0.0f;
+
+		setPosition(Vector2f(renderer.getPosition().x, floor->getBoxCollision().getPosition().y));
+
+		// Se establece a la animacion correspondiente.
+		if (actualAnimationIs(ANIMATION_STATE::JUMPING_RIGHT))
+		{
+			setNewAnimation(ANIMATION_STATE::IDLE_RIGHT);
+		}
+		else if (actualAnimationIs(ANIMATION_STATE::JUMPING_LEFT))
+		{
+			setNewAnimation(ANIMATION_STATE::IDLE_LEFT);
+		}
+		accommodateAnimations();
+	}
+
+	Vector2f Player::getPosition()
+	{
+		return renderer.getPosition();
+	}
+	RectangleShape Player::getBoxCollision(BOX_COLLISION_TYPE boxCollisionType)
+	{
+		switch (boxCollisionType)
+		{
+		case BOX_COLLISION_TYPE::ENTIRE:
+			return boxEntire;
+			break;
+
+		case BOX_COLLISION_TYPE::FEET:
+			return boxFeet;
+			break;
+
+		default:
+			return boxEntire;
+			break;
+		}
+	}
+	Sprite Player::getLifeSprite()
+	{
+		return sprLife;
+	}
+	Sprite Player::getExtraLifeSprite()
+	{
+		return sprExtraLife;
+	}
+	float Player::getSpeed()
+	{
+		return walkingSpeed.actualSpeed;
+	}
+	float Player::getHealth()
+	{
+		return health;
+	}
+	void Player::setPosition(Vector2f position)
+	{
+		renderer.setPosition(position);
+		accommodateAnimations();
+	}
+	void Player::setLost(bool lost)
+	{
+		this->lost = lost;
+	}
+	void Player::stopWalkSpeed()
+	{
+		walkingSpeed.actualSpeed = 0.0f;
+	}
+	void Player::addHealth(float health)
+	{
+		const float maxHealth = 100.0f;
+
+
+		this->health = (this->health + health > maxHealth) ? maxHealth : this->health + health;
+	}
+
 
 	// Funciones privadas.
+	void Player::initSprites()
+	{
+		if (!texLife.loadFromFile("res/sprites/player/life.png"))
+		{
+			cout << "La textura life.png no se ha cargado.\n";
+		}
+		sprLife.setTexture(texLife);
+
+		if (!texExtraLife.loadFromFile("res/sprites/player/extra_life.png"))
+		{
+			cout << "La textura extra_life.png no se ha cargado.\n";
+		}
+		sprExtraLife.setTexture(texExtraLife);
+	}
 	void Player::initAnimations(float x, float y)
 	{
 		int left = 0; // Variable para agregar los frames a través del ancho del total de la imagen.

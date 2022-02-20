@@ -38,21 +38,26 @@ namespace the_wonder_boy
 
 		void update(float deltaTime);
 		void draw(RenderWindow* window);
+		void keyPressedOnce(Keyboard::Key key); // Realiza acciones según qué tecla se phaya presionado en el frame actual.
+		void keyReleased(Keyboard::Key key); // Realiza acciones según qué tecla se haya levantado.
 
 		bool isCollidingWith(Floor* floor); // Responde a si el jugador está pisando el piso.
 		void collisionWith(Floor* floor); // Reacciona ante una colisión con el piso.
 		
 		Vector2f getPosition();
 		RectangleShape getBoxCollision(BOX_COLLISION_TYPE boxCollisionType); // Obtiene la caja de colisión que se decida.
+		Sprite getLifeSprite();
+		Sprite getExtraLifeSprite();
 		float getSpeed();
+		float getHealth();
 		void setPosition(Vector2f position);
 		void setLost(bool lost);
 		void stopWalkSpeed();
-		
-		void keyPressedOnce(Keyboard::Key key); // Realiza acciones según qué tecla se phaya presionado en el frame actual.
-		void keyReleased(Keyboard::Key key); // Realiza acciones según qué tecla se haya levantado.
+		void addHealth(float health);
 
 	private:
+		Texture texLife; // Textura del ícono de vidas restantes.
+		Texture texExtraLife; // Textura del ícono del ítem de la vida extra.
 		Texture texIdleRight;
 		Texture texIdleLeft;
 		Texture texWalkingRight;
@@ -65,6 +70,8 @@ namespace the_wonder_boy
 		RectangleShape boxEntire; // Caja de colisión (todo el personaje).
 		RectangleShape boxFeet; // Caja de colisión (pies).
 
+		Sprite sprLife; // Sprite del ícono de vidas restantes.
+		Sprite sprExtraLife; // Sprite del ícono del ítem de la vida extra.
 		Sprite spriteLoader; // Variable para cargar sprites.
 		Sprite renderer; // Sprite "central", el que todas las animaciones van a tener como base.
 		GRAVITY gravity; // Estructura con valores de gravedad.
@@ -81,11 +88,13 @@ namespace the_wonder_boy
 		Animation* animAttackingLeft; // Animación atacando hacia la izquierda.
 
 		bool lost;
+		float health;
 
 		float forceJump = 1400.0f;
 		float walkingAnimationSpeed = 0.075f;
 		float speedLimit = 500.0f;
 
+		void initSprites();
 		void initAnimations(float x, float y);
 		void updateAnimations(float deltaTime);
 		void drawAnimations(RenderWindow* window);
