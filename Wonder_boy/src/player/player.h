@@ -56,7 +56,7 @@ namespace the_wonder_boy
 		void addHealth(float health);
 
 	private:
-		Texture texLife; // Textura del ícono de vidas restantes.
+		Texture texLife; // Textura del ícono para mostrar las vidas restantes.
 		Texture texExtraLife; // Textura del ícono del ítem de la vida extra.
 		Texture texIdleRight;
 		Texture texIdleLeft;
@@ -70,7 +70,7 @@ namespace the_wonder_boy
 		RectangleShape boxEntire; // Caja de colisión (todo el personaje).
 		RectangleShape boxFeet; // Caja de colisión (pies).
 
-		Sprite sprLife; // Sprite del ícono de vidas restantes.
+		Sprite sprLife; // Sprite del ícono para mostrar las vidas restantes.
 		Sprite sprExtraLife; // Sprite del ícono del ítem de la vida extra.
 		Sprite spriteLoader; // Variable para cargar sprites.
 		Sprite renderer; // Sprite "central", el que todas las animaciones van a tener como base.
@@ -101,6 +101,8 @@ namespace the_wonder_boy
 		void accommodateAnimations();
 		void setWalkingAnimationMode(SPEED speed);
 		void updateAnimationEvents();
+		bool actualAnimationIs(ANIMATION_STATE animationState);
+		void setNewAnimation(ANIMATION_STATE animationState);
 
 		void keyPressed(float deltaTime); // Realiza acciones según qué tecla esté presionada.
 		void move(DIRECTION direction, float deltaTime);
@@ -110,9 +112,6 @@ namespace the_wonder_boy
 		
 		bool bothSidesPressed();
 		bool noSidePressed();
-
-		bool actualAnimationIs(ANIMATION_STATE animationState);
-		void setNewAnimation(ANIMATION_STATE animationState);
 	};
 }
 

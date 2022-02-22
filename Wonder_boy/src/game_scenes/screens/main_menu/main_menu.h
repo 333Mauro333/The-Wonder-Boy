@@ -29,7 +29,7 @@ namespace the_wonder_boy
 
 		static const int buttonsSize = 4;
 		Button* buttons[buttonsSize];
-		string optionsList[buttonsSize]; // Lista de nombres para las opciones para facilitar la asignación en el init.
+		string optionsList[buttonsSize]; // Lista de nombres para las opciones para facilitar la asignación de los botones en el init.
 
 		int option; // Número de opción actual, la cual va a definir sobre qué opción estoy parado.
 

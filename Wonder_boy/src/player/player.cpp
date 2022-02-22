@@ -630,6 +630,14 @@ namespace the_wonder_boy
 			}
 		}
 	}
+	bool Player::actualAnimationIs(ANIMATION_STATE animation)
+	{
+		return animationState == animation;
+	}
+	void Player::setNewAnimation(ANIMATION_STATE animation)
+	{
+		animationState = animation;
+	}
 
 	void Player::keyPressed(float deltaTime)
 	{
@@ -830,12 +838,4 @@ namespace the_wonder_boy
 		return !Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayLeft)) && !Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayRight));
 	}
 
-	bool Player::actualAnimationIs(ANIMATION_STATE animation)
-	{
-		return animationState == animation;
-	}
-	void Player::setNewAnimation(ANIMATION_STATE animation)
-	{
-		animationState = animation;
-	}
 }

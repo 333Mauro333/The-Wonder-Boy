@@ -164,6 +164,7 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\player\player.cpp" />
     <ClCompile Include="src\scene_manager\scene_manager.cpp" />
+    <ClCompile Include="src\stone_hammer\stone_hammer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\animation\animation.h" />
@@ -179,6 +180,7 @@
     <ClInclude Include="src\hud\hud.h" />
     <ClInclude Include="src\player\player.h" />
     <ClInclude Include="src\scene_manager\scene_manager.h" />
+    <ClInclude Include="src\stone_hammer\stone_hammer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

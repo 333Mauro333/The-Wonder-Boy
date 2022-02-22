@@ -139,8 +139,8 @@ namespace the_wonder_boy
 		// Si el jugador avanza lo suficiente hacia la derecha...
 		if (playerRightEdgePosition + distanceToCenter > view.getCenter().x)
 		{
-			moveCameraInY(1500.0f, 2000.0f, 500.0f);
-			moveCameraInY(2500.0f, 4000.0f, -500.0f);
+			//moveCameraInY(1500.0f, 2000.0f, 500.0f);
+			//moveCameraInY(2500.0f, 4000.0f, -500.0f);
 			moveCameraInY(4500.0f, 4600.0f, 200.0f);
 			moveCameraInY(4700.0f, 5000.0f, -200.0f);
 

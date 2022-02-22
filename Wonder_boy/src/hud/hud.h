@@ -21,11 +21,13 @@ namespace the_wonder_boy
 
 	private:
 		RenderWindow* window;
-		RectangleShape backHud;
 		Player* player;
+		RectangleShape backHud;
+		Sprite sprLife;
+		Texture tex;
+
+		Vector2f posZero;
 	};
 }
 
-
 #endif // !HUD_H
-
