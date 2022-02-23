@@ -48,6 +48,7 @@ namespace the_wonder_boy
 		sprStone.setOrigin(sprStone.getGlobalBounds().width / 2.0f, sprStone.getGlobalBounds().height);
 		sprStone.setPosition(x, y);
 
+		boxCollision.setFillColor(sf::Color(255, 0, 0, 128));
 		boxCollision.setSize(Vector2f(sprStone.getGlobalBounds().width / 10.0f * 8.0f, sprStone.getGlobalBounds().height / 10.0f * 8.0f));
 		boxCollision.setOrigin(boxCollision.getGlobalBounds().width / 2.0f, boxCollision.getGlobalBounds().height);
 		boxCollision.setPosition(x, y);

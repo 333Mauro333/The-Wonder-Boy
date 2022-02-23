@@ -17,7 +17,8 @@ using sf::Sprite;
 
 
 enum class ANIMATION_STATE { IDLE_RIGHT, IDLE_LEFT, WALKING_RIGHT, WALKING_LEFT,
-							JUMPING_RIGHT, JUMPING_LEFT, ATTACKING_RIGHT, ATTACKING_LEFT };
+							JUMPING_RIGHT, JUMPING_LEFT, ATTACKING_RIGHT, ATTACKING_LEFT,
+							TRIPPING_RIGHT, TRIPPING_LEFT};
 enum class BOX_COLLISION_TYPE { ENTIRE, FEET };
 enum class DIRECTION { LEFT, RIGHT };
 enum class SPEED { NORMAL, FAST };
@@ -49,14 +50,18 @@ namespace the_wonder_boy
 		Sprite getLifeSprite();
 		Sprite getExtraLifeSprite();
 		float getSpeed();
+		bool getHit();
 		float getHealth();
 		float getFallingSpeed();
 		StoneHammer* getPlayerStoneHammer(int position);
 		static int getStoneHammersSize();
+		DIRECTION getActualAnimationDirection();
 		void setPosition(Vector2f position);
 		void setLost(bool lost);
 		void stopWalkSpeed();
 		void addHealth(float health);
+
+		void tripOn(); // Tropezarse.
 
 	private:
 		Texture texLife; // Textura del ícono para mostrar las vidas restantes.
@@ -69,6 +74,8 @@ namespace the_wonder_boy
 		Texture texJumpingLeft;
 		Texture texAttackingRight;
 		Texture texAttackingLeft;
+		Texture texTrippingRight;
+		Texture texTrippingLeft;
 
 		Sprite sprLife; // Sprite del ícono para mostrar las vidas restantes.
 		Sprite sprExtraLife; // Sprite del ícono del ítem de la vida extra.
@@ -85,12 +92,15 @@ namespace the_wonder_boy
 		Animation* animJumpingLeft; // Animación saltando hacia la izquierda.
 		Animation* animAttackingRight; // Animación atacando hacia la derecha.
 		Animation* animAttackingLeft; // Animación atacando hacia la izquierda.
+		Animation* animTrippingRight; // Animación tropezándose hacia la derecha.
+		Animation* animTrippingLeft; // Animación tropezándose hacia la izquierda.
 
 		RectangleShape boxEntire; // Caja de colisión (todo el personaje).
 		RectangleShape boxFeet; // Caja de colisión (pies).
 
 		GRAVITY gravity; // Estructura con valores de gravedad.
 
+		bool hit;
 		bool lost;
 		float health;
 

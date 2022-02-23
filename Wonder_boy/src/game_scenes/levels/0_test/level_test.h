@@ -3,9 +3,10 @@
 
 #include "game_scenes/scene.h"
 
+#include "hud/hud.h"
 #include "player/player.h"
 #include "floor/floor.h"
-#include "hud/hud.h"
+#include "obstacles/stone/stone.h"
 
 using sf::View;
 
@@ -28,8 +29,12 @@ namespace the_wonder_boy
 		View view;
 		Player* player;
 		HUD* hud;
+
 		static const int floorSize = 50;
 		Floor* floor[floorSize];
+
+		static const int stoneSize = 3;
+		Stone* stone[stoneSize];
 
 		void init() override;
 		void destroy() override;

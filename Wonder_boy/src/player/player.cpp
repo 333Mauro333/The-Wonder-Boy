@@ -19,6 +19,7 @@ namespace the_wonder_boy
 
 		renderer.setPosition(x, y);
 
+		hit = false;
 		lost = false;
 		health = 100.0f;
 
@@ -86,7 +87,7 @@ namespace the_wonder_boy
 	}
 	void Player::keyPressedOnce(Keyboard::Key key)
 	{
-		if (!lost)
+		if (!hit && !lost)
 		{
 			if (key == GameControls::gameplayJump)
 			{
@@ -140,7 +141,7 @@ namespace the_wonder_boy
 	}
 	void Player::keyReleased(Keyboard::Key key)
 	{
-		if (!lost)
+		if (!hit && !lost)
 		{
 			if (key == GameControls::gameplayLeft)
 			{
@@ -181,6 +182,19 @@ namespace the_wonder_boy
 		{
 			setNewAnimation(ANIMATION_STATE::IDLE_LEFT);
 		}
+		else if (actualAnimationIs(ANIMATION_STATE::TRIPPING_RIGHT))
+		{
+			animTrippingRight->resetAnimation();
+			hit = false;
+			setNewAnimation(ANIMATION_STATE::IDLE_RIGHT);
+		}
+		else if (actualAnimationIs(ANIMATION_STATE::TRIPPING_LEFT))
+		{
+			animTrippingLeft->resetAnimation();
+			hit = false;
+			setNewAnimation(ANIMATION_STATE::IDLE_LEFT);
+		}
+
 		accommodateAnimations();
 	}
 
@@ -217,6 +231,10 @@ namespace the_wonder_boy
 	{
 		return walkingSpeed.actualSpeed;
 	}
+	bool Player::getHit()
+	{
+		return hit;
+	}
 	float Player::getHealth()
 	{
 		return health;
@@ -238,6 +256,15 @@ namespace the_wonder_boy
 	{
 		return stoneHammersSize;
 	}
+	DIRECTION Player::getActualAnimationDirection()
+	{
+		if (actualAnimationIs(ANIMATION_STATE::IDLE_RIGHT) || actualAnimationIs(ANIMATION_STATE::WALKING_RIGHT) || actualAnimationIs(ANIMATION_STATE::JUMPING_RIGHT) || actualAnimationIs(ANIMATION_STATE::ATTACKING_RIGHT))
+		{
+			return DIRECTION::RIGHT;
+		}
+
+		return DIRECTION::LEFT;
+	}
 	void Player::setPosition(Vector2f position)
 	{
 		renderer.setPosition(position);
@@ -257,6 +284,27 @@ namespace the_wonder_boy
 
 
 		this->health = (this->health + health > maxHealth) ? maxHealth : this->health + health;
+	}
+
+	void Player::tripOn()
+	{
+		hit = true;
+		gravity.actualSpeed = -600.0f;
+
+		switch (getActualAnimationDirection())
+		{
+		case DIRECTION::LEFT:
+			setNewAnimation(ANIMATION_STATE::TRIPPING_LEFT);
+			walkingSpeed.actualSpeed = 750.0f;
+			break;
+
+		case DIRECTION::RIGHT:
+			setNewAnimation(ANIMATION_STATE::TRIPPING_RIGHT);
+			walkingSpeed.actualSpeed = 800.0f;
+			break;
+		}
+
+		accommodateAnimations();
 	}
 
 
@@ -511,6 +559,60 @@ namespace the_wonder_boy
 		left = 0;
 
 		#pragma endregion
+
+		#pragma region TROPEZÁNDOSE HACIA LA DERECHA
+
+		frameWidth = 83;
+		frameHeight = 127;
+		frameDuration = 0.5f;
+		amountOfFrames = 2;
+
+		if (!texTrippingRight.loadFromFile("res/sprites/player/tripping_right.png"))
+		{
+			cout << "La textura tripping_right.png no se ha cargado.\n";
+		}
+		spriteLoader.setTexture(texTrippingRight);
+		spriteLoader.setOrigin(frameWidth / 2.0f, static_cast<float>(frameHeight));
+		spriteLoader.setPosition(x, y);
+		animTrippingRight = new Animation(spriteLoader, ANIMATION_MODE::ONCE);
+		for (int i = 0; i < amountOfFrames; i++)
+		{
+			IntRect intRect = IntRect(left, 0, frameWidth, frameHeight);
+			Frame* frame = new Frame(intRect, frameDuration);
+
+			animTrippingRight->addFrame(frame);
+			left += frameWidth;
+		}
+		left = 0;
+
+		#pragma endregion
+
+		#pragma region TROPEZÁNDOSE HACIA LA IZQUIERDA
+
+		frameWidth = 92;
+		frameHeight = 126;
+		frameDuration = 0.5f;
+		amountOfFrames = 2;
+
+		if (!texTrippingLeft.loadFromFile("res/sprites/player/tripping_left.png"))
+		{
+			cout << "La textura tripping_left.png no se ha cargado.\n";
+		}
+		spriteLoader.setTexture(texTrippingLeft);
+		spriteLoader.setOrigin(frameWidth / 2.0f, static_cast<float>(frameHeight));
+		spriteLoader.setPosition(x, y);
+		animTrippingLeft = new Animation(spriteLoader, ANIMATION_MODE::ONCE);
+		for (int i = 0; i < amountOfFrames; i++)
+		{
+			IntRect intRect = IntRect(left, 0, frameWidth, frameHeight);
+			Frame* frame = new Frame(intRect, frameDuration);
+
+			animTrippingLeft->addFrame(frame);
+			left += frameWidth;
+		}
+		left = 0;
+
+		#pragma endregion
 	}
 	void Player::updateAnimations(float deltaTime)
 	{
@@ -557,6 +659,16 @@ namespace the_wonder_boy
 			animAttackingLeft->target.setPosition(renderer.getPosition().x, renderer.getPosition().y);
 			animAttackingLeft->update(deltaTime);
 			break;
+
+		case ANIMATION_STATE::TRIPPING_RIGHT:
+			animTrippingRight->target.setPosition(renderer.getPosition().x, renderer.getPosition().y);
+			animTrippingRight->update(deltaTime);
+			break;
+
+		case ANIMATION_STATE::TRIPPING_LEFT:
+			animTrippingLeft->target.setPosition(renderer.getPosition().x, renderer.getPosition().y);
+			animTrippingLeft->update(deltaTime);
+			break;
 		}
 	}
 	void Player::drawAnimations(RenderWindow* window)
@@ -594,6 +706,14 @@ namespace the_wonder_boy
 
 		case ANIMATION_STATE::ATTACKING_LEFT:
 			window->draw(animAttackingLeft->target);
+			break;
+
+		case ANIMATION_STATE::TRIPPING_RIGHT:
+			window->draw(animTrippingRight->target);
+			break;
+
+		case ANIMATION_STATE::TRIPPING_LEFT:
+			window->draw(animTrippingLeft->target);
 			break;
 		}
 	}
@@ -669,6 +789,23 @@ namespace the_wonder_boy
 				setNewAnimation(ANIMATION_STATE::JUMPING_LEFT);
 			}
 		}
+
+		if (animTrippingRight->getNumberOfFrame() == 1)
+		{
+			animTrippingRight->resetAnimation();
+			hit = false;
+
+			setNewAnimation(ANIMATION_STATE::JUMPING_RIGHT);
+			cout << "Fin de la animacion derecha.\n";
+		}
+
+		if (animTrippingLeft->getNumberOfFrame() == 1)
+		{
+			animTrippingLeft->resetAnimation();
+			hit = false;
+
+			setNewAnimation(ANIMATION_STATE::JUMPING_LEFT);
+		}
 	}
 	bool Player::actualAnimationIs(ANIMATION_STATE animation)
 	{
@@ -681,7 +818,7 @@ namespace the_wonder_boy
 
 	void Player::keyPressed(float deltaTime)
 	{
-		if (!lost)
+		if (!hit && !lost)
 		{
 			const float modifier = 1.25f; // Divide/multiplica la velocidad actual al estar en el aire.
 
@@ -778,7 +915,7 @@ namespace the_wonder_boy
 			}
 		}
 
-		cout << "Velocidad del player: " << walkingSpeed.actualSpeed << std::endl;
+		//cout << "Velocidad del player: " << walkingSpeed.actualSpeed << std::endl;
 	}
 	void Player::move(DIRECTION direction, float deltaTime)
 	{
@@ -865,10 +1002,10 @@ namespace the_wonder_boy
 			const float multipler = 1.5f;
 
 			// Si está sobre el piso...
-			if (gravity.onTheFloor)
+			if (gravity.onTheFloor || hit)
 			{
 				// Si no está caminando para ninguno de los dos lados...
-				if (bothSidesPressed() || noSidePressed())
+				if (bothSidesPressed() || noSidePressed() || hit)
 				{
 					// Si está yendo para la derecha...
 					if (walkingSpeed.actualSpeed > 0.0f)

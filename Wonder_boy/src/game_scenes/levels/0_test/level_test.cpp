@@ -50,8 +50,14 @@ namespace the_wonder_boy
 				player->collisionWith(floor[i]);
 			}
 		}
-
-
+		for (int i = 0; i < stoneSize; i++)
+		{
+			if (CollisionManager::isColliding(player, stone[i]) && !player->getHit())
+			{
+				player->tripOn();
+				cout << "Esta tocando la piedra " << i + 1 << ".\n";
+			}
+		}
 	}
 	void LevelTest::draw()
 	{
@@ -60,6 +66,10 @@ namespace the_wonder_boy
 		for (int i = 0; i < floorSize; i++)
 		{
 			floor[i]->draw(window);
+		}
+		for (int i = 0; i < stoneSize; i++)
+		{
+			stone[i]->draw(window);
 		}
 		hud->draw(window);
 	}
@@ -91,7 +101,7 @@ namespace the_wonder_boy
 		// Se hacen conversiones de datos para evitar advertencias de Visual Studio.
 		player = new Player(static_cast<float>(window->getSize().x / 2), static_cast<float>(window->getSize().y / 4.0f * 3.0f));
 
-		float floorX = 0;
+		float floorX = 0.0f;
 		float floorY = window->getSize().y / 4.0f * 3.5f;
 		for (int i = 0; i < floorSize; i++)
 		{
@@ -110,6 +120,14 @@ namespace the_wonder_boy
 			}
 
 			floorX += floor[i]->getBoxCollision().getGlobalBounds().width;
+		}
+		float stoneX = 1000.0f;
+		float stoneY = floorY;
+		for (int i = 0; i < stoneSize; i++)
+		{
+			stone[i] = new Stone(stoneX, stoneY);
+
+			stoneX += 500.0f;
 		}
 
 		view.setSize(Vector2f(static_cast<float>(window->getSize().x), static_cast<float>(window->getSize().y)));
