@@ -225,6 +225,19 @@ namespace the_wonder_boy
 	{
 		return gravity.actualSpeed;
 	}
+	StoneHammer* Player::getPlayerStoneHammer(int position)
+	{
+		if (position < 0 || position >= stoneHammersSize)
+		{
+			return NULL;
+		}
+		
+		return stoneHammers[position];
+	}
+	int Player::getStoneHammersSize()
+	{
+		return stoneHammersSize;
+	}
 	void Player::setPosition(Vector2f position)
 	{
 		renderer.setPosition(position);

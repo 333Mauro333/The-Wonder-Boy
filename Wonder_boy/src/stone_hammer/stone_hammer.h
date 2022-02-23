@@ -26,11 +26,14 @@ namespace the_wonder_boy
 		void update(float deltaTime);
 		void draw(RenderWindow* window);
 
-		bool getIsThrown();
+		RectangleShape getBoxCollision();
 		Vector2f getPosition();
+		bool getIsThrown();
 		void setPosition(float x, float y);
 
 		void throwIt(THROW_DIRECTION throwDirection);
+
+		void hit();
 
 	private:
 		Texture texThrownRight; // Textura del martillo lanzado hacia la derecha.
