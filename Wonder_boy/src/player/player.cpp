@@ -4,6 +4,7 @@
 
 #include "game_controls/game_controls.h"
 
+
 using std::cout;
 
 
@@ -38,6 +39,13 @@ namespace the_wonder_boy
 		boxFeet.setSize(Vector2f(67, 20));
 		boxFeet.setOrigin(Vector2f(33, 20));
 
+		for (int i = 0; i < stoneHammersSize; i++)
+		{
+			stoneHammers[i] = new StoneHammer();
+		}
+
+		savedHammerPosition = -1;
+
 		cout << "Se ha creado un jugador.\n\n";
 	}
 	Player::~Player()
@@ -52,6 +60,7 @@ namespace the_wonder_boy
 		cout << "El jugador ha sido eliminado de la memoria.\n";
 	}
 
+
 	// Funciones públicas.
 	void Player::update(float deltaTime)
 	{
@@ -60,10 +69,12 @@ namespace the_wonder_boy
 		walkingAccelerationForce(deltaTime); // Aplica la velocidad al caminar.
 		updateAnimations(deltaTime); // Actualiza las animaciones.
 		accommodateAnimations(); // Acomoda las animaciones a la posición del sprite central.
+		updateStoneHammers(deltaTime);
 	}
 	void Player::draw(RenderWindow* window)
 	{
 		drawAnimations(window);
+		drawStoneHammers(window);
 
 		// Dibujado de las cajas de colisiones.
 		#if _DEBUG
@@ -96,23 +107,34 @@ namespace the_wonder_boy
 			}
 			if (key == GameControls::gameplayAttack)
 			{
+				const float modifier = 1.5f;
+
+
 				switch (animationState)
 				{
 				case ANIMATION_STATE::IDLE_RIGHT:
 				case ANIMATION_STATE::WALKING_RIGHT:
 				case ANIMATION_STATE::JUMPING_RIGHT:
-					animationState = ANIMATION_STATE::ATTACKING_RIGHT;
+					if (isThereASavedHammer())
+					{
+						savedHammerPosition = saveAFreePosition();
+						setNewAnimation(ANIMATION_STATE::ATTACKING_RIGHT);
+					}
 					break;
 
 				case ANIMATION_STATE::IDLE_LEFT:
 				case ANIMATION_STATE::WALKING_LEFT:
 				case ANIMATION_STATE::JUMPING_LEFT:
-					animationState = ANIMATION_STATE::ATTACKING_LEFT;
+					if (isThereASavedHammer())
+					{
+						savedHammerPosition = saveAFreePosition();
+						setNewAnimation(ANIMATION_STATE::ATTACKING_LEFT);
+					}
 					break;
 				}
 
 				setWalkingAnimationMode(SPEED::FAST);
-				walkingSpeed.speedLimit = speedLimit * 1.5f;
+				walkingSpeed.speedLimit = speedLimit * modifier;
 			}
 		}
 	}
@@ -122,14 +144,14 @@ namespace the_wonder_boy
 		{
 			if (key == GameControls::gameplayLeft)
 			{
-				if (gravity.onTheFloor)
+				if (gravity.onTheFloor && !actualAnimationIs(ANIMATION_STATE::ATTACKING_LEFT))
 				{
 					setNewAnimation(ANIMATION_STATE::IDLE_LEFT);
 				}
 			}
 			if (key == GameControls::gameplayRight)
 			{
-				if (gravity.onTheFloor)
+				if (gravity.onTheFloor && !actualAnimationIs(ANIMATION_STATE::ATTACKING_RIGHT))
 				{
 					setNewAnimation(ANIMATION_STATE::IDLE_RIGHT);
 				}
@@ -435,7 +457,7 @@ namespace the_wonder_boy
 
 			if (i != 0)
 			{
-				frameDuration = 0.15f;
+				frameDuration = 0.125f;
 			}
 
 			Frame* frame = new Frame(intRect, frameDuration);
@@ -468,7 +490,7 @@ namespace the_wonder_boy
 
 			if (i != 0)
 			{
-				frameDuration = 0.15f;
+				frameDuration = 0.125f;
 			}
 
 			Frame* frame = new Frame(intRect, frameDuration);
@@ -602,7 +624,11 @@ namespace the_wonder_boy
 	}
 	void Player::updateAnimationEvents()
 	{
-		if (animAttackingRight->getNumberOfFrame() == 2)
+		if (animAttackingRight->getNumberOfFrame() == 1)
+		{
+			attack(DIRECTION::RIGHT);
+		}
+		else if (animAttackingRight->getNumberOfFrame() == 2)
 		{
 			animAttackingRight->resetAnimation();
 
@@ -616,7 +642,11 @@ namespace the_wonder_boy
 			}
 		}
 
-		if (animAttackingLeft->getNumberOfFrame() == 2)
+		if (animAttackingLeft->getNumberOfFrame() == 1)
+		{
+			attack(DIRECTION::LEFT);
+		}
+		else if (animAttackingLeft->getNumberOfFrame() == 2)
 		{
 			animAttackingLeft->resetAnimation();
 
@@ -783,6 +813,27 @@ namespace the_wonder_boy
 
 		gravity.onTheFloor = false;
 	}
+	void Player::attack(DIRECTION direction)
+	{
+		switch (direction)
+		{
+		case DIRECTION::LEFT:
+			if (!stoneHammers[savedHammerPosition]->getIsThrown())
+			{
+				stoneHammers[savedHammerPosition]->setPosition(renderer.getPosition().x - 20.0f, renderer.getPosition().y - 80.0f);
+			}
+			break;
+
+		case DIRECTION::RIGHT:
+			if (!stoneHammers[savedHammerPosition]->getIsThrown())
+			{
+				stoneHammers[savedHammerPosition]->setPosition(renderer.getPosition().x + 20.0f, renderer.getPosition().y - 80.0f);
+			}
+			break;
+		}
+
+		stoneHammers[savedHammerPosition]->throwIt(static_cast<THROW_DIRECTION>(direction));
+	}
 	void Player::gravityForce(float deltaTime)
 	{
 		if (!lost)
@@ -838,4 +889,43 @@ namespace the_wonder_boy
 		return !Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayLeft)) && !Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::gameplayRight));
 	}
 
+	bool Player::isThereASavedHammer()
+	{
+		for (int i = 0; i < stoneHammersSize; i++)
+		{
+			if (!stoneHammers[i]->getIsThrown())
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+	int Player::saveAFreePosition()
+	{
+		for (int i = 0; i < stoneHammersSize; i++)
+		{
+			if (!stoneHammers[i]->getIsThrown())
+			{
+				return i;
+			}
+		}
+
+		return -1;
+	}
+
+	void Player::updateStoneHammers(float deltaTime)
+	{
+		for (int i = 0; i < stoneHammersSize; i++)
+		{
+			stoneHammers[i]->update(deltaTime);
+		}
+	}
+	void Player::drawStoneHammers(RenderWindow* window)
+	{
+		for (int i = 0; i < stoneHammersSize; i++)
+		{
+			stoneHammers[i]->draw(window);
+		}
+	}
 }
