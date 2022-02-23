@@ -6,6 +6,7 @@
 #include "game_controls/game_controls.h"
 #include "scene_manager/scene_manager.h"
 #include "game_scenes/screens/main_menu/main_menu.h"
+#include "collision_manager/collision_manager.h"
 
 using std::cout;
 
@@ -36,7 +37,7 @@ namespace the_wonder_boy
 
 		for (int i = 0; i < floorSize; i++)
 		{
-			if (player->isCollidingWith(floor[i]))
+			if (CollisionManager::isColliding(player, floor[i]))
 			{
 				player->collisionWith(floor[i]);
 			}

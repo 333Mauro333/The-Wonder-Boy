@@ -196,7 +196,7 @@ namespace the_wonder_boy
 		boxCollision.setPosition(renderer.getPosition());
 		updateAnimations(0.0f);
 	}
-
+	
 	void StoneHammer::gravityForce(float deltaTime)
 	{
 		gravity.actualSpeed = (gravity.actualSpeed + gravity.acceleration * deltaTime > gravity.speedLimit) ? gravity.speedLimit : gravity.actualSpeed + gravity.acceleration * deltaTime;

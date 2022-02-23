@@ -164,13 +164,6 @@ namespace the_wonder_boy
 		}
 	}
 
-	bool Player::isCollidingWith(Floor* floor)
-	{
-		return	gravity.actualSpeed > -100.0f && boxFeet.getPosition().y > floor->getBoxCollision().getPosition().y &&
-			boxFeet.getPosition().y - boxFeet.getSize().y < floor->getBoxCollision().getPosition().y + floor->getBoxCollision().getGlobalBounds().height &&
-			boxFeet.getPosition().x + boxFeet.getSize().x / 2.0f > floor->getBoxCollision().getPosition().x - floor->getBoxCollision().getGlobalBounds().width / 2.0f &&
-			boxFeet.getPosition().x - boxFeet.getSize().x / 2.0f < floor->getBoxCollision().getPosition().x + floor->getBoxCollision().getGlobalBounds().width / 2.0f;
-	}
 	void Player::collisionWith(Floor* floor)
 	{
 		// Se establecen sus valores a 0 y se posiciona al personaje justo sobre el piso.
@@ -227,6 +220,10 @@ namespace the_wonder_boy
 	float Player::getHealth()
 	{
 		return health;
+	}
+	float Player::getFallingSpeed()
+	{
+		return gravity.actualSpeed;
 	}
 	void Player::setPosition(Vector2f position)
 	{

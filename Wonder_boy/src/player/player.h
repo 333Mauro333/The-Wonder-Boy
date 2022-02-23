@@ -42,7 +42,6 @@ namespace the_wonder_boy
 		void keyPressedOnce(Keyboard::Key key); // Realiza acciones según qué tecla se phaya presionado en el frame actual.
 		void keyReleased(Keyboard::Key key); // Realiza acciones según qué tecla se haya levantado.
 
-		bool isCollidingWith(Floor* floor); // Responde a si el jugador está pisando el piso.
 		void collisionWith(Floor* floor); // Reacciona ante una colisión con el piso.
 		
 		Vector2f getPosition();
@@ -51,6 +50,7 @@ namespace the_wonder_boy
 		Sprite getExtraLifeSprite();
 		float getSpeed();
 		float getHealth();
+		float getFallingSpeed();
 		void setPosition(Vector2f position);
 		void setLost(bool lost);
 		void stopWalkSpeed();

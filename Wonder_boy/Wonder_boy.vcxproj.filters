@@ -58,6 +58,9 @@
     <Filter Include="allFiles\src\stone_hammer">
       <UniqueIdentifier>{84559fc4-9ce3-4fb4-a599-97d1e6a0d057}</UniqueIdentifier>
     </Filter>
+    <Filter Include="allFiles\src\collision_manager">
+      <UniqueIdentifier>{8607b4d5-ac79-44c6-a590-f35b2ee72080}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -105,6 +108,9 @@
     <ClCompile Include="src\stone_hammer\stone_hammer.cpp">
       <Filter>allFiles\src\stone_hammer</Filter>
     </ClCompile>
+    <ClCompile Include="src\collision_manager\collision_manager.cpp">
+      <Filter>allFiles\src\collision_manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\entity\entity.h">
@@ -148,6 +154,9 @@
     </ClInclude>
     <ClInclude Include="src\stone_hammer\stone_hammer.h">
       <Filter>allFiles\src\stone_hammer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\collision_manager\collision_manager.h">
+      <Filter>allFiles\src\collision_manager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
