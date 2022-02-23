@@ -38,8 +38,6 @@ namespace the_wonder_boy
 	// Funciones públicas.
 	void StoneHammer::update(float deltaTime)
 	{
-		cout << "Posicion del renderer: (" << renderer.getPosition().x << ";" << renderer.getPosition().y << ")\n";
-
 		if (isThrown)
 		{
 			gravityForce(deltaTime);
@@ -54,8 +52,6 @@ namespace the_wonder_boy
 			updateAnimations(deltaTime);
 			accommodateAnimations();
 		}
-
-		cout << "Valor de la gravedad actual: " << gravity.actualSpeed << ".\n";
 	}
 	void StoneHammer::draw(RenderWindow* window)
 	{

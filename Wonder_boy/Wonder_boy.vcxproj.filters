@@ -61,6 +61,12 @@
     <Filter Include="allFiles\src\collision_manager">
       <UniqueIdentifier>{8607b4d5-ac79-44c6-a590-f35b2ee72080}</UniqueIdentifier>
     </Filter>
+    <Filter Include="allFiles\src\obstacles">
+      <UniqueIdentifier>{2f190854-fdea-4b8e-a6af-31737a837db5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="allFiles\src\obstacles\stone">
+      <UniqueIdentifier>{ef8290c4-feb9-4a96-a43c-e0d1ce8de546}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -111,6 +117,9 @@
     <ClCompile Include="src\collision_manager\collision_manager.cpp">
       <Filter>allFiles\src\collision_manager</Filter>
     </ClCompile>
+    <ClCompile Include="src\obstacles\stone\stone.cpp">
+      <Filter>allFiles\src\obstacles\stone</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\entity\entity.h">
@@ -157,6 +166,9 @@
     </ClInclude>
     <ClInclude Include="src\collision_manager\collision_manager.h">
       <Filter>allFiles\src\collision_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="src\obstacles\stone\stone.h">
+      <Filter>allFiles\src\obstacles\stone</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

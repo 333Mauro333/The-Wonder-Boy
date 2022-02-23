@@ -50,8 +50,6 @@ namespace the_wonder_boy
 				player->collisionWith(floor[i]);
 			}
 		}
-
-
 	}
 	void LevelTest::draw()
 	{
