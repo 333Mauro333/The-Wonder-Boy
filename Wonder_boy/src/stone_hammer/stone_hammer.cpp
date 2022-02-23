@@ -68,6 +68,10 @@ namespace the_wonder_boy
 		#endif // _DEBUG
 	}
 
+	RectangleShape StoneHammer::getBoxCollision()
+	{
+		return boxCollision;
+	}
 	bool StoneHammer::getIsThrown()
 	{
 		return isThrown;
@@ -100,6 +104,12 @@ namespace the_wonder_boy
 
 			accommodateAnimations();
 		}
+	}
+
+	void StoneHammer::hit()
+	{
+		isThrown = false;
+		resetValues();
 	}
 
 

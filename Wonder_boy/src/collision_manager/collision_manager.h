@@ -3,6 +3,7 @@
 
 #include "player/player.h"
 #include "floor/floor.h"
+#include "stone_hammer/stone_hammer.h"
 
 
 namespace the_wonder_boy
@@ -11,6 +12,8 @@ namespace the_wonder_boy
 	{
 	public:
 		static bool isColliding(Player* player, Floor* floor);
+
+		static bool isColliding(StoneHammer* stoneHammer, Floor* floor);
 
 	private:
 

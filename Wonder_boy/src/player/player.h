@@ -51,6 +51,8 @@ namespace the_wonder_boy
 		float getSpeed();
 		float getHealth();
 		float getFallingSpeed();
+		StoneHammer* getPlayerStoneHammer(int position);
+		static int getStoneHammersSize();
 		void setPosition(Vector2f position);
 		void setLost(bool lost);
 		void stopWalkSpeed();

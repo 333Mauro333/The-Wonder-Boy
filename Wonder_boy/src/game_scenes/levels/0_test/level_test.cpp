@@ -37,11 +37,21 @@ namespace the_wonder_boy
 
 		for (int i = 0; i < floorSize; i++)
 		{
+			for (int j = 0; j < Player::getStoneHammersSize(); j++)
+			{
+				if (CollisionManager::isColliding(player->getPlayerStoneHammer(j), floor[i]))
+				{
+					player->getPlayerStoneHammer(j)->hit();
+				}
+			}
+
 			if (CollisionManager::isColliding(player, floor[i]))
 			{
 				player->collisionWith(floor[i]);
 			}
 		}
+
+
 	}
 	void LevelTest::draw()
 	{
@@ -161,6 +171,14 @@ namespace the_wonder_boy
 		{
 			player->setLost(true);
 			cout << "Perdio\n";
+		}
+
+		for (int i = 0; i < Player::getStoneHammersSize(); i++)
+		{
+			if (player->getPlayerStoneHammer(i)->getIsThrown() && player->getPlayerStoneHammer(i)->getPosition().y > view.getCenter().y + view.getSize().y / 1.5f)
+			{
+				player->getPlayerStoneHammer(i)->hit();
+			}
 		}
 
 		background.setPosition(view.getCenter());
