@@ -202,6 +202,7 @@ namespace the_wonder_boy
 			setNewAnimation(ANIMATION_STATE::IDLE_LEFT);
 		}
 
+
 		accommodateAnimations();
 	}
 
@@ -304,6 +305,16 @@ namespace the_wonder_boy
 		hit = true;
 		gravity.actualSpeed = -600.0f;
 
+		switch (animationState)
+		{
+		case ANIMATION_STATE::ATTACKING_RIGHT:
+			animAttackingRight->resetAnimation();
+			break;
+
+		case ANIMATION_STATE::ATTACKING_LEFT:
+			animAttackingLeft->resetAnimation();
+			break;
+		}
 		switch (getActualAnimationDirection())
 		{
 		case DIRECTION::LEFT:

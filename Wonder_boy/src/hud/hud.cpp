@@ -41,7 +41,7 @@ namespace the_wonder_boy
 		
 		// Posiciono los demás elementos dentro del hud.
 		sprLife.setPosition(Vector2f(posZero.x + backHud.getGlobalBounds().width / 8.0f, posZero.y + backHud.getGlobalBounds().height / 3.0f * 2.0f));
-		Vector2f barSize = { backHud.getGlobalBounds().width / 2.0f, backHud.getGlobalBounds().height / 2.5f };
+		Vector2f barSize = { backHud.getGlobalBounds().width / 2.0f, backHud.getGlobalBounds().height / 3.0f };
 		Vector2f startBar = { posZero.x + backHud.getGlobalBounds().width / 3.5f, posZero.y + backHud.getGlobalBounds().height / 1.5f };
 		float widthRectangleBar = barSize.x / amountOfRectangles;
 		float heightRectangleBar = barSize.y;
