@@ -11,6 +11,8 @@ namespace the_wonder_boy
 	{
 		initSprites(x, y);
 
+		damage = 15.0f;
+
 		cout << "Se ha creado una piedra.\n";
 	}
 	Stone::~Stone()
@@ -33,6 +35,10 @@ namespace the_wonder_boy
 	RectangleShape Stone::getBoxCollision()
 	{
 		return boxCollision;
+	}
+	float Stone::getDamage()
+	{
+		return damage;
 	}
 
 

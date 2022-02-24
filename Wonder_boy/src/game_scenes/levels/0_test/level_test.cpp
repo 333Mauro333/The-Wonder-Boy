@@ -54,7 +54,7 @@ namespace the_wonder_boy
 		{
 			if (CollisionManager::isColliding(player, stone[i]) && !player->getHit())
 			{
-				player->tripOn();
+				player->tripOn(stone[i]);
 				cout << "Esta tocando la piedra " << i + 1 << ".\n";
 			}
 		}

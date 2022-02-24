@@ -45,7 +45,7 @@ namespace the_wonder_boy
 		Vector2f startBar = { posZero.x + backHud.getGlobalBounds().width / 3.5f, posZero.y + backHud.getGlobalBounds().height / 1.5f };
 		float widthRectangleBar = barSize.x / amountOfRectangles;
 		float heightRectangleBar = barSize.y;
-		int amountOfColoredRectangles = player->getHealth() / 3.125f;
+		int amountOfColoredRectangles = player->getHealth() / 3.125f + 1;
 		for (int i = 0; i < amountOfRectangles; i++)
 		{
 			healthBars[i].setSize(Vector2f(widthRectangleBar, heightRectangleBar));
@@ -63,7 +63,10 @@ namespace the_wonder_boy
 		}
 		for (int i = 0; i < amountOfColoredRectangles; i++)
 		{
-			healthBars[i].setFillColor(sf::Color(healthBars[i].getFillColor().r, healthBars[i].getFillColor().g, healthBars[i].getFillColor().b, 255));
+			if (i < amountOfRectangles && player->getHealth() > 0.0f)
+			{
+				healthBars[i].setFillColor(sf::Color(healthBars[i].getFillColor().r, healthBars[i].getFillColor().g, healthBars[i].getFillColor().b, 255));
+			}
 		}
 	}
 	void HUD::draw(RenderWindow* window)

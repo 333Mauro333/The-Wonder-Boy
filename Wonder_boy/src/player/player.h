@@ -7,6 +7,7 @@
 #include "animation/animation.h"
 #include "stone_hammer/stone_hammer.h"
 #include "floor/floor.h"
+#include "obstacles/stone/stone.h"
 
 using sf::RenderWindow;
 using sf::View;
@@ -60,8 +61,9 @@ namespace the_wonder_boy
 		void setLost(bool lost);
 		void stopWalkSpeed();
 		void addHealth(float health);
+		void receiveDamage(float damage);
 
-		void tripOn(); // Tropezarse.
+		void tripOn(Stone* stone); // Tropezarse.
 
 	private:
 		Texture texLife; // Textura del ícono para mostrar las vidas restantes.

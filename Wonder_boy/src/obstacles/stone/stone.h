@@ -21,11 +21,14 @@ namespace the_wonder_boy
 		void draw(RenderWindow* window);
 
 		RectangleShape getBoxCollision();
+		float getDamage();
 
 	private:
 		Texture texStone;
 		Sprite sprStone;
 		RectangleShape boxCollision;
+
+		float damage;
 
 		void initSprites(float x, float y);
 	};

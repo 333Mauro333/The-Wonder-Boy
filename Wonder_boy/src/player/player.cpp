@@ -65,12 +65,19 @@ namespace the_wonder_boy
 	// Funciones públicas.
 	void Player::update(float deltaTime)
 	{
+		health -= 1.0f * deltaTime;
+
 		keyPressed(deltaTime); // Función que verifica si determinadas teclas están siendo presionadas.
 		gravityForce(deltaTime); // Aplica la fuerza gravitatoria.
 		walkingAccelerationForce(deltaTime); // Aplica la velocidad al caminar.
 		updateAnimations(deltaTime); // Actualiza las animaciones.
 		accommodateAnimations(); // Acomoda las animaciones a la posición del sprite central.
 		updateStoneHammers(deltaTime);
+		if (health < 0.0f)
+		{
+			health = 0;
+		}
+		cout << "Vida actual: " << health << ".\n";
 	}
 	void Player::draw(RenderWindow* window)
 	{
@@ -285,9 +292,15 @@ namespace the_wonder_boy
 
 		this->health = (this->health + health > maxHealth) ? maxHealth : this->health + health;
 	}
-
-	void Player::tripOn()
+	void Player::receiveDamage(float damage)
 	{
+		health = (health - damage > 0.0f) ? health - damage : 0.0f;
+	}
+
+	void Player::tripOn(Stone* stone)
+	{
+		receiveDamage(stone->getDamage());
+
 		hit = true;
 		gravity.actualSpeed = -600.0f;
 
