@@ -19,9 +19,9 @@ namespace the_wonder_boy
 
 		renderer.setPosition(x, y);
 
-		hit = false;
-		lost = false;
 		health = 100.0f;
+		hit = false;
+		bouncedWhenDied = false;
 
 		gravity.actualSpeed = 0.0f;
 		gravity.acceleration = 3750.0f;
@@ -65,7 +65,7 @@ namespace the_wonder_boy
 	// Funciones públicas.
 	void Player::update(float deltaTime)
 	{
-		health -= 1.0f * deltaTime;
+		drainHealth(deltaTime);
 
 		keyPressed(deltaTime); // Función que verifica si determinadas teclas están siendo presionadas.
 		gravityForce(deltaTime); // Aplica la fuerza gravitatoria.
@@ -73,11 +73,6 @@ namespace the_wonder_boy
 		updateAnimations(deltaTime); // Actualiza las animaciones.
 		accommodateAnimations(); // Acomoda las animaciones a la posición del sprite central.
 		updateStoneHammers(deltaTime);
-		if (health < 0.0f)
-		{
-			health = 0;
-		}
-		cout << "Vida actual: " << health << ".\n";
 	}
 	void Player::draw(RenderWindow* window)
 	{
@@ -94,7 +89,7 @@ namespace the_wonder_boy
 	}
 	void Player::keyPressedOnce(Keyboard::Key key)
 	{
-		if (!hit && !lost)
+		if (!hit && isAlive())
 		{
 			if (key == GameControls::gameplayJump)
 			{
@@ -148,7 +143,7 @@ namespace the_wonder_boy
 	}
 	void Player::keyReleased(Keyboard::Key key)
 	{
-		if (!hit && !lost)
+		if (!hit && isAlive())
 		{
 			if (key == GameControls::gameplayLeft)
 			{
@@ -273,14 +268,14 @@ namespace the_wonder_boy
 
 		return DIRECTION::LEFT;
 	}
+	bool Player::isAlive()
+	{
+		return health > 0.0f;
+	}
 	void Player::setPosition(Vector2f position)
 	{
 		renderer.setPosition(position);
 		accommodateAnimations();
-	}
-	void Player::setLost(bool lost)
-	{
-		this->lost = lost;
 	}
 	void Player::stopWalkSpeed()
 	{
@@ -302,33 +297,47 @@ namespace the_wonder_boy
 	{
 		receiveDamage(stone->getDamage());
 
-		hit = true;
-		gravity.actualSpeed = -600.0f;
-
-		switch (animationState)
+		if (isAlive())
 		{
-		case ANIMATION_STATE::ATTACKING_RIGHT:
-			animAttackingRight->resetAnimation();
-			break;
+			hit = true;
+			gravity.actualSpeed = -600.0f;
 
-		case ANIMATION_STATE::ATTACKING_LEFT:
-			animAttackingLeft->resetAnimation();
-			break;
+			switch (animationState)
+			{
+			case ANIMATION_STATE::ATTACKING_RIGHT:
+				animAttackingRight->resetAnimation();
+				break;
+
+			case ANIMATION_STATE::ATTACKING_LEFT:
+				animAttackingLeft->resetAnimation();
+				break;
+			}
+			switch (getActualAnimationDirection())
+			{
+			case DIRECTION::LEFT:
+				setNewAnimation(ANIMATION_STATE::TRIPPING_LEFT);
+				walkingSpeed.actualSpeed = 750.0f;
+				break;
+
+			case DIRECTION::RIGHT:
+				setNewAnimation(ANIMATION_STATE::TRIPPING_RIGHT);
+				walkingSpeed.actualSpeed = 800.0f;
+				break;
+			}
+
+			accommodateAnimations();
 		}
-		switch (getActualAnimationDirection())
+		else
 		{
-		case DIRECTION::LEFT:
-			setNewAnimation(ANIMATION_STATE::TRIPPING_LEFT);
-			walkingSpeed.actualSpeed = 750.0f;
-			break;
-
-		case DIRECTION::RIGHT:
-			setNewAnimation(ANIMATION_STATE::TRIPPING_RIGHT);
-			walkingSpeed.actualSpeed = 800.0f;
-			break;
+			bounceWhenDies();
 		}
+	}
+	void Player::lose()
+	{
+		health = 0.0f;
+		setNewAnimation(ANIMATION_STATE::LOSING_NORMAL);
 
-		accommodateAnimations();
+		bounceWhenDies();
 	}
 
 
@@ -637,6 +646,33 @@ namespace the_wonder_boy
 		left = 0;
 
 		#pragma endregion
+
+		#pragma region PERDIENDO NORMAL
+
+		frameWidth = 100;
+		frameHeight = 128;
+		frameDuration = 0.25f;
+		amountOfFrames = 2;
+
+		if (!texLosingNormal.loadFromFile("res/sprites/player/losing_normal.png"))
+		{
+			cout << "La textura losing_normal.png no se ha cargado.\n";
+		}
+		spriteLoader.setTexture(texLosingNormal);
+		spriteLoader.setOrigin(frameWidth / 2.0f, static_cast<float>(frameHeight));
+		spriteLoader.setPosition(x, y);
+		animLosingNormal = new Animation(spriteLoader, ANIMATION_MODE::LOOP);
+		for (int i = 0; i < amountOfFrames; i++)
+		{
+			IntRect intRect = IntRect(left, 0, frameWidth, frameHeight);
+			Frame* frame = new Frame(intRect, frameDuration);
+
+			animLosingNormal->addFrame(frame);
+			left += frameWidth;
+		}
+		left = 0;
+
+		#pragma endregion
 	}
 	void Player::updateAnimations(float deltaTime)
 	{
@@ -693,6 +729,11 @@ namespace the_wonder_boy
 			animTrippingLeft->target.setPosition(renderer.getPosition().x, renderer.getPosition().y);
 			animTrippingLeft->update(deltaTime);
 			break;
+
+		case ANIMATION_STATE::LOSING_NORMAL:
+			animLosingNormal->target.setPosition(renderer.getPosition().x, renderer.getPosition().y);
+			animLosingNormal->update(deltaTime);
+			break;
 		}
 	}
 	void Player::drawAnimations(RenderWindow* window)
@@ -738,6 +779,10 @@ namespace the_wonder_boy
 
 		case ANIMATION_STATE::TRIPPING_LEFT:
 			window->draw(animTrippingLeft->target);
+			break;
+
+		case ANIMATION_STATE::LOSING_NORMAL:
+			window->draw(animLosingNormal->target);
 			break;
 		}
 	}
@@ -842,7 +887,7 @@ namespace the_wonder_boy
 
 	void Player::keyPressed(float deltaTime)
 	{
-		if (!hit && !lost)
+		if (!hit && isAlive())
 		{
 			const float modifier = 1.25f; // Divide/multiplica la velocidad actual al estar en el aire.
 
@@ -938,8 +983,6 @@ namespace the_wonder_boy
 				}
 			}
 		}
-
-		//cout << "Velocidad del player: " << walkingSpeed.actualSpeed << std::endl;
 	}
 	void Player::move(DIRECTION direction, float deltaTime)
 	{
@@ -1005,23 +1048,31 @@ namespace the_wonder_boy
 
 		stoneHammers[savedHammerPosition]->throwIt(static_cast<THROW_DIRECTION>(direction));
 	}
+	void Player::drainHealth(float deltaTime)
+	{
+		int healthPerSecond = 1.0f;
+
+		health = (health - healthPerSecond * deltaTime > 0.0f) ? health - healthPerSecond * deltaTime : 0.0f;
+
+		if (!isAlive())
+		{
+			lose();
+		}
+	}
 	void Player::gravityForce(float deltaTime)
 	{
-		if (!lost)
+		if (gravity.actualSpeed > 0.0f)
 		{
-			if (gravity.actualSpeed > 0.0f)
-			{
-				gravity.onTheFloor = false;
-			}
-
-			gravity.actualSpeed += gravity.acceleration * deltaTime;
-
-			renderer.move(0.0f, gravity.actualSpeed * deltaTime);
+			gravity.onTheFloor = false;
 		}
+
+		gravity.actualSpeed += gravity.acceleration * deltaTime;
+
+		renderer.move(0.0f, gravity.actualSpeed * deltaTime);
 	}
 	void Player::walkingAccelerationForce(float deltaTime)
 	{
-		if (!lost)
+		if (isAlive())
 		{
 			const float multipler = 1.5f;
 
@@ -1048,6 +1099,15 @@ namespace the_wonder_boy
 			//		Si presiona izquierda, sólo va más lento. Para adelante no hace nada.
 
 			renderer.move(walkingSpeed.actualSpeed * deltaTime, 0.0f);
+		}
+	}
+	void Player::bounceWhenDies()
+	{
+		if (!bouncedWhenDied)
+		{
+			bouncedWhenDied = true;
+
+			gravity.actualSpeed = -1500.0f;
 		}
 	}
 	

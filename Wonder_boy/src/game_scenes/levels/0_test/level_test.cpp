@@ -187,8 +187,7 @@ namespace the_wonder_boy
 
 		if (player->getPosition().y > view.getCenter().y + view.getSize().y / 1.5f)
 		{
-			player->setLost(true);
-			cout << "Perdio\n";
+			player->lose();
 		}
 
 		for (int i = 0; i < Player::getStoneHammersSize(); i++)

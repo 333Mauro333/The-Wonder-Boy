@@ -19,7 +19,8 @@ using sf::Sprite;
 
 enum class ANIMATION_STATE { IDLE_RIGHT, IDLE_LEFT, WALKING_RIGHT, WALKING_LEFT,
 							JUMPING_RIGHT, JUMPING_LEFT, ATTACKING_RIGHT, ATTACKING_LEFT,
-							TRIPPING_RIGHT, TRIPPING_LEFT};
+							TRIPPING_RIGHT, TRIPPING_LEFT,
+							LOSING_NORMAL };
 enum class BOX_COLLISION_TYPE { ENTIRE, FEET };
 enum class DIRECTION { LEFT, RIGHT };
 enum class SPEED { NORMAL, FAST };
@@ -57,15 +58,18 @@ namespace the_wonder_boy
 		StoneHammer* getPlayerStoneHammer(int position);
 		static int getStoneHammersSize();
 		DIRECTION getActualAnimationDirection();
+		bool isAlive();
 		void setPosition(Vector2f position);
-		void setLost(bool lost);
 		void stopWalkSpeed();
 		void addHealth(float health);
 		void receiveDamage(float damage);
 
 		void tripOn(Stone* stone); // Tropezarse.
+		void lose();
 
 	private:
+		#pragma region TEXTURAS
+
 		Texture texLife; // Textura del ícono para mostrar las vidas restantes.
 		Texture texExtraLife; // Textura del ícono del ítem de la vida extra.
 		Texture texIdleRight;
@@ -78,14 +82,21 @@ namespace the_wonder_boy
 		Texture texAttackingLeft;
 		Texture texTrippingRight;
 		Texture texTrippingLeft;
+		Texture texLosingNormal;
+
+		#pragma endregion
+
+		#pragma region SPRITES
 
 		Sprite sprLife; // Sprite del ícono para mostrar las vidas restantes.
 		Sprite sprExtraLife; // Sprite del ícono del ítem de la vida extra.
 		Sprite spriteLoader; // Variable para cargar sprites.
 		Sprite renderer; // Sprite "central", el que todas las animaciones van a tener como base.
-		WALKING_ACCELERATION walkingSpeed; // Estructura con valores para la aceleración al caminar.
 
-		ANIMATION_STATE animationState; // Enumerador de animaciones para asignar valores.
+		#pragma endregion
+		
+		#pragma region ANIMACIONES
+
 		Animation* animIdleRight; // Animación parado mirando hacia la derecha.
 		Animation* animIdleLeft; // Animación parado mirando hacia la izquierda.
 		Animation* animWalkingRight; // Animación caminando hacia la derecha.
@@ -96,15 +107,21 @@ namespace the_wonder_boy
 		Animation* animAttackingLeft; // Animación atacando hacia la izquierda.
 		Animation* animTrippingRight; // Animación tropezándose hacia la derecha.
 		Animation* animTrippingLeft; // Animación tropezándose hacia la izquierda.
+		Animation* animLosingNormal; // Animación perdiendo normalmente.
+
+		#pragma endregion
+
+		ANIMATION_STATE animationState; // Enumerador de animaciones para asignar valores.
+
+		GRAVITY gravity; // Estructura con valores de gravedad.
+		WALKING_ACCELERATION walkingSpeed; // Estructura con valores para la aceleración al caminar.
 
 		RectangleShape boxEntire; // Caja de colisión (todo el personaje).
 		RectangleShape boxFeet; // Caja de colisión (pies).
 
-		GRAVITY gravity; // Estructura con valores de gravedad.
-
-		bool hit;
-		bool lost;
 		float health;
+		bool hit;
+		bool bouncedWhenDied;
 
 		float forceJump = 1400.0f;
 		float walkingAnimationSpeed = 0.075f;
@@ -128,8 +145,10 @@ namespace the_wonder_boy
 		void move(DIRECTION direction, float deltaTime);
 		void jump(bool high);
 		void attack(DIRECTION direction);
+		void drainHealth(float deltaTime);
 		void gravityForce(float deltaTime);
 		void walkingAccelerationForce(float deltaTime);
+		void bounceWhenDies();
 		
 		bool bothSidesPressed();
 		bool noSidePressed();
