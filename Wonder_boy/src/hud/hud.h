@@ -6,6 +6,7 @@
 #include "player/player.h"
 
 using sf::RenderWindow;
+using sf::RectangleShape;
 
 
 namespace the_wonder_boy
@@ -25,6 +26,9 @@ namespace the_wonder_boy
 		RectangleShape backHud;
 		Sprite sprLife;
 		Texture tex;
+
+		static const int amountOfRectangles = 32;
+		RectangleShape healthBars[amountOfRectangles];
 
 		Vector2f posZero;
 	};

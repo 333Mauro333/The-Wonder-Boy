@@ -20,7 +20,7 @@ namespace the_wonder_boy
 		sprLife = player->getLifeSprite();
 		sprLife.setScale(1.5f, 1.5f);
 		sprLife.setOrigin(sprLife.getLocalBounds().width / 2.0f, sprLife.getLocalBounds().height / 2.0f);
-
+		
 		posZero = { 0.0f, 0.0f };
 
 		cout << "Se ha creado un HUD.\n\n";
@@ -41,10 +41,38 @@ namespace the_wonder_boy
 		
 		// Posiciono los demás elementos dentro del hud.
 		sprLife.setPosition(Vector2f(posZero.x + backHud.getGlobalBounds().width / 8.0f, posZero.y + backHud.getGlobalBounds().height / 3.0f * 2.0f));
+		Vector2f barSize = { backHud.getGlobalBounds().width / 2.0f, backHud.getGlobalBounds().height / 2.5f };
+		Vector2f startBar = { posZero.x + backHud.getGlobalBounds().width / 3.5f, posZero.y + backHud.getGlobalBounds().height / 1.5f };
+		float widthRectangleBar = barSize.x / amountOfRectangles;
+		float heightRectangleBar = barSize.y;
+		int amountOfColoredRectangles = player->getHealth() / 3.125f;
+		for (int i = 0; i < amountOfRectangles; i++)
+		{
+			healthBars[i].setSize(Vector2f(widthRectangleBar, heightRectangleBar));
+			healthBars[i].setPosition(startBar.x + widthRectangleBar * i, startBar.y);
+			healthBars[i].setOutlineColor(sf::Color::Black);
+			healthBars[i].setOutlineThickness(-2);
+			if (i < 8)
+			{
+				healthBars[i].setFillColor(sf::Color(255, 0, 0, 128));
+			}
+			else
+			{
+				healthBars[i].setFillColor(sf::Color(0, 255, 0, 128));
+			}
+		}
+		for (int i = 0; i < amountOfColoredRectangles; i++)
+		{
+			healthBars[i].setFillColor(sf::Color(healthBars[i].getFillColor().r, healthBars[i].getFillColor().g, healthBars[i].getFillColor().b, 255));
+		}
 	}
 	void HUD::draw(RenderWindow* window)
 	{
 		window->draw(backHud);
 		window->draw(sprLife);
+		for (int i = 0; i < amountOfRectangles; i++)
+		{
+			window->draw(healthBars[i]);
+		}
 	}
 }
