@@ -154,6 +154,7 @@
     <ClCompile Include="src\animation\frame\frame.cpp" />
     <ClCompile Include="src\button\button.cpp" />
     <ClCompile Include="src\collision_manager\collision_manager.cpp" />
+    <ClCompile Include="src\enemies\enemy\enemy.cpp" />
     <ClCompile Include="src\entity\entity.cpp" />
     <ClCompile Include="src\floor\floor.cpp" />
     <ClCompile Include="src\game_controls\game_controls.cpp" />
@@ -174,6 +175,7 @@
     <ClInclude Include="src\animation\frame\frame.h" />
     <ClInclude Include="src\button\Button.h" />
     <ClInclude Include="src\collision_manager\collision_manager.h" />
+    <ClInclude Include="src\enemies\enemy\enemy.h" />
     <ClInclude Include="src\entity\entity.h" />
     <ClInclude Include="src\floor\floor.h" />
     <ClInclude Include="src\game_controls\game_controls.h" />

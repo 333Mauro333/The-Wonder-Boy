@@ -70,6 +70,12 @@
     <Filter Include="allFiles\src\obstacles\bonfire">
       <UniqueIdentifier>{6c903db6-41bf-41a1-b508-9d7d3e80b1d5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="allFiles\src\enemies">
+      <UniqueIdentifier>{de633b1c-7461-43ce-9338-b09ff061bad9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="allFiles\src\enemies\enemy">
+      <UniqueIdentifier>{99e081ad-7a19-4682-9d85-2c2cf46ed059}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -126,6 +132,9 @@
     <ClCompile Include="src\obstacles\bonfire\bonfire.cpp">
       <Filter>allFiles\src\obstacles\bonfire</Filter>
     </ClCompile>
+    <ClCompile Include="src\enemies\enemy\enemy.cpp">
+      <Filter>allFiles\src\enemies\enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\entity\entity.h">
@@ -178,6 +187,9 @@
     </ClInclude>
     <ClInclude Include="src\obstacles\bonfire\bonfire.h">
       <Filter>allFiles\src\obstacles\bonfire</Filter>
+    </ClInclude>
+    <ClInclude Include="src\enemies\enemy\enemy.h">
+      <Filter>allFiles\src\enemies\enemy</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
