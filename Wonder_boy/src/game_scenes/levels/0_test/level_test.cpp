@@ -61,6 +61,12 @@ namespace the_wonder_boy
 		for (int i = 0; i < bonfireSize; i++)
 		{
 			bonfire[i]->update(GameManager::getDeltaTime());
+
+			if (CollisionManager::isColliding(player, bonfire[i]))
+			{
+				player->lose();
+				cout << "Se quemo con la fogata  " << i + 1 << ".\n";
+			}
 		}
 	}
 	void LevelTest::draw()
