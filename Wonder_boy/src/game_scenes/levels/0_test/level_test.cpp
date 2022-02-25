@@ -58,6 +58,10 @@ namespace the_wonder_boy
 				cout << "Esta tocando la piedra " << i + 1 << ".\n";
 			}
 		}
+		for (int i = 0; i < bonfireSize; i++)
+		{
+			bonfire[i]->update(GameManager::getDeltaTime());
+		}
 	}
 	void LevelTest::draw()
 	{
@@ -70,6 +74,10 @@ namespace the_wonder_boy
 		for (int i = 0; i < stoneSize; i++)
 		{
 			stone[i]->draw(window);
+		}
+		for (int i = 0; i < bonfireSize; i++)
+		{
+			bonfire[i]->draw(window);
 		}
 		hud->draw(window);
 	}
@@ -101,33 +109,45 @@ namespace the_wonder_boy
 		// Se hacen conversiones de datos para evitar advertencias de Visual Studio.
 		player = new Player(static_cast<float>(window->getSize().x / 2), static_cast<float>(window->getSize().y / 4.0f * 3.0f));
 
-		float floorX = 0.0f;
-		float floorY = window->getSize().y / 4.0f * 3.5f;
+		float x = 0.0f;
+		float y = window->getSize().y / 4.0f * 3.5f;
+
 		for (int i = 0; i < floorSize; i++)
 		{
 			if (i == 8 || i == 10)
 			{
-				floor[i] = new Floor(floorX, floorY, FLOOR_TYPE::END);
-				floorX += floor[i]->getBoxCollision().getGlobalBounds().width * 2;
+				floor[i] = new Floor(x, y, FLOOR_TYPE::END);
+				x += floor[i]->getBoxCollision().getGlobalBounds().width * 2;
 			}
 			else if (i == 9 || i == 11)
 			{
-				floor[i] = new Floor(floorX, floorY, FLOOR_TYPE::START);
+				floor[i] = new Floor(x, y, FLOOR_TYPE::START);
 			}
 			else
 			{
-				floor[i] = new Floor(floorX, floorY, FLOOR_TYPE::NORMAL);
+				floor[i] = new Floor(x, y, FLOOR_TYPE::NORMAL);
 			}
 
-			floorX += floor[i]->getBoxCollision().getGlobalBounds().width;
+			x += floor[i]->getBoxCollision().getGlobalBounds().width;
 		}
-		float stoneX = 1000.0f;
-		float stoneY = floorY;
+
+		x = 1000.0f;
+		y = window->getSize().y / 4.0f * 3.5f;
+
 		for (int i = 0; i < stoneSize; i++)
 		{
-			stone[i] = new Stone(stoneX, stoneY);
+			stone[i] = new Stone(x, y);
 
-			stoneX += 500.0f;
+			x += 500.0f;
+		}
+
+		x = 3000.0f;
+		y = window->getSize().y / 4.0f * 3.5f;
+
+		for (int i = 0; i < bonfireSize; i++)
+		{
+			bonfire[i] = new Bonfire(x, y);
+			x += 750.0f;
 		}
 
 		view.setSize(Vector2f(static_cast<float>(window->getSize().x), static_cast<float>(window->getSize().y)));

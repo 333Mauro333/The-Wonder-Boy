@@ -7,6 +7,7 @@
 #include "player/player.h"
 #include "floor/floor.h"
 #include "obstacles/stone/stone.h"
+#include "obstacles/bonfire/bonfire.h"
 
 using sf::View;
 
@@ -35,6 +36,9 @@ namespace the_wonder_boy
 
 		static const int stoneSize = 3;
 		Stone* stone[stoneSize];
+
+		static const int bonfireSize = 2;
+		Bonfire* bonfire[bonfireSize];
 
 		void init() override;
 		void destroy() override;

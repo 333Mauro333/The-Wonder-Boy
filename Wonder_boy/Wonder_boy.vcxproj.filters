@@ -67,6 +67,9 @@
     <Filter Include="allFiles\src\obstacles\stone">
       <UniqueIdentifier>{ef8290c4-feb9-4a96-a43c-e0d1ce8de546}</UniqueIdentifier>
     </Filter>
+    <Filter Include="allFiles\src\obstacles\bonfire">
+      <UniqueIdentifier>{6c903db6-41bf-41a1-b508-9d7d3e80b1d5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -120,6 +123,9 @@
     <ClCompile Include="src\obstacles\stone\stone.cpp">
       <Filter>allFiles\src\obstacles\stone</Filter>
     </ClCompile>
+    <ClCompile Include="src\obstacles\bonfire\bonfire.cpp">
+      <Filter>allFiles\src\obstacles\bonfire</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\entity\entity.h">
@@ -169,6 +175,9 @@
     </ClInclude>
     <ClInclude Include="src\obstacles\stone\stone.h">
       <Filter>allFiles\src\obstacles\stone</Filter>
+    </ClInclude>
+    <ClInclude Include="src\obstacles\bonfire\bonfire.h">
+      <Filter>allFiles\src\obstacles\bonfire</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -57,6 +57,11 @@ namespace the_wonder_boy
 		delete animWalkingRight;
 		delete animJumpingLeft;
 		delete animJumpingRight;
+		delete animAttackingLeft;
+		delete animAttackingRight;
+		delete animTrippingLeft;
+		delete animTrippingRight;
+		delete animLosingNormal;
 
 		cout << "El jugador ha sido eliminado de la memoria.\n";
 	}
@@ -66,7 +71,6 @@ namespace the_wonder_boy
 	void Player::update(float deltaTime)
 	{
 		drainHealth(deltaTime);
-
 		keyPressed(deltaTime); // Función que verifica si determinadas teclas están siendo presionadas.
 		gravityForce(deltaTime); // Aplica la fuerza gravitatoria.
 		walkingAccelerationForce(deltaTime); // Aplica la velocidad al caminar.
