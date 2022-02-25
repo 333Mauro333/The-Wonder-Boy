@@ -3,7 +3,7 @@
 #include <iostream>
 
 using std::cout;
-
+using sf::Vector2f;
 
 
 namespace the_wonder_boy
@@ -31,6 +31,13 @@ namespace the_wonder_boy
 	void Bonfire::draw(RenderWindow* window)
 	{
 		window->draw(animBonfire->target);
+
+		#if _DEBUG
+
+		window->draw(boxCollision);
+
+		#endif // _DEBUG
+
 	}
 
 	RectangleShape Bonfire::getBoxCollision()
@@ -64,6 +71,10 @@ namespace the_wonder_boy
 		frameDuration = 0.1f;
 		amountOfFrames = 3;
 
+		boxCollision.setSize(Vector2f(frameWidth / 1.25f, frameHeight / 1.3f));
+		boxCollision.setFillColor(sf::Color(255, 0, 0, 128));
+		boxCollision.setOrigin(frameWidth / 1.25f / 2.0f, static_cast<float>(frameHeight / 1.3f));
+		boxCollision.setPosition(x, y);
 
 		sprBonfire.setOrigin(frameWidth / 2.0f, static_cast<float>(frameHeight));
 		sprBonfire.setPosition(x, y);
