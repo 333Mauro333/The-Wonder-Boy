@@ -64,7 +64,7 @@ namespace the_wonder_boy
 
 			if (CollisionManager::isColliding(player, bonfire[i]))
 			{
-				player->lose();
+				player->lose(LOSING_TYPE::BURNED);
 				cout << "Se quemo con la fogata  " << i + 1 << ".\n";
 			}
 		}
@@ -213,7 +213,7 @@ namespace the_wonder_boy
 
 		if (player->getPosition().y > view.getCenter().y + view.getSize().y / 1.5f)
 		{
-			player->lose();
+			player->lose(LOSING_TYPE::NORMAL);
 		}
 
 		for (int i = 0; i < Player::getStoneHammersSize(); i++)

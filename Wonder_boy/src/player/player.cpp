@@ -336,10 +336,20 @@ namespace the_wonder_boy
 			bounceWhenDies();
 		}
 	}
-	void Player::lose()
+	void Player::lose(LOSING_TYPE losingType)
 	{
 		health = 0.0f;
-		setNewAnimation(ANIMATION_STATE::LOSING_NORMAL);
+
+		switch (losingType)
+		{
+		case LOSING_TYPE::NORMAL:
+			setNewAnimation(ANIMATION_STATE::LOSING_NORMAL);
+			break;
+
+		case LOSING_TYPE::BURNED:
+			setNewAnimation(ANIMATION_STATE::LOSING_BURNED_1);
+			break;
+		}
 
 		bounceWhenDies();
 	}
@@ -677,6 +687,54 @@ namespace the_wonder_boy
 		left = 0;
 
 		#pragma endregion
+
+		#pragma region PERDIENDO QUEMADO (PARTE 1)
+
+		frameWidth = 108;
+		frameHeight = 136;
+		frameDuration = 0.35f;
+		amountOfFrames = 2;
+
+		if (!texLosingBurned.loadFromFile("res/sprites/player/losing_burned.png"))
+		{
+			cout << "La textura losing_burned.png no se ha cargado.\n";
+		}
+		spriteLoader.setTexture(texLosingBurned);
+		spriteLoader.setOrigin(frameWidth / 2.0f, static_cast<float>(frameHeight));
+		spriteLoader.setPosition(x, y);
+		animLosingBurned1 = new Animation(spriteLoader, ANIMATION_MODE::LOOP);
+		for (int i = 0; i < amountOfFrames; i++)
+		{
+			IntRect intRect = IntRect(left, 0, frameWidth, frameHeight);
+			Frame* frame = new Frame(intRect, frameDuration);
+
+			animLosingBurned1->addFrame(frame);
+			left += frameWidth;
+		}
+		left = 0;
+
+		#pragma endregion
+
+		#pragma region PERDIENDO QUEMADO (PARTE 2)
+
+		frameWidth = 108;
+		frameHeight = 136;
+		frameDuration = 0.1f;
+		amountOfFrames = 2;
+		left = frameWidth;
+
+		animLosingBurned2 = new Animation(spriteLoader, ANIMATION_MODE::LOOP);
+		for (int i = 0; i < amountOfFrames; i++)
+		{
+			IntRect intRect = IntRect(left, 0, frameWidth, frameHeight);
+			Frame* frame = new Frame(intRect, frameDuration);
+
+			animLosingBurned2->addFrame(frame);
+			left += frameWidth;
+		}
+		left = 0;
+
+		#pragma endregion
 	}
 	void Player::updateAnimations(float deltaTime)
 	{
@@ -738,6 +796,16 @@ namespace the_wonder_boy
 			animLosingNormal->target.setPosition(renderer.getPosition().x, renderer.getPosition().y);
 			animLosingNormal->update(deltaTime);
 			break;
+
+		case ANIMATION_STATE::LOSING_BURNED_1:
+			animLosingBurned1->target.setPosition(renderer.getPosition().x, renderer.getPosition().y);
+			animLosingBurned1->update(deltaTime);
+			break;
+
+		case ANIMATION_STATE::LOSING_BURNED_2:
+			animLosingBurned2->target.setPosition(renderer.getPosition().x, renderer.getPosition().y);
+			animLosingBurned2->update(deltaTime);
+			break;
 		}
 	}
 	void Player::drawAnimations(RenderWindow* window)
@@ -787,6 +855,14 @@ namespace the_wonder_boy
 
 		case ANIMATION_STATE::LOSING_NORMAL:
 			window->draw(animLosingNormal->target);
+			break;
+
+		case ANIMATION_STATE::LOSING_BURNED_1:
+			window->draw(animLosingBurned1->target);
+			break;
+
+		case ANIMATION_STATE::LOSING_BURNED_2:
+			window->draw(animLosingBurned2->target);
 			break;
 		}
 	}
@@ -878,6 +954,13 @@ namespace the_wonder_boy
 			hit = false;
 
 			setNewAnimation(ANIMATION_STATE::JUMPING_LEFT);
+		}
+
+		if (animLosingBurned1->getNumberOfFrame() == 1)
+		{
+			animLosingBurned1->resetAnimation();
+
+			setNewAnimation(ANIMATION_STATE::LOSING_BURNED_2);
 		}
 	}
 	bool Player::actualAnimationIs(ANIMATION_STATE animation)
@@ -1054,13 +1137,16 @@ namespace the_wonder_boy
 	}
 	void Player::drainHealth(float deltaTime)
 	{
-		int healthPerSecond = 1.0f;
-
-		health = (health - healthPerSecond * deltaTime > 0.0f) ? health - healthPerSecond * deltaTime : 0.0f;
-
-		if (!isAlive())
+		if (isAlive())
 		{
-			lose();
+			int healthPerSecond = 1.0f;
+
+			health = (health - healthPerSecond * deltaTime > 0.0f) ? health - healthPerSecond * deltaTime : 0.0f;
+
+			if (!isAlive())
+			{
+				lose(LOSING_TYPE::NORMAL);
+			}
 		}
 	}
 	void Player::gravityForce(float deltaTime)
@@ -1111,7 +1197,7 @@ namespace the_wonder_boy
 		{
 			bouncedWhenDied = true;
 
-			gravity.actualSpeed = -1500.0f;
+			gravity.actualSpeed = -forceJump;
 		}
 	}
 	

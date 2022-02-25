@@ -20,10 +20,11 @@ using sf::Sprite;
 enum class ANIMATION_STATE { IDLE_RIGHT, IDLE_LEFT, WALKING_RIGHT, WALKING_LEFT,
 							JUMPING_RIGHT, JUMPING_LEFT, ATTACKING_RIGHT, ATTACKING_LEFT,
 							TRIPPING_RIGHT, TRIPPING_LEFT,
-							LOSING_NORMAL };
+							LOSING_NORMAL, LOSING_BURNED_1, LOSING_BURNED_2 };
 enum class BOX_COLLISION_TYPE { ENTIRE, FEET };
 enum class DIRECTION { LEFT, RIGHT };
 enum class SPEED { NORMAL, FAST };
+enum class LOSING_TYPE { NORMAL, BURNED };
 
 struct WALKING_ACCELERATION
 {
@@ -65,7 +66,7 @@ namespace the_wonder_boy
 		void receiveDamage(float damage);
 
 		void tripOn(Stone* stone); // Tropezarse.
-		void lose();
+		void lose(LOSING_TYPE losingType);
 
 	private:
 		#pragma region TEXTURAS
@@ -83,6 +84,7 @@ namespace the_wonder_boy
 		Texture texTrippingRight;
 		Texture texTrippingLeft;
 		Texture texLosingNormal;
+		Texture texLosingBurned;
 
 		#pragma endregion
 
@@ -108,6 +110,8 @@ namespace the_wonder_boy
 		Animation* animTrippingRight; // Animación tropezándose hacia la derecha.
 		Animation* animTrippingLeft; // Animación tropezándose hacia la izquierda.
 		Animation* animLosingNormal; // Animación perdiendo normalmente.
+		Animation* animLosingBurned1; // Animación perdiendo quemado (parte 1).
+		Animation* animLosingBurned2; // Animación perdiendo quemado (parte 2).
 
 		#pragma endregion
 
