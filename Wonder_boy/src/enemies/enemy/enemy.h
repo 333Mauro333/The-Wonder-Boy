@@ -12,6 +12,7 @@ using sf::RectangleShape;
 
 
 enum class ANIMATION_STATE_ENEMY { NORMAL, DEFEATED };
+enum class ENEMY_TYPE { SNAIL };
 
 namespace the_wonder_boy
 {
@@ -24,7 +25,9 @@ namespace the_wonder_boy
 		virtual void update(float deltaTime) = 0;
 		virtual void draw(RenderWindow* window) = 0;
 
+		virtual ENEMY_TYPE getEnemyType() = 0;
 		RectangleShape getBoxCollision();
+		bool isDefeated();
 
 	protected:
 		Texture texEnemy;

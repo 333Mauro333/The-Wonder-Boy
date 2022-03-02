@@ -27,8 +27,13 @@ namespace the_wonder_boy
 		cout << "El enemigo ha sido eliminado de la memoria.\n\n";
 	}
 
+	// Funciones públicas.
 	RectangleShape Enemy::getBoxCollision()
 	{
 		return boxCollision;
+	}
+	bool Enemy::isDefeated()
+	{
+		return defeated;
 	}
 }

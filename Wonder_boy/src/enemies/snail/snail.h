@@ -15,6 +15,8 @@ namespace the_wonder_boy
 		void update(float deltaTime) override;
 		void draw(RenderWindow* window) override;
 
+		ENEMY_TYPE getEnemyType() override;
+
 	private:
 
 		void initSprites() override;

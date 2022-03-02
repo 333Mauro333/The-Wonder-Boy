@@ -38,6 +38,11 @@ namespace the_wonder_boy
 		#endif // _DEBUG
 	}
 
+	ENEMY_TYPE Snail::getEnemyType()
+	{
+		return ENEMY_TYPE::SNAIL;
+	}
+
 	// SEGUIR AGREGANDO LAS FUNCIONES Y PROPIEDADES DEL CARACOL:
 	// 1. QUE REPTE
 	// 2. QUE PUEDA SER VENCIDA A TRAVÉS DE LA COLISIÓN CON EL MARTILLO.
