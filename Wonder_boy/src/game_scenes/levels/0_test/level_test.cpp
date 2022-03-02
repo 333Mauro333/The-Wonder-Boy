@@ -71,6 +71,19 @@ namespace the_wonder_boy
 		for (int i = 0; i < enemySize; i++)
 		{
 			enemy[i]->update(GameManager::getDeltaTime());
+
+			if (CollisionManager::isColliding(player, ((Snail*)enemy[i])))
+			{
+				player->lose(LOSING_TYPE::NORMAL);
+			}
+
+			for (int j = 0; j < Player::getStoneHammersSize(); j++)
+			{
+				if (CollisionManager::isColliding(player->getPlayerStoneHammer(j), ((Snail*)enemy[i])))
+				{
+					cout << "El caracol pierde.\n";
+				}
+			}
 		}
 	}
 	void LevelTest::draw()

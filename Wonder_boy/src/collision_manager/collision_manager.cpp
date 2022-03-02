@@ -24,6 +24,13 @@ namespace the_wonder_boy
 			player->getBoxCollision(BOX_COLLISION_TYPE::ENTIRE).getPosition().y > bonfire->getBoxCollision().getPosition().y - bonfire->getBoxCollision().getGlobalBounds().height &&
 			player->getBoxCollision(BOX_COLLISION_TYPE::ENTIRE).getPosition().y - player->getBoxCollision(BOX_COLLISION_TYPE::ENTIRE).getGlobalBounds().height < bonfire->getBoxCollision().getPosition().y;
 	}
+	bool CollisionManager::isColliding(Player* player, Snail* snail)
+	{
+		return player->isAlive() && player->getBoxCollision(BOX_COLLISION_TYPE::ENTIRE).getPosition().x + player->getBoxCollision(BOX_COLLISION_TYPE::ENTIRE).getGlobalBounds().width / 2.0f > snail->getBoxCollision().getPosition().x - snail->getBoxCollision().getGlobalBounds().width / 2.0f &&
+			player->getBoxCollision(BOX_COLLISION_TYPE::ENTIRE).getPosition().x - player->getBoxCollision(BOX_COLLISION_TYPE::ENTIRE).getGlobalBounds().width / 2.0f < snail->getBoxCollision().getPosition().x + snail->getBoxCollision().getGlobalBounds().width / 2.0f &&
+			player->getBoxCollision(BOX_COLLISION_TYPE::ENTIRE).getPosition().y > snail->getBoxCollision().getPosition().y - snail->getBoxCollision().getGlobalBounds().height &&
+			player->getBoxCollision(BOX_COLLISION_TYPE::ENTIRE).getPosition().y - player->getBoxCollision(BOX_COLLISION_TYPE::ENTIRE).getGlobalBounds().height < snail->getBoxCollision().getPosition().y;
+	}
 
 	bool CollisionManager::isColliding(StoneHammer* stoneHammer, Floor* floor)
 	{
@@ -32,5 +39,13 @@ namespace the_wonder_boy
 			stoneHammer->getBoxCollision().getPosition().y - stoneHammer->getBoxCollision().getGlobalBounds().height / 2.0f < floor->getBoxCollision().getPosition().y + floor->getBoxCollision().getGlobalBounds().height &&
 			stoneHammer->getBoxCollision().getPosition().x + stoneHammer->getBoxCollision().getGlobalBounds().width / 2.0f > floor->getBoxCollision().getPosition().x - floor->getBoxCollision().getGlobalBounds().width / 2.0f &&
 			stoneHammer->getBoxCollision().getPosition().x - stoneHammer->getBoxCollision().getGlobalBounds().width / 2.0f < floor->getBoxCollision().getPosition().x + floor->getBoxCollision().getGlobalBounds().width / 2.0f;
+	}
+	bool CollisionManager::isColliding(StoneHammer* stoneHammer, Snail* snail)
+	{
+		return stoneHammer->getIsThrown() &&
+			stoneHammer->getBoxCollision().getPosition().y + stoneHammer->getBoxCollision().getGlobalBounds().height / 2.0f > snail->getBoxCollision().getPosition().y - snail->getBoxCollision().getGlobalBounds().height &&
+			stoneHammer->getBoxCollision().getPosition().y - stoneHammer->getBoxCollision().getGlobalBounds().height / 2.0f < snail->getBoxCollision().getPosition().y &&
+			stoneHammer->getBoxCollision().getPosition().x + stoneHammer->getBoxCollision().getGlobalBounds().width / 2.0f > snail->getBoxCollision().getPosition().x - snail->getBoxCollision().getGlobalBounds().width / 2.0f &&
+			stoneHammer->getBoxCollision().getPosition().x - stoneHammer->getBoxCollision().getGlobalBounds().width / 2.0f < snail->getBoxCollision().getPosition().x + snail->getBoxCollision().getGlobalBounds().width / 2.0f;
 	}
 }
