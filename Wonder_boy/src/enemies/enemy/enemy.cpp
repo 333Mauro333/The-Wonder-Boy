@@ -15,6 +15,8 @@ namespace the_wonder_boy
 
 		boxCollision.setFillColor(sf::Color(255, 0, 0, 128));
 
+		animationState = ANIMATION_STATE_ENEMY::NORMAL;
+
 		cout << "Se ha creado un enemigo.\n";
 	}
 	Enemy::~Enemy()

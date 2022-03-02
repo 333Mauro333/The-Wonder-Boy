@@ -76,6 +76,9 @@
     <Filter Include="allFiles\src\enemies\enemy">
       <UniqueIdentifier>{99e081ad-7a19-4682-9d85-2c2cf46ed059}</UniqueIdentifier>
     </Filter>
+    <Filter Include="allFiles\src\enemies\snail">
+      <UniqueIdentifier>{f8c9f653-9722-49af-83eb-0b72c3bbb9b2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -135,6 +138,9 @@
     <ClCompile Include="src\enemies\enemy\enemy.cpp">
       <Filter>allFiles\src\enemies\enemy</Filter>
     </ClCompile>
+    <ClCompile Include="src\enemies\snail\snail.cpp">
+      <Filter>allFiles\src\enemies\snail</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\entity\entity.h">
@@ -190,6 +196,9 @@
     </ClInclude>
     <ClInclude Include="src\enemies\enemy\enemy.h">
       <Filter>allFiles\src\enemies\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="src\enemies\snail\snail.h">
+      <Filter>allFiles\src\enemies\snail</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

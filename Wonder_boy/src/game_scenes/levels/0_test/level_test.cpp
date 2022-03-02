@@ -68,6 +68,10 @@ namespace the_wonder_boy
 				cout << "Se quemo con la fogata  " << i + 1 << ".\n";
 			}
 		}
+		for (int i = 0; i < enemySize; i++)
+		{
+			enemy[i]->update(GameManager::getDeltaTime());
+		}
 	}
 	void LevelTest::draw()
 	{
@@ -84,6 +88,10 @@ namespace the_wonder_boy
 		for (int i = 0; i < bonfireSize; i++)
 		{
 			bonfire[i]->draw(window);
+		}
+		for (int i = 0; i < enemySize; i++)
+		{
+			enemy[i]->draw(window);
 		}
 		hud->draw(window);
 	}
@@ -154,6 +162,15 @@ namespace the_wonder_boy
 		{
 			bonfire[i] = new Bonfire(x, y);
 			x += 750.0f;
+		}
+
+		x = floor[30]->getInitialPosition().x;
+		y = floor[30]->getInitialPosition().y;
+
+		for (int i = 0; i < enemySize; i++)
+		{
+			enemy[i] = new Snail(x, y);
+			x += 500.0f;
 		}
 
 		view.setSize(Vector2f(static_cast<float>(window->getSize().x), static_cast<float>(window->getSize().y)));

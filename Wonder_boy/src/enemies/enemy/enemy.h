@@ -6,6 +6,7 @@
 #include "animation/animation.h"
 
 using sf::RenderWindow;
+using sf::Texture;
 using sf::Sprite;
 using sf::RectangleShape;
 
@@ -26,11 +27,14 @@ namespace the_wonder_boy
 		RectangleShape getBoxCollision();
 
 	protected:
+		Texture texEnemy;
+
 		Sprite sprLoader;
 		Sprite renderer;
 
 		RectangleShape boxCollision;
 
+		ANIMATION_STATE_ENEMY animationState;
 		Animation* animNormal;
 		Animation* animDefeated;
 
