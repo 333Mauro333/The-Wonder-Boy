@@ -268,12 +268,15 @@ namespace the_wonder_boy
 		}
 		for (int i = 0; i < enemySize; i++)
 		{
-			if (!enemy[i]->isActive() && player->getPosition().x + view.getSize().x > enemy[i]->getPosition().x)
+			if (!enemy[i]->isActive() && !enemy[i]->isDefeated() && player->getPosition().x + view.getSize().x > enemy[i]->getPosition().x)
 			{
 				enemy[i]->activate();
 				cout << "Se ha activado el enemigo " << i + 1 << ".\n";
-				cout << "Posicion player: " << player->getPosition().x << " - " << player->getPosition().y << ".\n";
-				cout << "Posicion enemigo: " << enemy[i]->getPosition().x << " - " << enemy[i]->getPosition().y << ".\n";
+			}
+			else if (enemy[i]->isDefeated() && enemy[i]->isActive() && enemy[i]->getPosition().y > view.getCenter().y + view.getSize().y / 1.5f)
+			{
+				enemy[i]->deactivate();
+				cout << "El enemigo " << i + 1 << " fue desactivado.\n";
 			}
 		}
 
