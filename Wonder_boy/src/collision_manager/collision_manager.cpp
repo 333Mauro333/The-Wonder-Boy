@@ -26,7 +26,8 @@ namespace the_wonder_boy
 	}
 	bool CollisionManager::isColliding(Player* player, Enemy* enemy)
 	{
-		return player->isAlive() && player->getBoxCollision(BOX_COLLISION_TYPE::ENTIRE).getPosition().x + player->getBoxCollision(BOX_COLLISION_TYPE::ENTIRE).getGlobalBounds().width / 2.0f > enemy->getBoxCollision().getPosition().x - enemy->getBoxCollision().getGlobalBounds().width / 2.0f &&
+		return enemy->isActive() && !enemy->isDefeated() && player->isAlive() &&
+			player->getBoxCollision(BOX_COLLISION_TYPE::ENTIRE).getPosition().x + player->getBoxCollision(BOX_COLLISION_TYPE::ENTIRE).getGlobalBounds().width / 2.0f > enemy->getBoxCollision().getPosition().x - enemy->getBoxCollision().getGlobalBounds().width / 2.0f &&
 			player->getBoxCollision(BOX_COLLISION_TYPE::ENTIRE).getPosition().x - player->getBoxCollision(BOX_COLLISION_TYPE::ENTIRE).getGlobalBounds().width / 2.0f < enemy->getBoxCollision().getPosition().x + enemy->getBoxCollision().getGlobalBounds().width / 2.0f &&
 			player->getBoxCollision(BOX_COLLISION_TYPE::ENTIRE).getPosition().y > enemy->getBoxCollision().getPosition().y - enemy->getBoxCollision().getGlobalBounds().height &&
 			player->getBoxCollision(BOX_COLLISION_TYPE::ENTIRE).getPosition().y - player->getBoxCollision(BOX_COLLISION_TYPE::ENTIRE).getGlobalBounds().height < enemy->getBoxCollision().getPosition().y;
@@ -42,7 +43,7 @@ namespace the_wonder_boy
 	}
 	bool CollisionManager::isColliding(StoneHammer* stoneHammer, Enemy* enemy)
 	{
-		return stoneHammer->getIsThrown() &&
+		return stoneHammer->getIsThrown() && !enemy->isDefeated() && enemy->isActive() &&
 			stoneHammer->getBoxCollision().getPosition().y + stoneHammer->getBoxCollision().getGlobalBounds().height / 2.0f > enemy->getBoxCollision().getPosition().y - enemy->getBoxCollision().getGlobalBounds().height &&
 			stoneHammer->getBoxCollision().getPosition().y - stoneHammer->getBoxCollision().getGlobalBounds().height / 2.0f < enemy->getBoxCollision().getPosition().y &&
 			stoneHammer->getBoxCollision().getPosition().x + stoneHammer->getBoxCollision().getGlobalBounds().width / 2.0f > enemy->getBoxCollision().getPosition().x - enemy->getBoxCollision().getGlobalBounds().width / 2.0f &&

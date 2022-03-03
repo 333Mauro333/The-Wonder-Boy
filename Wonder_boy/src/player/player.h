@@ -124,6 +124,7 @@ namespace the_wonder_boy
 		RectangleShape boxFeet; // Caja de colisión (pies).
 
 		float health;
+		bool threw;
 		bool hit;
 		bool bouncedWhenDied;
 

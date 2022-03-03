@@ -25,6 +25,7 @@ namespace the_wonder_boy
 	void Snail::update(float deltaTime)
 	{
 		updateAnimations(deltaTime);
+		gravityForce(deltaTime);
 		accommodateAnimations();
 	}
 	void Snail::draw(RenderWindow* window)
@@ -43,9 +44,17 @@ namespace the_wonder_boy
 		return ENEMY_TYPE::SNAIL;
 	}
 
-	// SEGUIR AGREGANDO LAS FUNCIONES Y PROPIEDADES DEL CARACOL:
-	// 1. QUE REPTE
-	// 2. QUE PUEDA SER VENCIDA A TRAVÉS DE LA COLISIÓN CON EL MARTILLO.
+	void Snail::defeat()
+	{
+		if (active && !defeated)
+		{
+			defeated = true;
+			setNewAnimation(ANIMATION_STATE_ENEMY::DEFEATED);
+			gravity.actualSpeed = -bounceForce;
+			accommodateAnimations();
+		}
+	}
+
 
 	// Funciones privadas.
 	void Snail::initSprites()
@@ -116,32 +125,38 @@ namespace the_wonder_boy
 	}
 	void Snail::updateAnimations(float deltaTime)
 	{
-		updateAnimationEvents();
-
-		switch (animationState)
+		if (active)
 		{
-		case ANIMATION_STATE_ENEMY::NORMAL:
-			animNormal->target.setPosition(renderer.getPosition().x, renderer.getPosition().y);
-			animNormal->update(deltaTime);
-			break;
+			updateAnimationEvents();
 
-		case ANIMATION_STATE_ENEMY::DEFEATED:
-			animDefeated->target.setPosition(renderer.getPosition().x, renderer.getPosition().y);
-			animDefeated->update(deltaTime);
-			break;
+			switch (animationState)
+			{
+			case ANIMATION_STATE_ENEMY::NORMAL:
+				animNormal->target.setPosition(renderer.getPosition().x, renderer.getPosition().y);
+				animNormal->update(deltaTime);
+				break;
+
+			case ANIMATION_STATE_ENEMY::DEFEATED:
+				animDefeated->target.setPosition(renderer.getPosition().x, renderer.getPosition().y);
+				animDefeated->update(deltaTime);
+				break;
+			}
 		}
 	}
 	void Snail::drawAnimations(RenderWindow* window)
 	{
-		switch (animationState)
+		if (active)
 		{
-		case ANIMATION_STATE_ENEMY::NORMAL:
-			window->draw(animNormal->target);
-			break;
+			switch (animationState)
+			{
+			case ANIMATION_STATE_ENEMY::NORMAL:
+				window->draw(animNormal->target);
+				break;
 
-		case ANIMATION_STATE_ENEMY::DEFEATED:
-			window->draw(animDefeated->target);
-			break;
+			case ANIMATION_STATE_ENEMY::DEFEATED:
+				window->draw(animDefeated->target);
+				break;
+			}
 		}
 	}
 	void Snail::accommodateAnimations()

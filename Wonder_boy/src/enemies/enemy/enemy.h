@@ -3,6 +3,7 @@
 
 #include "SFML/Graphics.hpp"
 
+#include "entity/entity.h"
 #include "animation/animation.h"
 
 using sf::RenderWindow;
@@ -27,7 +28,13 @@ namespace the_wonder_boy
 
 		virtual ENEMY_TYPE getEnemyType() = 0;
 		RectangleShape getBoxCollision();
+		Vector2f getPosition();
+		bool isActive();
 		bool isDefeated();
+		void activate();
+		void deactivate();
+		
+		virtual void defeat() = 0;
 
 	protected:
 		Texture texEnemy;
@@ -41,12 +48,21 @@ namespace the_wonder_boy
 		Animation* animNormal;
 		Animation* animDefeated;
 
+		GRAVITY gravity;
+
+		bool active;
 		bool defeated;
+
+		float bounceForce;
 
 		virtual void initSprites() = 0;
 		virtual void initAnimations(float x, float y) = 0;
 		virtual void updateAnimations(float deltaTime) = 0;
 		virtual void drawAnimations(RenderWindow* window) = 0;
+
+		void gravityForce(float deltaTime);
+
+		void setNewAnimation(ANIMATION_STATE_ENEMY animation);
 	};
 }
 

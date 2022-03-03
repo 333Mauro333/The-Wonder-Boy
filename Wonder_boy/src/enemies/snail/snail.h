@@ -17,6 +17,8 @@ namespace the_wonder_boy
 
 		ENEMY_TYPE getEnemyType() override;
 
+		void defeat() override;
+
 	private:
 
 		void initSprites() override;

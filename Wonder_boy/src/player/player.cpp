@@ -20,6 +20,7 @@ namespace the_wonder_boy
 		renderer.setPosition(x, y);
 
 		health = 100.0f;
+		threw = false;
 		hit = false;
 		bouncedWhenDied = false;
 
@@ -299,6 +300,7 @@ namespace the_wonder_boy
 
 	void Player::tripOn(Stone* stone)
 	{
+		threw = false;
 		receiveDamage(stone->getDamage());
 
 		if (isAlive())
@@ -905,7 +907,11 @@ namespace the_wonder_boy
 	{
 		if (animAttackingRight->getNumberOfFrame() == 1)
 		{
-			attack(DIRECTION::RIGHT);
+			if (!threw)
+			{
+				attack(DIRECTION::RIGHT);
+				threw = true;
+			}
 		}
 		else if (animAttackingRight->getNumberOfFrame() == 2)
 		{
@@ -919,11 +925,17 @@ namespace the_wonder_boy
 			{
 				setNewAnimation(ANIMATION_STATE::JUMPING_RIGHT);
 			}
+
+			threw = false;
 		}
 
 		if (animAttackingLeft->getNumberOfFrame() == 1)
 		{
-			attack(DIRECTION::LEFT);
+			if (!threw)
+			{
+				attack(DIRECTION::LEFT);
+				threw = true;
+			}
 		}
 		else if (animAttackingLeft->getNumberOfFrame() == 2)
 		{
@@ -937,6 +949,8 @@ namespace the_wonder_boy
 			{
 				setNewAnimation(ANIMATION_STATE::JUMPING_LEFT);
 			}
+
+			threw = false;
 		}
 
 		if (animTrippingRight->getNumberOfFrame() == 1)

@@ -81,6 +81,8 @@ namespace the_wonder_boy
 			{
 				if (CollisionManager::isColliding(player->getPlayerStoneHammer(j), enemy[i]))
 				{
+					enemy[i]->defeat();
+					player->getPlayerStoneHammer(j)->hit();
 					cout << "El enemigo pierde.\n";
 				}
 			}
@@ -89,10 +91,14 @@ namespace the_wonder_boy
 	void LevelTest::draw()
 	{
 		window->draw(background);
-		player->draw(window);
 		for (int i = 0; i < floorSize; i++)
 		{
 			floor[i]->draw(window);
+		}
+		player->draw(window);
+		for (int i = 0; i < enemySize; i++)
+		{
+			enemy[i]->draw(window);
 		}
 		for (int i = 0; i < stoneSize; i++)
 		{
@@ -101,10 +107,6 @@ namespace the_wonder_boy
 		for (int i = 0; i < bonfireSize; i++)
 		{
 			bonfire[i]->draw(window);
-		}
-		for (int i = 0; i < enemySize; i++)
-		{
-			enemy[i]->draw(window);
 		}
 		hud->draw(window);
 	}
@@ -201,7 +203,18 @@ namespace the_wonder_boy
 		{
 			delete floor[i];
 		}
-
+		for (int i = 0; i < stoneSize; i++)
+		{
+			delete stone[i];
+		}
+		for (int i = 0; i < bonfireSize; i++)
+		{
+			delete bonfire[i];
+		}
+		for (int i = 0; i < enemySize; i++)
+		{
+			delete enemy[i];
+		}
 	}
 
 	void LevelTest::moveCameraInY(float start, float end, float pixelsToMove)
@@ -251,6 +264,16 @@ namespace the_wonder_boy
 			if (player->getPlayerStoneHammer(i)->getIsThrown() && player->getPlayerStoneHammer(i)->getPosition().y > view.getCenter().y + view.getSize().y / 1.5f)
 			{
 				player->getPlayerStoneHammer(i)->hit();
+			}
+		}
+		for (int i = 0; i < enemySize; i++)
+		{
+			if (!enemy[i]->isActive() && player->getPosition().x + view.getSize().x > enemy[i]->getPosition().x)
+			{
+				enemy[i]->activate();
+				cout << "Se ha activado el enemigo " << i + 1 << ".\n";
+				cout << "Posicion player: " << player->getPosition().x << " - " << player->getPosition().y << ".\n";
+				cout << "Posicion enemigo: " << enemy[i]->getPosition().x << " - " << enemy[i]->getPosition().y << ".\n";
 			}
 		}
 
