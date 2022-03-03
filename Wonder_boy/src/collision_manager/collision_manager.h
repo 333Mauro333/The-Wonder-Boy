@@ -6,7 +6,7 @@
 #include "stone_hammer/stone_hammer.h"
 #include "obstacles/stone/stone.h"
 #include "obstacles/bonfire/bonfire.h"
-#include "enemies/snail/snail.h"
+#include "enemies/enemy/enemy.h"
 
 
 namespace the_wonder_boy

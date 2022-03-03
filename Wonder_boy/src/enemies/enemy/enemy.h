@@ -13,7 +13,7 @@ using sf::RectangleShape;
 
 
 enum class ANIMATION_STATE_ENEMY { NORMAL, DEFEATED };
-enum class ENEMY_TYPE { SNAIL };
+enum class ENEMY_TYPE { SNAIL, WASP };
 
 namespace the_wonder_boy
 {

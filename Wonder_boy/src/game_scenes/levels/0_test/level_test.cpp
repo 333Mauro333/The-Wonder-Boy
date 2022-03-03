@@ -7,6 +7,8 @@
 #include "scene_manager/scene_manager.h"
 #include "game_scenes/screens/main_menu/main_menu.h"
 #include "collision_manager/collision_manager.h"
+#include "enemies/snail/snail.h"
+#include "enemies/wasp/wasp.h"
 
 using std::cout;
 
@@ -184,7 +186,15 @@ namespace the_wonder_boy
 
 		for (int i = 0; i < enemySize; i++)
 		{
-			enemy[i] = new Snail(x, y);
+			if (i == 0)
+			{
+				enemy[i] = new Snail(x, y);
+			}
+			else
+			{
+				enemy[i] = new Wasp(x, y, WASP_VERTICAL_SPEED::FAST);
+			}
+
 			x += 500.0f;
 		}
 
@@ -268,7 +278,9 @@ namespace the_wonder_boy
 		}
 		for (int i = 0; i < enemySize; i++)
 		{
-			if (!enemy[i]->isActive() && !enemy[i]->isDefeated() && player->getPosition().x + view.getSize().x > enemy[i]->getPosition().x)
+			float distanceToBeActivated = view.getSize().x / 2.0f;
+
+			if (!enemy[i]->isActive() && !enemy[i]->isDefeated() && player->getPosition().x + distanceToBeActivated > enemy[i]->getPosition().x)
 			{
 				enemy[i]->activate();
 				cout << "Se ha activado el enemigo " << i + 1 << ".\n";

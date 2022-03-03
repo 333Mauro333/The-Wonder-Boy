@@ -8,7 +8,7 @@
 #include "floor/floor.h"
 #include "obstacles/stone/stone.h"
 #include "obstacles/bonfire/bonfire.h"
-#include "enemies/snail/snail.h"
+#include "enemies/enemy/enemy.h"
 
 using sf::View;
 
