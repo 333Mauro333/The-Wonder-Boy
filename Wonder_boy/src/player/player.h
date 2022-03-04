@@ -56,6 +56,7 @@ namespace the_wonder_boy
 		bool getHit();
 		float getHealth();
 		float getFallingSpeed();
+		int getPoints();
 		StoneHammer* getPlayerStoneHammer(int position);
 		static int getStoneHammersSize();
 		DIRECTION getActualAnimationDirection();
@@ -64,6 +65,7 @@ namespace the_wonder_boy
 		void stopWalkSpeed();
 		void addHealth(float health);
 		void receiveDamage(float damage);
+		void addPoints(int pointsToAdd);
 
 		void tripOn(Stone* stone); // Tropezarse.
 		void lose(LOSING_TYPE losingType);
@@ -131,6 +133,8 @@ namespace the_wonder_boy
 		float forceJump = 1400.0f;
 		float walkingAnimationSpeed = 0.075f;
 		float speedLimit = 500.0f;
+
+		int points;
 
 		static const int stoneHammersSize = 2;
 		StoneHammer* stoneHammers[stoneHammersSize];

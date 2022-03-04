@@ -286,16 +286,22 @@ namespace the_wonder_boy
 	{
 		walkingSpeed.actualSpeed = 0.0f;
 	}
-	void Player::addHealth(float health)
+	void Player::addHealth(float healthToAdd)
 	{
 		const float maxHealth = 100.0f;
 
 
-		this->health = (this->health + health > maxHealth) ? maxHealth : this->health + health;
+		this->health = (health + healthToAdd > maxHealth) ? maxHealth : health + healthToAdd;
 	}
 	void Player::receiveDamage(float damage)
 	{
 		health = (health - damage > 0.0f) ? health - damage : 0.0f;
+	}
+	void Player::addPoints(int pointsToAdd)
+	{
+		points = (points + pointsToAdd > INT32_MAX) ? INT32_MAX : points + pointsToAdd;
+
+		cout << "Puntos actuales: " << points << ".\n";
 	}
 
 	void Player::tripOn(Stone* stone)

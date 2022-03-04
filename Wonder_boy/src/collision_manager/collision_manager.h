@@ -7,6 +7,7 @@
 #include "obstacles/stone/stone.h"
 #include "obstacles/bonfire/bonfire.h"
 #include "enemies/enemy/enemy.h"
+#include "items/fruit/fruit.h"
 
 
 namespace the_wonder_boy
@@ -18,6 +19,7 @@ namespace the_wonder_boy
 		static bool isColliding(Player* player, Stone* stone);
 		static bool isColliding(Player* player, Bonfire* stone);
 		static bool isColliding(Player* player, Enemy* enemy);
+		static bool isColliding(Player* player, Fruit* fruit);
 
 		static bool isColliding(StoneHammer* stoneHammer, Floor* floor);
 		static bool isColliding(StoneHammer* stoneHammer, Enemy* enemy);

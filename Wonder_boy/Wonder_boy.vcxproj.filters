@@ -82,6 +82,12 @@
     <Filter Include="allFiles\src\enemies\wasp">
       <UniqueIdentifier>{0787e4de-5c4a-4f19-8012-b1dc8014f185}</UniqueIdentifier>
     </Filter>
+    <Filter Include="allFiles\src\items">
+      <UniqueIdentifier>{450690e5-5766-4e63-b529-f984f278f05e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="allFiles\src\items\fruit">
+      <UniqueIdentifier>{02b88706-fb35-4708-b847-9db7fcd3a289}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -147,6 +153,9 @@
     <ClCompile Include="src\enemies\wasp\wasp.cpp">
       <Filter>allFiles\src\enemies\wasp</Filter>
     </ClCompile>
+    <ClCompile Include="src\items\fruit\fruit.cpp">
+      <Filter>allFiles\src\items\fruit</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\entity\entity.h">
@@ -208,6 +217,9 @@
     </ClInclude>
     <ClInclude Include="src\enemies\wasp\wasp.h">
       <Filter>allFiles\src\enemies\wasp</Filter>
+    </ClInclude>
+    <ClInclude Include="src\items\fruit\fruit.h">
+      <Filter>allFiles\src\items\fruit</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

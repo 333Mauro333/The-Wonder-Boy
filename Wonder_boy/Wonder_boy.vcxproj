@@ -165,6 +165,7 @@
     <ClCompile Include="src\game_scenes\scene.cpp" />
     <ClCompile Include="src\game_scenes\screens\main_menu\main_menu.cpp" />
     <ClCompile Include="src\hud\hud.cpp" />
+    <ClCompile Include="src\items\fruit\fruit.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\obstacles\bonfire\bonfire.cpp" />
     <ClCompile Include="src\obstacles\stone\stone.cpp" />
@@ -188,6 +189,7 @@
     <ClInclude Include="src\game_scenes\scene.h" />
     <ClInclude Include="src\game_scenes\screens\main_menu\main_menu.h" />
     <ClInclude Include="src\hud\hud.h" />
+    <ClInclude Include="src\items\fruit\fruit.h" />
     <ClInclude Include="src\obstacles\bonfire\bonfire.h" />
     <ClInclude Include="src\obstacles\stone\stone.h" />
     <ClInclude Include="src\player\player.h" />

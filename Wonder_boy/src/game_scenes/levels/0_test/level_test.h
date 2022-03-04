@@ -6,6 +6,7 @@
 #include "hud/hud.h"
 #include "player/player.h"
 #include "floor/floor.h"
+#include "items/fruit/fruit.h"
 #include "obstacles/stone/stone.h"
 #include "obstacles/bonfire/bonfire.h"
 #include "enemies/enemy/enemy.h"
@@ -31,6 +32,9 @@ namespace the_wonder_boy
 		View view;
 		Player* player;
 		HUD* hud;
+
+		static const int fruitSize = 10;
+		Fruit* fruit[fruitSize];
 
 		static const int floorSize = 30;
 		Floor* floor[floorSize];

@@ -52,6 +52,18 @@ namespace the_wonder_boy
 				player->collisionWith(floor[i]);
 			}
 		}
+		for (int i = 0; i < fruitSize; i++)
+		{
+			fruit[i]->update(GameManager::getDeltaTime());
+
+			if (CollisionManager::isColliding(player, fruit[i]))
+			{
+				fruit[i]->take();
+				player->addHealth(fruit[i]->getHealthValue());
+				player->addPoints(fruit[i]->getPointsValue());
+				cout << "La fruta " << i + 1 << " fue agarrada.\n";
+			}
+		}
 		for (int i = 0; i < stoneSize; i++)
 		{
 			if (CollisionManager::isColliding(player, stone[i]) && !player->getHit())
@@ -98,6 +110,10 @@ namespace the_wonder_boy
 			floor[i]->draw(window);
 		}
 		player->draw(window);
+		for (int i = 0; i < fruitSize; i++)
+		{
+			fruit[i]->draw(window);
+		}
 		for (int i = 0; i < enemySize; i++)
 		{
 			enemy[i]->draw(window);
@@ -140,9 +156,9 @@ namespace the_wonder_boy
 		// Se hacen conversiones de datos para evitar advertencias de Visual Studio.
 		player = new Player(static_cast<float>(window->getSize().x / 2), static_cast<float>(window->getSize().y / 4.0f * 3.0f));
 
+		// Pisos.
 		float x = 0.0f;
 		float y = window->getSize().y / 4.0f * 3.5f;
-
 		for (int i = 0; i < floorSize; i++)
 		{
 			if (i == 8 || i == 10)
@@ -165,9 +181,34 @@ namespace the_wonder_boy
 			x += floor[i]->getBoxCollision().getGlobalBounds().width;
 		}
 
+		// Frutas.
+		x = floor[3]->getInitialPosition().x;
+		y = floor[3]->getInitialPosition().y - 200.0f;
+		for (int i = 0; i < fruitSize; i++)
+		{
+			if (i < 3)
+			{
+				fruit[i] = new Fruit(x, y, FRUIT_TYPE::APPLE);
+			}
+			else if (i < 6)
+			{
+				fruit[i] = new Fruit(x, y, FRUIT_TYPE::BANANAS);
+			}
+			else if (i < 9)
+			{
+				fruit[i] = new Fruit(x, y, FRUIT_TYPE::CARROT);
+			}
+			else
+			{
+				fruit[i] = new Fruit(x, y, FRUIT_TYPE::TOMATO);
+			}
+
+			x += floor[i + 3]->getBoxCollision().getGlobalBounds().width;
+		}
+
+		// Piedras.
 		x = 1000.0f;
 		y = window->getSize().y / 4.0f * 3.5f;
-
 		for (int i = 0; i < stoneSize; i++)
 		{
 			stone[i] = new Stone(x, y);
@@ -175,18 +216,18 @@ namespace the_wonder_boy
 			x += 500.0f;
 		}
 
+		// Fogatas.
 		x = floor[15]->getInitialPosition().x;
 		y = floor[15]->getInitialPosition().y;
-
 		for (int i = 0; i < bonfireSize; i++)
 		{
 			bonfire[i] = new Bonfire(x, y);
-			x += floor[15]->getBoxCollision().getGlobalBounds().width;
+			x += floor[15]->getBoxCollision().getGlobalBounds().width * 2.0f;
 		}
 
+		// Enemigos.
 		x = floor[20]->getInitialPosition().x;
 		y = floor[20]->getInitialPosition().y;
-
 		for (int i = 0; i < enemySize; i++)
 		{
 			if (i % 3 == 0)
@@ -215,6 +256,10 @@ namespace the_wonder_boy
 		for (int i = 0; i < floorSize; i++)
 		{
 			delete floor[i];
+		}
+		for (int i = 0; i < fruitSize; i++)
+		{
+			delete fruit[i];
 		}
 		for (int i = 0; i < stoneSize; i++)
 		{
@@ -292,6 +337,16 @@ namespace the_wonder_boy
 			{
 				enemy[i]->deactivate();
 				cout << "El enemigo " << i + 1 << " fue desactivado.\n";
+			}
+		}
+		for (int i = 0; i < fruitSize; i++)
+		{
+			float distanceToBeActivated = view.getSize().x / 3.0f;
+
+			if (!fruit[i]->isActive() && !fruit[i]->wasTaken() && player->getPosition().x + distanceToBeActivated > fruit[i]->getPosition().x)
+			{
+				fruit[i]->activate();
+				cout << "Se ha activado la fruta " << i + 1 << ".\n";
 			}
 		}
 
