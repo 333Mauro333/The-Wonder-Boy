@@ -564,7 +564,7 @@ namespace the_wonder_boy
 
 			if (i != 0)
 			{
-				frameDuration = 0.125f;
+				frameDuration = 0.1125f;
 			}
 
 			Frame* frame = new Frame(intRect, frameDuration);
@@ -597,7 +597,7 @@ namespace the_wonder_boy
 
 			if (i != 0)
 			{
-				frameDuration = 0.125f;
+				frameDuration = 0.1125f;
 			}
 
 			Frame* frame = new Frame(intRect, frameDuration);
@@ -1130,19 +1130,21 @@ namespace the_wonder_boy
 	}
 	void Player::attack(DIRECTION direction)
 	{
+		Vector2f distanceToCenter = { 40.0f, 110.0f };
+
 		switch (direction)
 		{
 		case DIRECTION::LEFT:
 			if (!stoneHammers[savedHammerPosition]->getIsThrown())
 			{
-				stoneHammers[savedHammerPosition]->setPosition(renderer.getPosition().x - 20.0f, renderer.getPosition().y - 80.0f);
+				stoneHammers[savedHammerPosition]->setPosition(renderer.getPosition().x - distanceToCenter.x, renderer.getPosition().y - distanceToCenter.y);
 			}
 			break;
 
 		case DIRECTION::RIGHT:
 			if (!stoneHammers[savedHammerPosition]->getIsThrown())
 			{
-				stoneHammers[savedHammerPosition]->setPosition(renderer.getPosition().x + 20.0f, renderer.getPosition().y - 80.0f);
+				stoneHammers[savedHammerPosition]->setPosition(renderer.getPosition().x + distanceToCenter.x, renderer.getPosition().y - distanceToCenter.y);
 			}
 			break;
 		}
