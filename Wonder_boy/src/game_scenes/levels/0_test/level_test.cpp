@@ -134,7 +134,7 @@ namespace the_wonder_boy
 	void LevelTest::init()
 	{
 		background.setSize(static_cast<Vector2f>(window->getSize()));
-		background.setFillColor(sf::Color(128, 128, 255)); // Celeste
+		background.setFillColor(sf::Color(128, 128, 255)); // Celeste.
 		background.setOrigin(background.getGlobalBounds().width / 2.0f, background.getGlobalBounds().height / 2.0f);
 
 		// Se hacen conversiones de datos para evitar advertencias de Visual Studio.
@@ -148,6 +148,9 @@ namespace the_wonder_boy
 			if (i == 8 || i == 10)
 			{
 				floor[i] = new Floor(x, y, FLOOR_TYPE::END);
+				x -= floor[i - 1]->getBoxCollision().getGlobalBounds().width;
+				x += floor[i]->getBoxCollision().getGlobalBounds().width;
+				floor[i]->setPosition(x, y);
 				x += floor[i]->getBoxCollision().getGlobalBounds().width * 2;
 			}
 			else if (i == 9 || i == 11)
@@ -172,21 +175,21 @@ namespace the_wonder_boy
 			x += 500.0f;
 		}
 
-		x = 3000.0f;
-		y = window->getSize().y / 4.0f * 3.5f;
+		x = floor[15]->getInitialPosition().x;
+		y = floor[15]->getInitialPosition().y;
 
 		for (int i = 0; i < bonfireSize; i++)
 		{
 			bonfire[i] = new Bonfire(x, y);
-			x += 750.0f;
+			x += floor[15]->getBoxCollision().getGlobalBounds().width;
 		}
 
-		x = floor[30]->getInitialPosition().x;
-		y = floor[30]->getInitialPosition().y;
+		x = floor[20]->getInitialPosition().x;
+		y = floor[20]->getInitialPosition().y;
 
 		for (int i = 0; i < enemySize; i++)
 		{
-			if (i == 0)
+			if (i % 3 == 0)
 			{
 				enemy[i] = new Snail(x, y);
 			}
@@ -195,7 +198,7 @@ namespace the_wonder_boy
 				enemy[i] = new Wasp(x, y, WASP_VERTICAL_SPEED::FAST);
 			}
 
-			x += 500.0f;
+			x += 100.0f;
 		}
 
 		view.setSize(Vector2f(static_cast<float>(window->getSize().x), static_cast<float>(window->getSize().y)));
@@ -278,7 +281,7 @@ namespace the_wonder_boy
 		}
 		for (int i = 0; i < enemySize; i++)
 		{
-			float distanceToBeActivated = view.getSize().x / 2.0f;
+			float distanceToBeActivated = view.getSize().x;
 
 			if (!enemy[i]->isActive() && !enemy[i]->isDefeated() && player->getPosition().x + distanceToBeActivated > enemy[i]->getPosition().x)
 			{

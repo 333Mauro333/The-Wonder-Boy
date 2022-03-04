@@ -12,34 +12,34 @@ namespace the_wonder_boy
 		switch (floorType)
 		{
 		case FLOOR_TYPE::NORMAL:
-		if (!texFloor.loadFromFile("res/sprites/scenes/level_test/floor.png"))
+		if (!texFloor.loadFromFile("res/sprites/scenes/level_test/floor3.png"))
 		{
 			cout << "La textura del piso no se ha cargado.\n";
 		}
 			break;
 
 		case FLOOR_TYPE::START:
-			if (!texFloor.loadFromFile("res/sprites/scenes/level_test/floor_start.png"))
+			if (!texFloor.loadFromFile("res/sprites/scenes/level_test/floor_start3.png"))
 			{
 				cout << "La textura del piso inicial no se ha cargado.\n";
 			}
 			break;
 
 		case FLOOR_TYPE::END:
-			if (!texFloor.loadFromFile("res/sprites/scenes/level_test/floor_end.png"))
+			if (!texFloor.loadFromFile("res/sprites/scenes/level_test/floor_end3.png"))
 			{
 				cout << "La textura del piso final no se ha cargado.\n";
 			}
-
 			break;
 		}
-		sprFloor.setScale(0.8f, 0.8f);
+
 		sprFloor.setTexture(texFloor);
+		sprFloor.setScale(1.4f, 1.4f);
 		sprFloor.setOrigin(sprFloor.getGlobalBounds().width / 2.0f, 0.0f);
 		sprFloor.setPosition(x, y);
 
-		boxCollision = RectangleShape(Vector2f(sprFloor.getGlobalBounds().width, sprFloor.getGlobalBounds().height / 10.0f));
-		boxCollision.setOrigin(boxCollision.getGlobalBounds().width / 2.0f, 0.0f);
+		boxCollision.setSize(Vector2f(sprFloor.getGlobalBounds().width, sprFloor.getGlobalBounds().height / 10.0f));
+		boxCollision.setOrigin(sprFloor.getGlobalBounds().width / 2.0f, 0.0f);
 		boxCollision.setPosition(x, y);
 		boxCollision.setFillColor(sf::Color(255, 0, 0, 128));
 
@@ -65,5 +65,11 @@ namespace the_wonder_boy
 	RectangleShape Floor::getBoxCollision()
 	{
 		return boxCollision;
+	}
+
+	void Floor::setPosition(float x, float y)
+	{
+		sprFloor.setPosition(x, y);
+		boxCollision.setPosition(x, y);
 	}
 }

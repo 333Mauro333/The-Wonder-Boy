@@ -24,6 +24,8 @@ namespace the_wonder_boy
 
 		RectangleShape getBoxCollision();
 
+		void setPosition(float x, float y);
+
 	private:
 		Texture texFloor;
 		Sprite sprFloor;

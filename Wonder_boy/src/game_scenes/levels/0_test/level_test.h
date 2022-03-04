@@ -32,7 +32,7 @@ namespace the_wonder_boy
 		Player* player;
 		HUD* hud;
 
-		static const int floorSize = 50;
+		static const int floorSize = 30;
 		Floor* floor[floorSize];
 
 		static const int stoneSize = 3;
@@ -41,7 +41,7 @@ namespace the_wonder_boy
 		static const int bonfireSize = 2;
 		Bonfire* bonfire[bonfireSize];
 
-		static const int enemySize = 2;
+		static const int enemySize = 20;
 		Enemy* enemy[enemySize];
 
 		void init() override;
