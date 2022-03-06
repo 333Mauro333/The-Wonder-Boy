@@ -39,12 +39,25 @@ namespace the_wonder_boy
 
 		if (CurtainManager::screenIsBlack())
 		{
-			SceneManager::loadNewScene(new LevelTest(window));
+			switch (option)
+			{
+				case 1:
+					SceneManager::loadNewScene(new LevelTest(window));
+					break;
+
+				case 3:
+					window->close();
+					break;
+			}
 		}
+
+		updateTextColor();
 	}
 	void MainMenu::draw()
 	{
 		window->draw(background);
+
+		window->draw(gameTitle);
 
 		for (int i = 0; i < buttonsSize; i++)
 		{
@@ -66,17 +79,8 @@ namespace the_wonder_boy
 			switch (option)
 			{
 			case 1:
-				CurtainManager::startToCover(CURTAIN_TYPE::FADE);
-				break;
-
-			case 2:
-				break;
-
 			case 3:
-				break;
-
-			case 4:
-				window->close();
+				CurtainManager::startToCover(CURTAIN_TYPE::FADE);
 				break;
 			}
 		}
@@ -93,13 +97,24 @@ namespace the_wonder_boy
 		int distanceBetweenButtons = totalSize / buttonsSize; // Diferencia de posiciones (sobre y) entre botones.
 
 
+		if (!font.loadFromFile("res/fonts/8_bit.ttf"))
+		{
+			cout << "No se ha podido cargar la fuente de 8_bit.ttf.\n";
+		}
+		gameTitle.setFont(font);
+		gameTitle.setString("WONDER BOY");
+		gameTitle.setCharacterSize(85);
+		gameTitle.setFillColor(sf::Color::Black);
+		gameTitle.setOrigin(gameTitle.getGlobalBounds().width / 2.0f, gameTitle.getGlobalBounds().height / 2.0f);
+		gameTitle.setPosition(window->getSize().x / 2.0f, window->getSize().y / 10.0f);
+		toBlack = false;
+
 		background = RectangleShape(static_cast<Vector2f>(window->getSize())); // Fondo del menú.
 		background.setFillColor(sf::Color(0, 180, 0, 255)); // Color verde opaco.
 
-		optionsList[0] = "JUGAR"; // Texto que irá sobre los botones.
-		optionsList[1] = "OPCIONES";
-		optionsList[2] = "CREDITOS";
-		optionsList[3] = "SALIR";
+		optionsList[0] = "PLAY"; // Texto que irá sobre los botones.
+		optionsList[1] = "CREDITS";
+		optionsList[2] = "QUIT";
 
 		for (int i = 0; i < buttonsSize; i++)
 		{
@@ -135,5 +150,46 @@ namespace the_wonder_boy
 		}
 
 		cout << "Opcion actual: " << option << ".\n";
+	}
+
+	void MainMenu::updateTextColor()
+	{
+		const float maxUint8Value = 255.0f;
+		float timeToChangeColor = 0.5f;
+		float timePerFrame = maxUint8Value / timeToChangeColor * GameManager::getDeltaTime();
+		float r = static_cast<float>(gameTitle.getFillColor().r);
+		float g = static_cast<float>(gameTitle.getFillColor().r);
+
+
+		if (toBlack)
+		{
+			if (r - timePerFrame <= 0.0f)
+			{
+				r = 0.0f;
+				g = 0.0f;
+				toBlack = false;
+			}
+			else
+			{
+				r -= timePerFrame;
+				g -= timePerFrame;
+			}
+		}
+		else
+		{
+			if (r + timePerFrame >= maxUint8Value)
+			{
+				r = maxUint8Value;
+				g = maxUint8Value;
+				toBlack = true;
+			}
+			else
+			{
+				r += timePerFrame;
+				g += timePerFrame;
+			}
+		}
+
+		gameTitle.setFillColor(sf::Color(r, g, gameTitle.getFillColor().b));
 	}
 }

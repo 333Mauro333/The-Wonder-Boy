@@ -445,6 +445,7 @@ namespace the_wonder_boy
 				if (!reseted)
 				{
 					fruit[i]->activate();
+					cout << "Se ha activado la fruta " << i + 1 << ".\n";
 				}
 				else
 				{
@@ -454,7 +455,6 @@ namespace the_wonder_boy
 						cout << "Se ha activado la fruta " << i + 1 << ".\n";
 					}
 				}
-				cout << "Se ha activado la fruta " << i + 1 << ".\n";
 			}
 		}
 

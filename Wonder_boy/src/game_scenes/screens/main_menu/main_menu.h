@@ -6,9 +6,11 @@
 #include "button/Button.h"
 
 using sf::RectangleShape;
+using sf::Font;
+using sf::Text;
 
 
-enum class SELECTED_OPTION { PLAY = 1, OPTIONS, CREDITS, QUIT };
+enum class SELECTED_OPTION { PLAY = 1, CREDITS, QUIT };
 enum class OPTION_DIRECTION { PREVIOUS, NEXT };
 
 namespace the_wonder_boy
@@ -25,9 +27,13 @@ namespace the_wonder_boy
 		void checkKeyReleased(Keyboard::Key key) override;
 
 	private:
+		Font font;
+		Text gameTitle;
+		bool toBlack;
+
 		RectangleShape background; // Rectángulo para pintar el fondo.
 
-		static const int buttonsSize = 4;
+		static const int buttonsSize = 3;
 		Button* buttons[buttonsSize];
 		string optionsList[buttonsSize]; // Lista de nombres para las opciones para facilitar la asignación de los botones en el init.
 
@@ -37,6 +43,8 @@ namespace the_wonder_boy
 		void destroy() override;
 
 		void changeOption(OPTION_DIRECTION optionDirection);
+
+		void updateTextColor();
 	};
 }
 
