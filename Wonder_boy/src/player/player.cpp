@@ -24,6 +24,7 @@ namespace the_wonder_boy
 		hit = false;
 		bouncedWhenDied = false;
 		wins = false;
+		necessaryDistanceToWin = 0.0f;
 
 		gravity.actualSpeed = 0.0f;
 		gravity.acceleration = 3750.0f;
@@ -72,6 +73,7 @@ namespace the_wonder_boy
 	// Funciones públicas.
 	void Player::update(float deltaTime)
 	{
+		checkDistanceToWin();
 		drainHealth(deltaTime);
 		keyPressed(deltaTime); // Función que verifica si determinadas teclas están siendo presionadas.
 		gravityForce(deltaTime); // Aplica la fuerza gravitatoria.
@@ -286,6 +288,10 @@ namespace the_wonder_boy
 	{
 		renderer.setPosition(position);
 		accommodateAnimations();
+	}
+	void Player::setNecessaryDistanceToWin(float distance)
+	{
+		necessaryDistanceToWin = distance;
 	}
 	void Player::stopWalkSpeed()
 	{
@@ -1291,6 +1297,13 @@ namespace the_wonder_boy
 			bouncedWhenDied = true;
 
 			gravity.actualSpeed = -forceJump;
+		}
+	}
+	void Player::checkDistanceToWin()
+	{
+		if (!wins && renderer.getPosition().x > necessaryDistanceToWin)
+		{
+			winLevel();
 		}
 	}
 	

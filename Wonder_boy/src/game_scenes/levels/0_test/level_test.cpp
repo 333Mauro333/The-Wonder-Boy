@@ -33,11 +33,6 @@ namespace the_wonder_boy
 	{
 		player->update(GameManager::getDeltaTime());
 
-		if (player->getPosition().x > sign[4]->getRenderer().getPosition().x)
-		{
-			player->winLevel();
-		}
-
 		updateCamera();
 
 		hud->update();
@@ -262,8 +257,9 @@ namespace the_wonder_boy
 			x += 100.0f;
 		}
 
-		// Jugador. Se hacen conversiones de datos para evitar advertencias de Visual Studio.
+		// Jugador.
 		player = new Player(sign[0]->getRenderer().getPosition().x, sign[0]->getRenderer().getPosition().y);
+		player->setNecessaryDistanceToWin(sign[4]->getRenderer().getPosition().x + sign[4]->getRenderer().getGlobalBounds().width);
 
 		view.setSize(Vector2f(static_cast<float>(window->getSize().x), static_cast<float>(window->getSize().y)));
 		view.setCenter(player->getPosition().x, player->getPosition().y - window->getSize().y / 4.0f);

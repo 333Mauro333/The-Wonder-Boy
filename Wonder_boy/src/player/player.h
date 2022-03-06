@@ -63,6 +63,7 @@ namespace the_wonder_boy
 		DIRECTION getActualAnimationDirection();
 		bool isAlive();
 		void setPosition(Vector2f position);
+		void setNecessaryDistanceToWin(float distance);
 		void stopWalkSpeed();
 		void addHealth(float health);
 		void receiveDamage(float damage);
@@ -136,6 +137,7 @@ namespace the_wonder_boy
 		bool hit;
 		bool bouncedWhenDied;
 		bool wins;
+		float necessaryDistanceToWin;
 
 		float forceJump = 1400.0f;
 		float walkingAnimationSpeed = 0.075f;
@@ -165,6 +167,7 @@ namespace the_wonder_boy
 		void gravityForce(float deltaTime);
 		void walkingAccelerationForce(float deltaTime);
 		void bounceWhenDies();
+		void checkDistanceToWin();
 		
 		bool bothSidesPressed();
 		bool noSidePressed();
