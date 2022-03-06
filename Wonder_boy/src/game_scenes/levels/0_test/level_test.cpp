@@ -15,8 +15,6 @@ using std::cout;
 
 namespace the_wonder_boy
 {
-
-
 	LevelTest::LevelTest(RenderWindow* window) : Scene(window)
 	{
 		cout << "Se ha creado un nivel de prueba.\n\n";
@@ -144,6 +142,10 @@ namespace the_wonder_boy
 			
 			window->setView(view);
 			SceneManager::loadNewScene(new MainMenu(window, SELECTED_OPTION::PLAY));
+		}
+		if (Keyboard::isKeyPressed(static_cast<Keyboard::Key>(Keyboard::C)))
+		{
+			resetLevel();
 		}
 	}
 	void LevelTest::checkKeyReleased(Keyboard::Key key)
@@ -350,8 +352,19 @@ namespace the_wonder_boy
 
 			if (!enemy[i]->isActive() && !enemy[i]->isDefeated() && player->getPosition().x + distanceToBeActivated > enemy[i]->getPosition().x)
 			{
-				enemy[i]->activate();
-				cout << "Se ha activado el enemigo " << i + 1 << ".\n";
+				if (!reseted)
+				{
+					enemy[i]->activate();
+					cout << "Se ha activado el enemigo " << i + 1 << ".\n";
+				}
+				else
+				{
+					if (player->getPosition().x + distanceToBeActivated / 1.5f < enemy[i]->getPosition().x)
+					{
+						enemy[i]->activate();
+						cout << "Se ha activado el enemigo " << i + 1 << ".\n";
+					}
+				}
 			}
 			else if (enemy[i]->isDefeated() && enemy[i]->isActive() && enemy[i]->getPosition().y > view.getCenter().y + view.getSize().y / 1.5f)
 			{
@@ -365,7 +378,18 @@ namespace the_wonder_boy
 
 			if (!fruit[i]->isActive() && !fruit[i]->wasTaken() && player->getPosition().x + distanceToBeActivated > fruit[i]->getPosition().x)
 			{
-				fruit[i]->activate();
+				if (!reseted)
+				{
+					fruit[i]->activate();
+				}
+				else
+				{
+					if (player->getPosition().x + distanceToBeActivated / 1.5f < fruit[i]->getPosition().x)
+					{
+						fruit[i]->activate();
+						cout << "Se ha activado la fruta " << i + 1 << ".\n";
+					}
+				}
 				cout << "Se ha activado la fruta " << i + 1 << ".\n";
 			}
 		}
@@ -393,6 +417,21 @@ namespace the_wonder_boy
 
 	void LevelTest::resetLevel()
 	{
-		
+		reseted = true;
+
+		player->reset();
+		player->setPosition(getPlayerCheckpointPosition());
+
+		for (int i = 0; i < enemySize; i++)
+		{
+			enemy[i]->reset();
+		}
+		for (int i = 0; i < fruitSize; i++)
+		{
+			fruit[i]->reset();
+		}
+
+		view.setCenter(player->getPosition().x, player->getPosition().y - window->getSize().y / 4.0f);
+		window->setView(view);
 	}
 }

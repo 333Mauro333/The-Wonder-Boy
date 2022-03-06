@@ -12,7 +12,7 @@ namespace the_wonder_boy
 {
 	Player::Player(float x, float y) : Entity(x, y)
 	{
-		animationState = ANIMATION_STATE::IDLE_RIGHT; // Defino con qué sprite comienza.
+		setNewAnimation(ANIMATION_STATE::IDLE_RIGHT); // Defino con qué sprite comienza.
 
 		initSprites();
 		initAnimations(x, y);
@@ -365,6 +365,26 @@ namespace the_wonder_boy
 
 		bounceWhenDies();
 	}
+
+	void Player::reset()
+	{
+		health = 30.0f;
+		threw = false;
+		hit = false;
+		bouncedWhenDied = false;
+
+		gravity.actualSpeed = 0.0f;
+		gravity.acceleration = 3750.0f;
+		gravity.speedLimit = 1000.0f;
+		gravity.onTheFloor = false;
+
+		walkingSpeed.actualSpeed = 0.0f;
+		walkingSpeed.acceleration = 2500.0f;
+		walkingSpeed.speedLimit = 500.0f;
+
+		setNewAnimation(ANIMATION_STATE::IDLE_RIGHT);
+	}
+
 	// Agregar función de ganar.
 
 

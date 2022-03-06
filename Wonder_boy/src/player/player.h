@@ -70,6 +70,7 @@ namespace the_wonder_boy
 
 		void tripOn(Stone* stone); // Tropezarse.
 		void lose(LOSING_TYPE losingType);
+		void reset();
 
 	private:
 		#pragma region TEXTURAS

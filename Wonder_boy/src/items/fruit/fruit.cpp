@@ -11,6 +11,8 @@ namespace the_wonder_boy
 
 	Fruit::Fruit(float x, float y, FRUIT_TYPE fruitType)
 	{
+		this->fruitType = fruitType;
+
 		active = false;
 		taken = false;
 		healthValue = 3.125f;
@@ -125,6 +127,34 @@ namespace the_wonder_boy
 	{
 		active = false;
 		taken = true;
+	}
+
+	void Fruit::reset()
+	{
+		active = false;
+		taken = false;
+		healthValue = 3.125f;
+		counterToDeactivate = timeToDeactivate;
+
+		switch (fruitType)
+		{
+		case FRUIT_TYPE::APPLE:
+			pointsValue = 25;
+			break;
+
+		case FRUIT_TYPE::BANANAS:
+			pointsValue = 50;
+			break;
+
+		case FRUIT_TYPE::CARROT:
+			pointsValue = 75;
+			break;
+
+		case FRUIT_TYPE::TOMATO:
+			healthValue = 6.25f;
+			pointsValue = 100;
+			break;
+		}
 	}
 
 

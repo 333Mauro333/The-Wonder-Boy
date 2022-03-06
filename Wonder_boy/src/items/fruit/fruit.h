@@ -33,9 +33,13 @@ namespace the_wonder_boy
 		void activate();
 		void take();
 
+		void reset();
+
 	private:
 		Texture texFruit;
 		Sprite sprFruit;
+
+		FRUIT_TYPE fruitType;
 
 		RectangleShape boxCollision;
 

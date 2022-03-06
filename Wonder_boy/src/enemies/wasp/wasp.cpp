@@ -11,6 +11,8 @@ namespace the_wonder_boy
 	{
 		cout << "Se ha creado una avispa.\n\n";
 
+		this->verticalSpeed = verticalSpeed;
+
 		gravity.speedLimit = 1200.0f;
 
 		speedX = 100.0f;
@@ -77,6 +79,39 @@ namespace the_wonder_boy
 			gravity.actualSpeed = -bounceForce;
 			accommodateAnimations();
 		}
+	}
+
+	void Wasp::reset()
+	{
+		switch (verticalSpeed)
+		{
+		case WASP_VERTICAL_SPEED::SLOW:
+			speedY = 500.0f;
+			gravity.acceleration = 2000.0f;
+			break;
+
+		case WASP_VERTICAL_SPEED::NORMAL:
+			speedY = 850.0f;
+			gravity.acceleration = 3000.0f;
+			break;
+
+		case WASP_VERTICAL_SPEED::FAST:
+			speedY = 1100.0f;
+			break;
+		}
+
+		gravity.actualSpeed = speedY / 2.0f;
+		gravity.acceleration = 3750.0f;
+		gravity.speedLimit = 1200.0f;
+		gravity.onTheFloor = true;
+
+		defeated = false;
+		active = false;
+		moveUp = true;
+
+		renderer.setPosition(initialPosition);
+
+		setNewAnimation(ANIMATION_STATE_ENEMY::NORMAL);
 	}
 
 	// Funciones privadas.

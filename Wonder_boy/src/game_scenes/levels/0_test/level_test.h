@@ -29,7 +29,7 @@ namespace the_wonder_boy
 		void checkKeyReleased(Keyboard::Key key) override;
 
 	private:
-		static Vector2f playerInitialPosition;
+		bool reseted;
 
 		RectangleShape background;
 		View view;

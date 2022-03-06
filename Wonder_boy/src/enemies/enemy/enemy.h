@@ -33,6 +33,8 @@ namespace the_wonder_boy
 		bool isDefeated();
 		void activate();
 		void deactivate();
+
+		virtual void reset();
 		
 		virtual void defeat() = 0;
 
@@ -41,6 +43,8 @@ namespace the_wonder_boy
 
 		Sprite sprLoader;
 		Sprite renderer;
+
+		Vector2f initialPosition;
 
 		RectangleShape boxCollision;
 

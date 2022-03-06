@@ -19,10 +19,13 @@ namespace the_wonder_boy
 
 		ENEMY_TYPE getEnemyType() override;
 
-
 		void defeat() override;
 
+		void reset() override;
+
 	private:
+		WASP_VERTICAL_SPEED verticalSpeed;
+
 		float speedX;
 		float speedY;
 		bool moveUp;

@@ -9,6 +9,8 @@ namespace the_wonder_boy
 {
 	Enemy::Enemy(float x, float y)
 	{
+		initialPosition = { x, y };
+
 		renderer.setPosition(x, y);
 
 		gravity.actualSpeed = 0.0f;
@@ -23,7 +25,7 @@ namespace the_wonder_boy
 
 		boxCollision.setFillColor(sf::Color(255, 0, 0, 128));
 
-		animationState = ANIMATION_STATE_ENEMY::NORMAL;
+		setNewAnimation(ANIMATION_STATE_ENEMY::NORMAL);
 
 		cout << "Se ha creado un enemigo.\n";
 	}
@@ -59,6 +61,21 @@ namespace the_wonder_boy
 	void Enemy::deactivate()
 	{
 		active = false;
+	}
+
+	void Enemy::reset()
+	{
+		gravity.actualSpeed = 0.0f;
+		gravity.acceleration = 3750.0f;
+		gravity.speedLimit = 1000.0f;
+		gravity.onTheFloor = true;
+
+		defeated = false;
+		active = false;
+
+		renderer.setPosition(initialPosition);
+
+		setNewAnimation(ANIMATION_STATE_ENEMY::NORMAL);
 	}
 
 
