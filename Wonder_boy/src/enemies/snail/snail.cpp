@@ -76,8 +76,8 @@ namespace the_wonder_boy
 
 		#pragma region NORMAL
 
-		frameWidth = 83;
-		frameHeight = 87;
+		frameWidth = 78;
+		frameHeight = 71;
 		frameDuration = 0.5f;
 		amountOfFrames = 3;
 
@@ -101,8 +101,8 @@ namespace the_wonder_boy
 		#pragma region VENCIDO
 
 		left += frameWidth * 2;
-		frameWidth = 83;
-		frameHeight = 87;
+		frameWidth = 78;
+		frameHeight = 71;
 		frameDuration = 1.0f;
 		amountOfFrames = 1;
 

@@ -135,7 +135,7 @@ namespace the_wonder_boy
 		#pragma region NORMAL
 
 		frameWidth = 67;
-		frameHeight = 87;
+		frameHeight = 100;
 		frameDuration = 0.1f;
 		amountOfFrames = 3;
 
@@ -160,7 +160,7 @@ namespace the_wonder_boy
 
 		left += frameWidth * 2;
 		frameWidth = 83;
-		frameHeight = 87;
+		frameHeight = 100;
 		frameDuration = 1.0f;
 		amountOfFrames = 1;
 
