@@ -4,6 +4,7 @@
 #include <Windows.h>
 
 #include "scene_manager/scene_manager.h"
+#include "curtain_manager/curtain_manager.h"
 #include "game_scenes/levels/0_test/level_test.h"
 #include "game_scenes/screens/main_menu/main_menu.h"
 
@@ -70,11 +71,15 @@ namespace the_wonder_boy
 	// Funciones privadas.
 	void GameManager::init()
 	{
+		CurtainManager::initValues(windowSize);
+
 		SceneManager::loadNewScene(new MainMenu(window, SELECTED_OPTION::PLAY)); // Inicio la primera escena del juego.
 	}
 	void GameManager::update()
 	{
 		checkEvents(); // Compruebo si hay eventos (cerrar la ventana, presionar una tecla, hacer click, etc).
+
+		CurtainManager::update(deltaTime); // Actualizo la cortina entre escenas durante toda la ejecución.
 
 		SceneManager::getActualScene()->update(); // Se actualiza todo lo que hay en la escena actual.
 	}
@@ -83,6 +88,8 @@ namespace the_wonder_boy
 		window->clear(); // Se limpia toda la pantalla (por defecto, de color negro).
 
 		SceneManager::getActualScene()->draw(); // Se dibuja todo lo que hay en la escena actual.
+
+		CurtainManager::draw(window);
 
 		window->display(); // Se muestra en la ventana todo lo dibujado.
 	}

@@ -5,6 +5,7 @@
 #include "game_manager/game_manager.h"
 #include "game_controls/game_controls.h"
 #include "scene_manager/scene_manager.h"
+#include "curtain_manager/curtain_manager.h"
 #include "game_scenes/screens/main_menu/main_menu.h"
 #include "collision_manager/collision_manager.h"
 #include "enemies/snail/snail.h"
@@ -31,6 +32,8 @@ namespace the_wonder_boy
 		winMessage.setCharacterSize(30);
 		winMessage.setFillColor(sf::Color::Black);
 		winMessage.setOrigin(winMessage.getGlobalBounds().width / 2.0f, winMessage.getGlobalBounds().height / 2.0f);
+
+		CurtainManager::startToShow(CURTAIN_TYPE::FADE);
 
 		init();
 	}
@@ -170,7 +173,8 @@ namespace the_wonder_boy
 		if (Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::screenReturn)))
 		{
 			view.setCenter(window->getSize().x / 2.0f, window->getSize().y / 2.0f);
-			
+			CurtainManager::setCurtainPosition(view.getCenter());
+
 			window->setView(view);
 			SceneManager::loadNewScene(new MainMenu(window, SELECTED_OPTION::PLAY));
 		}
@@ -181,6 +185,7 @@ namespace the_wonder_boy
 		if (end && Keyboard::isKeyPressed(static_cast<Keyboard::Key>(Keyboard::Enter)))
 		{
 			view.setCenter(window->getSize().x / 2.0f, window->getSize().y / 2.0f);
+			CurtainManager::setCurtainPosition(view.getCenter());
 
 			window->setView(view);
 			SceneManager::loadNewScene(new MainMenu(window, SELECTED_OPTION::PLAY));
@@ -311,6 +316,7 @@ namespace the_wonder_boy
 
 		view.setSize(Vector2f(static_cast<float>(window->getSize().x), static_cast<float>(window->getSize().y)));
 		view.setCenter(player->getPosition().x, player->getPosition().y - window->getSize().y / 4.0f);
+		CurtainManager::setCurtainPosition(view.getCenter());
 		window->setView(view);
 
 		hud = new HUD(window, player);
@@ -453,6 +459,7 @@ namespace the_wonder_boy
 		}
 
 		background.setPosition(view.getCenter());
+		CurtainManager::setCurtainPosition(view.getCenter());
 
 		window->setView(view); // Se le pasa a la ventana la view actualizada.
 	}

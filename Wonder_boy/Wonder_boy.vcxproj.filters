@@ -97,6 +97,9 @@
     <Filter Include="allFiles\src\platform">
       <UniqueIdentifier>{b529707d-0dc4-493d-aa34-b04dbf0bee8a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="allFiles\src\curtain_manager">
+      <UniqueIdentifier>{73859ef0-6b15-489f-b675-c50ef32292ca}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -171,6 +174,9 @@
     <ClCompile Include="src\platform\platform.cpp">
       <Filter>allFiles\src\platform</Filter>
     </ClCompile>
+    <ClCompile Include="src\curtain_manager\curtain_manager.cpp">
+      <Filter>allFiles\src\curtain_manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\entity\entity.h">
@@ -241,6 +247,9 @@
     </ClInclude>
     <ClInclude Include="src\platform\platform.h">
       <Filter>allFiles\src\platform</Filter>
+    </ClInclude>
+    <ClInclude Include="src\curtain_manager\curtain_manager.h">
+      <Filter>allFiles\src\curtain_manager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

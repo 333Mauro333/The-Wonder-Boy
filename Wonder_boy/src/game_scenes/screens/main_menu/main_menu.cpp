@@ -5,6 +5,7 @@
 #include "game_manager/game_manager.h"
 #include "game_controls/game_controls.h"
 #include "scene_manager/scene_manager.h"
+#include "curtain_manager/curtain_manager.h"
 #include "game_scenes/levels/0_test/level_test.h"
 
 using std::cout;
@@ -35,6 +36,11 @@ namespace the_wonder_boy
 		{
 			buttons[i]->update(GameManager::getDeltaTime());
 		}
+
+		if (CurtainManager::screenIsBlack())
+		{
+			SceneManager::loadNewScene(new LevelTest(window));
+		}
 	}
 	void MainMenu::draw()
 	{
@@ -47,20 +53,20 @@ namespace the_wonder_boy
 	}
 	void MainMenu::checkKeyPressedOnce(Keyboard::Key key)
 	{
-		if (Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::screenUp)))
+		if (Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::screenUp)) && !CurtainManager::isActive())
 		{
 			changeOption(OPTION_DIRECTION::PREVIOUS);
 		}
-		if (Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::screenDown)))
+		if (Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::screenDown)) && !CurtainManager::isActive())
 		{
 			changeOption(OPTION_DIRECTION::NEXT);
 		}
-		if (Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::screenEnter)))
+		if (Keyboard::isKeyPressed(static_cast<Keyboard::Key>(GameControls::screenEnter))&& !CurtainManager::isActive())
 		{
 			switch (option)
 			{
 			case 1:
-				SceneManager::loadNewScene(new LevelTest(window));
+				CurtainManager::startToCover(CURTAIN_TYPE::FADE);
 				break;
 
 			case 2:

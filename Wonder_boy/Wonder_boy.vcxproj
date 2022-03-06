@@ -155,6 +155,7 @@
     <ClCompile Include="src\background_elements\sign\sign.cpp" />
     <ClCompile Include="src\button\button.cpp" />
     <ClCompile Include="src\collision_manager\collision_manager.cpp" />
+    <ClCompile Include="src\curtain_manager\curtain_manager.cpp" />
     <ClCompile Include="src\enemies\enemy\enemy.cpp" />
     <ClCompile Include="src\enemies\snail\snail.cpp" />
     <ClCompile Include="src\enemies\wasp\wasp.cpp" />
@@ -181,6 +182,7 @@
     <ClInclude Include="src\background_elements\sign\sign.h" />
     <ClInclude Include="src\button\Button.h" />
     <ClInclude Include="src\collision_manager\collision_manager.h" />
+    <ClInclude Include="src\curtain_manager\curtain_manager.h" />
     <ClInclude Include="src\enemies\enemy\enemy.h" />
     <ClInclude Include="src\enemies\snail\snail.h" />
     <ClInclude Include="src\enemies\wasp\wasp.h" />
