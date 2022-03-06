@@ -64,6 +64,7 @@ namespace the_wonder_boy
 		static int getStoneHammersSize();
 		DIRECTION getActualAnimationDirection();
 		bool isAlive();
+		bool won();
 		void setPosition(Vector2f position);
 		void setNecessaryDistanceToWin(float distance);
 		void stopWalkSpeed();

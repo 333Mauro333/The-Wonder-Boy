@@ -14,6 +14,8 @@
 #include "enemies/enemy/enemy.h"
 
 using sf::View;
+using sf::Font;
+using sf::Text;
 
 
 namespace the_wonder_boy
@@ -31,6 +33,10 @@ namespace the_wonder_boy
 
 	private:
 		bool reseted;
+		bool end;
+
+		Font font;
+		Text winMessage;
 
 		RectangleShape background;
 		View view;
@@ -72,6 +78,8 @@ namespace the_wonder_boy
 		Vector2f getPlayerCheckpointPosition();
 
 		void resetLevel();
+
+		void checkIfPlayerWon();
 	};
 }
 

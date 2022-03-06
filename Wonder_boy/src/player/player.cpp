@@ -317,6 +317,10 @@ namespace the_wonder_boy
 	{
 		return health > 0.0f;
 	}
+	bool Player::won()
+	{
+		return wins;
+	}
 	void Player::setPosition(Vector2f position)
 	{
 		renderer.setPosition(position);

@@ -19,6 +19,19 @@ namespace the_wonder_boy
 	{
 		cout << "Se ha creado un nivel de prueba.\n\n";
 
+		reseted = true;
+		end = false;
+
+		if (!font.loadFromFile("res/fonts/8_bit.ttf"))
+		{
+			cout << "No se ha podido cargar la fuente de 8_bit.ttf.\n";
+		}
+		winMessage.setFont(font);
+		winMessage.setString("Enhorabuena. Has finalizado\n        el nivel de prueba.\n Presione ENTER para volver\n         al menú principal");
+		winMessage.setCharacterSize(30);
+		winMessage.setFillColor(sf::Color::Black);
+		winMessage.setOrigin(winMessage.getGlobalBounds().width / 2.0f, winMessage.getGlobalBounds().height / 2.0f);
+
 		init();
 	}
 	LevelTest::~LevelTest()
@@ -108,6 +121,8 @@ namespace the_wonder_boy
 				}
 			}
 		}
+
+		checkIfPlayerWon();
 	}
 	void LevelTest::draw()
 	{
@@ -142,6 +157,11 @@ namespace the_wonder_boy
 			bonfire[i]->draw(window);
 		}
 		hud->draw(window);
+
+		if (end)
+		{
+			window->draw(winMessage);
+		}
 	}
 	void LevelTest::checkKeyPressedOnce(Keyboard::Key key)
 	{
@@ -157,6 +177,13 @@ namespace the_wonder_boy
 		if (Keyboard::isKeyPressed(static_cast<Keyboard::Key>(Keyboard::C)))
 		{
 			resetLevel();
+		}
+		if (end && Keyboard::isKeyPressed(static_cast<Keyboard::Key>(Keyboard::Enter)))
+		{
+			view.setCenter(window->getSize().x / 2.0f, window->getSize().y / 2.0f);
+
+			window->setView(view);
+			SceneManager::loadNewScene(new MainMenu(window, SELECTED_OPTION::PLAY));
 		}
 	}
 	void LevelTest::checkKeyReleased(Keyboard::Key key)
@@ -215,7 +242,7 @@ namespace the_wonder_boy
 		sign[1] = new Sign(x + 2000.0f, y, SIGN_TYPE::SECOND);
 		sign[2] = new Sign(x + 4000.0f, y, SIGN_TYPE::THIRD);
 		sign[3] = new Sign(x + 6000.0f, y, SIGN_TYPE::FOURTH);
-		sign[4] = new Sign(x + 12800.0f, y, SIGN_TYPE::GOAL);
+		sign[4] = new Sign(platform[platformSize - 1]->getInitialPosition().x, platform[platformSize - 1]->getInitialPosition().y, SIGN_TYPE::GOAL);
 
 		// Frutas.
 		x = floor[3]->getInitialPosition().x;
@@ -472,5 +499,15 @@ namespace the_wonder_boy
 		#pragma endregion
 
 		window->setView(view);
+	}
+
+	void LevelTest::checkIfPlayerWon()
+	{
+		if (!end && player->won())
+		{
+			end = true;
+
+			winMessage.setPosition(view.getCenter().x, view.getCenter().y - view.getSize().y / 8.0f);
+		}
 	}
 }
