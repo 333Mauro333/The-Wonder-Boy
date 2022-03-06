@@ -318,8 +318,6 @@ namespace the_wonder_boy
 		// Si el jugador avanza lo suficiente hacia la derecha...
 		if (playerRightEdgePosition + distanceToCenter > view.getCenter().x)
 		{
-			//moveCameraInY(1500.0f, 2000.0f, 500.0f);
-			//moveCameraInY(2500.0f, 4000.0f, -500.0f);
 			moveCameraInY(4500.0f, 4600.0f, 200.0f);
 			moveCameraInY(4700.0f, 5000.0f, -200.0f);
 
@@ -335,9 +333,16 @@ namespace the_wonder_boy
 			player->stopWalkSpeed();
 		}
 
+		// Si el jugador cruza el borde inferior de la ventana...
 		if (player->getPosition().y > view.getCenter().y + view.getSize().y / 1.5f)
 		{
+			// Pierde.
 			player->lose(LOSING_TYPE::NORMAL);
+		}
+
+		if (!player->isAlive() && player->getPosition().y > view.getCenter().y + view.getSize().y)
+		{
+			resetLevel();
 		}
 
 		for (int i = 0; i < Player::getStoneHammersSize(); i++)
@@ -432,7 +437,15 @@ namespace the_wonder_boy
 			fruit[i]->reset();
 		}
 
-		view.setCenter(player->getPosition().x, player->getPosition().y - window->getSize().y / 4.0f);
+		#pragma region POSICIONAMIENTO DE LA CÁMARA
+
+		const float distanceToCenter = static_cast<float>(window->getSize().x) / 10.0f;
+		const float playerRightEdgePosition = player->getBoxCollision(BOX_COLLISION_TYPE::ENTIRE).getPosition().x + player->getBoxCollision(BOX_COLLISION_TYPE::ENTIRE).getSize().x / 2.0f;
+
+		view.setCenter(playerRightEdgePosition + distanceToCenter, view.getCenter().y);
+
+		#pragma endregion
+
 		window->setView(view);
 	}
 }
