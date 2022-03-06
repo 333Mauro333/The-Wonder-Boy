@@ -19,7 +19,7 @@ namespace the_wonder_boy
 
 		renderer.setPosition(x, y);
 
-		health = 100.0f;
+		health = 30.0f;
 		threw = false;
 		hit = false;
 		bouncedWhenDied = false;
@@ -247,6 +247,10 @@ namespace the_wonder_boy
 	{
 		return health;
 	}
+	int Player::getPoints()
+	{
+		return points;
+	}
 	float Player::getFallingSpeed()
 	{
 		return gravity.actualSpeed;
@@ -361,6 +365,7 @@ namespace the_wonder_boy
 
 		bounceWhenDies();
 	}
+	// Agregar función de ganar.
 
 
 	// Funciones privadas.
@@ -743,6 +748,33 @@ namespace the_wonder_boy
 		left = 0;
 
 		#pragma endregion
+
+		#pragma region FESTEJANDO
+
+		frameWidth = 80;
+		frameHeight = 128;
+		frameDuration = 1.0f;
+		amountOfFrames = 1;
+
+		if (!texWin.loadFromFile("res/sprites/player/win.png"))
+		{
+			cout << "La textura win.png no se ha cargado.\n";
+		}
+		spriteLoader.setTexture(texWin);
+		spriteLoader.setOrigin(frameWidth / 2.0f, static_cast<float>(frameHeight));
+		spriteLoader.setPosition(x, y);
+		animWin = new Animation(spriteLoader, ANIMATION_MODE::LOOP);
+		for (int i = 0; i < amountOfFrames; i++)
+		{
+			IntRect intRect = IntRect(left, 0, frameWidth, frameHeight);
+			Frame* frame = new Frame(intRect, frameDuration);
+
+			animWin->addFrame(frame);
+			left += frameWidth;
+		}
+		left = 0;
+
+		#pragma endregion
 	}
 	void Player::updateAnimations(float deltaTime)
 	{
@@ -814,6 +846,11 @@ namespace the_wonder_boy
 			animLosingBurned2->target.setPosition(renderer.getPosition().x, renderer.getPosition().y);
 			animLosingBurned2->update(deltaTime);
 			break;
+
+		case ANIMATION_STATE::WIN:
+			animWin->target.setPosition(renderer.getPosition().x, renderer.getPosition().y);
+			animWin->update(deltaTime);
+			break;
 		}
 	}
 	void Player::drawAnimations(RenderWindow* window)
@@ -871,6 +908,10 @@ namespace the_wonder_boy
 
 		case ANIMATION_STATE::LOSING_BURNED_2:
 			window->draw(animLosingBurned2->target);
+			break;
+
+		case ANIMATION_STATE::WIN:
+			window->draw(animWin->target);
 			break;
 		}
 	}

@@ -3,6 +3,7 @@
 
 #include "game_scenes/scene.h"
 
+#include "background_elements/sign/sign.h"
 #include "hud/hud.h"
 #include "player/player.h"
 #include "floor/floor.h"
@@ -28,16 +29,22 @@ namespace the_wonder_boy
 		void checkKeyReleased(Keyboard::Key key) override;
 
 	private:
+		static Vector2f playerInitialPosition;
+
 		RectangleShape background;
 		View view;
 		Player* player;
 		HUD* hud;
 
+
+		static const int floorSize = 35;
+		Floor* floor[floorSize];
+
+		static const int signSize = 5;
+		Sign* sign[signSize];
+
 		static const int fruitSize = 10;
 		Fruit* fruit[fruitSize];
-
-		static const int floorSize = 30;
-		Floor* floor[floorSize];
 
 		static const int stoneSize = 3;
 		Stone* stone[stoneSize];
@@ -57,6 +64,10 @@ namespace the_wonder_boy
 		// Una cantidad negativa movería la cámara hacia arriba.
 		void moveCameraInY(float start, float end, float pixelsToMove);
 		void updateCamera();
+
+		Vector2f getPlayerCheckpointPosition();
+
+		void resetLevel();
 	};
 }
 

@@ -15,6 +15,8 @@ using std::cout;
 
 namespace the_wonder_boy
 {
+
+
 	LevelTest::LevelTest(RenderWindow* window) : Scene(window)
 	{
 		cout << "Se ha creado un nivel de prueba.\n\n";
@@ -105,6 +107,10 @@ namespace the_wonder_boy
 	void LevelTest::draw()
 	{
 		window->draw(background);
+		for (int i = 0; i < signSize; i++)
+		{
+			sign[i]->draw(window);
+		}
 		for (int i = 0; i < floorSize; i++)
 		{
 			floor[i]->draw(window);
@@ -153,8 +159,6 @@ namespace the_wonder_boy
 		background.setFillColor(sf::Color(128, 128, 255)); // Celeste.
 		background.setOrigin(background.getGlobalBounds().width / 2.0f, background.getGlobalBounds().height / 2.0f);
 
-		// Se hacen conversiones de datos para evitar advertencias de Visual Studio.
-		player = new Player(static_cast<float>(window->getSize().x / 2), static_cast<float>(window->getSize().y / 4.0f * 3.0f));
 
 		// Pisos.
 		float x = 0.0f;
@@ -180,6 +184,15 @@ namespace the_wonder_boy
 
 			x += floor[i]->getBoxCollision().getGlobalBounds().width;
 		}
+
+		// Señales.
+		x = floor[1]->getInitialPosition().x;
+		y = floor[1]->getInitialPosition().y;
+		sign[0] = new Sign(x, y, SIGN_TYPE::FIRST);
+		sign[1] = new Sign(x + 2000.0f, y, SIGN_TYPE::SECOND);
+		sign[2] = new Sign(x + 4000.0f, y, SIGN_TYPE::THIRD);
+		sign[3] = new Sign(x + 6000.0f, y, SIGN_TYPE::FOURTH);
+		sign[4] = new Sign(x + 8000.0f, y, SIGN_TYPE::GOAL);
 
 		// Frutas.
 		x = floor[3]->getInitialPosition().x;
@@ -242,8 +255,11 @@ namespace the_wonder_boy
 			x += 100.0f;
 		}
 
+		// Jugador. Se hacen conversiones de datos para evitar advertencias de Visual Studio.
+		player = new Player(sign[0]->getRenderer().getPosition().x, sign[0]->getRenderer().getPosition().y);
+
 		view.setSize(Vector2f(static_cast<float>(window->getSize().x), static_cast<float>(window->getSize().y)));
-		view.setCenter(player->getPosition().x, player->getPosition().y - window->getSize().y / 8.0f);
+		view.setCenter(player->getPosition().x, player->getPosition().y - window->getSize().y / 4.0f);
 		window->setView(view);
 
 		hud = new HUD(window, player);
@@ -256,6 +272,10 @@ namespace the_wonder_boy
 		for (int i = 0; i < floorSize; i++)
 		{
 			delete floor[i];
+		}
+		for (int i = 0; i < signSize; i++)
+		{
+			delete sign[i];
 		}
 		for (int i = 0; i < fruitSize; i++)
 		{
@@ -353,5 +373,26 @@ namespace the_wonder_boy
 		background.setPosition(view.getCenter());
 
 		window->setView(view); // Se le pasa a la ventana la view actualizada.
+	}
+
+	Vector2f LevelTest::getPlayerCheckpointPosition()
+	{
+		int checkPointNumber = 0;
+
+		for (int i = 0; i < signSize; i++)
+		{
+			if (player->getPosition().x < sign[i]->getRenderer().getPosition().x - sign[i]->getRenderer().getGlobalBounds().width)
+			{
+				checkPointNumber = (i - 1 <= 0) ? 0 : i - 1;
+				break;
+			}
+		}
+
+		return sign[checkPointNumber]->getRenderer().getPosition();
+	}
+
+	void LevelTest::resetLevel()
+	{
+		
 	}
 }

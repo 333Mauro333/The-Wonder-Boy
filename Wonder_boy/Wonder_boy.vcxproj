@@ -152,6 +152,7 @@
   <ItemGroup>
     <ClCompile Include="src\animation\animation.cpp" />
     <ClCompile Include="src\animation\frame\frame.cpp" />
+    <ClCompile Include="src\background_elements\sign\sign.cpp" />
     <ClCompile Include="src\button\button.cpp" />
     <ClCompile Include="src\collision_manager\collision_manager.cpp" />
     <ClCompile Include="src\enemies\enemy\enemy.cpp" />
@@ -176,6 +177,7 @@
   <ItemGroup>
     <ClInclude Include="src\animation\animation.h" />
     <ClInclude Include="src\animation\frame\frame.h" />
+    <ClInclude Include="src\background_elements\sign\sign.h" />
     <ClInclude Include="src\button\Button.h" />
     <ClInclude Include="src\collision_manager\collision_manager.h" />
     <ClInclude Include="src\enemies\enemy\enemy.h" />

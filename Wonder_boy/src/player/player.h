@@ -20,7 +20,8 @@ using sf::Sprite;
 enum class ANIMATION_STATE { IDLE_RIGHT, IDLE_LEFT, WALKING_RIGHT, WALKING_LEFT,
 							JUMPING_RIGHT, JUMPING_LEFT, ATTACKING_RIGHT, ATTACKING_LEFT,
 							TRIPPING_RIGHT, TRIPPING_LEFT,
-							LOSING_NORMAL, LOSING_BURNED_1, LOSING_BURNED_2 };
+							LOSING_NORMAL, LOSING_BURNED_1, LOSING_BURNED_2,
+							WIN };
 enum class BOX_COLLISION_TYPE { ENTIRE, FEET };
 enum class DIRECTION { LEFT, RIGHT };
 enum class SPEED { NORMAL, FAST };
@@ -55,8 +56,8 @@ namespace the_wonder_boy
 		float getSpeed();
 		bool getHit();
 		float getHealth();
-		float getFallingSpeed();
 		int getPoints();
+		float getFallingSpeed();
 		StoneHammer* getPlayerStoneHammer(int position);
 		static int getStoneHammersSize();
 		DIRECTION getActualAnimationDirection();
@@ -87,6 +88,7 @@ namespace the_wonder_boy
 		Texture texTrippingLeft;
 		Texture texLosingNormal;
 		Texture texLosingBurned;
+		Texture texWin;
 
 		#pragma endregion
 
@@ -114,6 +116,7 @@ namespace the_wonder_boy
 		Animation* animLosingNormal; // Animación perdiendo normalmente.
 		Animation* animLosingBurned1; // Animación perdiendo quemado (parte 1).
 		Animation* animLosingBurned2; // Animación perdiendo quemado (parte 2).
+		Animation* animWin; // Animación festejando.
 
 		#pragma endregion
 
