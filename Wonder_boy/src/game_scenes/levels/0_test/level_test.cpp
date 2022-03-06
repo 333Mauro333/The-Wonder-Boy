@@ -402,7 +402,7 @@ namespace the_wonder_boy
 
 	Vector2f LevelTest::getPlayerCheckpointPosition()
 	{
-		int checkPointNumber = 0;
+		int checkPointNumber = 3;
 
 		for (int i = 0; i < signSize; i++)
 		{
