@@ -100,6 +100,9 @@
     <Filter Include="allFiles\src\curtain_manager">
       <UniqueIdentifier>{73859ef0-6b15-489f-b675-c50ef32292ca}</UniqueIdentifier>
     </Filter>
+    <Filter Include="allFiles\src\game_scenes\screens\credits">
+      <UniqueIdentifier>{36c84096-252b-49b4-99d6-c6f75a288363}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -177,6 +180,9 @@
     <ClCompile Include="src\curtain_manager\curtain_manager.cpp">
       <Filter>allFiles\src\curtain_manager</Filter>
     </ClCompile>
+    <ClCompile Include="src\game_scenes\screens\credits\credits.cpp">
+      <Filter>allFiles\src\game_scenes\screens\credits</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\entity\entity.h">
@@ -250,6 +256,9 @@
     </ClInclude>
     <ClInclude Include="src\curtain_manager\curtain_manager.h">
       <Filter>allFiles\src\curtain_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game_scenes\screens\credits\credits.h">
+      <Filter>allFiles\src\game_scenes\screens\credits</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

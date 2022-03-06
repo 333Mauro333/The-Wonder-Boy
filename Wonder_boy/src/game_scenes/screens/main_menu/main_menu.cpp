@@ -6,6 +6,7 @@
 #include "game_controls/game_controls.h"
 #include "scene_manager/scene_manager.h"
 #include "curtain_manager/curtain_manager.h"
+#include "game_scenes/screens/credits/credits.h"
 #include "game_scenes/levels/0_test/level_test.h"
 
 using std::cout;
@@ -81,6 +82,10 @@ namespace the_wonder_boy
 			case 1:
 			case 3:
 				CurtainManager::startToCover(CURTAIN_TYPE::FADE);
+				break;
+
+			case 2:
+				SceneManager::loadNewScene(new Credits(window));
 				break;
 			}
 		}
