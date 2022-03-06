@@ -52,6 +52,13 @@ namespace the_wonder_boy
 				player->collisionWith(floor[i]);
 			}
 		}
+		for (int i = 0; i < platformSize; i++)
+		{
+			if (CollisionManager::isColliding(player, platform[i]))
+			{
+				player->collisionWith(platform[i]);
+			}
+		}
 		for (int i = 0; i < fruitSize; i++)
 		{
 			fruit[i]->update(GameManager::getDeltaTime());
@@ -113,6 +120,10 @@ namespace the_wonder_boy
 		{
 			floor[i]->draw(window);
 		}
+		for (int i = 0; i < platformSize; i++)
+		{
+			platform[i]->draw(window);
+		}
 		player->draw(window);
 		for (int i = 0; i < fruitSize; i++)
 		{
@@ -167,7 +178,7 @@ namespace the_wonder_boy
 		float y = window->getSize().y / 4.0f * 3.5f;
 		for (int i = 0; i < floorSize; i++)
 		{
-			if (i == 8 || i == 10)
+			if (i == 8 || i == 10 || i == 34)
 			{
 				floor[i] = new Floor(x, y, FLOOR_TYPE::END);
 				x -= floor[i - 1]->getBoxCollision().getGlobalBounds().width;
@@ -175,7 +186,7 @@ namespace the_wonder_boy
 				floor[i]->setPosition(x, y);
 				x += floor[i]->getBoxCollision().getGlobalBounds().width * 2;
 			}
-			else if (i == 9 || i == 11)
+			else if (i == 9 || i == 11 || i == 35)
 			{
 				floor[i] = new Floor(x, y, FLOOR_TYPE::START);
 			}
@@ -187,6 +198,16 @@ namespace the_wonder_boy
 			x += floor[i]->getBoxCollision().getGlobalBounds().width;
 		}
 
+		// Plataformas.
+		x = floor[floorSize - 1]->getInitialPosition().x + 300.0f;
+		y = floor[floorSize - 1]->getInitialPosition().y - 100.0f;
+		for (int i = 0; i < platformSize; i++)
+		{
+			platform[i] = new Platform(x, y);
+
+			x += 800.0f;
+		}
+
 		// Señales.
 		x = floor[1]->getInitialPosition().x;
 		y = floor[1]->getInitialPosition().y;
@@ -194,7 +215,7 @@ namespace the_wonder_boy
 		sign[1] = new Sign(x + 2000.0f, y, SIGN_TYPE::SECOND);
 		sign[2] = new Sign(x + 4000.0f, y, SIGN_TYPE::THIRD);
 		sign[3] = new Sign(x + 6000.0f, y, SIGN_TYPE::FOURTH);
-		sign[4] = new Sign(x + 8000.0f, y, SIGN_TYPE::GOAL);
+		sign[4] = new Sign(x + 12800.0f, y, SIGN_TYPE::GOAL);
 
 		// Frutas.
 		x = floor[3]->getInitialPosition().x;
@@ -275,6 +296,10 @@ namespace the_wonder_boy
 		for (int i = 0; i < floorSize; i++)
 		{
 			delete floor[i];
+		}
+		for (int i = 0; i < platformSize; i++)
+		{
+			delete platform[i];
 		}
 		for (int i = 0; i < signSize; i++)
 		{

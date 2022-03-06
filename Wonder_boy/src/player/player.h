@@ -7,6 +7,7 @@
 #include "animation/animation.h"
 #include "stone_hammer/stone_hammer.h"
 #include "floor/floor.h"
+#include "platform/platform.h"
 #include "obstacles/stone/stone.h"
 
 using sf::RenderWindow;
@@ -48,6 +49,7 @@ namespace the_wonder_boy
 		void keyReleased(Keyboard::Key key); // Realiza acciones según qué tecla se haya levantado.
 
 		void collisionWith(Floor* floor); // Reacciona ante una colisión con el piso.
+		void collisionWith(Platform* platform); // Reacciona ante una colisión con una plataforma.
 		
 		Vector2f getPosition();
 		RectangleShape getBoxCollision(BOX_COLLISION_TYPE boxCollisionType); // Obtiene la caja de colisión que se decida.

@@ -7,6 +7,7 @@
 #include "hud/hud.h"
 #include "player/player.h"
 #include "floor/floor.h"
+#include "platform/platform.h"
 #include "items/fruit/fruit.h"
 #include "obstacles/stone/stone.h"
 #include "obstacles/bonfire/bonfire.h"
@@ -37,8 +38,11 @@ namespace the_wonder_boy
 		HUD* hud;
 
 
-		static const int floorSize = 35;
+		static const int floorSize = 40;
 		Floor* floor[floorSize];
+
+		static const int platformSize = 2;
+		Platform* platform[platformSize];
 
 		static const int signSize = 5;
 		Sign* sign[signSize];

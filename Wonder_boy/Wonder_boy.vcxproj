@@ -170,6 +170,7 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\obstacles\bonfire\bonfire.cpp" />
     <ClCompile Include="src\obstacles\stone\stone.cpp" />
+    <ClCompile Include="src\platform\platform.cpp" />
     <ClCompile Include="src\player\player.cpp" />
     <ClCompile Include="src\scene_manager\scene_manager.cpp" />
     <ClCompile Include="src\stone_hammer\stone_hammer.cpp" />
@@ -194,6 +195,7 @@
     <ClInclude Include="src\items\fruit\fruit.h" />
     <ClInclude Include="src\obstacles\bonfire\bonfire.h" />
     <ClInclude Include="src\obstacles\stone\stone.h" />
+    <ClInclude Include="src\platform\platform.h" />
     <ClInclude Include="src\player\player.h" />
     <ClInclude Include="src\scene_manager\scene_manager.h" />
     <ClInclude Include="src\stone_hammer\stone_hammer.h" />

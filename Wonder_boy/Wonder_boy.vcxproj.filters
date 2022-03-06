@@ -94,6 +94,9 @@
     <Filter Include="allFiles\src\background_elements\sign">
       <UniqueIdentifier>{7996ecd5-0a47-45d2-82ea-5718ab2dba71}</UniqueIdentifier>
     </Filter>
+    <Filter Include="allFiles\src\platform">
+      <UniqueIdentifier>{b529707d-0dc4-493d-aa34-b04dbf0bee8a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -165,6 +168,9 @@
     <ClCompile Include="src\background_elements\sign\sign.cpp">
       <Filter>allFiles\src\background_elements\sign</Filter>
     </ClCompile>
+    <ClCompile Include="src\platform\platform.cpp">
+      <Filter>allFiles\src\platform</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\entity\entity.h">
@@ -232,6 +238,9 @@
     </ClInclude>
     <ClInclude Include="src\background_elements\sign\sign.h">
       <Filter>allFiles\src\background_elements\sign</Filter>
+    </ClInclude>
+    <ClInclude Include="src\platform\platform.h">
+      <Filter>allFiles\src\platform</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -10,6 +10,13 @@ namespace the_wonder_boy
 			player->getBoxCollision(BOX_COLLISION_TYPE::FEET).getPosition().x + player->getBoxCollision(BOX_COLLISION_TYPE::FEET).getSize().x / 2.0f > floor->getBoxCollision().getPosition().x - floor->getBoxCollision().getGlobalBounds().width / 2.0f &&
 			player->getBoxCollision(BOX_COLLISION_TYPE::FEET).getPosition().x - player->getBoxCollision(BOX_COLLISION_TYPE::FEET).getSize().x / 2.0f < floor->getBoxCollision().getPosition().x + floor->getBoxCollision().getGlobalBounds().width / 2.0f;
 	}
+	bool CollisionManager::isColliding(Player* player, Platform* platform)
+	{
+		return player->isAlive() && player->getFallingSpeed() > -100.0f && player->getBoxCollision(BOX_COLLISION_TYPE::FEET).getPosition().y > platform->getBoxCollision().getPosition().y &&
+			player->getBoxCollision(BOX_COLLISION_TYPE::FEET).getPosition().y - player->getBoxCollision(BOX_COLLISION_TYPE::FEET).getSize().y < platform->getBoxCollision().getPosition().y + platform->getBoxCollision().getGlobalBounds().height &&
+			player->getBoxCollision(BOX_COLLISION_TYPE::FEET).getPosition().x + player->getBoxCollision(BOX_COLLISION_TYPE::FEET).getSize().x / 2.0f > platform->getBoxCollision().getPosition().x - platform->getBoxCollision().getGlobalBounds().width / 2.0f &&
+			player->getBoxCollision(BOX_COLLISION_TYPE::FEET).getPosition().x - player->getBoxCollision(BOX_COLLISION_TYPE::FEET).getSize().x / 2.0f < platform->getBoxCollision().getPosition().x + platform->getBoxCollision().getGlobalBounds().width / 2.0f;
+	}
 	bool CollisionManager::isColliding(Player* player, Stone* stone)
 	{
 		return player->isAlive() && player->getBoxCollision(BOX_COLLISION_TYPE::ENTIRE).getPosition().x + player->getBoxCollision(BOX_COLLISION_TYPE::ENTIRE).getGlobalBounds().width / 2.0f > stone->getBoxCollision().getPosition().x - stone->getBoxCollision().getGlobalBounds().width / 2.0f &&

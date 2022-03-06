@@ -208,6 +208,39 @@ namespace the_wonder_boy
 
 		accommodateAnimations();
 	}
+	void Player::collisionWith(Platform* platform)
+	{
+		// Se establecen sus valores a 0 y se posiciona al personaje justo sobre la plataforma.
+		gravity.onTheFloor = true;
+		gravity.actualSpeed = 0.0f;
+
+		setPosition(Vector2f(renderer.getPosition().x, platform->getBoxCollision().getPosition().y));
+
+		// Se establece a la animacion correspondiente.
+		if (actualAnimationIs(ANIMATION_STATE::JUMPING_RIGHT))
+		{
+			setNewAnimation(ANIMATION_STATE::IDLE_RIGHT);
+		}
+		else if (actualAnimationIs(ANIMATION_STATE::JUMPING_LEFT))
+		{
+			setNewAnimation(ANIMATION_STATE::IDLE_LEFT);
+		}
+		else if (actualAnimationIs(ANIMATION_STATE::TRIPPING_RIGHT))
+		{
+			animTrippingRight->resetAnimation();
+			hit = false;
+			setNewAnimation(ANIMATION_STATE::IDLE_RIGHT);
+		}
+		else if (actualAnimationIs(ANIMATION_STATE::TRIPPING_LEFT))
+		{
+			animTrippingLeft->resetAnimation();
+			hit = false;
+			setNewAnimation(ANIMATION_STATE::IDLE_LEFT);
+		}
+
+
+		accommodateAnimations();
+	}
 
 	Vector2f Player::getPosition()
 	{
