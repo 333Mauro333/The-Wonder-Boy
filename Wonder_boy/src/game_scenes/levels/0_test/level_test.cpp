@@ -138,11 +138,11 @@ namespace the_wonder_boy
 		{
 			floor[i]->draw(window);
 		}
-		for (int i = 0; i < platformSize; i++)
+		/*for (int i = 0; i < platformSize; i++)
 		{
 			platform[i]->draw(window);
 		}
-		player->draw(window);
+		player->draw(window);*/
 		for (int i = 0; i < fruitSize; i++)
 		{
 			fruit[i]->draw(window);
@@ -159,7 +159,7 @@ namespace the_wonder_boy
 		{
 			bonfire[i]->draw(window);
 		}
-		hud->draw(window);
+		//hud->draw(window);
 
 		if (end)
 		{
