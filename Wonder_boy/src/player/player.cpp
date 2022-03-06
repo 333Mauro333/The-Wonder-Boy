@@ -346,6 +346,7 @@ namespace the_wonder_boy
 		}
 		else
 		{
+			lose(LOSING_TYPE::NORMAL);
 			bounceWhenDies();
 		}
 	}
@@ -363,6 +364,8 @@ namespace the_wonder_boy
 			setNewAnimation(ANIMATION_STATE::LOSING_BURNED_1);
 			break;
 		}
+
+		accommodateAnimations();
 
 		bounceWhenDies();
 	}
@@ -389,10 +392,10 @@ namespace the_wonder_boy
 		walkingSpeed.acceleration = 2500.0f;
 		walkingSpeed.speedLimit = 500.0f;
 
+		accommodateAnimations();
+
 		setNewAnimation(ANIMATION_STATE::IDLE_RIGHT);
 	}
-
-	// Agregar función de ganar.
 
 
 	// Funciones privadas.
