@@ -70,6 +70,8 @@ namespace the_wonder_boy
 
 		void tripOn(Stone* stone); // Tropezarse.
 		void lose(LOSING_TYPE losingType);
+		void winLevel();
+
 		void reset();
 
 	private:
@@ -133,6 +135,7 @@ namespace the_wonder_boy
 		bool threw;
 		bool hit;
 		bool bouncedWhenDied;
+		bool wins;
 
 		float forceJump = 1400.0f;
 		float walkingAnimationSpeed = 0.075f;

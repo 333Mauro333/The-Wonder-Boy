@@ -23,6 +23,7 @@ namespace the_wonder_boy
 		threw = false;
 		hit = false;
 		bouncedWhenDied = false;
+		wins = false;
 
 		gravity.actualSpeed = 0.0f;
 		gravity.acceleration = 3750.0f;
@@ -94,7 +95,7 @@ namespace the_wonder_boy
 	}
 	void Player::keyPressedOnce(Keyboard::Key key)
 	{
-		if (!hit && isAlive())
+		if (!hit && isAlive() && !wins)
 		{
 			if (key == GameControls::gameplayJump)
 			{
@@ -148,7 +149,7 @@ namespace the_wonder_boy
 	}
 	void Player::keyReleased(Keyboard::Key key)
 	{
-		if (!hit && isAlive())
+		if (!hit && isAlive() && !wins)
 		{
 			if (key == GameControls::gameplayLeft)
 			{
@@ -365,6 +366,11 @@ namespace the_wonder_boy
 
 		bounceWhenDies();
 	}
+	void Player::winLevel()
+	{
+		wins = true;
+		setNewAnimation(ANIMATION_STATE::WIN);
+	}
 
 	void Player::reset()
 	{
@@ -372,6 +378,7 @@ namespace the_wonder_boy
 		threw = false;
 		hit = false;
 		bouncedWhenDied = false;
+		wins = false;
 
 		gravity.actualSpeed = 0.0f;
 		gravity.acceleration = 3750.0f;
@@ -1055,7 +1062,7 @@ namespace the_wonder_boy
 
 	void Player::keyPressed(float deltaTime)
 	{
-		if (!hit && isAlive())
+		if (!hit && isAlive() && !wins)
 		{
 			const float modifier = 1.25f; // Divide/multiplica la velocidad actual al estar en el aire.
 
@@ -1220,7 +1227,7 @@ namespace the_wonder_boy
 	}
 	void Player::drainHealth(float deltaTime)
 	{
-		if (isAlive())
+		if (isAlive() && !wins)
 		{
 			int healthPerSecond = 1.0f;
 
@@ -1245,7 +1252,7 @@ namespace the_wonder_boy
 	}
 	void Player::walkingAccelerationForce(float deltaTime)
 	{
-		if (isAlive())
+		if (isAlive() && !wins)
 		{
 			const float multipler = 1.5f;
 

@@ -33,6 +33,11 @@ namespace the_wonder_boy
 	{
 		player->update(GameManager::getDeltaTime());
 
+		if (player->getPosition().x > sign[4]->getRenderer().getPosition().x)
+		{
+			player->winLevel();
+		}
+
 		updateCamera();
 
 		hud->update();
