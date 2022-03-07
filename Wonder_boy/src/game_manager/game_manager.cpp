@@ -10,6 +10,7 @@
 
 using std::cout;
 using sf::Event;
+using sf::Image;
 
 
 namespace the_wonder_boy
@@ -20,11 +21,18 @@ namespace the_wonder_boy
 
 	GameManager::GameManager(unsigned int width, unsigned int height, const std::string windowTitle)
 	{
+		Image icon = Image();
+		if (!icon.loadFromFile("res/sprites/game_icon.png"))
+		{
+			cout << "El icono no ha sido cargado.\n";
+		}
+
 		window = new RenderWindow(sf::VideoMode(width, height), windowTitle); // Creo la ventana.
 		windowSize = { width, height }; // Guardo el tamaño de la ventana en una variable Vector2u.
 		fps = 60;
 		window->setKeyRepeatEnabled(false); // Deshabilita el repetimiento de una tecla al mantenerse presionada (aplica para
 		// el evento de obtener la tecla en el momento que fue presionada).
+		window->setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 
 		cout << "Se ha creado un game manager.\n\n";
 	}
