@@ -49,6 +49,8 @@ namespace the_wonder_boy
 		Texture texHammer;
 		Sprite sprHammer;
 
+		Music music;
+
 		static const int floorSize = 70;
 		Floor* floor[floorSize];
 

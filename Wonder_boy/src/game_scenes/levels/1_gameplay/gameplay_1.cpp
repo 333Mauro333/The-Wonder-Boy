@@ -34,6 +34,12 @@ namespace the_wonder_boy
 		winMessage.setFillColor(sf::Color::Black);
 		winMessage.setOrigin(winMessage.getGlobalBounds().width / 2.0f, winMessage.getGlobalBounds().height / 2.0f);
 
+		if (!music.openFromFile("res/tracks/track_gameplay.ogg"))
+		{
+			cout << "La musica del gameplay no se ha cargado.\n";
+		}
+		music.play();
+
 		CurtainManager::startToShow(CURTAIN_TYPE::FADE);
 		Player::setAmountOfLives(5);
 		Player::setAmountOfPoints(0);
@@ -140,6 +146,7 @@ namespace the_wonder_boy
 			CurtainManager::setCurtainPosition(view.getCenter());
 
 			window->setView(view);
+			music.stop();
 			SceneManager::loadNewScene(new MainMenu(window, SELECTED_OPTION::PLAY));
 		}
 	}
@@ -193,6 +200,7 @@ namespace the_wonder_boy
 			CurtainManager::setCurtainPosition(view.getCenter());
 
 			window->setView(view);
+			music.stop();
 			SceneManager::loadNewScene(new MainMenu(window, SELECTED_OPTION::PLAY));
 		}
 		if (end && Keyboard::isKeyPressed(static_cast<Keyboard::Key>(Keyboard::Enter)))
@@ -201,6 +209,7 @@ namespace the_wonder_boy
 			CurtainManager::setCurtainPosition(view.getCenter());
 
 			window->setView(view);
+			music.stop();
 			SceneManager::loadNewScene(new MainMenu(window, SELECTED_OPTION::PLAY));
 		}
 	}
@@ -231,10 +240,6 @@ namespace the_wonder_boy
 				floor[i]->setPosition(x, y);
 				x += floor[i]->getBoxCollision().getGlobalBounds().width * 2;
 			}
-			//else if (i == 44 || i == 83)
-			//{
-			//	floor[i] = new Floor(x, y, FLOOR_TYPE::START);
-			//}
 			else
 			{
 				floor[i] = new Floor(x, y, FLOOR_TYPE::NORMAL);
