@@ -5,8 +5,8 @@
 
 #include "scene_manager/scene_manager.h"
 #include "curtain_manager/curtain_manager.h"
-#include "game_scenes/levels/0_test/level_test.h"
 #include "game_scenes/screens/main_menu/main_menu.h"
+#include "game_scenes/levels/1_gameplay/gameplay_1.h"
 
 using std::cout;
 using sf::Event;

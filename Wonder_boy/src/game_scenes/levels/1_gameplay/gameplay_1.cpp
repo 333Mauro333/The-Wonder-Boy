@@ -1,4 +1,4 @@
-#include "level_test.h"
+#include "gameplay_1.h"
 
 #include <iostream>
 
@@ -16,9 +16,9 @@ using std::cout;
 
 namespace the_wonder_boy
 {
-	LevelTest::LevelTest(RenderWindow* window) : Scene(window)
+	Gameplay1::Gameplay1(RenderWindow* window) : Scene(window)
 	{
-		cout << "Se ha creado un nivel de prueba.\n\n";
+		cout << "Se ha creado un nivel de gameplay.\n\n";
 
 		reseted = true;
 		end = false;
@@ -29,25 +29,25 @@ namespace the_wonder_boy
 			cout << "No se ha podido cargar la fuente de 8_bit.ttf.\n";
 		}
 		winMessage.setFont(font);
-		winMessage.setString("¡Enhorabuena! ¡Has finalizado\n     el nivel de prueba!\n  Presione ENTER para volver\n      al menú principal.");
+		winMessage.setString("¡Enhorabuena! ¡Has finalizado\n          el nivel!\n  Presione ENTER para volver\n      al menú principal.");
 		winMessage.setCharacterSize(30);
 		winMessage.setFillColor(sf::Color::Black);
 		winMessage.setOrigin(winMessage.getGlobalBounds().width / 2.0f, winMessage.getGlobalBounds().height / 2.0f);
 
 		CurtainManager::startToShow(CURTAIN_TYPE::FADE);
 		Player::setAmountOfLives(5);
+		Player::setAmountOfPoints(0);
 
 		init();
 	}
-	LevelTest::~LevelTest()
+	Gameplay1::~Gameplay1()
 	{
-		destroy();
-
-		cout << "El nivel de prueba ha sido eliminado de la memoria.\n";
+		cout << "El nivel de gameplay ha sido eliminado de la memoria.\n";
 	}
 
+
 	// Funciones públicas.
-	void LevelTest::update()
+	void Gameplay1::update()
 	{
 		player->update(GameManager::getDeltaTime());
 
@@ -126,6 +126,11 @@ namespace the_wonder_boy
 				}
 			}
 		}
+		if (CollisionManager::isColliding(player, sprHammer))
+		{
+			player->collisionWith(sprHammer);
+			sprHammer.setPosition(0.0f, 0.0f);
+		}
 
 		checkIfPlayerWon();
 
@@ -138,9 +143,10 @@ namespace the_wonder_boy
 			SceneManager::loadNewScene(new MainMenu(window, SELECTED_OPTION::PLAY));
 		}
 	}
-	void LevelTest::draw()
+	void Gameplay1::draw()
 	{
 		window->draw(background);
+		window->draw(sprHammer);
 		for (int i = 0; i < signSize; i++)
 		{
 			sign[i]->draw(window);
@@ -177,7 +183,7 @@ namespace the_wonder_boy
 			window->draw(winMessage);
 		}
 	}
-	void LevelTest::checkKeyPressedOnce(Keyboard::Key key)
+	void Gameplay1::checkKeyPressedOnce(Keyboard::Key key)
 	{
 		player->keyPressedOnce(key);
 
@@ -189,10 +195,6 @@ namespace the_wonder_boy
 			window->setView(view);
 			SceneManager::loadNewScene(new MainMenu(window, SELECTED_OPTION::PLAY));
 		}
-		if (Keyboard::isKeyPressed(static_cast<Keyboard::Key>(Keyboard::C)))
-		{
-			resetLevel();
-		}
 		if (end && Keyboard::isKeyPressed(static_cast<Keyboard::Key>(Keyboard::Enter)))
 		{
 			view.setCenter(window->getSize().x / 2.0f, window->getSize().y / 2.0f);
@@ -202,26 +204,26 @@ namespace the_wonder_boy
 			SceneManager::loadNewScene(new MainMenu(window, SELECTED_OPTION::PLAY));
 		}
 	}
-	void LevelTest::checkKeyReleased(Keyboard::Key key)
+	void Gameplay1::checkKeyReleased(Keyboard::Key key)
 	{
 		player->keyReleased(key);
 	}
 
 
 	// Funciones privadas.
-	void LevelTest::init()
+	void Gameplay1::init()
 	{
+		// Color del fondo.
 		background.setSize(static_cast<Vector2f>(window->getSize()));
 		background.setFillColor(sf::Color(128, 128, 255)); // Celeste.
 		background.setOrigin(background.getGlobalBounds().width / 2.0f, background.getGlobalBounds().height / 2.0f);
 
-
 		// Pisos.
 		float x = 0.0f;
 		float y = window->getSize().y / 4.0f * 3.5f;
-		for (int i = 0; i < floorSize; i++)
+		for (int i = 0; i < 44; i++)
 		{
-			if (i == 8 || i == 10 || i == 34)
+			if (i == 43)
 			{
 				floor[i] = new Floor(x, y, FLOOR_TYPE::END);
 				x -= floor[i - 1]->getBoxCollision().getGlobalBounds().width;
@@ -229,93 +231,211 @@ namespace the_wonder_boy
 				floor[i]->setPosition(x, y);
 				x += floor[i]->getBoxCollision().getGlobalBounds().width * 2;
 			}
-			else if (i == 9 || i == 11 || i == 35)
+			//else if (i == 44 || i == 83)
+			//{
+			//	floor[i] = new Floor(x, y, FLOOR_TYPE::START);
+			//}
+			else
+			{
+				floor[i] = new Floor(x, y, FLOOR_TYPE::NORMAL);
+			}
+
+			x += floor[i]->getBoxCollision().getGlobalBounds().width; // 300 de ancho.
+		}
+		x = 14700.0f;
+		y = 0.0f;
+		for (int i = 44; i < 66; i++)
+		{
+			if (i == 44)
 			{
 				floor[i] = new Floor(x, y, FLOOR_TYPE::START);
+			}
+			else if (i == 65)
+			{
+				x -= floor[i - 1]->getBoxCollision().getGlobalBounds().width; // 300 de ancho.
+				floor[i] = new Floor(x, y, FLOOR_TYPE::END);
+				floor[i]->setPosition(floor[i]->getInitialPosition().x + floor[i]->getBoxCollision().getGlobalBounds().width, floor[i]->getInitialPosition().y);
 			}
 			else
 			{
 				floor[i] = new Floor(x, y, FLOOR_TYPE::NORMAL);
 			}
 
+			x += floor[i]->getBoxCollision().getGlobalBounds().width; // 300 de ancho.
+		}
+		x = 24800.0f;
+		for (int i = 66; i < floorSize; i++)
+		{
+			if (i == 66)
+			{
+				floor[i] = new Floor(x, floor[44]->getInitialPosition().y, FLOOR_TYPE::START);
+			}
+			else
+			{
+				floor[i] = new Floor(x, floor[44]->getInitialPosition().y, FLOOR_TYPE::NORMAL);
+			}
+
 			x += floor[i]->getBoxCollision().getGlobalBounds().width;
 		}
 
-		// Plataformas.
-		x = floor[floorSize - 1]->getInitialPosition().x + 300.0f;
-		y = floor[floorSize - 1]->getInitialPosition().y - 100.0f;
-		for (int i = 0; i < platformSize; i++)
+
+
+		// Plataforma(s).
+		x = 13300.0f;
+		y = 500.0f;
+		platform[0] = new Platform(x, y);
+		platform[1] = new Platform(x + 400.0f, y - 200.0f);
+		platform[2] = new Platform(x + 800.0f, y - 400.0f);
+		x = 20500.0f + 800.0f;
+		y = floor[44]->getInitialPosition().y - 100.0f;
+
+		for (int i = 3; i < platformSize; i++)
 		{
 			platform[i] = new Platform(x, y);
 
-			x += 800.0f;
+			x += 550.0f;
+			if (i % 2 == 0)
+			{
+				y -= 200.0f;
+			}
+			else
+			{
+				y += 200.0f;
+			}
 		}
 
 		// Señales.
 		x = floor[1]->getInitialPosition().x;
 		y = floor[1]->getInitialPosition().y;
 		sign[0] = new Sign(x, y, SIGN_TYPE::FIRST);
-		sign[1] = new Sign(x + 2000.0f, y, SIGN_TYPE::SECOND);
-		sign[2] = new Sign(x + 4000.0f, y, SIGN_TYPE::THIRD);
-		sign[3] = new Sign(x + 6000.0f, y, SIGN_TYPE::FOURTH);
-		sign[4] = new Sign(platform[platformSize - 1]->getInitialPosition().x, platform[platformSize - 1]->getInitialPosition().y, SIGN_TYPE::GOAL);
+		sign[1] = new Sign(8500.0f, y, SIGN_TYPE::SECOND);
+		sign[2] = new Sign(15500.0f, floor[44]->getInitialPosition().y, SIGN_TYPE::THIRD);
+		sign[3] = new Sign(20500.0f, floor[44]->getInitialPosition().y, SIGN_TYPE::FOURTH);
+		sign[4] = new Sign(25000.0f, floor[44]->getInitialPosition().y, SIGN_TYPE::GOAL);
+
 
 		// Frutas.
 		x = floor[3]->getInitialPosition().x;
-		y = floor[3]->getInitialPosition().y - 200.0f;
-		for (int i = 0; i < fruitSize; i++)
+		y = floor[4]->getInitialPosition().y - 100.0f;
+		// ---- SEÑAL 1 --- //
+		fruit[0] = new Fruit(x, y, FRUIT_TYPE::APPLE);
+		fruit[1] = new Fruit(x + 900.0f, y - 200.0f, FRUIT_TYPE::APPLE);
+		fruit[2] = new Fruit(x + 975.0f, y - 200.0f, FRUIT_TYPE::APPLE);
+		fruit[3] = new Fruit(x + 1500.0f, y, FRUIT_TYPE::BANANAS);
+		fruit[4] = new Fruit(x + 2000.0f, y - 200.0f, FRUIT_TYPE::CARROT);
+
+		fruit[5] = new Fruit(x + 2400.0f, y - 25.0f, FRUIT_TYPE::APPLE);
+		fruit[6] = new Fruit(x + 2500.0f, y - 25.0f, FRUIT_TYPE::BANANAS);
+		fruit[7] = new Fruit(x + 2600.0f, y - 25.0f, FRUIT_TYPE::CARROT);
+		fruit[8] = new Fruit(x + 2700.0f, y - 25.0f, FRUIT_TYPE::TOMATO);
+		fruit[9] = new Fruit(x + 2800.0f, y - 25.0f, FRUIT_TYPE::TOMATO);
+		fruit[10] = new Fruit(6600.0f, y -200.0f, FRUIT_TYPE::TOMATO);
+		// ---- SEÑAL 1 --- //
+		// ---- SEÑAL 2 --- //
+		fruit[11] = new Fruit(sign[1]->getRenderer().getPosition().x + 1000.0f, y - 200.0f, FRUIT_TYPE::TOMATO);
+		fruit[12] = new Fruit(10000.0f + 1500.0f, y - 200.0f, FRUIT_TYPE::BANANAS);
+		fruit[13] = new Fruit(10000.0f + 2200.0f, y - 50.0f, FRUIT_TYPE::CARROT);
+		fruit[14] = new Fruit(10000.0f + 2300.0f, y - 50.0f, FRUIT_TYPE::CARROT);
+		// ---- SEÑAL 2 --- //
+		// ---- SEÑAL 3 --- //
+		x = sign[2]->getRenderer().getPosition().x;
+		y = sign[2]->getRenderer().getPosition().y - 100.0f;
+		fruit[15] = new Fruit(x + 300.0f, y - 50.0f, FRUIT_TYPE::APPLE);
+		fruit[16] = new Fruit(x + 300.0f, y - 50.0f, FRUIT_TYPE::BANANAS);
+		fruit[17] = new Fruit(x + 300.0f, y - 50.0f, FRUIT_TYPE::CARROT);
+		fruit[18] = new Fruit(x + 300.0f, y - 50.0f, FRUIT_TYPE::TOMATO);
+		x = sign[2]->getRenderer().getPosition().x + 1000.0f;
+		for (int i = 19; i < fruitSize; i++)
 		{
-			if (i < 3)
+			if (i % 4 == 0)
 			{
-				fruit[i] = new Fruit(x, y, FRUIT_TYPE::APPLE);
+				fruit[i] = new Fruit(x, y - 150, FRUIT_TYPE::BANANAS);
 			}
-			else if (i < 6)
+			else if (i % 4 == 1)
 			{
-				fruit[i] = new Fruit(x, y, FRUIT_TYPE::BANANAS);
+				fruit[i] = new Fruit(x, y - 150, FRUIT_TYPE::CARROT);
 			}
-			else if (i < 9)
+			else if (i % 4 == 2)
 			{
-				fruit[i] = new Fruit(x, y, FRUIT_TYPE::CARROT);
+				fruit[i] = new Fruit(x, y - 150, FRUIT_TYPE::TOMATO);
 			}
 			else
 			{
-				fruit[i] = new Fruit(x, y, FRUIT_TYPE::TOMATO);
+				fruit[i] = new Fruit(x, y - 150, FRUIT_TYPE::APPLE);
 			}
 
-			x += floor[i + 3]->getBoxCollision().getGlobalBounds().width;
+			x += 200.0f;
 		}
+		// --- SEÑAL 4 --- //
+
 
 		// Piedras.
-		x = 1000.0f;
-		y = window->getSize().y / 4.0f * 3.5f;
-		for (int i = 0; i < stoneSize; i++)
-		{
-			stone[i] = new Stone(x, y);
+		x = floor[10]->getInitialPosition().x;
+		y = floor[10]->getInitialPosition().y;
+		// ---- SEÑAL 1 --- //
+		stone[0] = new Stone(x, y);
+		stone[1] = new Stone(x + 1200.0f, y);
+		stone[2] = new Stone(x + 1300.0f, y);
+		stone[3] = new Stone(6600.0f, y);
+		stone[4] = new Stone(6700.0f, y);
+		stone[5] = new Stone(6800.0f, y);
+		// ---- SEÑAL 1 --- //
+		// ---- SEÑAL 2 --- //
 
-			x += 500.0f;
-		}
+		// ---- SEÑAL 2 --- //
 
-		// Fogatas.
-		x = floor[15]->getInitialPosition().x;
-		y = floor[15]->getInitialPosition().y;
-		for (int i = 0; i < bonfireSize; i++)
-		{
-			bonfire[i] = new Bonfire(x, y);
-			x += floor[15]->getBoxCollision().getGlobalBounds().width * 2.0f;
-		}
+
+		// Fogata(s).
+		x = 10000.0f;
+		y = floor[12]->getInitialPosition().y;
+		// ---- SEÑAL 2 --- //
+		bonfire[0] = new Bonfire(x, y);
+		// ---- SEÑAL 2 --- //
+		x = sign[2]->getRenderer().getPosition().x;
+		y = sign[2]->getRenderer().getPosition().y;
+		bonfire[1] = new Bonfire(x + 1500.0f, y);
+		bonfire[2] = new Bonfire(x + 2000.0f, y);
+		bonfire[3] = new Bonfire(x + 2500.0f, y);
+		bonfire[4] = new Bonfire(x + 3000.0f, y);
 
 		// Enemigos.
-		x = floor[20]->getInitialPosition().x;
-		y = floor[20]->getInitialPosition().y;
-		for (int i = 0; i < enemySize; i++)
+		x = 6000.0f;
+		y = floor[15]->getInitialPosition().y;
+		// ---- SEÑAL 1 --- //
+		enemy[0] = new Snail(x, y);
+		enemy[1] = new Snail(x + 200.0f, y);
+
+		enemy[2] = new Snail(x + 1200.0f + 200.0f, y);
+		enemy[3] = new Snail(x + 1350.0f + 200.0f, y);
+		enemy[4] = new Snail(x + 1700.0f + 200.0f, y);
+		// ---- SEÑAL 1 --- //
+		// ---- SEÑAL 2 --- //
+		x = 10000.0f;
+		enemy[5] = new Wasp(x + 500.0f, y - 125.0f, WASP_VERTICAL_SPEED::SLOW);
+		enemy[6] = new Wasp(x + 600.0f, y - 50.0f, WASP_VERTICAL_SPEED::NORMAL);
+		enemy[7] = new Snail(x + 900.0f, y);
+		enemy[8] = new Snail(x + 1050.0f, y);
+		// ---- SEÑAL 2 --- //
+		// ---- SEÑAL 3 --- //
+		x = sign[2]->getRenderer().getPosition().x + 2000.0f;
+		y = sign[2]->getRenderer().getPosition().y;
+		for (int i = 9; i < enemySize; i++)
 		{
+			cout << "Se ejecuta.\n";
 			if (i % 3 == 0)
 			{
 				enemy[i] = new Snail(x, y);
 			}
 			else
 			{
-				enemy[i] = new Wasp(x, y, WASP_VERTICAL_SPEED::FAST);
+				if (i < 25)
+				{
+					enemy[i] = new Wasp(x, y - 150.0f, WASP_VERTICAL_SPEED::NORMAL);
+				}
+				else
+				{
+					enemy[i] = new Wasp(x, y - 150.0f, WASP_VERTICAL_SPEED::FAST);
+				}
 			}
 
 			x += 100.0f;
@@ -328,46 +448,25 @@ namespace the_wonder_boy
 		view.setSize(Vector2f(static_cast<float>(window->getSize().x), static_cast<float>(window->getSize().y)));
 		view.setCenter(player->getPosition().x, player->getPosition().y - window->getSize().y / 4.0f);
 		CurtainManager::setCurtainPosition(view.getCenter());
+
 		window->setView(view);
 
 		hud = new HUD(window, player);
+
+		if (!texHammer.loadFromFile("res/sprites/items/other/hammer.png"))
+		{
+			cout << "La textura hammer.png no se ha cargado.\n";
+		}
+		sprHammer.setTexture(texHammer);
+		sprHammer.setOrigin(sprHammer.getGlobalBounds().width / 2.0f, sprHammer.getGlobalBounds().height / 2.0f);
+		sprHammer.setPosition(5300.0f, floor[12]->getInitialPosition().y - 100.0f);
 	}
-	void LevelTest::destroy()
+	void Gameplay1::destroy()
 	{
-		delete player;
-		delete hud;
 
-		for (int i = 0; i < floorSize; i++)
-		{
-			delete floor[i];
-		}
-		for (int i = 0; i < platformSize; i++)
-		{
-			delete platform[i];
-		}
-		for (int i = 0; i < signSize; i++)
-		{
-			delete sign[i];
-		}
-		for (int i = 0; i < fruitSize; i++)
-		{
-			delete fruit[i];
-		}
-		for (int i = 0; i < stoneSize; i++)
-		{
-			delete stone[i];
-		}
-		for (int i = 0; i < bonfireSize; i++)
-		{
-			delete bonfire[i];
-		}
-		for (int i = 0; i < enemySize; i++)
-		{
-			delete enemy[i];
-		}
 	}
 
-	void LevelTest::moveCameraInY(float start, float end, float pixelsToMove)
+	void Gameplay1::moveCameraInY(float start, float end, float pixelsToMove)
 	{
 		if (player->getPosition().x >= start && player->getPosition().x <= end)
 		{
@@ -377,7 +476,7 @@ namespace the_wonder_boy
 			view.setCenter(view.getCenter().x, view.getCenter().y + pixelsToMove / distanceTrayectory * player->getSpeed() * GameManager::getDeltaTime());
 		}
 	}
-	void LevelTest::updateCamera()
+	void Gameplay1::updateCamera()
 	{
 		const float distanceToCenter = static_cast<float>(window->getSize().x) / 10.0f;
 		const float playerRightEdgePosition = player->getBoxCollision(BOX_COLLISION_TYPE::ENTIRE).getPosition().x + player->getBoxCollision(BOX_COLLISION_TYPE::ENTIRE).getSize().x / 2.0f;
@@ -387,8 +486,7 @@ namespace the_wonder_boy
 		// Si el jugador avanza lo suficiente hacia la derecha...
 		if (playerRightEdgePosition + distanceToCenter > view.getCenter().x)
 		{
-			moveCameraInY(4500.0f, 4600.0f, 200.0f);
-			moveCameraInY(4700.0f, 5000.0f, -200.0f);
+			moveCameraInY(13200.0f, 14400.0f, -650.0f);
 
 			// ...lo sigue la cámara.
 			view.setCenter(playerRightEdgePosition + distanceToCenter, view.getCenter().y);
@@ -448,7 +546,7 @@ namespace the_wonder_boy
 		}
 		for (int i = 0; i < fruitSize; i++)
 		{
-			float distanceToBeActivated = view.getSize().x / 3.0f;
+			float distanceToBeActivated = view.getSize().x / 2.0f;
 
 			if (!fruit[i]->isActive() && !fruit[i]->wasTaken() && player->getPosition().x + distanceToBeActivated > fruit[i]->getPosition().x)
 			{
@@ -474,7 +572,7 @@ namespace the_wonder_boy
 		window->setView(view); // Se le pasa a la ventana la view actualizada.
 	}
 
-	Vector2f LevelTest::getPlayerCheckpointPosition()
+	Vector2f Gameplay1::getPlayerCheckpointPosition()
 	{
 		int checkPointNumber = 3;
 
@@ -490,7 +588,7 @@ namespace the_wonder_boy
 		return sign[checkPointNumber]->getRenderer().getPosition();
 	}
 
-	void LevelTest::resetLevel()
+	void Gameplay1::resetLevel()
 	{
 		if (Player::getLives() > 0)
 		{
@@ -514,7 +612,7 @@ namespace the_wonder_boy
 			const float distanceToCenter = static_cast<float>(window->getSize().x) / 10.0f;
 			const float playerRightEdgePosition = player->getBoxCollision(BOX_COLLISION_TYPE::ENTIRE).getPosition().x + player->getBoxCollision(BOX_COLLISION_TYPE::ENTIRE).getSize().x / 2.0f;
 
-			view.setCenter(playerRightEdgePosition + distanceToCenter, view.getCenter().y);
+			view.setCenter(playerRightEdgePosition + distanceToCenter, player->getPosition().y - window->getSize().y / 4.0f);
 
 			#pragma endregion
 
@@ -526,7 +624,7 @@ namespace the_wonder_boy
 		}
 	}
 
-	void LevelTest::checkIfPlayerWon()
+	void Gameplay1::checkIfPlayerWon()
 	{
 		if (!end && player->won())
 		{

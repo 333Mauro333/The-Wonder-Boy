@@ -22,6 +22,7 @@ namespace the_wonder_boy
 		static bool isColliding(Player* player, Bonfire* stone);
 		static bool isColliding(Player* player, Enemy* enemy);
 		static bool isColliding(Player* player, Fruit* fruit);
+		static bool isColliding(Player* player, Sprite hammer);
 
 		static bool isColliding(StoneHammer* stoneHammer, Floor* floor);
 		static bool isColliding(StoneHammer* stoneHammer, Enemy* enemy);

@@ -103,6 +103,9 @@
     <Filter Include="allFiles\src\game_scenes\screens\credits">
       <UniqueIdentifier>{36c84096-252b-49b4-99d6-c6f75a288363}</UniqueIdentifier>
     </Filter>
+    <Filter Include="allFiles\src\game_scenes\levels\1_gameplay">
+      <UniqueIdentifier>{b118d1b5-13bb-4d8e-ab61-7130002e667e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -183,6 +186,9 @@
     <ClCompile Include="src\game_scenes\screens\credits\credits.cpp">
       <Filter>allFiles\src\game_scenes\screens\credits</Filter>
     </ClCompile>
+    <ClCompile Include="src\game_scenes\levels\1_gameplay\gameplay_1.cpp">
+      <Filter>allFiles\src\game_scenes\levels\1_gameplay</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\entity\entity.h">
@@ -259,6 +265,9 @@
     </ClInclude>
     <ClInclude Include="src\game_scenes\screens\credits\credits.h">
       <Filter>allFiles\src\game_scenes\screens\credits</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game_scenes\levels\1_gameplay\gameplay_1.h">
+      <Filter>allFiles\src\game_scenes\levels\1_gameplay</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,5 +1,7 @@
-#ifndef LEVEL_TEST_H
-#define LEVEL_TEST_H
+#ifndef GAMEPLAY_1_H
+#define GAMEPLAY_1_H
+
+#include "SFML/Audio.hpp"
 
 #include "game_scenes/scene.h"
 
@@ -16,15 +18,16 @@
 using sf::View;
 using sf::Font;
 using sf::Text;
+using sf::Music;
 
 
 namespace the_wonder_boy
 {
-	class LevelTest : public Scene
+	class Gameplay1 : public Scene
 	{
 	public:
-		LevelTest(RenderWindow* window);
-		~LevelTest();
+		Gameplay1(RenderWindow* window);
+		~Gameplay1();
 
 		void update() override;
 		void draw() override;
@@ -43,45 +46,40 @@ namespace the_wonder_boy
 		View view;
 		Player* player;
 		HUD* hud;
+		Texture texHammer;
+		Sprite sprHammer;
 
-
-		static const int floorSize = 40;
+		static const int floorSize = 70;
 		Floor* floor[floorSize];
 
-		static const int platformSize = 2;
+		static const int platformSize = 10;
 		Platform* platform[platformSize];
 
 		static const int signSize = 5;
 		Sign* sign[signSize];
 
-		static const int fruitSize = 10;
+		static const int fruitSize = 30;
 		Fruit* fruit[fruitSize];
 
-		static const int stoneSize = 3;
+		static const int stoneSize = 6;
 		Stone* stone[stoneSize];
 
-		static const int bonfireSize = 2;
+		static const int bonfireSize = 5;
 		Bonfire* bonfire[bonfireSize];
 
-		static const int enemySize = 20;
+		static const int enemySize = 35;
 		Enemy* enemy[enemySize];
 
 		void init() override;
 		void destroy() override;
 
-		// Start: Posición de la escena donde la cámara va a empezar a moverse.
-		// End: Posición de la escena donde la cámara va a terminar de moverse.
-		// Distance: La cantidad total que va a moverse sobre "y" desde el comienzo hasta el final.
-		// Una cantidad negativa movería la cámara hacia arriba.
 		void moveCameraInY(float start, float end, float pixelsToMove);
 		void updateCamera();
 
 		Vector2f getPlayerCheckpointPosition();
-
 		void resetLevel();
-
 		void checkIfPlayerWon();
 	};
 }
 
-#endif // !LEVEL_TEST_H
+#endif // !GAMEPLAY_1_H

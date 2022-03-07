@@ -17,12 +17,12 @@ namespace the_wonder_boy
 	{
 		setNewAnimation(ANIMATION_STATE::IDLE_RIGHT); // Defino con qué sprite comienza.
 
-		initSprites();
 		initAnimations(x, y);
 
 		renderer.setPosition(x, y);
 
 		health = 30.0f;
+		canAttack = false;
 		threw = false;
 		hit = false;
 		bouncedWhenDied = false;
@@ -129,28 +129,30 @@ namespace the_wonder_boy
 			{
 				const float modifier = 1.5f;
 
-
-				switch (animationState)
+				if (canAttack)
 				{
-				case ANIMATION_STATE::IDLE_RIGHT:
-				case ANIMATION_STATE::WALKING_RIGHT:
-				case ANIMATION_STATE::JUMPING_RIGHT:
-					if (isThereASavedHammer())
+					switch (animationState)
 					{
-						savedHammerPosition = saveAFreePosition();
-						setNewAnimation(ANIMATION_STATE::ATTACKING_RIGHT);
-					}
-					break;
+					case ANIMATION_STATE::IDLE_RIGHT:
+					case ANIMATION_STATE::WALKING_RIGHT:
+					case ANIMATION_STATE::JUMPING_RIGHT:
+						if (isThereASavedHammer())
+						{
+							savedHammerPosition = saveAFreePosition();
+							setNewAnimation(ANIMATION_STATE::ATTACKING_RIGHT);
+						}
+						break;
 
-				case ANIMATION_STATE::IDLE_LEFT:
-				case ANIMATION_STATE::WALKING_LEFT:
-				case ANIMATION_STATE::JUMPING_LEFT:
-					if (isThereASavedHammer())
-					{
-						savedHammerPosition = saveAFreePosition();
-						setNewAnimation(ANIMATION_STATE::ATTACKING_LEFT);
+					case ANIMATION_STATE::IDLE_LEFT:
+					case ANIMATION_STATE::WALKING_LEFT:
+					case ANIMATION_STATE::JUMPING_LEFT:
+						if (isThereASavedHammer())
+						{
+							savedHammerPosition = saveAFreePosition();
+							setNewAnimation(ANIMATION_STATE::ATTACKING_LEFT);
+						}
+						break;
 					}
-					break;
 				}
 
 				setWalkingAnimationMode(SPEED::FAST);
@@ -249,6 +251,11 @@ namespace the_wonder_boy
 
 
 		accommodateAnimations();
+	}
+	void Player::collisionWith(Sprite hammerItem)
+	{
+		canAttack = true;
+		hammerItem.setPosition(0.0f, 0.0f);
 	}
 
 	Vector2f Player::getPosition()
@@ -469,10 +476,6 @@ namespace the_wonder_boy
 
 
 	// Funciones privadas.
-	void Player::initSprites()
-	{
-
-	}
 	void Player::initAnimations(float x, float y)
 	{
 		int left = 0; // Variable para agregar los frames a través del ancho del total de la imagen.

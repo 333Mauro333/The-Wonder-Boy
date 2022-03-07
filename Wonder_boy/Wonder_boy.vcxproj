@@ -102,7 +102,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\SFML-2.5.1\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-graphics-s-d.lib;sfml-system-s-d.lib;sfml-window-s-d.lib;opengl32.lib;freetype.lib;winmm.lib;gdi32.lib;sfml-main-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>sfml-graphics-s-d.lib;sfml-system-s-d.lib;sfml-window-s-d.lib;sfml-audio-s-d.lib;opengl32.lib;freetype.lib;winmm.lib;gdi32.lib;sfml-main-d.lib;sfml-system-s.lib;openal32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy "$(ProjectDir)res\" "$(TargetDir)res\" /E /Y</Command>
@@ -187,6 +187,7 @@
     <ClCompile Include="src\game_controls\game_controls.cpp" />
     <ClCompile Include="src\game_manager\game_manager.cpp" />
     <ClCompile Include="src\game_scenes\levels\0_test\level_test.cpp" />
+    <ClCompile Include="src\game_scenes\levels\1_gameplay\gameplay_1.cpp" />
     <ClCompile Include="src\game_scenes\scene.cpp" />
     <ClCompile Include="src\game_scenes\screens\credits\credits.cpp" />
     <ClCompile Include="src\game_scenes\screens\main_menu\main_menu.cpp" />
@@ -215,6 +216,7 @@
     <ClInclude Include="src\game_controls\game_controls.h" />
     <ClInclude Include="src\game_manager\game_manager.h" />
     <ClInclude Include="src\game_scenes\levels\0_test\level_test.h" />
+    <ClInclude Include="src\game_scenes\levels\1_gameplay\gameplay_1.h" />
     <ClInclude Include="src\game_scenes\scene.h" />
     <ClInclude Include="src\game_scenes\screens\credits\credits.h" />
     <ClInclude Include="src\game_scenes\screens\main_menu\main_menu.h" />

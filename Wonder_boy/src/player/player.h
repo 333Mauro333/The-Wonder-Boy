@@ -50,6 +50,7 @@ namespace the_wonder_boy
 
 		void collisionWith(Floor* floor); // Reacciona ante una colisión con el piso.
 		void collisionWith(Platform* platform); // Reacciona ante una colisión con una plataforma.
+		void collisionWith(Sprite hammerItem);
 		
 		Vector2f getPosition();
 		RectangleShape getBoxCollision(BOX_COLLISION_TYPE boxCollisionType); // Obtiene la caja de colisión que se decida.
@@ -138,6 +139,7 @@ namespace the_wonder_boy
 		static unsigned int points;
 
 		float health;
+		bool canAttack;
 		bool threw;
 		bool hit;
 		bool bouncedWhenDied;
@@ -152,7 +154,6 @@ namespace the_wonder_boy
 		StoneHammer* stoneHammers[stoneHammersSize];
 		int savedHammerPosition;
 
-		void initSprites();
 		void initAnimations(float x, float y);
 		void updateAnimations(float deltaTime);
 		void drawAnimations(RenderWindow* window);
