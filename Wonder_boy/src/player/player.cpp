@@ -10,6 +10,9 @@ using std::cout;
 
 namespace the_wonder_boy
 {
+	unsigned int Player::lives = 3;
+	unsigned int Player::points = 0;
+
 	Player::Player(float x, float y) : Entity(x, y)
 	{
 		setNewAnimation(ANIMATION_STATE::IDLE_RIGHT); // Defino con qué sprite comienza.
@@ -54,6 +57,11 @@ namespace the_wonder_boy
 	}
 	Player::~Player()
 	{
+		for (int i = 0; i < stoneHammersSize; i++)
+		{
+			delete stoneHammers[i];
+		}
+
 		delete animIdleLeft;
 		delete animIdleRight;
 		delete animWalkingLeft;
@@ -65,6 +73,7 @@ namespace the_wonder_boy
 		delete animTrippingLeft;
 		delete animTrippingRight;
 		delete animLosingNormal;
+
 
 		cout << "El jugador ha sido eliminado de la memoria.\n";
 	}
@@ -263,14 +272,6 @@ namespace the_wonder_boy
 			break;
 		}
 	}
-	Sprite Player::getLifeSprite()
-	{
-		return sprLife;
-	}
-	Sprite Player::getExtraLifeSprite()
-	{
-		return sprExtraLife;
-	}
 	float Player::getSpeed()
 	{
 		return walkingSpeed.actualSpeed;
@@ -279,13 +280,17 @@ namespace the_wonder_boy
 	{
 		return hit;
 	}
+	unsigned int Player::getLives()
+	{
+		return lives;
+	}
+	unsigned int Player::getPoints()
+	{
+		return points;
+	}
 	float Player::getHealth()
 	{
 		return health;
-	}
-	int Player::getPoints()
-	{
-		return points;
 	}
 	float Player::getFallingSpeed()
 	{
@@ -333,6 +338,28 @@ namespace the_wonder_boy
 	void Player::stopWalkSpeed()
 	{
 		walkingSpeed.actualSpeed = 0.0f;
+	}
+	void Player::setAmountOfLives(unsigned int newLives)
+	{
+		lives = (newLives > 100) ? 100 : newLives;
+	}
+	void Player::setAmountOfPoints(unsigned int newPoints)
+	{
+		points = (newPoints > 99999999) ? 99999999 : newPoints;
+	}
+	void Player::addLife()
+	{
+		if (lives < 100)
+		{
+			lives++;
+		}
+	}
+	void Player::subtractLife()
+	{
+		if (lives > 0)
+		{
+			lives--;
+		}
 	}
 	void Player::addHealth(float healthToAdd)
 	{
@@ -444,17 +471,7 @@ namespace the_wonder_boy
 	// Funciones privadas.
 	void Player::initSprites()
 	{
-		if (!texLife.loadFromFile("res/sprites/player/life.png"))
-		{
-			cout << "La textura life.png no se ha cargado.\n";
-		}
-		sprLife.setTexture(texLife);
 
-		if (!texExtraLife.loadFromFile("res/sprites/player/extra_life.png"))
-		{
-			cout << "La textura extra_life.png no se ha cargado.\n";
-		}
-		sprExtraLife.setTexture(texExtraLife);
 	}
 	void Player::initAnimations(float x, float y)
 	{

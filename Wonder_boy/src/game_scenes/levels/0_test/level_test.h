@@ -34,6 +34,7 @@ namespace the_wonder_boy
 	private:
 		bool reseted;
 		bool end;
+		bool changeScene = false;
 
 		Font font;
 		Text winMessage;

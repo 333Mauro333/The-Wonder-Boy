@@ -53,12 +53,11 @@ namespace the_wonder_boy
 		
 		Vector2f getPosition();
 		RectangleShape getBoxCollision(BOX_COLLISION_TYPE boxCollisionType); // Obtiene la caja de colisión que se decida.
-		Sprite getLifeSprite();
-		Sprite getExtraLifeSprite();
 		float getSpeed();
 		bool getHit();
+		static unsigned int getLives();
+		static unsigned int getPoints();
 		float getHealth();
-		int getPoints();
 		float getFallingSpeed();
 		StoneHammer* getPlayerStoneHammer(int position);
 		static int getStoneHammersSize();
@@ -68,6 +67,10 @@ namespace the_wonder_boy
 		void setPosition(Vector2f position);
 		void setNecessaryDistanceToWin(float distance);
 		void stopWalkSpeed();
+		static void setAmountOfLives(unsigned int newLives);
+		static void setAmountOfPoints(unsigned int newPoints);
+		void addLife();
+		void subtractLife();
 		void addHealth(float health);
 		void receiveDamage(float damage);
 		void addPoints(int pointsToAdd);
@@ -81,8 +84,6 @@ namespace the_wonder_boy
 	private:
 		#pragma region TEXTURAS
 
-		Texture texLife; // Textura del ícono para mostrar las vidas restantes.
-		Texture texExtraLife; // Textura del ícono del ítem de la vida extra.
 		Texture texIdleRight;
 		Texture texIdleLeft;
 		Texture texWalkingRight;
@@ -101,8 +102,6 @@ namespace the_wonder_boy
 
 		#pragma region SPRITES
 
-		Sprite sprLife; // Sprite del ícono para mostrar las vidas restantes.
-		Sprite sprExtraLife; // Sprite del ícono del ítem de la vida extra.
 		Sprite spriteLoader; // Variable para cargar sprites.
 		Sprite renderer; // Sprite "central", el que todas las animaciones van a tener como base.
 
@@ -135,6 +134,9 @@ namespace the_wonder_boy
 		RectangleShape boxEntire; // Caja de colisión (todo el personaje).
 		RectangleShape boxFeet; // Caja de colisión (pies).
 
+		static unsigned int lives;
+		static unsigned int points;
+
 		float health;
 		bool threw;
 		bool hit;
@@ -145,8 +147,6 @@ namespace the_wonder_boy
 		float forceJump = 1400.0f;
 		float walkingAnimationSpeed = 0.075f;
 		float speedLimit = 500.0f;
-
-		int points;
 
 		static const int stoneHammersSize = 2;
 		StoneHammer* stoneHammers[stoneHammersSize];

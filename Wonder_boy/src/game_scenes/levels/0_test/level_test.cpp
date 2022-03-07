@@ -23,17 +23,18 @@ namespace the_wonder_boy
 		reseted = true;
 		end = false;
 
-		if (!font.loadFromFile("res/fonts/8_bit.ttf"))
+		if (!font.loadFromFile("res/fonts/retro.ttf"))
 		{
 			cout << "No se ha podido cargar la fuente de 8_bit.ttf.\n";
 		}
 		winMessage.setFont(font);
-		winMessage.setString("Enhorabuena. Has finalizado\n        el nivel de prueba.\n Presione ENTER para volver\n         al menú principal");
+		winMessage.setString("¡Enhorabuena! ¡Has finalizado\n     el nivel de prueba!\n  Presione ENTER para volver\n      al menú principal.");
 		winMessage.setCharacterSize(30);
 		winMessage.setFillColor(sf::Color::Black);
 		winMessage.setOrigin(winMessage.getGlobalBounds().width / 2.0f, winMessage.getGlobalBounds().height / 2.0f);
 
 		CurtainManager::startToShow(CURTAIN_TYPE::FADE);
+		Player::setAmountOfLives(5);
 
 		init();
 	}
@@ -126,6 +127,15 @@ namespace the_wonder_boy
 		}
 
 		checkIfPlayerWon();
+
+		if (changeScene)
+		{
+			view.setCenter(window->getSize().x / 2.0f, window->getSize().y / 2.0f);
+			CurtainManager::setCurtainPosition(view.getCenter());
+
+			window->setView(view);
+			SceneManager::loadNewScene(new MainMenu(window, SELECTED_OPTION::PLAY));
+		}
 	}
 	void LevelTest::draw()
 	{
@@ -402,7 +412,6 @@ namespace the_wonder_boy
 		{
 			resetLevel();
 		}
-
 		for (int i = 0; i < Player::getStoneHammersSize(); i++)
 		{
 			if (player->getPlayerStoneHammer(i)->getIsThrown() && player->getPlayerStoneHammer(i)->getPosition().y > view.getCenter().y + view.getSize().y / 1.5f)
@@ -482,30 +491,38 @@ namespace the_wonder_boy
 
 	void LevelTest::resetLevel()
 	{
-		reseted = true;
-
-		player->reset();
-		player->setPosition(getPlayerCheckpointPosition());
-
-		for (int i = 0; i < enemySize; i++)
+		if (Player::getLives() > 0)
 		{
-			enemy[i]->reset();
+			reseted = true;
+
+			player->subtractLife();
+			player->reset();
+			player->setPosition(getPlayerCheckpointPosition());
+
+			for (int i = 0; i < enemySize; i++)
+			{
+				enemy[i]->reset();
+			}
+			for (int i = 0; i < fruitSize; i++)
+			{
+				fruit[i]->reset();
+			}
+
+			#pragma region POSICIONAMIENTO DE LA CÁMARA
+
+			const float distanceToCenter = static_cast<float>(window->getSize().x) / 10.0f;
+			const float playerRightEdgePosition = player->getBoxCollision(BOX_COLLISION_TYPE::ENTIRE).getPosition().x + player->getBoxCollision(BOX_COLLISION_TYPE::ENTIRE).getSize().x / 2.0f;
+
+			view.setCenter(playerRightEdgePosition + distanceToCenter, view.getCenter().y);
+
+			#pragma endregion
+
+			window->setView(view);
 		}
-		for (int i = 0; i < fruitSize; i++)
+		else
 		{
-			fruit[i]->reset();
+			changeScene = true;
 		}
-
-		#pragma region POSICIONAMIENTO DE LA CÁMARA
-
-		const float distanceToCenter = static_cast<float>(window->getSize().x) / 10.0f;
-		const float playerRightEdgePosition = player->getBoxCollision(BOX_COLLISION_TYPE::ENTIRE).getPosition().x + player->getBoxCollision(BOX_COLLISION_TYPE::ENTIRE).getSize().x / 2.0f;
-
-		view.setCenter(playerRightEdgePosition + distanceToCenter, view.getCenter().y);
-
-		#pragma endregion
-
-		window->setView(view);
 	}
 
 	void LevelTest::checkIfPlayerWon()
