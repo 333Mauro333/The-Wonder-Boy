@@ -36,20 +36,20 @@ namespace the_wonder_boy
 		void reset();
 
 	private:
-		FRUIT_TYPE fruitType;
+		FRUIT_TYPE _fruitType;
 
-		Texture texFruit;
-		Sprite sprFruit;
+		Texture _texFruit;
+		Sprite _sprFruit;
 
-		RectangleShape boxCollision;
+		RectangleShape _boxCollision;
 
-		static float timeToDeactivate;
+		static float _timeToDeactivate;
 
-		bool active;
-		bool taken;
-		float healthValue;
-		int pointsValue;
-		float counterToDeactivate;
+		bool _active;
+		bool _taken;
+		float _healthValue;
+		int _pointsValue;
+		float _counterToDeactivate;
 
 		void updateCountdown(float deltaTime);
 	};

@@ -9,7 +9,7 @@ namespace the_wonder_boy
 {
 	Scene::Scene(RenderWindow* window)
 	{
-		this->window = window;
+		_window = window;
 
 		cout << "Se ha creado una escena.\n";
 	}

@@ -24,11 +24,11 @@ namespace the_wonder_boy
 		float getDamage();
 
 	private:
-		Texture texStone;
-		Sprite sprStone;
-		RectangleShape boxCollision;
+		Texture _texStone;
+		Sprite _sprStone;
+		RectangleShape _boxCollision;
 
-		float damage;
+		float _damage;
 
 		void initSprite(float x, float y);
 	};

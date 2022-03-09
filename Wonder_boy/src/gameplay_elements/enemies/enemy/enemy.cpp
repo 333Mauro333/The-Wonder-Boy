@@ -9,22 +9,22 @@ namespace the_wonder_boy
 {
 	Enemy::Enemy(float x, float y)
 	{
-		initialPosition = { x, y };
+		_initialPosition = { x, y };
 
-		renderer.setPosition(x, y);
+		_renderer.setPosition(x, y);
 
-		gravity.actualSpeed = 0.0f;
-		gravity.acceleration = 3750.0f;
-		gravity.speedLimit = 1000.0f;
-		gravity.onTheFloor = true;
+		_gravity.actualSpeed = 0.0f;
+		_gravity.acceleration = 3750.0f;
+		_gravity.speedLimit = 1000.0f;
+		_gravity.onTheFloor = true;
 
-		defeated = false;
-		active = false;
-		pointsValue = 0;
+		_defeated = false;
+		_active = false;
+		_pointsValue = 0;
 
-		bounceForce = 1000.0f;
+		_bounceForce = 1000.0f;
 
-		boxCollision.setFillColor(sf::Color(255, 0, 0, 128));
+		_boxCollision.setFillColor(sf::Color(255, 0, 0, 128));
 
 		setNewAnimation(ANIMATION_STATE_ENEMY::NORMAL);
 
@@ -32,8 +32,8 @@ namespace the_wonder_boy
 	}
 	Enemy::~Enemy()
 	{
-		delete animNormal;
-		delete animDefeated;
+		delete _animNormal;
+		delete _animDefeated;
 
 		cout << "El enemigo ha sido eliminado de la memoria.\n\n";
 	}
@@ -41,44 +41,40 @@ namespace the_wonder_boy
 	// Funciones públicas.
 	RectangleShape Enemy::getBoxCollision()
 	{
-		return boxCollision;
+		return _boxCollision;
 	}
 	Vector2f Enemy::getPosition()
 	{
-		return renderer.getPosition();
+		return _renderer.getPosition();
 	}
 	int Enemy::getPoints()
 	{
-		return pointsValue;
+		return _pointsValue;
 	}
 	bool Enemy::isActive()
 	{
-		return active;
+		return _active;
 	}
 	bool Enemy::isDefeated()
 	{
-		return defeated;
+		return _defeated;
 	}
-	void Enemy::activate()
+	void Enemy::setActive(bool active)
 	{
-		active = true;
-	}
-	void Enemy::deactivate()
-	{
-		active = false;
+		_active = active;
 	}
 
 	void Enemy::reset()
 	{
-		gravity.actualSpeed = 0.0f;
-		gravity.acceleration = 3750.0f;
-		gravity.speedLimit = 1000.0f;
-		gravity.onTheFloor = true;
+		_gravity.actualSpeed = 0.0f;
+		_gravity.acceleration = 3750.0f;
+		_gravity.speedLimit = 1000.0f;
+		_gravity.onTheFloor = true;
 
-		defeated = false;
-		active = false;
+		_defeated = false;
+		_active = false;
 
-		renderer.setPosition(initialPosition);
+		_renderer.setPosition(_initialPosition);
 
 		setNewAnimation(ANIMATION_STATE_ENEMY::NORMAL);
 	}
@@ -87,16 +83,16 @@ namespace the_wonder_boy
 	// Funciones privadas.
 	void Enemy::gravityForce(float deltaTime)
 	{
-		if (active && defeated)
+		if (_active && _defeated)
 		{
-			gravity.actualSpeed += gravity.acceleration * deltaTime;
+			_gravity.actualSpeed += _gravity.acceleration * deltaTime;
 
-			renderer.move(0.0f, gravity.actualSpeed * deltaTime);
+			_renderer.move(0.0f, _gravity.actualSpeed * deltaTime);
 		}
 	}
 
-	void Enemy::setNewAnimation(ANIMATION_STATE_ENEMY animation)
+	void Enemy::setNewAnimation(ANIMATION_STATE_ENEMY animationState)
 	{
-		animationState = animation;
+		_animationState = animationState;
 	}
 }

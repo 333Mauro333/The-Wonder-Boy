@@ -9,7 +9,7 @@ namespace the_wonder_boy
 {
 	Entity::Entity(float x, float y)
 	{
-		initialPosition = { x, y };
+		_initialPosition = { x, y };
 
 		cout << "Se ha creado una entidad.\n";
 	}
@@ -21,10 +21,10 @@ namespace the_wonder_boy
 	// Funciones públicas.
 	Vector2f Entity::getInitialPosition()
 	{
-		return initialPosition;
+		return _initialPosition;
 	}
 	void Entity::setInitialPosition(float x, float y)
 	{
-		initialPosition = { x, y };
+		_initialPosition = { x, y };
 	}
 }

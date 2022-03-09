@@ -35,24 +35,24 @@ namespace the_wonder_boy
 		void hit();
 
 	private:
-		Texture texThrownRight; // Textura del martillo lanzado hacia la derecha.
-		Texture texThrownLeft; // Textura del martillo lanzado hacia la izquierda.
+		Texture _texThrownRight; // Textura del martillo lanzado hacia la derecha.
+		Texture _texThrownLeft; // Textura del martillo lanzado hacia la izquierda.
 
-		Sprite sprLoader; // Variable para cargar los sprites en las animaciones.
-		Sprite renderer; // Sprite "central", al cual van a seguir todas las animaciones.
+		Sprite _sprLoader; // Variable para cargar los sprites en las animaciones.
+		Sprite _renderer; // Sprite "central", al cual van a seguir todas las animaciones.
 
-		ANIMATION_STATE_HAMMER animationState;
-		Animation* animThrownRight;
-		Animation* animThrownLeft;
+		ANIMATION_STATE_HAMMER _animationState;
+		Animation* _animThrownRight;
+		Animation* _animThrownLeft;
 
-		RectangleShape boxCollision;
+		RectangleShape _boxCollision;
 
-		static GRAVITY baseGravity;
-		GRAVITY gravity;
+		static GRAVITY _baseGravity;
+		GRAVITY _gravity;
 
-		bool isThrown;
+		bool _isThrown;
 
-		float xSpeed;
+		static const float _xSpeed;
 
 		void initAnimations();
 		void updateAnimations(float deltaTime);

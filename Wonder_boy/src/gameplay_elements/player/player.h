@@ -85,74 +85,78 @@ namespace the_wonder_boy
 	private:
 		#pragma region TEXTURAS
 
-		Texture texIdleRight;
-		Texture texIdleLeft;
-		Texture texWalkingRight;
-		Texture texWalkingLeft;
-		Texture texJumpingRight;
-		Texture texJumpingLeft;
-		Texture texAttackingRight;
-		Texture texAttackingLeft;
-		Texture texTrippingRight;
-		Texture texTrippingLeft;
-		Texture texLosingNormal;
-		Texture texLosingBurned;
-		Texture texWin;
+		Texture _texIdleRight;
+		Texture _texIdleLeft;
+		Texture _texWalkingRight;
+		Texture _texWalkingLeft;
+		Texture _texJumpingRight;
+		Texture _texJumpingLeft;
+		Texture _texAttackingRight;
+		Texture _texAttackingLeft;
+		Texture _texTrippingRight;
+		Texture _texTrippingLeft;
+		Texture _texLosingNormal;
+		Texture _texLosingBurned;
+		Texture _texWin;
 
 		#pragma endregion
 
 		#pragma region SPRITES
 
-		Sprite spriteLoader; // Variable para cargar sprites.
-		Sprite renderer; // Sprite "central", el que todas las animaciones van a tener como base para la posición.
+		Sprite _spriteLoader; // Variable para cargar sprites.
+		Sprite _renderer; // Sprite "central", el que todas las animaciones van a tener como base para la posición.
 
 		#pragma endregion
 		
 		#pragma region ANIMACIONES
 
-		Animation* animIdleRight; // Animación parado mirando hacia la derecha.
-		Animation* animIdleLeft; // Animación parado mirando hacia la izquierda.
-		Animation* animWalkingRight; // Animación caminando hacia la derecha.
-		Animation* animWalkingLeft; // Animación caminando hacia la izquierda.
-		Animation* animJumpingRight; // Animación saltando hacia la derecha.
-		Animation* animJumpingLeft; // Animación saltando hacia la izquierda.
-		Animation* animAttackingRight; // Animación atacando hacia la derecha.
-		Animation* animAttackingLeft; // Animación atacando hacia la izquierda.
-		Animation* animTrippingRight; // Animación tropezándose hacia la derecha.
-		Animation* animTrippingLeft; // Animación tropezándose hacia la izquierda.
-		Animation* animLosingNormal; // Animación perdiendo normalmente.
-		Animation* animLosingBurned1; // Animación perdiendo quemado (parte 1).
-		Animation* animLosingBurned2; // Animación perdiendo quemado (parte 2).
-		Animation* animWin; // Animación festejando.
+		Animation* _animIdleRight; // Animación parado mirando hacia la derecha.
+		Animation* _animIdleLeft; // Animación parado mirando hacia la izquierda.
+		Animation* _animWalkingRight; // Animación caminando hacia la derecha.
+		Animation* _animWalkingLeft; // Animación caminando hacia la izquierda.
+		Animation* _animJumpingRight; // Animación saltando hacia la derecha.
+		Animation* _animJumpingLeft; // Animación saltando hacia la izquierda.
+		Animation* _animAttackingRight; // Animación atacando hacia la derecha.
+		Animation* _animAttackingLeft; // Animación atacando hacia la izquierda.
+		Animation* _animTrippingRight; // Animación tropezándose hacia la derecha.
+		Animation* _animTrippingLeft; // Animación tropezándose hacia la izquierda.
+		Animation* _animLosingNormal; // Animación perdiendo normalmente.
+		Animation* _animLosingBurned1; // Animación perdiendo quemado (parte 1).
+		Animation* _animLosingBurned2; // Animación perdiendo quemado (parte 2).
+		Animation* _animWin; // Animación festejando.
 
 		#pragma endregion
 
-		ANIMATION_STATE animationState; // Enumerador de animaciones para asignar valores.
+		ANIMATION_STATE _animationState; // Enumerador de animaciones para asignar valores.
 
-		GRAVITY gravity; // Estructura con valores de gravedad.
-		WALKING_ACCELERATION walkingSpeed; // Estructura con valores para la aceleración al caminar.
+		GRAVITY _gravity; // Estructura con valores de gravedad.
+		WALKING_ACCELERATION _walkingSpeed; // Estructura con valores para la aceleración al caminar.
 
-		RectangleShape boxEntire; // Caja de colisión (todo el personaje).
-		RectangleShape boxFeet; // Caja de colisión (pies).
+		RectangleShape _boxEntire; // Caja de colisión (todo el personaje).
+		RectangleShape _boxFeet; // Caja de colisión (pies).
 
-		static unsigned int lives;
-		static unsigned int points;
+		static unsigned int _lives;
+		static unsigned int _points;
 
-		float health;
-		bool canAttack;
-		bool threw;
-		bool hit;
-		bool bouncedWhenDied;
-		bool wins;
-		float necessaryDistanceToWin;
+		static const unsigned int _maxLives;
+		static const unsigned int _maxHealth;
+		static const unsigned int _maxPoints;
 
-		float forceJump = 1400.0f;
-		float walkingAnimationSpeed = 0.075f;
-		float speedLimit = 500.0f;
+		float _health;
+		bool _canAttack;
+		bool _threw;
+		bool _hit;
+		bool _bouncedWhenDied;
+		bool _wins;
+		float _necessaryDistanceToWin;
 
-		static const int stoneHammersSize = 2;
-		StoneHammer* stoneHammers[stoneHammersSize];
-		int savedHammerPosition;
+		const float _forceJump = 1400.0f;
+		const float _walkingAnimationSpeed = 0.075f;
+		const float _speedLimit = 500.0f;
+
+		static const int _stoneHammersSize = 2;
+		StoneHammer* _stoneHammers[_stoneHammersSize];
+		int _savedHammerPosition;
 
 		void initAnimations(float x, float y);
 		void updateAnimations(float deltaTime);

@@ -26,12 +26,12 @@ namespace the_wonder_boy
 		void setPosition(Vector2f position);
 
 	private:
-		Vector2f position;
+		Vector2f _position;
 
-		Texture texSign;
-		Sprite sprSign;
+		Texture _texSign;
+		Sprite _sprSign;
 
-		SIGN_TYPE signType;
+		SIGN_TYPE _signType;
 
 		void initSprite(float x, float y);
 	};

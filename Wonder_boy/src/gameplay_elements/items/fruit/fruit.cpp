@@ -7,62 +7,62 @@ using std::cout;
 
 namespace the_wonder_boy
 {
-	float Fruit::timeToDeactivate = 3.0f;
+	float Fruit::_timeToDeactivate = 3.0f;
 
 	Fruit::Fruit(float x, float y, FRUIT_TYPE fruitType)
 	{
-		this->fruitType = fruitType;
+		_fruitType = fruitType;
 
-		active = false;
-		taken = false;
-		healthValue = 3.125f;
-		pointsValue = 0;
-		counterToDeactivate = timeToDeactivate;
+		_active = false;
+		_taken = false;
+		_healthValue = 3.125f;
+		_pointsValue = 0;
+		_counterToDeactivate = _timeToDeactivate;
 
 		switch (fruitType)
 		{
 		case FRUIT_TYPE::APPLE:
-			if (!texFruit.loadFromFile("res/sprites/items/fruits/apple.png"))
+			if (!_texFruit.loadFromFile("res/sprites/items/fruits/apple.png"))
 			{
 				cout << "La textura de la manzana no se ha cargado.\n";
 			}
-			pointsValue = 25;
+			_pointsValue = 25;
 			break;
 
 		case FRUIT_TYPE::BANANAS:
-			if (!texFruit.loadFromFile("res/sprites/items/fruits/bananas.png"))
+			if (!_texFruit.loadFromFile("res/sprites/items/fruits/bananas.png"))
 			{
 				cout << "La textura de las bananas no se ha cargado.\n";
 			}
-			pointsValue = 50;
+			_pointsValue = 50;
 			break;
 
 		case FRUIT_TYPE::CARROT:
-			if (!texFruit.loadFromFile("res/sprites/items/fruits/carrot.png"))
+			if (!_texFruit.loadFromFile("res/sprites/items/fruits/carrot.png"))
 			{
 				cout << "La textura de la zanahoria no se ha cargado.\n";
 			}
-			pointsValue = 75;
+			_pointsValue = 75;
 			break;
 
 		case FRUIT_TYPE::TOMATO:
-			if (!texFruit.loadFromFile("res/sprites/items/fruits/tomato.png"))
+			if (!_texFruit.loadFromFile("res/sprites/items/fruits/tomato.png"))
 			{
 				cout << "La textura del tomate no se ha cargado.\n";
 			}
-			healthValue = 6.25f;
-			pointsValue = 100;
+			_healthValue = 6.25f;
+			_pointsValue = 100;
 			break;
 		}
 
-		sprFruit.setTexture(texFruit);
-		sprFruit.setPosition(x, y);
-		sprFruit.setOrigin(sprFruit.getGlobalBounds().width / 2.0f, sprFruit.getGlobalBounds().height / 2.0f);
+		_sprFruit.setTexture(_texFruit);
+		_sprFruit.setPosition(x, y);
+		_sprFruit.setOrigin(_sprFruit.getGlobalBounds().width / 2.0f, _sprFruit.getGlobalBounds().height / 2.0f);
 
-		boxCollision.setSize(Vector2f(sprFruit.getGlobalBounds().width, sprFruit.getGlobalBounds().height));
-		boxCollision.setOrigin(sprFruit.getGlobalBounds().width / 2.0f, sprFruit.getGlobalBounds().height / 2.0f);
-		boxCollision.setPosition(x, y);
-		boxCollision.setFillColor(sf::Color(255, 0, 0, 128));
+		_boxCollision.setSize(Vector2f(_sprFruit.getGlobalBounds().width, _sprFruit.getGlobalBounds().height));
+		_boxCollision.setOrigin(_sprFruit.getGlobalBounds().width / 2.0f, _sprFruit.getGlobalBounds().height / 2.0f);
+		_boxCollision.setPosition(x, y);
+		_boxCollision.setFillColor(sf::Color(255, 0, 0, 128));
 
 		cout << "Se ha creado una fruta.\n\n";
 	}
@@ -75,84 +75,84 @@ namespace the_wonder_boy
 	// Funciones públicas.
 	void Fruit::update(float deltaTime)
 	{
-		if (active)
+		if (_active)
 		{
 			updateCountdown(deltaTime);
 		}
 	}
 	void Fruit::draw(RenderWindow* window)
 	{
-		if (active)
+		if (_active)
 		{
-			window->draw(sprFruit);
+			window->draw(_sprFruit);
 		}
 
 		#if _DEBUG
 
-		window->draw(boxCollision);
+		window->draw(_boxCollision);
 
 		#endif // _DEBUG
 	}
 
 	RectangleShape Fruit::getBoxCollision()
 	{
-		return boxCollision;
+		return _boxCollision;
 	}
 	Vector2f Fruit::getPosition()
 	{
-		return sprFruit.getPosition();
+		return _sprFruit.getPosition();
 	}
 	float Fruit::getHealthValue()
 	{
-		return healthValue;
+		return _healthValue;
 	}
 	int Fruit::getPointsValue()
 	{
-		return pointsValue;
+		return _pointsValue;
 	}
 	bool Fruit::isActive()
 	{
-		return active;
+		return _active;
 	}
 	bool Fruit::wasTaken()
 	{
-		return taken;
+		return _taken;
 	}
 
 	void Fruit::activate()
 	{
-		active = true;
+		_active = true;
 	}
 	void Fruit::take()
 	{
-		active = false;
-		taken = true;
+		_active = false;
+		_taken = true;
 	}
 
 	void Fruit::reset()
 	{
-		active = false;
-		taken = false;
-		healthValue = 3.125f;
-		counterToDeactivate = timeToDeactivate;
+		_active = false;
+		_taken = false;
+		_healthValue = 3.125f;
+		_counterToDeactivate = _timeToDeactivate;
 
-		switch (fruitType)
+		switch (_fruitType)
 		{
 		case FRUIT_TYPE::APPLE:
-			pointsValue = 25;
+			_pointsValue = 25;
 			break;
 
 		case FRUIT_TYPE::BANANAS:
-			pointsValue = 50;
+			_pointsValue = 50;
 			break;
 
 		case FRUIT_TYPE::CARROT:
-			pointsValue = 75;
+			_pointsValue = 75;
 			break;
 
 		case FRUIT_TYPE::TOMATO:
-			healthValue = 6.25f;
-			pointsValue = 100;
+			_healthValue = 6.25f;
+			_pointsValue = 100;
 			break;
 		}
 	}
@@ -161,16 +161,16 @@ namespace the_wonder_boy
 	// Funciones privadas.
 	void Fruit::updateCountdown(float deltaTime)
 	{
-		if (counterToDeactivate <= deltaTime)
+		if (_counterToDeactivate <= deltaTime)
 		{
-			counterToDeactivate = 0.0f;
-			active = false;
-			taken = true;
+			_counterToDeactivate = 0.0f;
+			_active = false;
+			_taken = true;
 			cout << "La fruta ha desaparecido.\n";
 		}
 		else
 		{
-			counterToDeactivate -= deltaTime;
+			_counterToDeactivate -= deltaTime;
 		}
 	}
 }

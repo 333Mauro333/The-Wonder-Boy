@@ -20,8 +20,8 @@ namespace the_wonder_boy
 		void setDuration(float duration);
 
 	private:
-		IntRect rect;
-		float duration;
+		IntRect _rect;
+		float _duration;
 	};
 }
 

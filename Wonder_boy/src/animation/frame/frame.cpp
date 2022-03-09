@@ -9,8 +9,8 @@ namespace the_wonder_boy
 {
 	Frame::Frame(IntRect rect, float duration)
 	{
-		this->rect = rect;
-		this->duration = duration;
+		_rect = rect;
+		_duration = duration;
 
 		cout << "Se ha creado un frame.\n\n";
 	}
@@ -22,15 +22,15 @@ namespace the_wonder_boy
 	// Funciones públicas.
 	IntRect Frame::getRect()
 	{
-		return rect;
+		return _rect;
 	}
 	float Frame::getDuration()
 	{
-		return duration;
+		return _duration;
 	}
 
 	void Frame::setDuration(float duration)
 	{
-		this->duration = duration;
+		_duration = duration;
 	}
 }

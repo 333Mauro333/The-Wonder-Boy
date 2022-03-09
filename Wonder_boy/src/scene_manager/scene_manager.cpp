@@ -3,20 +3,20 @@
 
 namespace the_wonder_boy
 {
-	Scene* SceneManager::scene;
+	Scene* SceneManager::_scene;
 
 	// Funciones públicas.
 	Scene* SceneManager::getActualScene()
 	{
-		return scene;
+		return _scene;
 	}
-	void SceneManager::loadNewScene(Scene* newScene)
+	void SceneManager::loadNewScene(Scene* scene)
 	{
-		if (scene != NULL)
+		if (_scene != NULL)
 		{
-			delete scene; // Se elimina la escena sólo si hay una cargada.
+			delete _scene; // Se elimina la escena sólo si hay una cargada.
 		}
 
-		scene = newScene;
+		_scene = scene;
 	}
 }

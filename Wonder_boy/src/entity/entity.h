@@ -26,7 +26,7 @@ namespace the_wonder_boy
 		void setInitialPosition(float x, float y);
 
 	private:
-		Vector2f initialPosition;
+		Vector2f _initialPosition;
 	};
 }
 

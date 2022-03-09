@@ -11,35 +11,35 @@ namespace the_wonder_boy
 	{
 		cout << "Se ha creado una avispa.\n\n";
 
-		this->verticalSpeed = verticalSpeed;
+		_verticalSpeed = verticalSpeed;
 
-		gravity.speedLimit = 1200.0f;
+		_gravity.speedLimit = 1200.0f;
 
-		speedX = 100.0f;
+		_speedX = 100.0f;
 		switch (verticalSpeed)
 		{
 		case WASP_VERTICAL_SPEED::SLOW:
-			speedY = 500.0f;
-			gravity.acceleration = 2000.0f;
+			_maxSpeedY = 500.0f;
+			_gravity.acceleration = 2000.0f;
 			break;
 
 		case WASP_VERTICAL_SPEED::NORMAL:
-			speedY = 850.0f;
-			gravity.acceleration = 3000.0f;
+			_maxSpeedY = 850.0f;
+			_gravity.acceleration = 3000.0f;
 			break;
 
 		case WASP_VERTICAL_SPEED::FAST:
-			speedY = 1100.0f;
+			_maxSpeedY = 1100.0f;
 			break;
 		}
-		moveUp = true;
+		_moveUp = true;
 
-		gravity.actualSpeed = speedY / 2.0f;
+		_gravity.actualSpeed = _maxSpeedY / 2.0f;
 
 		initSprites();
 		initAnimations(x, y);
 
-		pointsValue = 20;
+		_pointsValue = 20;
 	}
 	Wasp::~Wasp()
 	{
@@ -51,7 +51,7 @@ namespace the_wonder_boy
 	void Wasp::update(float deltaTime)
 	{
 		moveForward(deltaTime);
-		moveUpAndDown(deltaTime, speedY);
+		moveUpAndDown(deltaTime);
 		updateAnimations(deltaTime);
 		accommodateAnimations();
 	}
@@ -73,45 +73,45 @@ namespace the_wonder_boy
 
 	void Wasp::defeat()
 	{
-		if (active && !defeated)
+		if (_active && !_defeated)
 		{
-			defeated = true;
-			gravity.acceleration = 4000.0f;
+			_defeated = true;
+			_gravity.acceleration = 4000.0f;
 			setNewAnimation(ANIMATION_STATE_ENEMY::DEFEATED);
-			gravity.actualSpeed = -bounceForce;
+			_gravity.actualSpeed = -_bounceForce;
 			accommodateAnimations();
 		}
 	}
 
 	void Wasp::reset()
 	{
-		switch (verticalSpeed)
+		switch (_verticalSpeed)
 		{
 		case WASP_VERTICAL_SPEED::SLOW:
-			speedY = 500.0f;
-			gravity.acceleration = 2000.0f;
+			_maxSpeedY = 500.0f;
+			_gravity.acceleration = 2000.0f;
 			break;
 
 		case WASP_VERTICAL_SPEED::NORMAL:
-			speedY = 850.0f;
-			gravity.acceleration = 3000.0f;
+			_maxSpeedY = 850.0f;
+			_gravity.acceleration = 3000.0f;
 			break;
 
 		case WASP_VERTICAL_SPEED::FAST:
-			speedY = 1100.0f;
+			_maxSpeedY = 1100.0f;
 			break;
 		}
 
-		gravity.actualSpeed = speedY / 2.0f;
-		gravity.acceleration = 3750.0f;
-		gravity.speedLimit = 1200.0f;
-		gravity.onTheFloor = true;
+		_gravity.actualSpeed = _maxSpeedY / 2.0f;
+		_gravity.acceleration = 3750.0f;
+		_gravity.speedLimit = 1200.0f;
+		_gravity.onTheFloor = true;
 
-		defeated = false;
-		active = false;
-		moveUp = true;
+		_defeated = false;
+		_active = false;
+		_moveUp = true;
 
-		renderer.setPosition(initialPosition);
+		_renderer.setPosition(_initialPosition);
 
 		setNewAnimation(ANIMATION_STATE_ENEMY::NORMAL);
 	}
@@ -119,11 +119,11 @@ namespace the_wonder_boy
 	// Funciones privadas.
 	void Wasp::initSprites()
 	{
-		if (!texEnemy.loadFromFile("res/sprites/enemies/wasp.png"))
+		if (!_texEnemy.loadFromFile("res/sprites/enemies/wasp.png"))
 		{
 			cout << "La textura de wasp.png no se ha cargado.\n";
 		}
-		sprLoader.setTexture(texEnemy);
+		_sprLoader.setTexture(_texEnemy);
 	}
 	void Wasp::initAnimations(float x, float y)
 	{
@@ -141,17 +141,17 @@ namespace the_wonder_boy
 		frameDuration = 0.1f;
 		amountOfFrames = 3;
 
-		sprLoader.setOrigin(frameWidth / 2.0f, static_cast<float>(frameHeight));
-		sprLoader.setPosition(x, y);
-		boxCollision.setSize(Vector2f(frameWidth, frameHeight));
-		boxCollision.setOrigin(frameWidth / 2.0f, frameHeight);
-		animNormal = new Animation(sprLoader, ANIMATION_MODE::LOOP);
+		_sprLoader.setOrigin(frameWidth / 2.0f, static_cast<float>(frameHeight));
+		_sprLoader.setPosition(x, y);
+		_boxCollision.setSize(Vector2f(frameWidth, frameHeight));
+		_boxCollision.setOrigin(frameWidth / 2.0f, frameHeight);
+		_animNormal = new Animation(_sprLoader, ANIMATION_MODE::LOOP);
 		for (int i = 0; i < amountOfFrames; i++)
 		{
 			IntRect intRect = IntRect(left, 0, frameWidth, frameHeight);
 			Frame* frame = new Frame(intRect, frameDuration);
 
-			animNormal->addFrame(frame);
+			_animNormal->addFrame(frame);
 			left += frameWidth;
 		}
 		left = 0;
@@ -166,17 +166,17 @@ namespace the_wonder_boy
 		frameDuration = 1.0f;
 		amountOfFrames = 1;
 
-		sprLoader.setOrigin(frameWidth / 2.0f, static_cast<float>(frameHeight));
-		sprLoader.setPosition(x, y);
-		boxCollision.setSize(Vector2f(frameWidth, frameHeight));
-		boxCollision.setOrigin(frameWidth / 2.0f, frameHeight);
-		animDefeated = new Animation(sprLoader, ANIMATION_MODE::LOOP);
+		_sprLoader.setOrigin(frameWidth / 2.0f, static_cast<float>(frameHeight));
+		_sprLoader.setPosition(x, y);
+		_boxCollision.setSize(Vector2f(frameWidth, frameHeight));
+		_boxCollision.setOrigin(frameWidth / 2.0f, frameHeight);
+		_animDefeated = new Animation(_sprLoader, ANIMATION_MODE::LOOP);
 		for (int i = 0; i < amountOfFrames; i++)
 		{
 			IntRect intRect = IntRect(left, 0, frameWidth, frameHeight);
 			Frame* frame = new Frame(intRect, frameDuration);
 
-			animDefeated->addFrame(frame);
+			_animDefeated->addFrame(frame);
 			left += frameWidth;
 		}
 		left = 0;
@@ -185,91 +185,91 @@ namespace the_wonder_boy
 	}
 	void Wasp::updateAnimations(float deltaTime)
 	{
-		if (active)
+		if (_active)
 		{
 			updateAnimationEvents();
 
-			switch (animationState)
+			switch (_animationState)
 			{
 			case ANIMATION_STATE_ENEMY::NORMAL:
-				animNormal->target.setPosition(renderer.getPosition().x, renderer.getPosition().y);
-				animNormal->update(deltaTime);
+				_animNormal->_target.setPosition(_renderer.getPosition().x, _renderer.getPosition().y);
+				_animNormal->update(deltaTime);
 				break;
 
 			case ANIMATION_STATE_ENEMY::DEFEATED:
-				animDefeated->target.setPosition(renderer.getPosition().x, renderer.getPosition().y);
-				animDefeated->update(deltaTime);
+				_animDefeated->_target.setPosition(_renderer.getPosition().x, _renderer.getPosition().y);
+				_animDefeated->update(deltaTime);
 				break;
 			}
 		}
 	}
 	void Wasp::drawAnimations(RenderWindow* window)
 	{
-		if (active)
+		if (_active)
 		{
-			switch (animationState)
+			switch (_animationState)
 			{
 			case ANIMATION_STATE_ENEMY::NORMAL:
-				window->draw(animNormal->target);
+				window->draw(_animNormal->_target);
 				break;
 
 			case ANIMATION_STATE_ENEMY::DEFEATED:
-				window->draw(animDefeated->target);
+				window->draw(_animDefeated->_target);
 				break;
 			}
 		}
 	}
 	void Wasp::accommodateAnimations()
 	{
-		boxCollision.setPosition(renderer.getPosition());
+		_boxCollision.setPosition(_renderer.getPosition());
 		updateAnimations(0.0f);
 	}
 	void Wasp::updateAnimationEvents()
 	{
-		if (animNormal->getNumberOfFrame() == 2)
+		if (_animNormal->getNumberOfFrame() == 2)
 		{
-			animNormal->resetAnimation();
+			_animNormal->resetAnimation();
 			accommodateAnimations();
 		}
 	}
 
 	void Wasp::moveForward(float deltaTime)
 	{
-		if (active && !defeated)
+		if (_active && !_defeated)
 		{
-			renderer.move(-speedX * deltaTime, 0.0f);
+			_renderer.move(-_speedX * deltaTime, 0.0f);
 		}
 	}
-	void Wasp::moveUpAndDown(float deltaTime, float maxSpeed)
+	void Wasp::moveUpAndDown(float deltaTime)
 	{
-		if (active)
+		if (_active)
 		{
-			if (!defeated)
+			if (!_defeated)
 			{
-				if (gravity.actualSpeed + gravity.acceleration * deltaTime > maxSpeed)
+				if (_gravity.actualSpeed + _gravity.acceleration * deltaTime > _maxSpeedY)
 				{
-					moveUp = true;
+					_moveUp = true;
 				}
-				else if (gravity.actualSpeed - gravity.acceleration * deltaTime < -maxSpeed)
+				else if (_gravity.actualSpeed - _gravity.acceleration * deltaTime < -_maxSpeedY)
 				{
-					moveUp = false;
+					_moveUp = false;
 				}
 
-				if (moveUp)
+				if (_moveUp)
 				{
-					gravity.actualSpeed -= gravity.acceleration * deltaTime;
+					_gravity.actualSpeed -= _gravity.acceleration * deltaTime;
 				}
 				else
 				{
-					gravity.actualSpeed += gravity.acceleration * deltaTime;
+					_gravity.actualSpeed += _gravity.acceleration * deltaTime;
 				}
 			}
 			else
 			{
-				gravity.actualSpeed = (gravity.actualSpeed + gravity.acceleration * deltaTime > gravity.speedLimit) ? gravity.speedLimit : gravity.actualSpeed + gravity.acceleration * deltaTime;
+				_gravity.actualSpeed = (_gravity.actualSpeed + _gravity.acceleration * deltaTime > _gravity.speedLimit) ? _gravity.speedLimit : _gravity.actualSpeed + _gravity.acceleration * deltaTime;
 			}
 
-			renderer.move(0.0f, gravity.actualSpeed * deltaTime);
+			_renderer.move(0.0f, _gravity.actualSpeed * deltaTime);
 		}
 	}
 }

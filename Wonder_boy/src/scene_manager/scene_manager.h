@@ -13,7 +13,7 @@ namespace the_wonder_boy
 		static void loadNewScene(Scene* newScene);
 
 	private:
-		static Scene* scene;
+		static Scene* _scene;
 	};
 }
 

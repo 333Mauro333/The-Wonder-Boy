@@ -25,10 +25,10 @@ namespace the_wonder_boy
 		RectangleShape getBoxCollision();
 
 	private:
-		Texture texBonfire;
-		Sprite sprBonfire;
-		Animation* animBonfire;
-		RectangleShape boxCollision;
+		Texture _texBonfire;
+		Sprite _sprBonfire;
+		Animation* _animBonfire;
+		RectangleShape _boxCollision;
 
 		void initSprites();
 		void initAnimations(float x, float y);

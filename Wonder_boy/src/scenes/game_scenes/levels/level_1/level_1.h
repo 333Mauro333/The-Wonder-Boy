@@ -35,42 +35,42 @@ namespace the_wonder_boy
 		void checkKeyReleased(Keyboard::Key key) override;
 
 	private:
-		bool reseted;
-		bool end;
-		bool changeScene;
+		bool _reseted;
+		bool _end;
+		bool _changeScene;
 
-		Font font;
-		Text winMessage;
+		Font _font;
+		Text _winMessage;
 
-		RectangleShape background;
-		View view;
-		Player* player;
-		HUD* hud;
-		Texture texHammer;
-		Sprite sprHammer;
+		RectangleShape _background;
+		View _view;
+		Player* _player;
+		HUD* _hud;
+		Texture _texHammer;
+		Sprite _sprHammer;
 
-		Music music;
+		Music _music;
 
-		static const int floorSize = 70;
-		Floor* floor[floorSize];
+		static const int _floorSize = 70;
+		Floor* _floor[_floorSize];
 
-		static const int platformSize = 10;
-		Platform* platform[platformSize];
+		static const int _platformSize = 10;
+		Platform* _platform[_platformSize];
 
-		static const int signSize = 5;
-		Sign* sign[signSize];
+		static const int _signSize = 5;
+		Sign* _sign[_signSize];
 
-		static const int fruitSize = 30;
-		Fruit* fruit[fruitSize];
+		static const int _fruitSize = 30;
+		Fruit* _fruit[_fruitSize];
 
-		static const int stoneSize = 6;
-		Stone* stone[stoneSize];
+		static const int _stoneSize = 6;
+		Stone* _stone[_stoneSize];
 
-		static const int bonfireSize = 5;
-		Bonfire* bonfire[bonfireSize];
+		static const int _bonfireSize = 5;
+		Bonfire* _bonfire[_bonfireSize];
 
-		static const int enemySize = 35;
-		Enemy* enemy[enemySize];
+		static const int _enemySize = 35;
+		Enemy* _enemy[_enemySize];
 
 		void init() override;
 		void destroy() override;

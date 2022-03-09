@@ -12,35 +12,35 @@ namespace the_wonder_boy
 		switch (floorType)
 		{
 		case FLOOR_TYPE::NORMAL:
-			if (!texFloor.loadFromFile("res/sprites/scenes/level_test/floor.png"))
+			if (!_texFloor.loadFromFile("res/sprites/scenes/level_test/floor.png"))
 			{
 				cout << "La textura del piso no se ha cargado.\n";
 			}
 			break;
 
 		case FLOOR_TYPE::START:
-			if (!texFloor.loadFromFile("res/sprites/scenes/level_test/floor_start.png"))
+			if (!_texFloor.loadFromFile("res/sprites/scenes/level_test/floor_start.png"))
 			{
 				cout << "La textura del piso inicial no se ha cargado.\n";
 			}
 			break;
 
 		case FLOOR_TYPE::END:
-			if (!texFloor.loadFromFile("res/sprites/scenes/level_test/floor_end.png"))
+			if (!_texFloor.loadFromFile("res/sprites/scenes/level_test/floor_end.png"))
 			{
 				cout << "La textura del piso final no se ha cargado.\n";
 			}
 			break;
 		}
 
-		sprFloor.setTexture(texFloor);
-		sprFloor.setOrigin(sprFloor.getGlobalBounds().width / 2.0f, 0.0f);
-		sprFloor.setPosition(x, y);
+		_sprFloor.setTexture(_texFloor);
+		_sprFloor.setOrigin(_sprFloor.getGlobalBounds().width / 2.0f, 0.0f);
+		_sprFloor.setPosition(x, y);
 
-		boxCollision.setSize(Vector2f(sprFloor.getGlobalBounds().width, sprFloor.getGlobalBounds().height / 10.0f));
-		boxCollision.setOrigin(boxCollision.getGlobalBounds().width / 2.0f, 0.0f);
-		boxCollision.setPosition(x, y);
-		boxCollision.setFillColor(sf::Color(255, 0, 0, 128));
+		_boxCollision.setSize(Vector2f(_sprFloor.getGlobalBounds().width, _sprFloor.getGlobalBounds().height / 10.0f));
+		_boxCollision.setOrigin(_boxCollision.getGlobalBounds().width / 2.0f, 0.0f);
+		_boxCollision.setPosition(x, y);
+		_boxCollision.setFillColor(sf::Color(255, 0, 0, 128));
 
 		cout << "Se ha creado un piso.\n\n";
 	}
@@ -52,22 +52,22 @@ namespace the_wonder_boy
 	// Funciones públicas.
 	void Floor::draw(RenderWindow* window)
 	{
-		window->draw(sprFloor);
+		window->draw(_sprFloor);
 
 		#if _DEBUG
 
-		window->draw(boxCollision);
+		window->draw(_boxCollision);
 
 		#endif // _DEBUG
 	}
 
 	RectangleShape Floor::getBoxCollision()
 	{
-		return boxCollision;
+		return _boxCollision;
 	}
 	void Floor::setPosition(float x, float y)
 	{
-		sprFloor.setPosition(x, y);
-		boxCollision.setPosition(x, y);
+		_sprFloor.setPosition(x, y);
+		_boxCollision.setPosition(x, y);
 	}
 }

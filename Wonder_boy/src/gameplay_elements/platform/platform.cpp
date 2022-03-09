@@ -9,18 +9,18 @@ namespace the_wonder_boy
 {
 	Platform::Platform(float x, float y) : Entity(x, y)
 	{
-		if (!texPlatform.loadFromFile("res/sprites/scenes/level_test/platform.png"))
+		if (!_texPlatform.loadFromFile("res/sprites/scenes/level_test/platform.png"))
 		{
 			cout << "La textura platform.png no se ha cargado.\n";
 		}
-		sprPlatform.setTexture(texPlatform);
-		sprPlatform.setOrigin(sprPlatform.getGlobalBounds().width / 2.0f, 0.0f);
-		sprPlatform.setPosition(x, y);
+		_sprPlatform.setTexture(_texPlatform);
+		_sprPlatform.setOrigin(_sprPlatform.getGlobalBounds().width / 2.0f, 0.0f);
+		_sprPlatform.setPosition(x, y);
 
-		boxCollision.setSize(Vector2f(sprPlatform.getGlobalBounds().width, sprPlatform.getGlobalBounds().height / 2.0f));
-		boxCollision.setOrigin(sprPlatform.getGlobalBounds().width / 2.0f, 0.0f);
-		boxCollision.setPosition(x, y);
-		boxCollision.setFillColor(sf::Color(255, 0, 0, 128));
+		_boxCollision.setSize(Vector2f(_sprPlatform.getGlobalBounds().width, _sprPlatform.getGlobalBounds().height / 2.0f));
+		_boxCollision.setOrigin(_sprPlatform.getGlobalBounds().width / 2.0f, 0.0f);
+		_boxCollision.setPosition(x, y);
+		_boxCollision.setFillColor(sf::Color(255, 0, 0, 128));
 
 		cout << "Se ha creado una plataforma.\n\n";
 	}
@@ -33,17 +33,17 @@ namespace the_wonder_boy
 	// Funciones públicas.
 	void Platform::draw(RenderWindow* window)
 	{
-		window->draw(sprPlatform);
+		window->draw(_sprPlatform);
 
 		#if _DEBUG
 
-		window->draw(boxCollision);
+		window->draw(_boxCollision);
 
 		#endif // _DEBUG
 	}
 
 	RectangleShape Platform::getBoxCollision()
 	{
-		return boxCollision;
+		return _boxCollision;
 	}
 }

@@ -24,10 +24,10 @@ namespace the_wonder_boy
 		RectangleShape getBoxCollision();
 
 	private:
-		Texture texPlatform;
-		Sprite sprPlatform;
+		Texture _texPlatform;
+		Sprite _sprPlatform;
 
-		RectangleShape boxCollision;
+		RectangleShape _boxCollision;
 	};
 }
 

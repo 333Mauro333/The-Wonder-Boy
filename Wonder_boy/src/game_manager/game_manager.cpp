@@ -15,9 +15,7 @@ using sf::Image;
 
 namespace the_wonder_boy
 {
-	Vector2u GameManager::windowSize; // Menciono la variable estática sólo para evitar un error.
-
-	float GameManager::deltaTime = 0.0f;
+	float GameManager::_deltaTime = 0.0f;
 
 	GameManager::GameManager(unsigned int width, unsigned int height, const std::string windowTitle)
 	{
@@ -27,12 +25,11 @@ namespace the_wonder_boy
 			cout << "El icono no ha sido cargado.\n";
 		}
 
-		window = new RenderWindow(sf::VideoMode(width, height), windowTitle); // Creo la ventana.
-		windowSize = { width, height }; // Guardo el tamaño de la ventana en una variable Vector2u.
-		fps = 60;
-		window->setKeyRepeatEnabled(false); // Deshabilita el repetimiento de una tecla al mantenerse presionada (aplica para
+		_window = new RenderWindow(sf::VideoMode(width, height), windowTitle); // Creo la ventana.
+		_fps = 60;
+		_window->setKeyRepeatEnabled(false); // Deshabilita el repetimiento de una tecla al mantenerse presionada (aplica para
 		// el evento de obtener la tecla en el momento que fue presionada).
-		window->setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
+		_window->setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 
 		cout << "Se ha creado un game manager.\n\n";
 	}
@@ -47,11 +44,11 @@ namespace the_wonder_boy
 		init(); // Inicializa.
 
 		// Loop de juego. La condición del while es que esté la ventana del juego abierta.
-		while (window->isOpen())
+		while (_window->isOpen())
 		{
 			sf::Clock clock; // Se declara un reloj, cuya cuenta comienza a correr apenas se declara.
 			limitFrames(); // Función para simular un deltaTime, ya que el propio de la ventana es propenso a imprecisiones.
-			deltaTime = clock.getElapsedTime().asSeconds(); // Se guarda en una variable el tiempo transcurrido en el frame.
+			_deltaTime = clock.getElapsedTime().asSeconds(); // Se guarda en una variable el tiempo transcurrido en el frame.
 
 			update(); // Actualiza usando el deltaTime.
 
@@ -61,45 +58,36 @@ namespace the_wonder_boy
 		destroy(); // Destruye todos los elementos del nivel, incluyendo el mismo.
 	}
 
-	Vector2u GameManager::getWindowSize()
-	{
-		return windowSize;
-	}
-	void GameManager::setWindowSize(int width, int height)
-	{
-		windowSize = { static_cast<unsigned int>(width), static_cast<unsigned int>(height) };
-	}
-
 	float GameManager::getDeltaTime()
 	{
-		return deltaTime;
+		return _deltaTime;
 	}
 
 
 	// Funciones privadas.
 	void GameManager::init()
 	{
-		CurtainManager::initValues(windowSize);
+		CurtainManager::initValues(_window->getSize());
 
-		SceneManager::loadNewScene(new MainMenu(window, SELECTED_OPTION::PLAY)); // Inicio la primera escena del juego.
+		SceneManager::loadNewScene(new MainMenu(_window, SELECTED_OPTION::PLAY)); // Inicio la primera escena del juego.
 	}
 	void GameManager::update()
 	{
 		checkEvents(); // Compruebo si hay eventos (cerrar la ventana, presionar una tecla, hacer click, etc).
 
-		CurtainManager::update(deltaTime); // Actualizo la cortina entre escenas durante toda la ejecución.
+		CurtainManager::update(_deltaTime); // Actualizo la cortina entre escenas durante toda la ejecución.
 
 		SceneManager::getActualScene()->update(); // Se actualiza todo lo que hay en la escena actual.
 	}
 	void GameManager::draw()
 	{
-		window->clear(); // Se limpia toda la pantalla (por defecto, de color negro).
+		_window->clear(); // Se limpia toda la pantalla (por defecto, de color negro).
 
 		SceneManager::getActualScene()->draw(); // Se dibuja todo lo que hay en la escena actual.
 
-		CurtainManager::draw(window);
+		CurtainManager::draw(_window);
 
-		window->display(); // Se muestra en la ventana todo lo dibujado.
+		_window->display(); // Se muestra en la ventana todo lo dibujado.
 	}
 	void GameManager::destroy()
 	{
@@ -111,11 +99,11 @@ namespace the_wonder_boy
 		Event event;
 
 
-		while (window->pollEvent(event))
+		while (_window->pollEvent(event))
 		{
 			if (event.type == Event::Closed)
 			{
-				window->close(); // Cierra la ventana.
+				_window->close(); // Cierra la ventana.
 			}
 
 			if (event.type == Event::KeyPressed)
@@ -134,6 +122,6 @@ namespace the_wonder_boy
 
 	void GameManager::limitFrames()
 	{
-		Sleep(1000 / fps);
+		Sleep(1000 / _fps);
 	}
 }

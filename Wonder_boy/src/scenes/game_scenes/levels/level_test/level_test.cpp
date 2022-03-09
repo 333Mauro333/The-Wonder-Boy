@@ -181,7 +181,7 @@ namespace the_wonder_boy
 	{
 		player->keyPressedOnce(key);
 
-		if (Keyboard::isKeyPressed(static_cast<Keyboard::Key>(ControlsManager::screenReturn)))
+		if (Keyboard::isKeyPressed(ControlsManager::getKey(WANTED_KEY::SCREEN_RETURN)))
 		{
 			view.setCenter(window->getSize().x / 2.0f, window->getSize().y / 2.0f);
 			CurtainManager::setCurtainPosition(view.getCenter());
@@ -334,37 +334,7 @@ namespace the_wonder_boy
 	}
 	void LevelTest::destroy()
 	{
-		delete player;
-		delete hud;
-
-		for (int i = 0; i < floorSize; i++)
-		{
-			delete floor[i];
-		}
-		for (int i = 0; i < platformSize; i++)
-		{
-			delete platform[i];
-		}
-		for (int i = 0; i < signSize; i++)
-		{
-			delete sign[i];
-		}
-		for (int i = 0; i < fruitSize; i++)
-		{
-			delete fruit[i];
-		}
-		for (int i = 0; i < stoneSize; i++)
-		{
-			delete stone[i];
-		}
-		for (int i = 0; i < bonfireSize; i++)
-		{
-			delete bonfire[i];
-		}
-		for (int i = 0; i < enemySize; i++)
-		{
-			delete enemy[i];
-		}
+		
 	}
 
 	void LevelTest::moveCameraInY(float start, float end, float pixelsToMove)

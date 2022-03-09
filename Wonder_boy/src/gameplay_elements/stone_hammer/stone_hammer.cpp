@@ -7,29 +7,28 @@ using std::cout;
 
 namespace the_wonder_boy
 {
-	GRAVITY StoneHammer::baseGravity = { 50.0f, 750.0f, 500.0f, false };
+	GRAVITY StoneHammer::_baseGravity = { 50.0f, 750.0f, 500.0f, false };
+	const float StoneHammer::_xSpeed = 1200.0f;
 
 	StoneHammer::StoneHammer() : Entity(0.0f, 0.0f)
 	{
-		animationState = ANIMATION_STATE_HAMMER::THROWN_RIGHT;
-		isThrown = false;
-
-		xSpeed = 1200.0f;
+		_animationState = ANIMATION_STATE_HAMMER::THROWN_RIGHT;
+		_isThrown = false;
 
 		initAnimations();
 
-		boxCollision.setFillColor(sf::Color(255, 0, 0, 128));
-		boxCollision.setSize(Vector2f(63.0f, 63.0f));
-		boxCollision.setOrigin(boxCollision.getGlobalBounds().width / 2.0f, boxCollision.getGlobalBounds().height / 2.0f);
+		_boxCollision.setFillColor(sf::Color(255, 0, 0, 128));
+		_boxCollision.setSize(Vector2f(63.0f, 63.0f));
+		_boxCollision.setOrigin(_boxCollision.getGlobalBounds().width / 2.0f, _boxCollision.getGlobalBounds().height / 2.0f);
 
-		gravity = baseGravity;
+		_gravity = _baseGravity;
 
 		cout << "Se ha creado un martillo de piedra.\n\n";
 	}
 	StoneHammer::~StoneHammer()
 	{
-		delete animThrownRight;
-		delete animThrownLeft;
+		delete _animThrownRight;
+		delete _animThrownLeft;
 
 		cout << "El martillo de piedra ha sido eliminado de la memoria.\n\n";
 	}
@@ -38,16 +37,16 @@ namespace the_wonder_boy
 	// Funciones públicas.
 	void StoneHammer::update(float deltaTime)
 	{
-		if (isThrown)
+		if (_isThrown)
 		{
 			gravityForce(deltaTime);
-			if (animationState == ANIMATION_STATE_HAMMER::THROWN_RIGHT)
+			if (_animationState == ANIMATION_STATE_HAMMER::THROWN_RIGHT)
 			{
-				renderer.move(xSpeed * deltaTime, 0.0f);
+				_renderer.move(_xSpeed * deltaTime, 0.0f);
 			}
-			else if (animationState == ANIMATION_STATE_HAMMER::THROWN_LEFT)
+			else if (_animationState == ANIMATION_STATE_HAMMER::THROWN_LEFT)
 			{
-				renderer.move(-xSpeed * deltaTime, 0.0f);
+				_renderer.move(-_xSpeed * deltaTime, 0.0f);
 			}
 			updateAnimations(deltaTime);
 			accommodateAnimations();
@@ -59,42 +58,42 @@ namespace the_wonder_boy
 
 		#if _DEBUG
 
-		window->draw(boxCollision);
+		window->draw(_boxCollision);
 
 		#endif // _DEBUG
 	}
 
 	RectangleShape StoneHammer::getBoxCollision()
 	{
-		return boxCollision;
+		return _boxCollision;
 	}
 	bool StoneHammer::getIsThrown()
 	{
-		return isThrown;
+		return _isThrown;
 	}
 	Vector2f StoneHammer::getPosition()
 	{
-		return renderer.getPosition();
+		return _renderer.getPosition();
 	}
 	void StoneHammer::setPosition(float x, float y)
 	{
-		renderer.setPosition(x, y);
+		_renderer.setPosition(x, y);
 	}
 
 	void StoneHammer::throwIt(THROW_DIRECTION throwDirection)
 	{
-		if (!isThrown)
+		if (!_isThrown)
 		{
-			isThrown = true;
+			_isThrown = true;
 
 			switch (throwDirection)
 			{
 			case THROW_DIRECTION::LEFT:
-				animationState = ANIMATION_STATE_HAMMER::THROWN_LEFT;
+				_animationState = ANIMATION_STATE_HAMMER::THROWN_LEFT;
 				break;
 
 			case THROW_DIRECTION::RIGHT:
-				animationState = ANIMATION_STATE_HAMMER::THROWN_RIGHT;
+				_animationState = ANIMATION_STATE_HAMMER::THROWN_RIGHT;
 				break;
 			}
 
@@ -103,7 +102,7 @@ namespace the_wonder_boy
 	}
 	void StoneHammer::hit()
 	{
-		isThrown = false;
+		_isThrown = false;
 		resetValues();
 	}
 
@@ -125,19 +124,19 @@ namespace the_wonder_boy
 		frameDuration = 0.05f;
 		amountOfFrames = 4;
 
-		if (!texThrownRight.loadFromFile("res/sprites/player/stone_hammer_right.png"))
+		if (!_texThrownRight.loadFromFile("res/sprites/player/stone_hammer_right.png"))
 		{
 			cout << "La textura stone_hammer_right.png no se ha cargado.\n";
 		}
-		sprLoader.setTexture(texThrownRight);
-		sprLoader.setOrigin(frameWidth / 2.0f, static_cast<float>(frameHeight / 2));
-		animThrownRight = new Animation(sprLoader, ANIMATION_MODE::LOOP);
+		_sprLoader.setTexture(_texThrownRight);
+		_sprLoader.setOrigin(frameWidth / 2.0f, static_cast<float>(frameHeight / 2));
+		_animThrownRight = new Animation(_sprLoader, ANIMATION_MODE::LOOP);
 		for (int i = 0; i < amountOfFrames; i++)
 		{
 			IntRect intRect = IntRect(left, 0, frameWidth, frameHeight);
 			Frame* frame = new Frame(intRect, frameDuration);
 
-			animThrownRight->addFrame(frame);
+			_animThrownRight->addFrame(frame);
 			left += frameWidth;
 		}
 		left = 0;
@@ -146,19 +145,19 @@ namespace the_wonder_boy
 
 		#pragma region LANZADO HACIA LA DERECHA
 
-		if (!texThrownLeft.loadFromFile("res/sprites/player/stone_hammer_left.png"))
+		if (!_texThrownLeft.loadFromFile("res/sprites/player/stone_hammer_left.png"))
 		{
 			cout << "La textura stone_hammer_left.png no se ha cargado.\n";
 		}
-		sprLoader.setTexture(texThrownLeft);
-		sprLoader.setOrigin(frameWidth / 2.0f, static_cast<float>(frameHeight / 2));
-		animThrownLeft = new Animation(sprLoader, ANIMATION_MODE::LOOP);
+		_sprLoader.setTexture(_texThrownLeft);
+		_sprLoader.setOrigin(frameWidth / 2.0f, static_cast<float>(frameHeight / 2));
+		_animThrownLeft = new Animation(_sprLoader, ANIMATION_MODE::LOOP);
 		for (int i = 0; i < amountOfFrames; i++)
 		{
 			IntRect intRect = IntRect(left, 0, frameWidth, frameHeight);
 			Frame* frame = new Frame(intRect, frameDuration);
 
-			animThrownLeft->addFrame(frame);
+			_animThrownLeft->addFrame(frame);
 			left += frameWidth;
 		}
 		left = 0;
@@ -167,50 +166,50 @@ namespace the_wonder_boy
 	}
 	void StoneHammer::updateAnimations(float deltaTime)
 	{
-		switch (animationState)
+		switch (_animationState)
 		{
 		case ANIMATION_STATE_HAMMER::THROWN_RIGHT:
-			animThrownRight->target.setPosition(renderer.getPosition().x, renderer.getPosition().y);
-			animThrownRight->update(deltaTime);
+			_animThrownRight->_target.setPosition(_renderer.getPosition().x, _renderer.getPosition().y);
+			_animThrownRight->update(deltaTime);
 			break;
 
 		case ANIMATION_STATE_HAMMER::THROWN_LEFT:
-			animThrownLeft->target.setPosition(renderer.getPosition().x, renderer.getPosition().y);
-			animThrownLeft->update(deltaTime);
+			_animThrownLeft->_target.setPosition(_renderer.getPosition().x, _renderer.getPosition().y);
+			_animThrownLeft->update(deltaTime);
 			break;
 		}
 	}
 	void StoneHammer::drawAnimations(RenderWindow* window)
 	{
-		if (isThrown)
+		if (_isThrown)
 		{
-			switch (animationState)
+			switch (_animationState)
 			{
 			case ANIMATION_STATE_HAMMER::THROWN_RIGHT:
-				window->draw(animThrownRight->target);
+				window->draw(_animThrownRight->_target);
 				break;
 
 			case ANIMATION_STATE_HAMMER::THROWN_LEFT:
-				window->draw(animThrownLeft->target);
+				window->draw(_animThrownLeft->_target);
 				break;
 			}
 		}
 	}
 	void StoneHammer::accommodateAnimations()
 	{
-		boxCollision.setPosition(renderer.getPosition());
+		_boxCollision.setPosition(_renderer.getPosition());
 		updateAnimations(0.0f);
 	}
 	
 	void StoneHammer::gravityForce(float deltaTime)
 	{
-		gravity.actualSpeed = (gravity.actualSpeed + gravity.acceleration * deltaTime > gravity.speedLimit) ? gravity.speedLimit : gravity.actualSpeed + gravity.acceleration * deltaTime;
+		_gravity.actualSpeed = (_gravity.actualSpeed + _gravity.acceleration * deltaTime > _gravity.speedLimit) ? _gravity.speedLimit : _gravity.actualSpeed + _gravity.acceleration * deltaTime;
 
-		renderer.move(0.0f, gravity.actualSpeed * deltaTime);
+		_renderer.move(0.0f, _gravity.actualSpeed * deltaTime);
 	}
 
 	void StoneHammer::resetValues()
 	{
-		gravity = baseGravity;
+		_gravity = _baseGravity;
 	}
 }

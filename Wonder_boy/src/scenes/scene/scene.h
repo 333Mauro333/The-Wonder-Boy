@@ -21,7 +21,7 @@ namespace the_wonder_boy
 		virtual void checkKeyReleased(Keyboard::Key key) = 0;
 
 	protected:
-		RenderWindow* window;
+		RenderWindow* _window;
 
 	private:
 		virtual void init() = 0;

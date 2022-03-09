@@ -9,7 +9,7 @@ namespace the_wonder_boy
 {
 	Sign::Sign(float x, float y, SIGN_TYPE signType)
 	{
-		this->signType = signType;
+		_signType = signType;
 
 		initSprite(x, y);
 
@@ -24,66 +24,66 @@ namespace the_wonder_boy
 	// Funciones públicas.
 	void Sign::draw(RenderWindow* window)
 	{
-		window->draw(sprSign);
+		window->draw(_sprSign);
 	}
 
 	SIGN_TYPE Sign::getSignType()
 	{
-		return signType;
+		return _signType;
 	}
 	Sprite Sign::getRenderer()
 	{
-		return sprSign;
+		return _sprSign;
 	}
 	void Sign::setPosition(Vector2f position)
 	{
-		this->position = position;
+		_position = position;
 	}
 
 
 	// Funciones privadas.
 	void Sign::initSprite(float x, float y)
 	{
-		switch (signType)
+		switch (_signType)
 		{
 		case SIGN_TYPE::FIRST:
-			if (!texSign.loadFromFile("res/sprites/scenes/sign/sign_1.png"))
+			if (!_texSign.loadFromFile("res/sprites/scenes/sign/sign_1.png"))
 			{
 				cout << "La textura sign_1.png no se ha cargado.\n";
 			}
 			break;
 
 		case SIGN_TYPE::SECOND:
-			if (!texSign.loadFromFile("res/sprites/scenes/sign/sign_2.png"))
+			if (!_texSign.loadFromFile("res/sprites/scenes/sign/sign_2.png"))
 			{
 				cout << "La textura sign_2.png no se ha cargado.\n";
 			}
 			break;
 
 		case SIGN_TYPE::THIRD:
-			if (!texSign.loadFromFile("res/sprites/scenes/sign/sign_3.png"))
+			if (!_texSign.loadFromFile("res/sprites/scenes/sign/sign_3.png"))
 			{
 				cout << "La textura sign_3.png no se ha cargado.\n";
 			}
 			break;
 
 		case SIGN_TYPE::FOURTH:
-			if (!texSign.loadFromFile("res/sprites/scenes/sign/sign_4.png"))
+			if (!_texSign.loadFromFile("res/sprites/scenes/sign/sign_4.png"))
 			{
 				cout << "La textura sign_4.png no se ha cargado.\n";
 			}
 			break;
 
 		case SIGN_TYPE::GOAL:
-			if (!texSign.loadFromFile("res/sprites/scenes/sign/sign_goal.png"))
+			if (!_texSign.loadFromFile("res/sprites/scenes/sign/sign_goal.png"))
 			{
 				cout << "La textura sign_goal.png no se ha cargado.\n";
 			}
 			break;
 		}
 
-		sprSign.setTexture(texSign);
-		sprSign.setOrigin(sprSign.getGlobalBounds().width / 2.0f, sprSign.getGlobalBounds().height);
-		sprSign.setPosition(x, y);
+		_sprSign.setTexture(_texSign);
+		_sprSign.setOrigin(_sprSign.getGlobalBounds().width / 2.0f, _sprSign.getGlobalBounds().height);
+		_sprSign.setPosition(x, y);
 	}
 }

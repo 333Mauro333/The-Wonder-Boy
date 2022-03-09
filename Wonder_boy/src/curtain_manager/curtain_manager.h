@@ -31,16 +31,16 @@ namespace the_wonder_boy
 		static bool screenIsBlack();
 
 	private:
-		static CURTAIN_TYPE wayToHide;
-		static CURTAIN_TYPE wayToShow;
+		static CURTAIN_TYPE _wayToHide;
+		static CURTAIN_TYPE _wayToShow;
 
-		static bool fadingOut;
-		static bool fadingIn;
+		static bool _fadingOut;
+		static bool _fadingIn;
 
-		static RectangleShape curtain;
+		static RectangleShape _curtain;
 
-		static float timeToFinishCurtainAction;
-		static const float maxUint8Value;
+		static const float _timeToFinishCurtainAction;
+		static const float _maxUint8Value;
 
 		static void show(float deltaTime);
 		static void cover(float deltaTime);

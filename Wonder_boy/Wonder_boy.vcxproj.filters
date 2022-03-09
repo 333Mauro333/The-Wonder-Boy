@@ -49,9 +49,6 @@
     <Filter Include="allFiles\src\scenes\game_scenes\screens">
       <UniqueIdentifier>{741030f7-54fa-4dd8-a793-71eb5b54f4cc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="allFiles\src\scenes\game_scenes\levels\level_test">
-      <UniqueIdentifier>{9d7766b1-779e-4077-868c-98658a051a86}</UniqueIdentifier>
-    </Filter>
     <Filter Include="allFiles\src\scenes\game_scenes\levels\level_1">
       <UniqueIdentifier>{ba145006-3105-494e-82e2-dce683348e4e}</UniqueIdentifier>
     </Filter>
@@ -147,9 +144,6 @@
     <ClCompile Include="src\scenes\game_scenes\levels\level_1\level_1.cpp">
       <Filter>allFiles\src\scenes\game_scenes\levels\level_1</Filter>
     </ClCompile>
-    <ClCompile Include="src\scenes\game_scenes\levels\level_test\level_test.cpp">
-      <Filter>allFiles\src\scenes\game_scenes\levels\level_test</Filter>
-    </ClCompile>
     <ClCompile Include="src\scenes\game_scenes\screens\credits\credits.cpp">
       <Filter>allFiles\src\scenes\game_scenes\screens\credits</Filter>
     </ClCompile>
@@ -226,9 +220,6 @@
     </ClInclude>
     <ClInclude Include="src\scenes\game_scenes\levels\level_1\level_1.h">
       <Filter>allFiles\src\scenes\game_scenes\levels\level_1</Filter>
-    </ClInclude>
-    <ClInclude Include="src\scenes\game_scenes\levels\level_test\level_test.h">
-      <Filter>allFiles\src\scenes\game_scenes\levels\level_test</Filter>
     </ClInclude>
     <ClInclude Include="src\scenes\game_scenes\screens\credits\credits.h">
       <Filter>allFiles\src\scenes\game_scenes\screens\credits</Filter>

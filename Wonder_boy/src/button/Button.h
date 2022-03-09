@@ -24,20 +24,18 @@ namespace the_wonder_boy
 		Button(float x, float y, float w, float h, string optionName);
 		~Button();
 
-		void update(float deltaTime);
+		void update();
 		void draw(RenderWindow* window);
 
-		void setSelected(bool isSelected);
+		void setSelected(bool selected);
 
 	private:
-		Texture texButton;
-		Sprite sprButton;
-		Font font;
-		Text text;
+		Texture _texButton;
+		Sprite _sprButton;
+		Font _font;
+		Text _text;
 
-		bool isSelected; // Define si el botón está seleccionado o no.
-
-		// Probar el cambio de tamaño de los botones para remarcar la opcion seleccionada.
+		bool _selected; // Define si el botón está seleccionado o no.
 	};
 }
 

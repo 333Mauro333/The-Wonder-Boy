@@ -6,21 +6,27 @@
 using sf::Keyboard;
 
 
+enum class WANTED_KEY {SCREEN_UP, SCREEN_DOWN, SCREEN_ENTER, SCREEN_RETURN,
+						GAMEPLAY_LEFT, GAMEPLAY_RIGHT, GAMEPLAY_JUMP, GAMEPLAY_ATTACK, GAMEPLAY_PAUSE };
+
 namespace the_wonder_boy
 {
 	class ControlsManager
 	{
 	public:
-		static int screenUp;
-		static int screenDown;
-		static int screenEnter;
-		static int screenReturn;
+		static Keyboard::Key getKey(WANTED_KEY wantedKey);
 
-		static int gameplayLeft;
-		static int gameplayRight;
-		static int gameplayJump;
-		static int gameplayAttack;
-		static int gameplayPause;
+	private:
+		const static int _screenUp;
+		const static int _screenDown;
+		const static int _screenEnter;
+		const static int _screenReturn;
+
+		const static int _gameplayLeft;
+		const static int _gameplayRight;
+		const static int _gameplayJump;
+		const static int _gameplayAttack;
+		const static int _gameplayPause;
 	};
 }
 

@@ -32,34 +32,33 @@ namespace the_wonder_boy
 		int getPoints();
 		bool isActive();
 		bool isDefeated();
-		void activate();
-		void deactivate();
+		void setActive(bool active);
 
 		virtual void reset();
 		
 		virtual void defeat() = 0;
 
 	protected:
-		Texture texEnemy;
+		Texture _texEnemy;
 
-		Sprite sprLoader;
-		Sprite renderer;
+		Sprite _sprLoader;
+		Sprite _renderer;
 
-		Vector2f initialPosition;
+		Vector2f _initialPosition;
 
-		RectangleShape boxCollision;
+		RectangleShape _boxCollision;
 
-		ANIMATION_STATE_ENEMY animationState;
-		Animation* animNormal;
-		Animation* animDefeated;
+		ANIMATION_STATE_ENEMY _animationState;
+		Animation* _animNormal;
+		Animation* _animDefeated;
 
-		GRAVITY gravity;
+		GRAVITY _gravity;
 
-		bool active;
-		bool defeated;
-		int pointsValue;
+		bool _active;
+		bool _defeated;
+		int _pointsValue;
 
-		float bounceForce;
+		float _bounceForce;
 
 		virtual void initSprites() = 0;
 		virtual void initAnimations(float x, float y) = 0;
@@ -68,7 +67,7 @@ namespace the_wonder_boy
 
 		void gravityForce(float deltaTime);
 
-		void setNewAnimation(ANIMATION_STATE_ENEMY animation);
+		void setNewAnimation(ANIMATION_STATE_ENEMY animationState);
 	};
 }
 

@@ -13,7 +13,7 @@ namespace the_wonder_boy
 		initSprites();
 		initAnimations(x, y);
 
-		pointsValue = 10;
+		_pointsValue = 10;
 
 		cout << "Se ha creado un caracol.\n\n";
 	}
@@ -48,11 +48,11 @@ namespace the_wonder_boy
 
 	void Snail::defeat()
 	{
-		if (active && !defeated)
+		if (_active && !_defeated)
 		{
-			defeated = true;
+			_defeated = true;
 			setNewAnimation(ANIMATION_STATE_ENEMY::DEFEATED);
-			gravity.actualSpeed = -bounceForce;
+			_gravity.actualSpeed = -_bounceForce;
 			accommodateAnimations();
 		}
 	}
@@ -61,11 +61,11 @@ namespace the_wonder_boy
 	// Funciones privadas.
 	void Snail::initSprites()
 	{
-		if (!texEnemy.loadFromFile("res/sprites/enemies/snail.png"))
+		if (!_texEnemy.loadFromFile("res/sprites/enemies/snail.png"))
 		{
 			cout << "La textura de snail.png no se ha cargado.\n";
 		}
-		sprLoader.setTexture(texEnemy);
+		_sprLoader.setTexture(_texEnemy);
 	}
 	void Snail::initAnimations(float x, float y)
 	{
@@ -83,17 +83,17 @@ namespace the_wonder_boy
 		frameDuration = 0.5f;
 		amountOfFrames = 3;
 
-		sprLoader.setOrigin(frameWidth / 2.0f, static_cast<float>(frameHeight));
-		sprLoader.setPosition(x, y);
-		boxCollision.setSize(Vector2f(frameWidth, frameHeight));
-		boxCollision.setOrigin(frameWidth / 2.0f, frameHeight);
-		animNormal = new Animation(sprLoader, ANIMATION_MODE::LOOP);
+		_sprLoader.setOrigin(frameWidth / 2.0f, static_cast<float>(frameHeight));
+		_sprLoader.setPosition(x, y);
+		_boxCollision.setSize(Vector2f(frameWidth, frameHeight));
+		_boxCollision.setOrigin(frameWidth / 2.0f, frameHeight);
+		_animNormal = new Animation(_sprLoader, ANIMATION_MODE::LOOP);
 		for (int i = 0; i < amountOfFrames; i++)
 		{
 			IntRect intRect = IntRect(left, 0, frameWidth, frameHeight);
 			Frame* frame = new Frame(intRect, frameDuration);
 
-			animNormal->addFrame(frame);
+			_animNormal->addFrame(frame);
 			left += frameWidth;
 		}
 		left = 0;
@@ -108,17 +108,17 @@ namespace the_wonder_boy
 		frameDuration = 1.0f;
 		amountOfFrames = 1;
 
-		sprLoader.setOrigin(frameWidth / 2.0f, static_cast<float>(frameHeight));
-		sprLoader.setPosition(x, y);
-		boxCollision.setSize(Vector2f(frameWidth, frameHeight));
-		boxCollision.setOrigin(frameWidth / 2.0f, frameHeight);
-		animDefeated = new Animation(sprLoader, ANIMATION_MODE::LOOP);
+		_sprLoader.setOrigin(frameWidth / 2.0f, static_cast<float>(frameHeight));
+		_sprLoader.setPosition(x, y);
+		_boxCollision.setSize(Vector2f(frameWidth, frameHeight));
+		_boxCollision.setOrigin(frameWidth / 2.0f, frameHeight);
+		_animDefeated = new Animation(_sprLoader, ANIMATION_MODE::LOOP);
 		for (int i = 0; i < amountOfFrames; i++)
 		{
 			IntRect intRect = IntRect(left, 0, frameWidth, frameHeight);
 			Frame* frame = new Frame(intRect, frameDuration);
 
-			animDefeated->addFrame(frame);
+			_animDefeated->addFrame(frame);
 			left += frameWidth;
 		}
 		left = 0;
@@ -127,51 +127,51 @@ namespace the_wonder_boy
 	}
 	void Snail::updateAnimations(float deltaTime)
 	{
-		if (active)
+		if (_active)
 		{
 			updateAnimationEvents();
 
-			switch (animationState)
+			switch (_animationState)
 			{
 			case ANIMATION_STATE_ENEMY::NORMAL:
-				animNormal->target.setPosition(renderer.getPosition().x, renderer.getPosition().y);
-				animNormal->update(deltaTime);
+				_animNormal->_target.setPosition(_renderer.getPosition().x, _renderer.getPosition().y);
+				_animNormal->update(deltaTime);
 				break;
 
 			case ANIMATION_STATE_ENEMY::DEFEATED:
-				animDefeated->target.setPosition(renderer.getPosition().x, renderer.getPosition().y);
-				animDefeated->update(deltaTime);
+				_animDefeated->_target.setPosition(_renderer.getPosition().x, _renderer.getPosition().y);
+				_animDefeated->update(deltaTime);
 				break;
 			}
 		}
 	}
 	void Snail::drawAnimations(RenderWindow* window)
 	{
-		if (active)
+		if (_active)
 		{
-			switch (animationState)
+			switch (_animationState)
 			{
 			case ANIMATION_STATE_ENEMY::NORMAL:
-				window->draw(animNormal->target);
+				window->draw(_animNormal->_target);
 				break;
 
 			case ANIMATION_STATE_ENEMY::DEFEATED:
-				window->draw(animDefeated->target);
+				window->draw(_animDefeated->_target);
 				break;
 			}
 		}
 	}
 	void Snail::accommodateAnimations()
 	{
-		boxCollision.setPosition(renderer.getPosition());
+		_boxCollision.setPosition(_renderer.getPosition());
 		updateAnimations(0.0f);
 	}
 	void Snail::updateAnimationEvents()
 	{
-		if (animNormal->getNumberOfFrame() == 2)
+		if (_animNormal->getNumberOfFrame() == 2)
 		{
-			animNormal->resetAnimation();
-			renderer.setPosition(renderer.getPosition().x - boxCollision.getGlobalBounds().width / 15.0f, renderer.getPosition().y);
+			_animNormal->resetAnimation();
+			_renderer.setPosition(_renderer.getPosition().x - _boxCollision.getGlobalBounds().width / 15.0f, _renderer.getPosition().y);
 			accommodateAnimations();
 		}
 	}

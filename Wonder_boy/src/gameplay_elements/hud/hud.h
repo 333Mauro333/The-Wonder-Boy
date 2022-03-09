@@ -26,20 +26,20 @@ namespace the_wonder_boy
 		void draw(RenderWindow* window);
 
 	private:
-		RenderWindow* window;
-		Player* player;
-		RectangleShape backHud;
-		Texture texLife;
-		Sprite sprLife;
-		Texture tex;
-		Font font;
-		Text textPoints;
-		Text textLives;
+		RenderWindow* _window;
+		Player* _player;
+		RectangleShape _backHud;
+		Texture _texLife;
+		Sprite _sprLife;
+		Texture _tex;
+		Font _font;
+		Text _textPoints;
+		Text _textLives;
 
-		static const int amountOfRectangles = 32;
-		RectangleShape healthBars[amountOfRectangles];
+		static const int _amountOfRectangles = 32;
+		RectangleShape _healthBars[_amountOfRectangles];
 
-		Vector2f posZero;
+		Vector2f _posZero;
 
 		string toString(int num);
 	};

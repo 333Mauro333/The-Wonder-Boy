@@ -17,7 +17,7 @@ namespace the_wonder_boy
 	}
 	Bonfire::~Bonfire()
 	{
-		delete animBonfire;
+		delete _animBonfire;
 
 		cout << "La fogata ha sido eliminada de la memoria.\n\n";
 	}
@@ -26,33 +26,33 @@ namespace the_wonder_boy
 	// Funciones públicas.
 	void Bonfire::update(float deltaTime)
 	{
-		animBonfire->update(deltaTime);
+		_animBonfire->update(deltaTime);
 	}
 	void Bonfire::draw(RenderWindow* window)
 	{
-		window->draw(animBonfire->target);
+		window->draw(_animBonfire->_target);
 
 		#if _DEBUG
 
-		window->draw(boxCollision);
+		window->draw(_boxCollision);
 
 		#endif // _DEBUG
 	}
 
 	RectangleShape Bonfire::getBoxCollision()
 	{
-		return boxCollision;
+		return _boxCollision;
 	}
 
 
 	// Funciones privadas.
 	void Bonfire::initSprites()
 	{
-		if (!texBonfire.loadFromFile("res/sprites/obstacles/bonfire.png"))
+		if (!_texBonfire.loadFromFile("res/sprites/obstacles/bonfire.png"))
 		{
 			cout << "La textura de bonfire.png no se ha cargado.\n";
 		}
-		sprBonfire.setTexture(texBonfire);
+		_sprBonfire.setTexture(_texBonfire);
 	}
 	void Bonfire::initAnimations(float x, float y)
 	{
@@ -70,20 +70,20 @@ namespace the_wonder_boy
 		frameDuration = 0.1f;
 		amountOfFrames = 3;
 
-		boxCollision.setSize(Vector2f(frameWidth / 1.25f, frameHeight / 1.3f));
-		boxCollision.setFillColor(sf::Color(255, 0, 0, 128));
-		boxCollision.setOrigin(frameWidth / 1.25f / 2.0f, static_cast<float>(frameHeight / 1.3f));
-		boxCollision.setPosition(x, y);
+		_boxCollision.setSize(Vector2f(frameWidth / 1.25f, frameHeight / 1.3f));
+		_boxCollision.setFillColor(sf::Color(255, 0, 0, 128));
+		_boxCollision.setOrigin(frameWidth / 1.25f / 2.0f, static_cast<float>(frameHeight / 1.3f));
+		_boxCollision.setPosition(x, y);
 
-		sprBonfire.setOrigin(frameWidth / 2.0f, static_cast<float>(frameHeight));
-		sprBonfire.setPosition(x, y);
-		animBonfire = new Animation(sprBonfire, ANIMATION_MODE::LOOP);
+		_sprBonfire.setOrigin(frameWidth / 2.0f, static_cast<float>(frameHeight));
+		_sprBonfire.setPosition(x, y);
+		_animBonfire = new Animation(_sprBonfire, ANIMATION_MODE::LOOP);
 		for (int i = 0; i < amountOfFrames; i++)
 		{
 			IntRect intRect = IntRect(left, 0, frameWidth, frameHeight);
 			Frame* frame = new Frame(intRect, frameDuration);
 
-			animBonfire->addFrame(frame);
+			_animBonfire->addFrame(frame);
 			left += frameWidth;
 		}
 		left = 0;

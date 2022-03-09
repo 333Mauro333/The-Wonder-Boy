@@ -26,9 +26,9 @@ namespace the_wonder_boy
 		void setPosition(float x, float y);
 
 	private:
-		Texture texFloor;
-		Sprite sprFloor;
-		RectangleShape boxCollision;
+		Texture _texFloor;
+		Sprite _sprFloor;
+		RectangleShape _boxCollision;
 	};
 }
 

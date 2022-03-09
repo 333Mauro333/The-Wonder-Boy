@@ -19,7 +19,7 @@ namespace the_wonder_boy
 		Animation(Sprite target, ANIMATION_MODE animationMode);
 		~Animation();
 
-		Sprite target; // Este campo se declaró público porque al querer obtenerlo con un getter, se inhabilitan ciertas funcionalidades.
+		Sprite _target; // Este campo se declaró público porque al querer obtenerlo con un getter, se inhabilitan ciertas funcionalidades.
 
 		void addFrame(Frame* frame);
 		void update(float elapsed);
@@ -31,10 +31,10 @@ namespace the_wonder_boy
 		void resetAnimation();
 
 	private:
-		vector<Frame*> frameVector;
-		ANIMATION_MODE animationMode;
-		int actualFrame;
-		float progress;
+		vector<Frame*> _frameVector;
+		ANIMATION_MODE _animationMode;
+		int _actualFrame;
+		float _progress;
 	};
 }
 

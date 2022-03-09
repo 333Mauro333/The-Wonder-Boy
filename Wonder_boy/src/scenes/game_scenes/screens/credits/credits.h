@@ -25,9 +25,9 @@ namespace the_wonder_boy
 		void checkKeyReleased(Keyboard::Key key) override;
 
 	private:
-		RectangleShape background;
-		Font font;
-		Text textProgrammer;
+		RectangleShape _background;
+		Font _font;
+		Text _textProgrammer;
 
 		void init() override;
 		void destroy() override;

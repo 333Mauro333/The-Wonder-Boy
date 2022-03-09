@@ -24,11 +24,11 @@ namespace the_wonder_boy
 		void reset() override;
 
 	private:
-		float speedX;
-		float speedY;
-		bool moveUp;
+		float _speedX;
+		float _maxSpeedY;
+		bool _moveUp;
 
-		WASP_VERTICAL_SPEED verticalSpeed;
+		WASP_VERTICAL_SPEED _verticalSpeed;
 
 		void initSprites() override;
 		void initAnimations(float x, float y) override;
@@ -38,7 +38,7 @@ namespace the_wonder_boy
 		void updateAnimationEvents();
 
 		void moveForward(float deltaTime);
-		void moveUpAndDown(float deltaTime, float maxSpeed);
+		void moveUpAndDown(float deltaTime);
 	};
 }
 

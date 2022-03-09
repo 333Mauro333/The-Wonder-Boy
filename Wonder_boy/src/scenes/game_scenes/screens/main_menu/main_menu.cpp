@@ -30,12 +30,13 @@ namespace the_wonder_boy
 		cout << "La pantalla de menu principal ha sido eliminada de la memoria.\n";
 	}
 
+
 	// Funciones públicas.
 	void MainMenu::update()
 	{
 		for (int i = 0; i < buttonsSize; i++)
 		{
-			buttons[i]->update(GameManager::getDeltaTime());
+			buttons[i]->update();
 		}
 
 		if (CurtainManager::screenIsBlack())
@@ -43,11 +44,11 @@ namespace the_wonder_boy
 			switch (option)
 			{
 				case 1:
-					SceneManager::loadNewScene(new Level1(window));
+					SceneManager::loadNewScene(new Level1(_window));
 					break;
 
 				case 3:
-					window->close();
+					_window->close();
 					break;
 			}
 		}
@@ -56,26 +57,26 @@ namespace the_wonder_boy
 	}
 	void MainMenu::draw()
 	{
-		window->draw(background);
+		_window->draw(background);
 
-		window->draw(gameTitle);
+		_window->draw(gameTitle);
 
 		for (int i = 0; i < buttonsSize; i++)
 		{
-			buttons[i]->draw(window);
+			buttons[i]->draw(_window);
 		}
 	}
 	void MainMenu::checkKeyPressedOnce(Keyboard::Key key)
 	{
-		if (Keyboard::isKeyPressed(static_cast<Keyboard::Key>(ControlsManager::screenUp)) && !CurtainManager::isActive())
+		if (Keyboard::isKeyPressed(ControlsManager::getKey(WANTED_KEY::SCREEN_UP)) && !CurtainManager::isActive())
 		{
 			changeOption(OPTION_DIRECTION::PREVIOUS);
 		}
-		if (Keyboard::isKeyPressed(static_cast<Keyboard::Key>(ControlsManager::screenDown)) && !CurtainManager::isActive())
+		if (Keyboard::isKeyPressed(ControlsManager::getKey(WANTED_KEY::SCREEN_DOWN)) && !CurtainManager::isActive())
 		{
 			changeOption(OPTION_DIRECTION::NEXT);
 		}
-		if (Keyboard::isKeyPressed(static_cast<Keyboard::Key>(ControlsManager::screenEnter))&& !CurtainManager::isActive())
+		if (Keyboard::isKeyPressed(ControlsManager::getKey(WANTED_KEY::SCREEN_ENTER))&& !CurtainManager::isActive())
 		{
 			switch (option)
 			{
@@ -85,7 +86,7 @@ namespace the_wonder_boy
 				break;
 
 			case 2:
-				SceneManager::loadNewScene(new Credits(window));
+				SceneManager::loadNewScene(new Credits(_window));
 				break;
 			}
 		}
@@ -97,8 +98,8 @@ namespace the_wonder_boy
 
 	void MainMenu::init()
 	{
-		int totalSize = window->getSize().y / 1.5f; // Espacio que va a ocupar toda la lista de botones.
-		int firstPosition = window->getSize().y - totalSize; // Posición del primer botón.
+		int totalSize = _window->getSize().y / 1.5f; // Espacio que va a ocupar toda la lista de botones.
+		int firstPosition = _window->getSize().y - totalSize; // Posición del primer botón.
 		int distanceBetweenButtons = totalSize / buttonsSize; // Diferencia de posiciones (sobre y) entre botones.
 
 
@@ -111,10 +112,10 @@ namespace the_wonder_boy
 		gameTitle.setCharacterSize(85);
 		gameTitle.setFillColor(sf::Color::Black);
 		gameTitle.setOrigin(gameTitle.getGlobalBounds().width / 2.0f, gameTitle.getGlobalBounds().height / 2.0f);
-		gameTitle.setPosition(window->getSize().x / 2.0f, window->getSize().y / 10.0f);
+		gameTitle.setPosition(_window->getSize().x / 2.0f, _window->getSize().y / 10.0f);
 		toBlack = false;
 
-		background = RectangleShape(static_cast<Vector2f>(window->getSize())); // Fondo del menú.
+		background = RectangleShape(static_cast<Vector2f>(_window->getSize())); // Fondo del menú.
 		background.setFillColor(sf::Color(0, 180, 0, 255)); // Color verde opaco.
 
 		optionsList[0] = "PLAY"; // Texto que irá sobre los botones.
@@ -123,7 +124,7 @@ namespace the_wonder_boy
 
 		for (int i = 0; i < buttonsSize; i++)
 		{
-			buttons[i] = new Button(window->getSize().x / 2.0f, firstPosition, window->getSize().x / 3.0f, totalSize / (buttonsSize + 2), optionsList[i]); // Hacer una clase para el botón.
+			buttons[i] = new Button(_window->getSize().x / 2.0f, firstPosition, _window->getSize().x / 3.0f, totalSize / (buttonsSize + 2), optionsList[i]); // Hacer una clase para el botón.
 			firstPosition += distanceBetweenButtons;
 		}
 

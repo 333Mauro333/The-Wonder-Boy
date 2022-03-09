@@ -13,22 +13,18 @@ namespace the_wonder_boy
 	class GameManager
 	{
 	public:
-		RenderWindow* window;
+		RenderWindow* _window;
 
 		GameManager(unsigned int width, unsigned int height, const std::string windowTitle);
 		~GameManager();
 
 		void run();
 
-		static Vector2u getWindowSize();
-		static void setWindowSize(int width, int height);
-
 		static float getDeltaTime();
 
 	private:
-		static Vector2u windowSize;
-		static float deltaTime;
-		int fps;
+		static float _deltaTime;
+		int _fps;
 		
 		void init();
 		void update();

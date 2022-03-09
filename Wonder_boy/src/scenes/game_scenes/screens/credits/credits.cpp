@@ -30,15 +30,15 @@ namespace the_wonder_boy
 	}
 	void Credits::draw()
 	{
-		window->draw(background);
+		_window->draw(_background);
 
-		window->draw(textProgrammer);
+		_window->draw(_textProgrammer);
 	}
 	void Credits::checkKeyPressedOnce(Keyboard::Key key)
 	{
-		if (Keyboard::isKeyPressed(static_cast<Keyboard::Key>(ControlsManager::screenEnter)))
+		if (key == ControlsManager::getKey(WANTED_KEY::SCREEN_ENTER))
 		{
-			SceneManager::loadNewScene(new MainMenu(window, SELECTED_OPTION::CREDITS));
+			SceneManager::loadNewScene(new MainMenu(_window, SELECTED_OPTION::CREDITS));
 		}
 	}
 	void Credits::checkKeyReleased(Keyboard::Key key)
@@ -50,14 +50,14 @@ namespace the_wonder_boy
 	// Funciones privadas.
 	void Credits::init()
 	{
-		background.setSize(Vector2f(static_cast<float>(window->getSize().x), static_cast<float>(window->getSize().y)));
-		background.setFillColor(sf::Color::Magenta);
+		_background.setSize(Vector2f(static_cast<float>(_window->getSize().x), static_cast<float>(_window->getSize().y)));
+		_background.setFillColor(sf::Color::Magenta);
 
-		if (!font.loadFromFile("res/fonts/retro.ttf"))
+		if (!_font.loadFromFile("res/fonts/retro.ttf"))
 		{
 			cout << "No se ha podido cargar la fuente de 8_bit.ttf.\n";
 		}
-		textProgrammer.setFont(font);
+		_textProgrammer.setFont(_font);
 		string strCredits = "";
 		strCredits += "         Programming:\n\n";
 		strCredits += "    Mauro Torres Velasquez\n\n\n";
@@ -67,11 +67,11 @@ namespace the_wonder_boy
 		strCredits += "     Original game sprites\n\n\n\n";
 		strCredits += "Press ENTER to return to menu.";
 
-		textProgrammer.setString(strCredits);
-		textProgrammer.setCharacterSize(30);
-		textProgrammer.setFillColor(sf::Color::Black);
-		textProgrammer.setOrigin(textProgrammer.getGlobalBounds().width / 2.0f, textProgrammer.getGlobalBounds().height / 2.0f);
-		textProgrammer.setPosition(window->getSize().x / 2.0f, window->getSize().y / 2.0f);
+		_textProgrammer.setString(strCredits);
+		_textProgrammer.setCharacterSize(30);
+		_textProgrammer.setFillColor(sf::Color::Black);
+		_textProgrammer.setOrigin(_textProgrammer.getGlobalBounds().width / 2.0f, _textProgrammer.getGlobalBounds().height / 2.0f);
+		_textProgrammer.setPosition(_window->getSize().x / 2.0f, _window->getSize().y / 2.0f);
 	}
 	void Credits::destroy()
 	{

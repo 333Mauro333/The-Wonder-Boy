@@ -10,8 +10,12 @@ using std::cout;
 
 namespace the_wonder_boy
 {
-	unsigned int Player::lives = 3;
-	unsigned int Player::points = 0;
+	unsigned int Player::_lives = 3;
+	unsigned int Player::_points = 0;
+
+	const unsigned int Player::_maxLives = 99;
+	const unsigned int Player::_maxHealth = 100;
+	const unsigned int Player::_maxPoints = 99999999;
 
 	Player::Player(float x, float y) : Entity(x, y)
 	{
@@ -19,60 +23,60 @@ namespace the_wonder_boy
 
 		initAnimations(x, y);
 
-		renderer.setPosition(x, y);
+		_renderer.setPosition(x, y);
 
-		health = 30.0f;
-		canAttack = false;
-		threw = false;
-		hit = false;
-		bouncedWhenDied = false;
-		wins = false;
-		necessaryDistanceToWin = 0.0f;
+		_health = 30.0f;
+		_canAttack = false;
+		_threw = false;
+		_hit = false;
+		_bouncedWhenDied = false;
+		_wins = false;
+		_necessaryDistanceToWin = 0.0f;
 
-		gravity.actualSpeed = 0.0f;
-		gravity.acceleration = 3750.0f;
-		gravity.speedLimit = 1000.0f;
-		gravity.onTheFloor = false;
+		_gravity.actualSpeed = 0.0f;
+		_gravity.acceleration = 3750.0f;
+		_gravity.speedLimit = 1000.0f;
+		_gravity.onTheFloor = false;
 
-		walkingSpeed.actualSpeed = 0.0f;
-		walkingSpeed.acceleration = 2500.0f;
-		walkingSpeed.speedLimit = 500.0f;
+		_walkingSpeed.actualSpeed = 0.0f;
+		_walkingSpeed.acceleration = 2500.0f;
+		_walkingSpeed.speedLimit = 500.0f;
 
-		boxEntire.setFillColor(sf::Color(255, 0, 0, 128));
-		boxEntire.setSize(Vector2f(67, 126));
-		boxEntire.setOrigin(Vector2f(33, 126));
+		_boxEntire.setFillColor(sf::Color(255, 0, 0, 128));
+		_boxEntire.setSize(Vector2f(67, 126));
+		_boxEntire.setOrigin(Vector2f(33, 126));
 
-		boxFeet.setFillColor(sf::Color(255, 0, 0, 128));
-		boxFeet.setSize(Vector2f(67, 20));
-		boxFeet.setOrigin(Vector2f(33, 20));
+		_boxFeet.setFillColor(sf::Color(255, 0, 0, 128));
+		_boxFeet.setSize(Vector2f(67, 20));
+		_boxFeet.setOrigin(Vector2f(33, 20));
 
-		for (int i = 0; i < stoneHammersSize; i++)
+		for (int i = 0; i < _stoneHammersSize; i++)
 		{
-			stoneHammers[i] = new StoneHammer();
+			_stoneHammers[i] = new StoneHammer();
 		}
 
-		savedHammerPosition = -1;
+		_savedHammerPosition = -1;
 
 		cout << "Se ha creado un jugador.\n\n";
 	}
 	Player::~Player()
 	{
-		for (int i = 0; i < stoneHammersSize; i++)
+		for (int i = 0; i < _stoneHammersSize; i++)
 		{
-			delete stoneHammers[i];
+			delete _stoneHammers[i];
 		}
 
-		delete animIdleLeft;
-		delete animIdleRight;
-		delete animWalkingLeft;
-		delete animWalkingRight;
-		delete animJumpingLeft;
-		delete animJumpingRight;
-		delete animAttackingLeft;
-		delete animAttackingRight;
-		delete animTrippingLeft;
-		delete animTrippingRight;
-		delete animLosingNormal;
+		delete _animIdleLeft;
+		delete _animIdleRight;
+		delete _animWalkingLeft;
+		delete _animWalkingRight;
+		delete _animJumpingLeft;
+		delete _animJumpingRight;
+		delete _animAttackingLeft;
+		delete _animAttackingRight;
+		delete _animTrippingLeft;
+		delete _animTrippingRight;
+		delete _animLosingNormal;
 
 		cout << "El jugador ha sido eliminado de la memoria.\n";
 	}
@@ -98,46 +102,46 @@ namespace the_wonder_boy
 		// Dibujado de las cajas de colisiones.
 		#if _DEBUG
 
-		window->draw(boxEntire);
-		window->draw(boxFeet);
+		window->draw(_boxEntire);
+		window->draw(_boxFeet);
 
 		#endif // _DEBUG
 	}
 	void Player::keyPressedOnce(Keyboard::Key key)
 	{
-		if (!hit && isAlive() && !wins)
+		if (!_hit && isAlive() && !_wins)
 		{
-			if (key == ControlsManager::gameplayJump)
+			if (key == ControlsManager::getKey(WANTED_KEY::GAMEPLAY_JUMP))
 			{
-				if (gravity.onTheFloor) // Si está en el piso...
+				if (_gravity.onTheFloor) // Si está en el piso...
 				{
 					// Orden de verificaciones:
 					// 1. Si la tecla de ataque está siendo presionada. Si es así, salta alto.
 					// 2. Evalúa las siguientes 2 condiciones para que pueda:
 						// a. Que no esté presionando ambos lados a la vez.
 						// b. Que esté presionando alguno.
-					bool high = Keyboard::isKeyPressed(static_cast<Keyboard::Key>(ControlsManager::gameplayAttack)) ||
+					bool high = Keyboard::isKeyPressed(ControlsManager::getKey(WANTED_KEY::GAMEPLAY_ATTACK)) ||
 						!bothSidesPressed() &&
-						(Keyboard::isKeyPressed(static_cast<Keyboard::Key>(ControlsManager::gameplayLeft)) ||
-							Keyboard::isKeyPressed(static_cast<Keyboard::Key>(ControlsManager::gameplayRight)));
+						(Keyboard::isKeyPressed(ControlsManager::getKey(WANTED_KEY::GAMEPLAY_LEFT)) ||
+							Keyboard::isKeyPressed(ControlsManager::getKey(WANTED_KEY::GAMEPLAY_RIGHT)));
 
 					jump(high);
 				}
 			}
-			if (key == ControlsManager::gameplayAttack)
+			if (key == ControlsManager::getKey(WANTED_KEY::GAMEPLAY_ATTACK))
 			{
 				const float modifier = 1.5f;
 
-				if (canAttack)
+				if (_canAttack)
 				{
-					switch (animationState)
+					switch (_animationState)
 					{
 					case ANIMATION_STATE::IDLE_RIGHT:
 					case ANIMATION_STATE::WALKING_RIGHT:
 					case ANIMATION_STATE::JUMPING_RIGHT:
 						if (isThereASavedHammer())
 						{
-							savedHammerPosition = saveAFreePosition();
+							_savedHammerPosition = saveAFreePosition();
 							setNewAnimation(ANIMATION_STATE::ATTACKING_RIGHT);
 						}
 						break;
@@ -147,7 +151,7 @@ namespace the_wonder_boy
 					case ANIMATION_STATE::JUMPING_LEFT:
 						if (isThereASavedHammer())
 						{
-							savedHammerPosition = saveAFreePosition();
+							_savedHammerPosition = saveAFreePosition();
 							setNewAnimation(ANIMATION_STATE::ATTACKING_LEFT);
 						}
 						break;
@@ -155,32 +159,32 @@ namespace the_wonder_boy
 				}
 
 				setWalkingAnimationMode(SPEED::FAST);
-				walkingSpeed.speedLimit = speedLimit * modifier;
+				_walkingSpeed.speedLimit = _speedLimit * modifier;
 			}
 		}
 	}
 	void Player::keyReleased(Keyboard::Key key)
 	{
-		if (!hit && isAlive() && !wins)
+		if (!_hit && isAlive() && !_wins)
 		{
-			if (key == ControlsManager::gameplayLeft)
+			if (key == ControlsManager::getKey(WANTED_KEY::GAMEPLAY_LEFT))
 			{
-				if (gravity.onTheFloor && !actualAnimationIs(ANIMATION_STATE::ATTACKING_LEFT))
+				if (_gravity.onTheFloor && !actualAnimationIs(ANIMATION_STATE::ATTACKING_LEFT))
 				{
 					setNewAnimation(ANIMATION_STATE::IDLE_LEFT);
 				}
 			}
-			if (key == ControlsManager::gameplayRight)
+			else if (key == ControlsManager::getKey(WANTED_KEY::GAMEPLAY_RIGHT))
 			{
-				if (gravity.onTheFloor && !actualAnimationIs(ANIMATION_STATE::ATTACKING_RIGHT))
+				if (_gravity.onTheFloor && !actualAnimationIs(ANIMATION_STATE::ATTACKING_RIGHT))
 				{
 					setNewAnimation(ANIMATION_STATE::IDLE_RIGHT);
 				}
 			}
-			if (key == ControlsManager::gameplayAttack)
+			else if (key == ControlsManager::getKey(WANTED_KEY::GAMEPLAY_ATTACK))
 			{
 				setWalkingAnimationMode(SPEED::NORMAL);
-				walkingSpeed.speedLimit = speedLimit;
+				_walkingSpeed.speedLimit = _speedLimit;
 			}
 		}
 	}
@@ -188,10 +192,10 @@ namespace the_wonder_boy
 	void Player::collisionWith(Floor* floor)
 	{
 		// Se establecen sus valores a 0 y se posiciona al personaje justo sobre el piso.
-		gravity.onTheFloor = true;
-		gravity.actualSpeed = 0.0f;
+		_gravity.onTheFloor = true;
+		_gravity.actualSpeed = 0.0f;
 
-		setPosition(Vector2f(renderer.getPosition().x, floor->getBoxCollision().getPosition().y));
+		setPosition(Vector2f(_renderer.getPosition().x, floor->getBoxCollision().getPosition().y));
 
 		// Se establece a la animacion correspondiente.
 		if (actualAnimationIs(ANIMATION_STATE::JUMPING_RIGHT))
@@ -204,14 +208,14 @@ namespace the_wonder_boy
 		}
 		else if (actualAnimationIs(ANIMATION_STATE::TRIPPING_RIGHT))
 		{
-			animTrippingRight->resetAnimation();
-			hit = false;
+			_animTrippingRight->resetAnimation();
+			_hit = false;
 			setNewAnimation(ANIMATION_STATE::IDLE_RIGHT);
 		}
 		else if (actualAnimationIs(ANIMATION_STATE::TRIPPING_LEFT))
 		{
-			animTrippingLeft->resetAnimation();
-			hit = false;
+			_animTrippingLeft->resetAnimation();
+			_hit = false;
 			setNewAnimation(ANIMATION_STATE::IDLE_LEFT);
 		}
 
@@ -220,10 +224,10 @@ namespace the_wonder_boy
 	void Player::collisionWith(Platform* platform)
 	{
 		// Se establecen sus valores a 0 y se posiciona al personaje justo sobre la plataforma.
-		gravity.onTheFloor = true;
-		gravity.actualSpeed = 0.0f;
+		_gravity.onTheFloor = true;
+		_gravity.actualSpeed = 0.0f;
 
-		setPosition(Vector2f(renderer.getPosition().x, platform->getBoxCollision().getPosition().y));
+		setPosition(Vector2f(_renderer.getPosition().x, platform->getBoxCollision().getPosition().y));
 
 		// Se establece a la animacion correspondiente.
 		if (actualAnimationIs(ANIMATION_STATE::JUMPING_RIGHT))
@@ -236,14 +240,14 @@ namespace the_wonder_boy
 		}
 		else if (actualAnimationIs(ANIMATION_STATE::TRIPPING_RIGHT))
 		{
-			animTrippingRight->resetAnimation();
-			hit = false;
+			_animTrippingRight->resetAnimation();
+			_hit = false;
 			setNewAnimation(ANIMATION_STATE::IDLE_RIGHT);
 		}
 		else if (actualAnimationIs(ANIMATION_STATE::TRIPPING_LEFT))
 		{
-			animTrippingLeft->resetAnimation();
-			hit = false;
+			_animTrippingLeft->resetAnimation();
+			_hit = false;
 			setNewAnimation(ANIMATION_STATE::IDLE_LEFT);
 		}
 
@@ -251,67 +255,67 @@ namespace the_wonder_boy
 	}
 	void Player::collisionWith(Sprite hammerItem)
 	{
-		canAttack = true;
+		_canAttack = true;
 		hammerItem.setPosition(0.0f, 0.0f);
 	}
 
 	Vector2f Player::getPosition()
 	{
-		return renderer.getPosition();
+		return _renderer.getPosition();
 	}
 	RectangleShape Player::getBoxCollision(BOX_COLLISION_TYPE boxCollisionType)
 	{
 		switch (boxCollisionType)
 		{
 		case BOX_COLLISION_TYPE::ENTIRE:
-			return boxEntire;
+			return _boxEntire;
 			break;
 
 		case BOX_COLLISION_TYPE::FEET:
-			return boxFeet;
+			return _boxFeet;
 			break;
 
 		default:
-			return boxEntire;
+			return _boxEntire;
 			break;
 		}
 	}
 	float Player::getSpeed()
 	{
-		return walkingSpeed.actualSpeed;
+		return _walkingSpeed.actualSpeed;
 	}
 	bool Player::getHit()
 	{
-		return hit;
+		return _hit;
 	}
 	unsigned int Player::getLives()
 	{
-		return lives;
+		return _lives;
 	}
 	unsigned int Player::getPoints()
 	{
-		return points;
+		return _points;
 	}
 	float Player::getHealth()
 	{
-		return health;
+		return _health;
 	}
 	float Player::getFallingSpeed()
 	{
-		return gravity.actualSpeed;
+		return _gravity.actualSpeed;
 	}
 	StoneHammer* Player::getPlayerStoneHammer(int position)
 	{
-		if (position < 0 || position >= stoneHammersSize)
+		if (position < 0 || position >= _stoneHammersSize)
 		{
 			return NULL;
 		}
 		
-		return stoneHammers[position];
+		return _stoneHammers[position];
 	}
 	int Player::getStoneHammersSize()
 	{
-		return stoneHammersSize;
+		return _stoneHammersSize;
 	}
 	DIRECTION Player::getActualAnimationDirection()
 	{
@@ -324,93 +328,91 @@ namespace the_wonder_boy
 	}
 	void Player::setPosition(Vector2f position)
 	{
-		renderer.setPosition(position);
+		_renderer.setPosition(position);
 		accommodateAnimations();
 	}
 	void Player::setNecessaryDistanceToWin(float distance)
 	{
-		necessaryDistanceToWin = distance;
+		_necessaryDistanceToWin = distance;
 	}
 	void Player::stopWalkSpeed()
 	{
-		walkingSpeed.actualSpeed = 0.0f;
+		_walkingSpeed.actualSpeed = 0.0f;
 	}
 	void Player::setAmountOfLives(unsigned int newLives)
 	{
-		lives = (newLives > 100) ? 100 : newLives;
+		_lives = (newLives > _maxLives) ? _maxLives : newLives;
 	}
 	void Player::setAmountOfPoints(unsigned int newPoints)
 	{
-		points = (newPoints > 99999999) ? 99999999 : newPoints;
+		_points = (newPoints > _maxPoints) ? _maxPoints : newPoints;
 	}
 
 	bool Player::isAlive()
 	{
-		return health > 0.0f;
+		return _health > 0.0f;
 	}
 	bool Player::won()
 	{
-		return wins;
+		return _wins;
 	}
 	void Player::addLife()
 	{
-		if (lives < 100)
+		if (_lives < _maxLives)
 		{
-			lives++;
+			_lives++;
 		}
 	}
 	void Player::subtractLife()
 	{
-		if (lives > 0)
+		if (_lives > 0)
 		{
-			lives--;
+			_lives--;
 		}
 	}
-	void Player::addHealth(float healthToAdd)
+	void Player::addHealth(float health)
 	{
-		const float maxHealth = 100.0f;
-
-		this->health = (health + healthToAdd > maxHealth) ? maxHealth : health + healthToAdd;
+		_health = (_health + health > _maxHealth) ? _maxHealth : _health + health;
 	}
 	void Player::receiveDamage(float damage)
 	{
-		health = (health - damage > 0.0f) ? health - damage : 0.0f;
+		_health = (_health - damage > 0.0f) ? _health - damage : 0.0f;
 	}
-	void Player::addPoints(int pointsToAdd)
+	void Player::addPoints(int points)
 	{
-		points = (points + pointsToAdd > INT32_MAX) ? INT32_MAX : points + pointsToAdd;
+		_points = (_points + points > _maxPoints) ? _maxPoints : _points + points;
 	}
 
 	void Player::tripOn(Stone* stone)
 	{
-		threw = false;
+		_threw = false;
 		receiveDamage(stone->getDamage());
 
 		if (isAlive())
 		{
-			hit = true;
-			gravity.actualSpeed = -600.0f;
+			_hit = true;
+			_gravity.actualSpeed = -600.0f;
 
-			switch (animationState)
+			switch (_animationState)
 			{
 			case ANIMATION_STATE::ATTACKING_RIGHT:
-				animAttackingRight->resetAnimation();
+				_animAttackingRight->resetAnimation();
 				break;
 
 			case ANIMATION_STATE::ATTACKING_LEFT:
-				animAttackingLeft->resetAnimation();
+				_animAttackingLeft->resetAnimation();
 				break;
 			}
 			switch (getActualAnimationDirection())
 			{
 			case DIRECTION::LEFT:
 				setNewAnimation(ANIMATION_STATE::TRIPPING_LEFT);
-				walkingSpeed.actualSpeed = 750.0f;
+				_walkingSpeed.actualSpeed = 750.0f;
 				break;
 
 			case DIRECTION::RIGHT:
 				setNewAnimation(ANIMATION_STATE::TRIPPING_RIGHT);
-				walkingSpeed.actualSpeed = 800.0f;
+				_walkingSpeed.actualSpeed = 800.0f;
 				break;
 			}
 
@@ -424,7 +426,7 @@ namespace the_wonder_boy
 	}
 	void Player::lose(LOSING_TYPE losingType)
 	{
-		health = 0.0f;
+		_health = 0.0f;
 
 		switch (losingType)
 		{
@@ -443,25 +445,25 @@ namespace the_wonder_boy
 	}
 	void Player::winLevel()
 	{
-		wins = true;
+		_wins = true;
 		setNewAnimation(ANIMATION_STATE::WIN);
 	}
 	void Player::reset()
 	{
-		health = 30.0f;
-		threw = false;
-		hit = false;
-		bouncedWhenDied = false;
-		wins = false;
+		_health = 30.0f;
+		_threw = false;
+		_hit = false;
+		_bouncedWhenDied = false;
+		_wins = false;
 
-		gravity.actualSpeed = 0.0f;
-		gravity.acceleration = 3750.0f;
-		gravity.speedLimit = 1000.0f;
-		gravity.onTheFloor = false;
+		_gravity.actualSpeed = 0.0f;
+		_gravity.acceleration = 3750.0f;
+		_gravity.speedLimit = 1000.0f;
+		_gravity.onTheFloor = false;
 
-		walkingSpeed.actualSpeed = 0.0f;
-		walkingSpeed.acceleration = 2500.0f;
-		walkingSpeed.speedLimit = 500.0f;
+		_walkingSpeed.actualSpeed = 0.0f;
+		_walkingSpeed.acceleration = 2500.0f;
+		_walkingSpeed.speedLimit = 500.0f;
 
 		accommodateAnimations();
 
@@ -486,20 +488,20 @@ namespace the_wonder_boy
 		frameDuration = 0.1f;
 		amountOfFrames = 2;
 
-		if (!texIdleRight.loadFromFile("res/sprites/player/idle_right.png"))
+		if (!_texIdleRight.loadFromFile("res/sprites/player/idle_right.png"))
 		{
 			cout << "La textura idle_right.png no se ha cargado.\n";
 		}
-		spriteLoader.setTexture(texIdleRight);
-		spriteLoader.setOrigin(frameWidth / 2.0f, static_cast<float>(frameHeight));
-		spriteLoader.setPosition(x, y);
-		animIdleRight = new Animation(spriteLoader, ANIMATION_MODE::LOOP);
+		_spriteLoader.setTexture(_texIdleRight);
+		_spriteLoader.setOrigin(frameWidth / 2.0f, static_cast<float>(frameHeight));
+		_spriteLoader.setPosition(x, y);
+		_animIdleRight = new Animation(_spriteLoader, ANIMATION_MODE::LOOP);
 		for (int i = 0; i < amountOfFrames; i++)
 		{
 			IntRect intRect = IntRect(left, 0, frameWidth, frameHeight);
 			Frame* frame = new Frame(intRect, frameDuration);
 
-			animIdleRight->addFrame(frame);
+			_animIdleRight->addFrame(frame);
 			left += frameWidth;
 		}
 		left = 0;
@@ -513,20 +515,20 @@ namespace the_wonder_boy
 		frameDuration = 0.1f;
 		amountOfFrames = 2;
 
-		if (!texIdleLeft.loadFromFile("res/sprites/player/idle_left.png"))
+		if (!_texIdleLeft.loadFromFile("res/sprites/player/idle_left.png"))
 		{
 			cout << "La textura idle_left.png no se ha cargado.\n";
 		}
-		spriteLoader.setTexture(texIdleLeft);
-		spriteLoader.setOrigin(frameWidth / 2.0f, static_cast<float>(frameHeight));
-		spriteLoader.setPosition(x, y);
-		animIdleLeft = new Animation(spriteLoader, ANIMATION_MODE::LOOP);
+		_spriteLoader.setTexture(_texIdleLeft);
+		_spriteLoader.setOrigin(frameWidth / 2.0f, static_cast<float>(frameHeight));
+		_spriteLoader.setPosition(x, y);
+		_animIdleLeft = new Animation(_spriteLoader, ANIMATION_MODE::LOOP);
 		for (int i = 0; i < amountOfFrames; i++)
 		{
 			IntRect intRect = IntRect(left, 0, frameWidth, frameHeight);
 			Frame* frame = new Frame(intRect, frameDuration);
 
-			animIdleLeft->addFrame(frame);
+			_animIdleLeft->addFrame(frame);
 			left += frameWidth;
 		}
 		left = 0;
@@ -537,23 +539,23 @@ namespace the_wonder_boy
 
 		frameWidth = 83;
 		frameHeight = 126;
-		frameDuration = walkingAnimationSpeed;
+		frameDuration = _walkingAnimationSpeed;
 		amountOfFrames = 4;
 
-		if (!texWalkingRight.loadFromFile("res/sprites/player/walking_right.png"))
+		if (!_texWalkingRight.loadFromFile("res/sprites/player/walking_right.png"))
 		{
 			cout << "La textura walking_right.png no se ha cargado.\n";
 		}
-		spriteLoader.setTexture(texWalkingRight);
-		spriteLoader.setOrigin(frameWidth / 2.0f - 10.0f, static_cast<float>(frameHeight));
-		spriteLoader.setPosition(x, y);
-		animWalkingRight = new Animation(spriteLoader, ANIMATION_MODE::LOOP);
+		_spriteLoader.setTexture(_texWalkingRight);
+		_spriteLoader.setOrigin(frameWidth / 2.0f - 10.0f, static_cast<float>(frameHeight));
+		_spriteLoader.setPosition(x, y);
+		_animWalkingRight = new Animation(_spriteLoader, ANIMATION_MODE::LOOP);
 		for (int i = 0; i < amountOfFrames; i++)
 		{
 			IntRect intRect = IntRect(left, 0, frameWidth, frameHeight);
 			Frame* frame = new Frame(intRect, frameDuration);
 
-			animWalkingRight->addFrame(frame);
+			_animWalkingRight->addFrame(frame);
 			left += frameWidth;
 		}
 		left = 0;
@@ -564,23 +566,23 @@ namespace the_wonder_boy
 
 		frameWidth = 83;
 		frameHeight = 126;
-		frameDuration = walkingAnimationSpeed;
+		frameDuration = _walkingAnimationSpeed;
 		amountOfFrames = 4;
 
-		if (!texWalkingLeft.loadFromFile("res/sprites/player/walking_left.png"))
+		if (!_texWalkingLeft.loadFromFile("res/sprites/player/walking_left.png"))
 		{
 			cout << "La textura walking_left.png no se ha cargado.\n";
 		}
-		spriteLoader.setTexture(texWalkingLeft);
-		spriteLoader.setOrigin(frameWidth / 2.0f + 10.0f, static_cast<float>(frameHeight));
-		spriteLoader.setPosition(x, y);
-		animWalkingLeft = new Animation(spriteLoader, ANIMATION_MODE::LOOP);
+		_spriteLoader.setTexture(_texWalkingLeft);
+		_spriteLoader.setOrigin(frameWidth / 2.0f + 10.0f, static_cast<float>(frameHeight));
+		_spriteLoader.setPosition(x, y);
+		_animWalkingLeft = new Animation(_spriteLoader, ANIMATION_MODE::LOOP);
 		for (int i = 0; i < 4; i++)
 		{
 			IntRect intRect = IntRect(left, 0, frameWidth, frameHeight);
 			Frame* frame = new Frame(intRect, frameDuration);
 
-			animWalkingLeft->addFrame(frame);
+			_animWalkingLeft->addFrame(frame);
 			left += frameWidth;
 		}
 		left = 0;
@@ -594,20 +596,20 @@ namespace the_wonder_boy
 		frameDuration = 1.0f;
 		amountOfFrames = 1;
 
-		if (!texJumpingRight.loadFromFile("res/sprites/player/jumping_right.png"))
+		if (!_texJumpingRight.loadFromFile("res/sprites/player/jumping_right.png"))
 		{
 			cout << "La textura jumping_right.png no se ha cargado.\n";
 		}
-		spriteLoader.setTexture(texJumpingRight);
-		spriteLoader.setOrigin(frameWidth / 2.0f - 10.0f, static_cast<float>(frameHeight));
-		spriteLoader.setPosition(x, y);
-		animJumpingRight = new Animation(spriteLoader, ANIMATION_MODE::ONCE);
+		_spriteLoader.setTexture(_texJumpingRight);
+		_spriteLoader.setOrigin(frameWidth / 2.0f - 10.0f, static_cast<float>(frameHeight));
+		_spriteLoader.setPosition(x, y);
+		_animJumpingRight = new Animation(_spriteLoader, ANIMATION_MODE::ONCE);
 		for (int i = 0; i < amountOfFrames; i++)
 		{
 			IntRect intRect = IntRect(left, 0, frameWidth, frameHeight);
 			Frame* frame = new Frame(intRect, frameDuration);
 
-			animJumpingRight->addFrame(frame);
+			_animJumpingRight->addFrame(frame);
 			left += frameWidth;
 		}
 		left = 0;
@@ -621,20 +623,20 @@ namespace the_wonder_boy
 		frameDuration = 1.0f;
 		amountOfFrames = 1;
 
-		if (!texJumpingLeft.loadFromFile("res/sprites/player/jumping_left.png"))
+		if (!_texJumpingLeft.loadFromFile("res/sprites/player/jumping_left.png"))
 		{
 			cout << "La textura jumping_left.png no se ha cargado.\n";
 		}
-		spriteLoader.setTexture(texJumpingLeft);
-		spriteLoader.setOrigin(frameWidth / 2.0f + 10.0f, static_cast<float>(frameHeight));
-		spriteLoader.setPosition(x, y);
-		animJumpingLeft = new Animation(spriteLoader, ANIMATION_MODE::ONCE);
+		_spriteLoader.setTexture(_texJumpingLeft);
+		_spriteLoader.setOrigin(frameWidth / 2.0f + 10.0f, static_cast<float>(frameHeight));
+		_spriteLoader.setPosition(x, y);
+		_animJumpingLeft = new Animation(_spriteLoader, ANIMATION_MODE::ONCE);
 		for (int i = 0; i < amountOfFrames; i++)
 		{
 			IntRect intRect = IntRect(left, 0, frameWidth, frameHeight);
 			Frame* frame = new Frame(intRect, frameDuration);
 
-			animJumpingLeft->addFrame(frame);
+			_animJumpingLeft->addFrame(frame);
 			left += frameWidth;
 		}
 		left = 0;
@@ -648,14 +650,14 @@ namespace the_wonder_boy
 		frameDuration = 0.1f;
 		amountOfFrames = 3;
 
-		if (!texAttackingRight.loadFromFile("res/sprites/player/attacking_right.png"))
+		if (!_texAttackingRight.loadFromFile("res/sprites/player/attacking_right.png"))
 		{
 			cout << "La textura attacking_right.png no se ha cargado.\n";
 		}
-		spriteLoader.setTexture(texAttackingRight);
-		spriteLoader.setOrigin(frameWidth / 2.0f - 10.0f, static_cast<float>(frameHeight));
-		spriteLoader.setPosition(x, y);
-		animAttackingRight = new Animation(spriteLoader, ANIMATION_MODE::ONCE);
+		_spriteLoader.setTexture(_texAttackingRight);
+		_spriteLoader.setOrigin(frameWidth / 2.0f - 10.0f, static_cast<float>(frameHeight));
+		_spriteLoader.setPosition(x, y);
+		_animAttackingRight = new Animation(_spriteLoader, ANIMATION_MODE::ONCE);
 		for (int i = 0; i < amountOfFrames; i++)
 		{
 			IntRect intRect = IntRect(left, 0, frameWidth, frameHeight);
@@ -667,7 +669,7 @@ namespace the_wonder_boy
 
 			Frame* frame = new Frame(intRect, frameDuration);
 
-			animAttackingRight->addFrame(frame);
+			_animAttackingRight->addFrame(frame);
 			left += frameWidth;
 		}
 		left = 0;
@@ -681,14 +683,14 @@ namespace the_wonder_boy
 		frameDuration = 0.1f;
 		amountOfFrames = 3;
 
-		if (!texAttackingLeft.loadFromFile("res/sprites/player/attacking_left.png"))
+		if (!_texAttackingLeft.loadFromFile("res/sprites/player/attacking_left.png"))
 		{
 			cout << "La textura attacking_left.png no se ha cargado.\n";
 		}
-		spriteLoader.setTexture(texAttackingLeft);
-		spriteLoader.setOrigin(frameWidth / 2.0f - 10.0f, static_cast<float>(frameHeight));
-		spriteLoader.setPosition(x, y);
-		animAttackingLeft = new Animation(spriteLoader, ANIMATION_MODE::ONCE);
+		_spriteLoader.setTexture(_texAttackingLeft);
+		_spriteLoader.setOrigin(frameWidth / 2.0f - 10.0f, static_cast<float>(frameHeight));
+		_spriteLoader.setPosition(x, y);
+		_animAttackingLeft = new Animation(_spriteLoader, ANIMATION_MODE::ONCE);
 		for (int i = 0; i < amountOfFrames; i++)
 		{
 			IntRect intRect = IntRect(left, 0, frameWidth, frameHeight);
@@ -700,7 +702,7 @@ namespace the_wonder_boy
 
 			Frame* frame = new Frame(intRect, frameDuration);
 
-			animAttackingLeft->addFrame(frame);
+			_animAttackingLeft->addFrame(frame);
 			left += frameWidth;
 		}
 		left = 0;
@@ -714,20 +716,20 @@ namespace the_wonder_boy
 		frameDuration = 0.5f;
 		amountOfFrames = 2;
 
-		if (!texTrippingRight.loadFromFile("res/sprites/player/tripping_right.png"))
+		if (!_texTrippingRight.loadFromFile("res/sprites/player/tripping_right.png"))
 		{
 			cout << "La textura tripping_right.png no se ha cargado.\n";
 		}
-		spriteLoader.setTexture(texTrippingRight);
-		spriteLoader.setOrigin(frameWidth / 2.0f, static_cast<float>(frameHeight));
-		spriteLoader.setPosition(x, y);
-		animTrippingRight = new Animation(spriteLoader, ANIMATION_MODE::ONCE);
+		_spriteLoader.setTexture(_texTrippingRight);
+		_spriteLoader.setOrigin(frameWidth / 2.0f, static_cast<float>(frameHeight));
+		_spriteLoader.setPosition(x, y);
+		_animTrippingRight = new Animation(_spriteLoader, ANIMATION_MODE::ONCE);
 		for (int i = 0; i < amountOfFrames; i++)
 		{
 			IntRect intRect = IntRect(left, 0, frameWidth, frameHeight);
 			Frame* frame = new Frame(intRect, frameDuration);
 
-			animTrippingRight->addFrame(frame);
+			_animTrippingRight->addFrame(frame);
 			left += frameWidth;
 		}
 		left = 0;
@@ -741,20 +743,20 @@ namespace the_wonder_boy
 		frameDuration = 0.5f;
 		amountOfFrames = 2;
 
-		if (!texTrippingLeft.loadFromFile("res/sprites/player/tripping_left.png"))
+		if (!_texTrippingLeft.loadFromFile("res/sprites/player/tripping_left.png"))
 		{
 			cout << "La textura tripping_left.png no se ha cargado.\n";
 		}
-		spriteLoader.setTexture(texTrippingLeft);
-		spriteLoader.setOrigin(frameWidth / 2.0f, static_cast<float>(frameHeight));
-		spriteLoader.setPosition(x, y);
-		animTrippingLeft = new Animation(spriteLoader, ANIMATION_MODE::ONCE);
+		_spriteLoader.setTexture(_texTrippingLeft);
+		_spriteLoader.setOrigin(frameWidth / 2.0f, static_cast<float>(frameHeight));
+		_spriteLoader.setPosition(x, y);
+		_animTrippingLeft = new Animation(_spriteLoader, ANIMATION_MODE::ONCE);
 		for (int i = 0; i < amountOfFrames; i++)
 		{
 			IntRect intRect = IntRect(left, 0, frameWidth, frameHeight);
 			Frame* frame = new Frame(intRect, frameDuration);
 
-			animTrippingLeft->addFrame(frame);
+			_animTrippingLeft->addFrame(frame);
 			left += frameWidth;
 		}
 		left = 0;
@@ -768,20 +770,20 @@ namespace the_wonder_boy
 		frameDuration = 0.25f;
 		amountOfFrames = 2;
 
-		if (!texLosingNormal.loadFromFile("res/sprites/player/losing_normal.png"))
+		if (!_texLosingNormal.loadFromFile("res/sprites/player/losing_normal.png"))
 		{
 			cout << "La textura losing_normal.png no se ha cargado.\n";
 		}
-		spriteLoader.setTexture(texLosingNormal);
-		spriteLoader.setOrigin(frameWidth / 2.0f, static_cast<float>(frameHeight));
-		spriteLoader.setPosition(x, y);
-		animLosingNormal = new Animation(spriteLoader, ANIMATION_MODE::LOOP);
+		_spriteLoader.setTexture(_texLosingNormal);
+		_spriteLoader.setOrigin(frameWidth / 2.0f, static_cast<float>(frameHeight));
+		_spriteLoader.setPosition(x, y);
+		_animLosingNormal = new Animation(_spriteLoader, ANIMATION_MODE::LOOP);
 		for (int i = 0; i < amountOfFrames; i++)
 		{
 			IntRect intRect = IntRect(left, 0, frameWidth, frameHeight);
 			Frame* frame = new Frame(intRect, frameDuration);
 
-			animLosingNormal->addFrame(frame);
+			_animLosingNormal->addFrame(frame);
 			left += frameWidth;
 		}
 		left = 0;
@@ -795,20 +797,20 @@ namespace the_wonder_boy
 		frameDuration = 0.35f;
 		amountOfFrames = 2;
 
-		if (!texLosingBurned.loadFromFile("res/sprites/player/losing_burned.png"))
+		if (!_texLosingBurned.loadFromFile("res/sprites/player/losing_burned.png"))
 		{
 			cout << "La textura losing_burned.png no se ha cargado.\n";
 		}
-		spriteLoader.setTexture(texLosingBurned);
-		spriteLoader.setOrigin(frameWidth / 2.0f, static_cast<float>(frameHeight));
-		spriteLoader.setPosition(x, y);
-		animLosingBurned1 = new Animation(spriteLoader, ANIMATION_MODE::LOOP);
+		_spriteLoader.setTexture(_texLosingBurned);
+		_spriteLoader.setOrigin(frameWidth / 2.0f, static_cast<float>(frameHeight));
+		_spriteLoader.setPosition(x, y);
+		_animLosingBurned1 = new Animation(_spriteLoader, ANIMATION_MODE::LOOP);
 		for (int i = 0; i < amountOfFrames; i++)
 		{
 			IntRect intRect = IntRect(left, 0, frameWidth, frameHeight);
 			Frame* frame = new Frame(intRect, frameDuration);
 
-			animLosingBurned1->addFrame(frame);
+			_animLosingBurned1->addFrame(frame);
 			left += frameWidth;
 		}
 		left = 0;
@@ -823,13 +825,13 @@ namespace the_wonder_boy
 		amountOfFrames = 2;
 		left = frameWidth;
 
-		animLosingBurned2 = new Animation(spriteLoader, ANIMATION_MODE::LOOP);
+		_animLosingBurned2 = new Animation(_spriteLoader, ANIMATION_MODE::LOOP);
 		for (int i = 0; i < amountOfFrames; i++)
 		{
 			IntRect intRect = IntRect(left, 0, frameWidth, frameHeight);
 			Frame* frame = new Frame(intRect, frameDuration);
 
-			animLosingBurned2->addFrame(frame);
+			_animLosingBurned2->addFrame(frame);
 			left += frameWidth;
 		}
 		left = 0;
@@ -843,20 +845,20 @@ namespace the_wonder_boy
 		frameDuration = 1.0f;
 		amountOfFrames = 1;
 
-		if (!texWin.loadFromFile("res/sprites/player/win.png"))
+		if (!_texWin.loadFromFile("res/sprites/player/win.png"))
 		{
 			cout << "La textura win.png no se ha cargado.\n";
 		}
-		spriteLoader.setTexture(texWin);
-		spriteLoader.setOrigin(frameWidth / 2.0f, static_cast<float>(frameHeight));
-		spriteLoader.setPosition(x, y);
-		animWin = new Animation(spriteLoader, ANIMATION_MODE::LOOP);
+		_spriteLoader.setTexture(_texWin);
+		_spriteLoader.setOrigin(frameWidth / 2.0f, static_cast<float>(frameHeight));
+		_spriteLoader.setPosition(x, y);
+		_animWin = new Animation(_spriteLoader, ANIMATION_MODE::LOOP);
 		for (int i = 0; i < amountOfFrames; i++)
 		{
 			IntRect intRect = IntRect(left, 0, frameWidth, frameHeight);
 			Frame* frame = new Frame(intRect, frameDuration);
 
-			animWin->addFrame(frame);
+			_animWin->addFrame(frame);
 			left += frameWidth;
 		}
 		left = 0;
@@ -867,145 +869,145 @@ namespace the_wonder_boy
 	{
 		updateAnimationEvents();
 
-		switch (animationState)
+		switch (_animationState)
 		{
 		case ANIMATION_STATE::IDLE_RIGHT:
-			animIdleRight->target.setPosition(renderer.getPosition().x, renderer.getPosition().y);
-			animIdleRight->update(deltaTime);
+			_animIdleRight->_target.setPosition(_renderer.getPosition().x, _renderer.getPosition().y);
+			_animIdleRight->update(deltaTime);
 			break;
 
 		case ANIMATION_STATE::IDLE_LEFT:
-			animIdleLeft->target.setPosition(renderer.getPosition().x, renderer.getPosition().y);
-			animIdleLeft->update(deltaTime);
+			_animIdleLeft->_target.setPosition(_renderer.getPosition().x, _renderer.getPosition().y);
+			_animIdleLeft->update(deltaTime);
 			break;
 
 		case ANIMATION_STATE::WALKING_RIGHT:
-			animWalkingRight->target.setPosition(renderer.getPosition().x, renderer.getPosition().y);
-			animWalkingRight->update(deltaTime);
+			_animWalkingRight->_target.setPosition(_renderer.getPosition().x, _renderer.getPosition().y);
+			_animWalkingRight->update(deltaTime);
 			break;
 
 		case ANIMATION_STATE::WALKING_LEFT:
-			animWalkingLeft->target.setPosition(renderer.getPosition().x, renderer.getPosition().y);
-			animWalkingLeft->update(deltaTime);
+			_animWalkingLeft->_target.setPosition(_renderer.getPosition().x, _renderer.getPosition().y);
+			_animWalkingLeft->update(deltaTime);
 			break;
 
 		case ANIMATION_STATE::JUMPING_RIGHT:
-			animJumpingRight->target.setPosition(renderer.getPosition().x, renderer.getPosition().y);
-			animJumpingRight->update(deltaTime);
+			_animJumpingRight->_target.setPosition(_renderer.getPosition().x, _renderer.getPosition().y);
+			_animJumpingRight->update(deltaTime);
 			break;
 
 		case ANIMATION_STATE::JUMPING_LEFT:
-			animJumpingLeft->target.setPosition(renderer.getPosition().x, renderer.getPosition().y);
-			animJumpingLeft->update(deltaTime);
+			_animJumpingLeft->_target.setPosition(_renderer.getPosition().x, _renderer.getPosition().y);
+			_animJumpingLeft->update(deltaTime);
 			break;
 
 		case ANIMATION_STATE::ATTACKING_RIGHT:
-			animAttackingRight->target.setPosition(renderer.getPosition().x, renderer.getPosition().y);
-			animAttackingRight->update(deltaTime);
+			_animAttackingRight->_target.setPosition(_renderer.getPosition().x, _renderer.getPosition().y);
+			_animAttackingRight->update(deltaTime);
 			break;
 
 		case ANIMATION_STATE::ATTACKING_LEFT:
-			animAttackingLeft->target.setPosition(renderer.getPosition().x, renderer.getPosition().y);
-			animAttackingLeft->update(deltaTime);
+			_animAttackingLeft->_target.setPosition(_renderer.getPosition().x, _renderer.getPosition().y);
+			_animAttackingLeft->update(deltaTime);
 			break;
 
 		case ANIMATION_STATE::TRIPPING_RIGHT:
-			animTrippingRight->target.setPosition(renderer.getPosition().x, renderer.getPosition().y);
-			animTrippingRight->update(deltaTime);
+			_animTrippingRight->_target.setPosition(_renderer.getPosition().x, _renderer.getPosition().y);
+			_animTrippingRight->update(deltaTime);
 			break;
 
 		case ANIMATION_STATE::TRIPPING_LEFT:
-			animTrippingLeft->target.setPosition(renderer.getPosition().x, renderer.getPosition().y);
-			animTrippingLeft->update(deltaTime);
+			_animTrippingLeft->_target.setPosition(_renderer.getPosition().x, _renderer.getPosition().y);
+			_animTrippingLeft->update(deltaTime);
 			break;
 
 		case ANIMATION_STATE::LOSING_NORMAL:
-			animLosingNormal->target.setPosition(renderer.getPosition().x, renderer.getPosition().y);
-			animLosingNormal->update(deltaTime);
+			_animLosingNormal->_target.setPosition(_renderer.getPosition().x, _renderer.getPosition().y);
+			_animLosingNormal->update(deltaTime);
 			break;
 
 		case ANIMATION_STATE::LOSING_BURNED_1:
-			animLosingBurned1->target.setPosition(renderer.getPosition().x, renderer.getPosition().y);
-			animLosingBurned1->update(deltaTime);
+			_animLosingBurned1->_target.setPosition(_renderer.getPosition().x, _renderer.getPosition().y);
+			_animLosingBurned1->update(deltaTime);
 			break;
 
 		case ANIMATION_STATE::LOSING_BURNED_2:
-			animLosingBurned2->target.setPosition(renderer.getPosition().x, renderer.getPosition().y);
-			animLosingBurned2->update(deltaTime);
+			_animLosingBurned2->_target.setPosition(_renderer.getPosition().x, _renderer.getPosition().y);
+			_animLosingBurned2->update(deltaTime);
 			break;
 
 		case ANIMATION_STATE::WIN:
-			animWin->target.setPosition(renderer.getPosition().x, renderer.getPosition().y);
-			animWin->update(deltaTime);
+			_animWin->_target.setPosition(_renderer.getPosition().x, _renderer.getPosition().y);
+			_animWin->update(deltaTime);
 			break;
 		}
 	}
 	void Player::drawAnimations(RenderWindow* window)
 	{
 		// Dibuja la animación correspondiente.
-		switch (animationState)
+		switch (_animationState)
 		{
 		case ANIMATION_STATE::IDLE_RIGHT:
-			window->draw(animIdleRight->target);
+			window->draw(_animIdleRight->_target);
 			break;
 
 		case ANIMATION_STATE::IDLE_LEFT:
-			window->draw(animIdleLeft->target);
+			window->draw(_animIdleLeft->_target);
 			break;
 
 		case ANIMATION_STATE::WALKING_RIGHT:
-			window->draw(animWalkingRight->target);
+			window->draw(_animWalkingRight->_target);
 			break;
 
 		case ANIMATION_STATE::WALKING_LEFT:
-			window->draw(animWalkingLeft->target);
+			window->draw(_animWalkingLeft->_target);
 			break;
 
 		case ANIMATION_STATE::JUMPING_RIGHT:
-			window->draw(animJumpingRight->target);
+			window->draw(_animJumpingRight->_target);
 			break;
 
 		case ANIMATION_STATE::JUMPING_LEFT:
-			window->draw(animJumpingLeft->target);
+			window->draw(_animJumpingLeft->_target);
 			break;
 
 		case ANIMATION_STATE::ATTACKING_RIGHT:
-			window->draw(animAttackingRight->target);
+			window->draw(_animAttackingRight->_target);
 			break;
 
 		case ANIMATION_STATE::ATTACKING_LEFT:
-			window->draw(animAttackingLeft->target);
+			window->draw(_animAttackingLeft->_target);
 			break;
 
 		case ANIMATION_STATE::TRIPPING_RIGHT:
-			window->draw(animTrippingRight->target);
+			window->draw(_animTrippingRight->_target);
 			break;
 
 		case ANIMATION_STATE::TRIPPING_LEFT:
-			window->draw(animTrippingLeft->target);
+			window->draw(_animTrippingLeft->_target);
 			break;
 
 		case ANIMATION_STATE::LOSING_NORMAL:
-			window->draw(animLosingNormal->target);
+			window->draw(_animLosingNormal->_target);
 			break;
 
 		case ANIMATION_STATE::LOSING_BURNED_1:
-			window->draw(animLosingBurned1->target);
+			window->draw(_animLosingBurned1->_target);
 			break;
 
 		case ANIMATION_STATE::LOSING_BURNED_2:
-			window->draw(animLosingBurned2->target);
+			window->draw(_animLosingBurned2->_target);
 			break;
 
 		case ANIMATION_STATE::WIN:
-			window->draw(animWin->target);
+			window->draw(_animWin->_target);
 			break;
 		}
 	}
 	void Player::accommodateAnimations()
 	{
-		boxEntire.setPosition(renderer.getPosition());
-		boxFeet.setPosition(renderer.getPosition());
+		_boxEntire.setPosition(_renderer.getPosition());
+		_boxFeet.setPosition(_renderer.getPosition());
 		updateAnimations(0.0f);
 	}
 	void Player::setWalkingAnimationMode(SPEED speed)
@@ -1013,45 +1015,45 @@ namespace the_wonder_boy
 		switch (speed)
 		{
 		case SPEED::NORMAL:
-			for (int i = 0; i < animWalkingRight->getAmountOfFrames(); i++)
+			for (int i = 0; i < _animWalkingRight->getAmountOfFrames(); i++)
 			{
-				animWalkingRight->setDurationOfFrame(i, walkingAnimationSpeed);
+				_animWalkingRight->setDurationOfFrame(i, _walkingAnimationSpeed);
 			}
-			for (int i = 0; i < animWalkingLeft->getAmountOfFrames(); i++)
+			for (int i = 0; i < _animWalkingLeft->getAmountOfFrames(); i++)
 			{
-				animWalkingLeft->setDurationOfFrame(i, walkingAnimationSpeed);
+				_animWalkingLeft->setDurationOfFrame(i, _walkingAnimationSpeed);
 			}
 			break;
 
 		case SPEED::FAST:
 			float modifier = 2.5f;
 
-			for (int i = 0; i < animWalkingRight->getAmountOfFrames(); i++)
+			for (int i = 0; i < _animWalkingRight->getAmountOfFrames(); i++)
 			{
-				animWalkingRight->setDurationOfFrame(i, walkingAnimationSpeed / modifier);
+				_animWalkingRight->setDurationOfFrame(i, _walkingAnimationSpeed / modifier);
 			}
-			for (int i = 0; i < animWalkingLeft->getAmountOfFrames(); i++)
+			for (int i = 0; i < _animWalkingLeft->getAmountOfFrames(); i++)
 			{
-				animWalkingLeft->setDurationOfFrame(i, walkingAnimationSpeed / modifier);
+				_animWalkingLeft->setDurationOfFrame(i, _walkingAnimationSpeed / modifier);
 			}
 			break;
 		}
 	}
 	void Player::updateAnimationEvents()
 	{
-		if (animAttackingRight->getNumberOfFrame() == 1)
+		if (_animAttackingRight->getNumberOfFrame() == 1)
 		{
-			if (!threw)
+			if (!_threw)
 			{
 				attack(DIRECTION::RIGHT);
-				threw = true;
+				_threw = true;
 			}
 		}
-		else if (animAttackingRight->getNumberOfFrame() == 2)
+		else if (_animAttackingRight->getNumberOfFrame() == 2)
 		{
-			animAttackingRight->resetAnimation();
+			_animAttackingRight->resetAnimation();
 
-			if (gravity.onTheFloor)
+			if (_gravity.onTheFloor)
 			{
 				setNewAnimation(ANIMATION_STATE::IDLE_RIGHT);
 			}
@@ -1060,22 +1062,22 @@ namespace the_wonder_boy
 				setNewAnimation(ANIMATION_STATE::JUMPING_RIGHT);
 			}
 
-			threw = false;
+			_threw = false;
 		}
 
-		if (animAttackingLeft->getNumberOfFrame() == 1)
+		if (_animAttackingLeft->getNumberOfFrame() == 1)
 		{
-			if (!threw)
+			if (!_threw)
 			{
 				attack(DIRECTION::LEFT);
-				threw = true;
+				_threw = true;
 			}
 		}
-		else if (animAttackingLeft->getNumberOfFrame() == 2)
+		else if (_animAttackingLeft->getNumberOfFrame() == 2)
 		{
-			animAttackingLeft->resetAnimation();
+			_animAttackingLeft->resetAnimation();
 
-			if (gravity.onTheFloor)
+			if (_gravity.onTheFloor)
 			{
 				setNewAnimation(ANIMATION_STATE::IDLE_LEFT);
 			}
@@ -1084,59 +1086,58 @@ namespace the_wonder_boy
 				setNewAnimation(ANIMATION_STATE::JUMPING_LEFT);
 			}
 
-			threw = false;
+			_threw = false;
 		}
 
-		if (animTrippingRight->getNumberOfFrame() == 1)
+		if (_animTrippingRight->getNumberOfFrame() == 1)
 		{
-			animTrippingRight->resetAnimation();
-			hit = false;
+			_animTrippingRight->resetAnimation();
+			_hit = false;
 
 			setNewAnimation(ANIMATION_STATE::JUMPING_RIGHT);
 			cout << "Fin de la animacion derecha.\n";
 		}
 
-		if (animTrippingLeft->getNumberOfFrame() == 1)
+		if (_animTrippingLeft->getNumberOfFrame() == 1)
 		{
-			animTrippingLeft->resetAnimation();
-			hit = false;
+			_animTrippingLeft->resetAnimation();
+			_hit = false;
 
 			setNewAnimation(ANIMATION_STATE::JUMPING_LEFT);
 		}
 
-		if (animLosingBurned1->getNumberOfFrame() == 1)
+		if (_animLosingBurned1->getNumberOfFrame() == 1)
 		{
-			animLosingBurned1->resetAnimation();
+			_animLosingBurned1->resetAnimation();
 
 			setNewAnimation(ANIMATION_STATE::LOSING_BURNED_2);
 		}
 	}
-	bool Player::actualAnimationIs(ANIMATION_STATE animation)
+	bool Player::actualAnimationIs(ANIMATION_STATE animationState)
 	{
-		return animationState == animation;
+		return _animationState == animationState;
 	}
-	void Player::setNewAnimation(ANIMATION_STATE animation)
+	void Player::setNewAnimation(ANIMATION_STATE animationState)
 	{
-		animationState = animation;
+		_animationState = animationState;
 	}
 
 	void Player::keyPressed(float deltaTime)
 	{
-		if (!hit && isAlive() && !wins)
+		if (!_hit && isAlive() && !_wins)
 		{
 			const float modifier = 1.25f; // Divide/multiplica la velocidad actual al estar en el aire.
 
-
-			if (Keyboard::isKeyPressed(static_cast<Keyboard::Key>(ControlsManager::gameplayLeft)))
+			if (Keyboard::isKeyPressed(ControlsManager::getKey(WANTED_KEY::GAMEPLAY_LEFT)))
 			{
-				if (gravity.onTheFloor) // Si está en el piso...
+				if (_gravity.onTheFloor) // Si está en el piso...
 				{
-					if (!Keyboard::isKeyPressed(static_cast<Keyboard::Key>(ControlsManager::gameplayRight)))
+					if (!Keyboard::isKeyPressed(ControlsManager::getKey(WANTED_KEY::GAMEPLAY_RIGHT)))
 					{
 						move(DIRECTION::LEFT, deltaTime);
 						if (actualAnimationIs(ANIMATION_STATE::ATTACKING_RIGHT))
 						{
-							animAttackingRight->resetAnimation();
+							_animAttackingRight->resetAnimation();
 						}
 						if (!actualAnimationIs(ANIMATION_STATE::ATTACKING_LEFT))
 						{
@@ -1147,41 +1148,41 @@ namespace the_wonder_boy
 					{
 						if (actualAnimationIs(ANIMATION_STATE::WALKING_LEFT))
 						{
-							setNewAnimation(animationState = ANIMATION_STATE::IDLE_LEFT);
+							setNewAnimation(_animationState = ANIMATION_STATE::IDLE_LEFT);
 						}
 					}
 				}
 				else // Si está en el aire...
 				{
-					if (!Keyboard::isKeyPressed(static_cast<Keyboard::Key>(ControlsManager::gameplayRight)))
+					if (!Keyboard::isKeyPressed(ControlsManager::getKey(WANTED_KEY::GAMEPLAY_RIGHT)))
 					{
 						if (actualAnimationIs(ANIMATION_STATE::JUMPING_RIGHT)) // Si su animación va para la derecha...
 						{
 							setNewAnimation(ANIMATION_STATE::JUMPING_LEFT); // Gira hacia la izquierda
 
-							if (walkingSpeed.actualSpeed > 0.0f) // Si su velocidad es positiva (hacia la derecha)
+							if (_walkingSpeed.actualSpeed > 0.0f) // Si su velocidad es positiva (hacia la derecha)
 							{
-								walkingSpeed.actualSpeed /= modifier; // Se resta un poquito.
+								_walkingSpeed.actualSpeed /= modifier; // Se resta un poquito.
 							}
-							else if (walkingSpeed.actualSpeed < 0.0f) // Si su velocidad es negativa (hacia la izquierda)
+							else if (_walkingSpeed.actualSpeed < 0.0f) // Si su velocidad es negativa (hacia la izquierda)
 							{
 								// Va un poco más para la izquierda, siempre y cuando no exceda su límite de velocidad.
-								walkingSpeed.actualSpeed = (walkingSpeed.actualSpeed * modifier < -walkingSpeed.speedLimit) ? -walkingSpeed.speedLimit : walkingSpeed.actualSpeed * modifier;
+								_walkingSpeed.actualSpeed = (_walkingSpeed.actualSpeed * modifier < -_walkingSpeed.speedLimit) ? -_walkingSpeed.speedLimit : _walkingSpeed.actualSpeed * modifier;
 							}
 						}
 					}
 				}
 			}
-			if (Keyboard::isKeyPressed(static_cast<Keyboard::Key>(ControlsManager::gameplayRight)))
+			if (Keyboard::isKeyPressed(ControlsManager::getKey(WANTED_KEY::GAMEPLAY_RIGHT)))
 			{
-				if (gravity.onTheFloor)
+				if (_gravity.onTheFloor)
 				{
-					if (!Keyboard::isKeyPressed(static_cast<Keyboard::Key>(ControlsManager::gameplayLeft))) // Si NO está presionando izquierda...
+					if (!Keyboard::isKeyPressed(ControlsManager::getKey(WANTED_KEY::GAMEPLAY_LEFT))) // Si NO está presionando izquierda...
 					{
 						move(DIRECTION::RIGHT, deltaTime);
 						if (actualAnimationIs(ANIMATION_STATE::ATTACKING_LEFT))
 						{
-							animAttackingLeft->resetAnimation();
+							_animAttackingLeft->resetAnimation();
 						}
 						if (!actualAnimationIs(ANIMATION_STATE::ATTACKING_RIGHT))
 						{
@@ -1198,20 +1199,20 @@ namespace the_wonder_boy
 				}
 				else
 				{
-					if (!Keyboard::isKeyPressed(static_cast<Keyboard::Key>(ControlsManager::gameplayLeft)))
+					if (!Keyboard::isKeyPressed(ControlsManager::getKey(WANTED_KEY::GAMEPLAY_LEFT)))
 					{
 						if (actualAnimationIs(ANIMATION_STATE::JUMPING_LEFT)) // Si su animación va para la izquierda...
 						{
 							setNewAnimation(ANIMATION_STATE::JUMPING_RIGHT);
 
-							if (walkingSpeed.actualSpeed < 0.0f) // Si su velocidad es negativa (hacia la izquierda)
+							if (_walkingSpeed.actualSpeed < 0.0f) // Si su velocidad es negativa (hacia la izquierda)
 							{
-								walkingSpeed.actualSpeed /= modifier; // Se resta un poquito.
+								_walkingSpeed.actualSpeed /= modifier; // Se resta un poquito.
 							}
-							else if (walkingSpeed.actualSpeed > 0.0f) // Si su velocidad es positiva (hacia la derecha)
+							else if (_walkingSpeed.actualSpeed > 0.0f) // Si su velocidad es positiva (hacia la derecha)
 							{
 								// Va un poco más para la derecha, siempre y cuando no exceda su límite de velocidad.
-								walkingSpeed.actualSpeed = (walkingSpeed.actualSpeed > walkingSpeed.actualSpeed * modifier) ? walkingSpeed.speedLimit : walkingSpeed.actualSpeed * modifier;
+								_walkingSpeed.actualSpeed = (_walkingSpeed.actualSpeed > _walkingSpeed.actualSpeed * modifier) ? _walkingSpeed.speedLimit : _walkingSpeed.actualSpeed * modifier;
 							}
 						}
 					}
@@ -1224,15 +1225,15 @@ namespace the_wonder_boy
 		switch (direction)
 		{
 		case DIRECTION::LEFT:
-			walkingSpeed.actualSpeed = (walkingSpeed.actualSpeed - walkingSpeed.acceleration * deltaTime > -walkingSpeed.speedLimit) ? walkingSpeed.actualSpeed - walkingSpeed.acceleration * deltaTime : -walkingSpeed.speedLimit;
+			_walkingSpeed.actualSpeed = (_walkingSpeed.actualSpeed - _walkingSpeed.acceleration * deltaTime > -_walkingSpeed.speedLimit) ? _walkingSpeed.actualSpeed - _walkingSpeed.acceleration * deltaTime : -_walkingSpeed.speedLimit;
 			break;
 
 		case DIRECTION::RIGHT:
-			walkingSpeed.actualSpeed = (walkingSpeed.actualSpeed + walkingSpeed.acceleration * deltaTime < walkingSpeed.speedLimit) ? walkingSpeed.actualSpeed + walkingSpeed.acceleration * deltaTime : walkingSpeed.speedLimit;
+			_walkingSpeed.actualSpeed = (_walkingSpeed.actualSpeed + _walkingSpeed.acceleration * deltaTime < _walkingSpeed.speedLimit) ? _walkingSpeed.actualSpeed + _walkingSpeed.acceleration * deltaTime : _walkingSpeed.speedLimit;
 			break;
 
 		default:
-			walkingSpeed.actualSpeed = 0.0f;
+			_walkingSpeed.actualSpeed = 0.0f;
 			break;
 		}
 	}
@@ -1240,13 +1241,13 @@ namespace the_wonder_boy
 	{
 		if (high)
 		{
-			gravity.actualSpeed = -forceJump;
-			gravity.onTheFloor = false;
+			_gravity.actualSpeed = -_forceJump;
+			_gravity.onTheFloor = false;
 			cout << "Salto fuerte.\n";
 		}
 		else
 		{
-			gravity.actualSpeed = -forceJump / 1.25f;
+			_gravity.actualSpeed = -_forceJump / 1.25f;
 			cout << "Salto debil.\n";
 		}
 		
@@ -1259,7 +1260,7 @@ namespace the_wonder_boy
 			setNewAnimation(ANIMATION_STATE::JUMPING_LEFT);
 		}
 
-		gravity.onTheFloor = false;
+		_gravity.onTheFloor = false;
 	}
 	void Player::attack(DIRECTION direction)
 	{
@@ -1268,29 +1269,29 @@ namespace the_wonder_boy
 		switch (direction)
 		{
 		case DIRECTION::LEFT:
-			if (!stoneHammers[savedHammerPosition]->getIsThrown())
+			if (!_stoneHammers[_savedHammerPosition]->getIsThrown())
 			{
-				stoneHammers[savedHammerPosition]->setPosition(renderer.getPosition().x - distanceToCenter.x, renderer.getPosition().y - distanceToCenter.y);
+				_stoneHammers[_savedHammerPosition]->setPosition(_renderer.getPosition().x - distanceToCenter.x, _renderer.getPosition().y - distanceToCenter.y);
 			}
 			break;
 
 		case DIRECTION::RIGHT:
-			if (!stoneHammers[savedHammerPosition]->getIsThrown())
+			if (!_stoneHammers[_savedHammerPosition]->getIsThrown())
 			{
-				stoneHammers[savedHammerPosition]->setPosition(renderer.getPosition().x + distanceToCenter.x, renderer.getPosition().y - distanceToCenter.y);
+				_stoneHammers[_savedHammerPosition]->setPosition(_renderer.getPosition().x + distanceToCenter.x, _renderer.getPosition().y - distanceToCenter.y);
 			}
 			break;
 		}
 
-		stoneHammers[savedHammerPosition]->throwIt(static_cast<THROW_DIRECTION>(direction));
+		_stoneHammers[_savedHammerPosition]->throwIt(static_cast<THROW_DIRECTION>(direction));
 	}
 	void Player::drainHealth(float deltaTime)
 	{
-		if (isAlive() && !wins)
+		if (isAlive() && !_wins)
 		{
 			const int healthPerSecond = 1.0f;
 
-			health = (health - healthPerSecond * deltaTime > 0.0f) ? health - healthPerSecond * deltaTime : 0.0f;
+			_health = (_health - healthPerSecond * deltaTime > 0.0f) ? _health - healthPerSecond * deltaTime : 0.0f;
 
 			if (!isAlive())
 			{
@@ -1300,35 +1301,35 @@ namespace the_wonder_boy
 	}
 	void Player::gravityForce(float deltaTime)
 	{
-		if (gravity.actualSpeed > 0.0f)
+		if (_gravity.actualSpeed > 0.0f)
 		{
-			gravity.onTheFloor = false;
+			_gravity.onTheFloor = false;
 		}
 
-		gravity.actualSpeed += gravity.acceleration * deltaTime;
+		_gravity.actualSpeed += _gravity.acceleration * deltaTime;
 
-		renderer.move(0.0f, gravity.actualSpeed * deltaTime);
+		_renderer.move(0.0f, _gravity.actualSpeed * deltaTime);
 	}
 	void Player::walkingAccelerationForce(float deltaTime)
 	{
-		if (isAlive() && !wins)
+		if (isAlive() && !_wins)
 		{
 			const float multipler = 1.5f;
 
 			// Si está sobre el piso...
-			if (gravity.onTheFloor || hit)
+			if (_gravity.onTheFloor || _hit)
 			{
 				// Si no está caminando para ninguno de los dos lados...
-				if (bothSidesPressed() || noSidePressed() || hit)
+				if (bothSidesPressed() || noSidePressed() || _hit)
 				{
 					// Si está yendo para la derecha...
-					if (walkingSpeed.actualSpeed > 0.0f)
+					if (_walkingSpeed.actualSpeed > 0.0f)
 					{
-						walkingSpeed.actualSpeed = (walkingSpeed.actualSpeed > walkingSpeed.acceleration * deltaTime) ? walkingSpeed.actualSpeed - walkingSpeed.acceleration * deltaTime : 0.0f;
+						_walkingSpeed.actualSpeed = (_walkingSpeed.actualSpeed > _walkingSpeed.acceleration * deltaTime) ? _walkingSpeed.actualSpeed - _walkingSpeed.acceleration * deltaTime : 0.0f;
 					}
-					else if (walkingSpeed.actualSpeed < 0.0f)
+					else if (_walkingSpeed.actualSpeed < 0.0f)
 					{
-						walkingSpeed.actualSpeed = (walkingSpeed.actualSpeed < -walkingSpeed.acceleration * deltaTime) ? walkingSpeed.actualSpeed + walkingSpeed.acceleration * deltaTime : 0.0f;
+						_walkingSpeed.actualSpeed = (_walkingSpeed.actualSpeed < -_walkingSpeed.acceleration * deltaTime) ? _walkingSpeed.actualSpeed + _walkingSpeed.acceleration * deltaTime : 0.0f;
 					}
 				}
 			}
@@ -1337,21 +1338,21 @@ namespace the_wonder_boy
 			//		Siempre para la derecha (movimiento robótico).
 			//		Si presiona izquierda, sólo va más lento. Para adelante no hace nada.
 
-			renderer.move(walkingSpeed.actualSpeed * deltaTime, 0.0f);
+			_renderer.move(_walkingSpeed.actualSpeed * deltaTime, 0.0f);
 		}
 	}
 	void Player::bounceWhenDies()
 	{
-		if (!bouncedWhenDied)
+		if (!_bouncedWhenDied)
 		{
-			bouncedWhenDied = true;
+			_bouncedWhenDied = true;
 
-			gravity.actualSpeed = -forceJump;
+			_gravity.actualSpeed = -_forceJump;
 		}
 	}
 	void Player::checkDistanceToWin()
 	{
-		if (!wins && renderer.getPosition().x > necessaryDistanceToWin)
+		if (!_wins && _renderer.getPosition().x > _necessaryDistanceToWin)
 		{
 			winLevel();
 		}
@@ -1359,18 +1360,18 @@ namespace the_wonder_boy
 	
 	bool Player::bothSidesPressed()
 	{
-		return Keyboard::isKeyPressed(static_cast<Keyboard::Key>(ControlsManager::gameplayLeft)) && Keyboard::isKeyPressed(static_cast<Keyboard::Key>(ControlsManager::gameplayRight));
+		return Keyboard::isKeyPressed(ControlsManager::getKey(WANTED_KEY::GAMEPLAY_LEFT)) && Keyboard::isKeyPressed(ControlsManager::getKey(WANTED_KEY::GAMEPLAY_RIGHT));
 	}
 	bool Player::noSidePressed()
 	{
-		return !Keyboard::isKeyPressed(static_cast<Keyboard::Key>(ControlsManager::gameplayLeft)) && !Keyboard::isKeyPressed(static_cast<Keyboard::Key>(ControlsManager::gameplayRight));
+		return !Keyboard::isKeyPressed(ControlsManager::getKey(WANTED_KEY::GAMEPLAY_LEFT)) && !Keyboard::isKeyPressed(ControlsManager::getKey(WANTED_KEY::GAMEPLAY_RIGHT));
 	}
 
 	bool Player::isThereASavedHammer()
 	{
-		for (int i = 0; i < stoneHammersSize; i++)
+		for (int i = 0; i < _stoneHammersSize; i++)
 		{
-			if (!stoneHammers[i]->getIsThrown())
+			if (!_stoneHammers[i]->getIsThrown())
 			{
 				return true;
 			}
@@ -1380,9 +1381,9 @@ namespace the_wonder_boy
 	}
 	int Player::saveAFreePosition()
 	{
-		for (int i = 0; i < stoneHammersSize; i++)
+		for (int i = 0; i < _stoneHammersSize; i++)
 		{
-			if (!stoneHammers[i]->getIsThrown())
+			if (!_stoneHammers[i]->getIsThrown())
 			{
 				return i;
 			}
@@ -1393,16 +1394,16 @@ namespace the_wonder_boy
 
 	void Player::updateStoneHammers(float deltaTime)
 	{
-		for (int i = 0; i < stoneHammersSize; i++)
+		for (int i = 0; i < _stoneHammersSize; i++)
 		{
-			stoneHammers[i]->update(deltaTime);
+			_stoneHammers[i]->update(deltaTime);
 		}
 	}
 	void Player::drawStoneHammers(RenderWindow* window)
 	{
-		for (int i = 0; i < stoneHammersSize; i++)
+		for (int i = 0; i < _stoneHammersSize; i++)
 		{
-			stoneHammers[i]->draw(window);
+			_stoneHammers[i]->draw(window);
 		}
 	}
 }
