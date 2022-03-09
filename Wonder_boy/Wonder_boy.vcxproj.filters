@@ -16,29 +16,8 @@
     <Filter Include="allFiles\src\game_manager">
       <UniqueIdentifier>{17528e91-87c0-4e6b-b832-c8ed52449409}</UniqueIdentifier>
     </Filter>
-    <Filter Include="allFiles\src\game_scenes">
-      <UniqueIdentifier>{5e3b33fb-7277-4921-9360-15a96487c13c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="allFiles\src\game_scenes\levels">
-      <UniqueIdentifier>{e9344ba3-d6d7-4e78-a92a-8180e0ce345c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="allFiles\src\game_scenes\screens">
-      <UniqueIdentifier>{b1de9955-f739-42ac-97ec-f0180f3ecd61}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="allFiles\src\game_scenes\levels\0_test">
-      <UniqueIdentifier>{91b7e9bd-edf9-4ad6-aea7-784046ac4cc2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="allFiles\src\scene_manager">
       <UniqueIdentifier>{5ff187c4-9f07-459a-95bc-20c7ca1992d5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="allFiles\src\player">
-      <UniqueIdentifier>{979570ca-81e2-4467-b388-7d48d163c271}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="allFiles\src\game_controls">
-      <UniqueIdentifier>{1ecf0f20-35f6-49ee-aec4-8b2b769e16c3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="allFiles\src\floor">
-      <UniqueIdentifier>{79b7e8b2-490c-4157-ae2a-2b4d721d449d}</UniqueIdentifier>
     </Filter>
     <Filter Include="allFiles\src\animation">
       <UniqueIdentifier>{0e43581f-f9a1-4780-bd38-f5681af737f6}</UniqueIdentifier>
@@ -46,65 +25,95 @@
     <Filter Include="allFiles\src\animation\frame">
       <UniqueIdentifier>{6f0b569d-b628-4e59-a789-b6a8e573ad53}</UniqueIdentifier>
     </Filter>
-    <Filter Include="allFiles\src\game_scenes\screens\main_menu">
-      <UniqueIdentifier>{ad88c3d7-7012-49d9-a47c-28e16c840a65}</UniqueIdentifier>
-    </Filter>
     <Filter Include="allFiles\src\button">
       <UniqueIdentifier>{daa4cedd-1b6a-47e8-9208-2a1935485941}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="allFiles\src\hud">
-      <UniqueIdentifier>{c95c53ef-8692-4881-91f0-77e1fb89fcaf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="allFiles\src\stone_hammer">
-      <UniqueIdentifier>{84559fc4-9ce3-4fb4-a599-97d1e6a0d057}</UniqueIdentifier>
     </Filter>
     <Filter Include="allFiles\src\collision_manager">
       <UniqueIdentifier>{8607b4d5-ac79-44c6-a590-f35b2ee72080}</UniqueIdentifier>
     </Filter>
-    <Filter Include="allFiles\src\obstacles">
-      <UniqueIdentifier>{2f190854-fdea-4b8e-a6af-31737a837db5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="allFiles\src\obstacles\stone">
-      <UniqueIdentifier>{ef8290c4-feb9-4a96-a43c-e0d1ce8de546}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="allFiles\src\obstacles\bonfire">
-      <UniqueIdentifier>{6c903db6-41bf-41a1-b508-9d7d3e80b1d5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="allFiles\src\enemies">
-      <UniqueIdentifier>{de633b1c-7461-43ce-9338-b09ff061bad9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="allFiles\src\enemies\enemy">
-      <UniqueIdentifier>{99e081ad-7a19-4682-9d85-2c2cf46ed059}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="allFiles\src\enemies\snail">
-      <UniqueIdentifier>{f8c9f653-9722-49af-83eb-0b72c3bbb9b2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="allFiles\src\enemies\wasp">
-      <UniqueIdentifier>{0787e4de-5c4a-4f19-8012-b1dc8014f185}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="allFiles\src\items">
-      <UniqueIdentifier>{450690e5-5766-4e63-b529-f984f278f05e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="allFiles\src\items\fruit">
-      <UniqueIdentifier>{02b88706-fb35-4708-b847-9db7fcd3a289}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="allFiles\src\background_elements">
-      <UniqueIdentifier>{0c4b19da-46ed-44b4-8ec9-9bb32af53e7d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="allFiles\src\background_elements\sign">
-      <UniqueIdentifier>{7996ecd5-0a47-45d2-82ea-5718ab2dba71}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="allFiles\src\platform">
-      <UniqueIdentifier>{b529707d-0dc4-493d-aa34-b04dbf0bee8a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="allFiles\src\curtain_manager">
       <UniqueIdentifier>{73859ef0-6b15-489f-b675-c50ef32292ca}</UniqueIdentifier>
     </Filter>
-    <Filter Include="allFiles\src\game_scenes\screens\credits">
-      <UniqueIdentifier>{36c84096-252b-49b4-99d6-c6f75a288363}</UniqueIdentifier>
+    <Filter Include="allFiles\src\scenes">
+      <UniqueIdentifier>{c5d5fb5e-d338-4067-bbf5-3917fbab3549}</UniqueIdentifier>
     </Filter>
-    <Filter Include="allFiles\src\game_scenes\levels\1_gameplay">
-      <UniqueIdentifier>{b118d1b5-13bb-4d8e-ab61-7130002e667e}</UniqueIdentifier>
+    <Filter Include="allFiles\src\scenes\game_scenes">
+      <UniqueIdentifier>{a4ab7984-982b-4076-bd7d-84ab9f790002}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="allFiles\src\scenes\scene">
+      <UniqueIdentifier>{414277d4-0c37-403c-9247-5f77b7b4508c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="allFiles\src\scenes\game_scenes\levels">
+      <UniqueIdentifier>{5d08b875-ca42-4a22-915a-976d430630fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="allFiles\src\scenes\game_scenes\screens">
+      <UniqueIdentifier>{741030f7-54fa-4dd8-a793-71eb5b54f4cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="allFiles\src\scenes\game_scenes\levels\level_test">
+      <UniqueIdentifier>{9d7766b1-779e-4077-868c-98658a051a86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="allFiles\src\scenes\game_scenes\levels\level_1">
+      <UniqueIdentifier>{ba145006-3105-494e-82e2-dce683348e4e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="allFiles\src\scenes\game_scenes\screens\credits">
+      <UniqueIdentifier>{dcb90ac4-ba78-4a3d-87e1-3ca1f89b2ae1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="allFiles\src\scenes\game_scenes\screens\main_menu">
+      <UniqueIdentifier>{06ef82b2-bbed-475e-93fe-255bd39583e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="allFiles\src\gameplay_elements">
+      <UniqueIdentifier>{6c8960c4-431d-4d80-be36-b5bbc3bf1945}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="allFiles\src\gameplay_elements\player">
+      <UniqueIdentifier>{979570ca-81e2-4467-b388-7d48d163c271}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="allFiles\src\gameplay_elements\platform">
+      <UniqueIdentifier>{b529707d-0dc4-493d-aa34-b04dbf0bee8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="allFiles\src\gameplay_elements\obstacles">
+      <UniqueIdentifier>{2f190854-fdea-4b8e-a6af-31737a837db5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="allFiles\src\gameplay_elements\obstacles\stone">
+      <UniqueIdentifier>{ef8290c4-feb9-4a96-a43c-e0d1ce8de546}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="allFiles\src\gameplay_elements\obstacles\bonfire">
+      <UniqueIdentifier>{6c903db6-41bf-41a1-b508-9d7d3e80b1d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="allFiles\src\gameplay_elements\items">
+      <UniqueIdentifier>{450690e5-5766-4e63-b529-f984f278f05e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="allFiles\src\gameplay_elements\items\fruit">
+      <UniqueIdentifier>{02b88706-fb35-4708-b847-9db7fcd3a289}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="allFiles\src\gameplay_elements\hud">
+      <UniqueIdentifier>{c95c53ef-8692-4881-91f0-77e1fb89fcaf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="allFiles\src\gameplay_elements\floor">
+      <UniqueIdentifier>{79b7e8b2-490c-4157-ae2a-2b4d721d449d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="allFiles\src\gameplay_elements\enemies">
+      <UniqueIdentifier>{de633b1c-7461-43ce-9338-b09ff061bad9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="allFiles\src\gameplay_elements\enemies\enemy">
+      <UniqueIdentifier>{99e081ad-7a19-4682-9d85-2c2cf46ed059}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="allFiles\src\gameplay_elements\enemies\snail">
+      <UniqueIdentifier>{f8c9f653-9722-49af-83eb-0b72c3bbb9b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="allFiles\src\gameplay_elements\enemies\wasp">
+      <UniqueIdentifier>{0787e4de-5c4a-4f19-8012-b1dc8014f185}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="allFiles\src\gameplay_elements\background_elements">
+      <UniqueIdentifier>{0c4b19da-46ed-44b4-8ec9-9bb32af53e7d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="allFiles\src\gameplay_elements\background_elements\sign">
+      <UniqueIdentifier>{7996ecd5-0a47-45d2-82ea-5718ab2dba71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="allFiles\src\gameplay_elements\stone_hammer">
+      <UniqueIdentifier>{84559fc4-9ce3-4fb4-a599-97d1e6a0d057}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="allFiles\src\controls_manager">
+      <UniqueIdentifier>{1ecf0f20-35f6-49ee-aec4-8b2b769e16c3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -117,23 +126,8 @@
     <ClCompile Include="src\game_manager\game_manager.cpp">
       <Filter>allFiles\src\game_manager</Filter>
     </ClCompile>
-    <ClCompile Include="src\game_scenes\scene.cpp">
-      <Filter>allFiles\src\game_scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="src\game_scenes\levels\0_test\level_test.cpp">
-      <Filter>allFiles\src\game_scenes\levels\0_test</Filter>
-    </ClCompile>
     <ClCompile Include="src\scene_manager\scene_manager.cpp">
       <Filter>allFiles\src\scene_manager</Filter>
-    </ClCompile>
-    <ClCompile Include="src\player\player.cpp">
-      <Filter>allFiles\src\player</Filter>
-    </ClCompile>
-    <ClCompile Include="src\game_controls\game_controls.cpp">
-      <Filter>allFiles\src\game_controls</Filter>
-    </ClCompile>
-    <ClCompile Include="src\floor\floor.cpp">
-      <Filter>allFiles\src\floor</Filter>
     </ClCompile>
     <ClCompile Include="src\animation\animation.cpp">
       <Filter>allFiles\src\animation</Filter>
@@ -141,53 +135,68 @@
     <ClCompile Include="src\animation\frame\frame.cpp">
       <Filter>allFiles\src\animation\frame</Filter>
     </ClCompile>
-    <ClCompile Include="src\game_scenes\screens\main_menu\main_menu.cpp">
-      <Filter>allFiles\src\game_scenes\screens\main_menu</Filter>
-    </ClCompile>
     <ClCompile Include="src\button\button.cpp">
       <Filter>allFiles\src\button</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hud\hud.cpp">
-      <Filter>allFiles\src\hud</Filter>
-    </ClCompile>
-    <ClCompile Include="src\stone_hammer\stone_hammer.cpp">
-      <Filter>allFiles\src\stone_hammer</Filter>
     </ClCompile>
     <ClCompile Include="src\collision_manager\collision_manager.cpp">
       <Filter>allFiles\src\collision_manager</Filter>
     </ClCompile>
-    <ClCompile Include="src\obstacles\stone\stone.cpp">
-      <Filter>allFiles\src\obstacles\stone</Filter>
-    </ClCompile>
-    <ClCompile Include="src\obstacles\bonfire\bonfire.cpp">
-      <Filter>allFiles\src\obstacles\bonfire</Filter>
-    </ClCompile>
-    <ClCompile Include="src\enemies\enemy\enemy.cpp">
-      <Filter>allFiles\src\enemies\enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="src\enemies\snail\snail.cpp">
-      <Filter>allFiles\src\enemies\snail</Filter>
-    </ClCompile>
-    <ClCompile Include="src\enemies\wasp\wasp.cpp">
-      <Filter>allFiles\src\enemies\wasp</Filter>
-    </ClCompile>
-    <ClCompile Include="src\items\fruit\fruit.cpp">
-      <Filter>allFiles\src\items\fruit</Filter>
-    </ClCompile>
-    <ClCompile Include="src\background_elements\sign\sign.cpp">
-      <Filter>allFiles\src\background_elements\sign</Filter>
-    </ClCompile>
-    <ClCompile Include="src\platform\platform.cpp">
-      <Filter>allFiles\src\platform</Filter>
-    </ClCompile>
     <ClCompile Include="src\curtain_manager\curtain_manager.cpp">
       <Filter>allFiles\src\curtain_manager</Filter>
     </ClCompile>
-    <ClCompile Include="src\game_scenes\screens\credits\credits.cpp">
-      <Filter>allFiles\src\game_scenes\screens\credits</Filter>
+    <ClCompile Include="src\scenes\game_scenes\levels\level_1\level_1.cpp">
+      <Filter>allFiles\src\scenes\game_scenes\levels\level_1</Filter>
     </ClCompile>
-    <ClCompile Include="src\game_scenes\levels\1_gameplay\gameplay_1.cpp">
-      <Filter>allFiles\src\game_scenes\levels\1_gameplay</Filter>
+    <ClCompile Include="src\scenes\game_scenes\levels\level_test\level_test.cpp">
+      <Filter>allFiles\src\scenes\game_scenes\levels\level_test</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scenes\game_scenes\screens\credits\credits.cpp">
+      <Filter>allFiles\src\scenes\game_scenes\screens\credits</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scenes\game_scenes\screens\main_menu\main_menu.cpp">
+      <Filter>allFiles\src\scenes\game_scenes\screens\main_menu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scenes\scene\scene.cpp">
+      <Filter>allFiles\src\scenes\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gameplay_elements\background_elements\sign\sign.cpp">
+      <Filter>allFiles\src\gameplay_elements\background_elements\sign</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gameplay_elements\enemies\enemy\enemy.cpp">
+      <Filter>allFiles\src\gameplay_elements\enemies\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gameplay_elements\enemies\snail\snail.cpp">
+      <Filter>allFiles\src\gameplay_elements\enemies\snail</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gameplay_elements\enemies\wasp\wasp.cpp">
+      <Filter>allFiles\src\gameplay_elements\enemies\wasp</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gameplay_elements\floor\floor.cpp">
+      <Filter>allFiles\src\gameplay_elements\floor</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gameplay_elements\hud\hud.cpp">
+      <Filter>allFiles\src\gameplay_elements\hud</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gameplay_elements\items\fruit\fruit.cpp">
+      <Filter>allFiles\src\gameplay_elements\items\fruit</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gameplay_elements\obstacles\bonfire\bonfire.cpp">
+      <Filter>allFiles\src\gameplay_elements\obstacles\bonfire</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gameplay_elements\obstacles\stone\stone.cpp">
+      <Filter>allFiles\src\gameplay_elements\obstacles\stone</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gameplay_elements\platform\platform.cpp">
+      <Filter>allFiles\src\gameplay_elements\platform</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gameplay_elements\player\player.cpp">
+      <Filter>allFiles\src\gameplay_elements\player</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gameplay_elements\stone_hammer\stone_hammer.cpp">
+      <Filter>allFiles\src\gameplay_elements\stone_hammer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\controls_manager\controls_manager.cpp">
+      <Filter>allFiles\src\controls_manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -197,23 +206,8 @@
     <ClInclude Include="src\game_manager\game_manager.h">
       <Filter>allFiles\src\game_manager</Filter>
     </ClInclude>
-    <ClInclude Include="src\game_scenes\scene.h">
-      <Filter>allFiles\src\game_scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game_scenes\levels\0_test\level_test.h">
-      <Filter>allFiles\src\game_scenes\levels\0_test</Filter>
-    </ClInclude>
     <ClInclude Include="src\scene_manager\scene_manager.h">
       <Filter>allFiles\src\scene_manager</Filter>
-    </ClInclude>
-    <ClInclude Include="src\player\player.h">
-      <Filter>allFiles\src\player</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game_controls\game_controls.h">
-      <Filter>allFiles\src\game_controls</Filter>
-    </ClInclude>
-    <ClInclude Include="src\floor\floor.h">
-      <Filter>allFiles\src\floor</Filter>
     </ClInclude>
     <ClInclude Include="src\animation\animation.h">
       <Filter>allFiles\src\animation</Filter>
@@ -221,53 +215,68 @@
     <ClInclude Include="src\animation\frame\frame.h">
       <Filter>allFiles\src\animation\frame</Filter>
     </ClInclude>
-    <ClInclude Include="src\game_scenes\screens\main_menu\main_menu.h">
-      <Filter>allFiles\src\game_scenes\screens\main_menu</Filter>
-    </ClInclude>
     <ClInclude Include="src\button\Button.h">
       <Filter>allFiles\src\button</Filter>
-    </ClInclude>
-    <ClInclude Include="src\hud\hud.h">
-      <Filter>allFiles\src\hud</Filter>
-    </ClInclude>
-    <ClInclude Include="src\stone_hammer\stone_hammer.h">
-      <Filter>allFiles\src\stone_hammer</Filter>
     </ClInclude>
     <ClInclude Include="src\collision_manager\collision_manager.h">
       <Filter>allFiles\src\collision_manager</Filter>
     </ClInclude>
-    <ClInclude Include="src\obstacles\stone\stone.h">
-      <Filter>allFiles\src\obstacles\stone</Filter>
-    </ClInclude>
-    <ClInclude Include="src\obstacles\bonfire\bonfire.h">
-      <Filter>allFiles\src\obstacles\bonfire</Filter>
-    </ClInclude>
-    <ClInclude Include="src\enemies\enemy\enemy.h">
-      <Filter>allFiles\src\enemies\enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="src\enemies\snail\snail.h">
-      <Filter>allFiles\src\enemies\snail</Filter>
-    </ClInclude>
-    <ClInclude Include="src\enemies\wasp\wasp.h">
-      <Filter>allFiles\src\enemies\wasp</Filter>
-    </ClInclude>
-    <ClInclude Include="src\items\fruit\fruit.h">
-      <Filter>allFiles\src\items\fruit</Filter>
-    </ClInclude>
-    <ClInclude Include="src\background_elements\sign\sign.h">
-      <Filter>allFiles\src\background_elements\sign</Filter>
-    </ClInclude>
-    <ClInclude Include="src\platform\platform.h">
-      <Filter>allFiles\src\platform</Filter>
-    </ClInclude>
     <ClInclude Include="src\curtain_manager\curtain_manager.h">
       <Filter>allFiles\src\curtain_manager</Filter>
     </ClInclude>
-    <ClInclude Include="src\game_scenes\screens\credits\credits.h">
-      <Filter>allFiles\src\game_scenes\screens\credits</Filter>
+    <ClInclude Include="src\scenes\game_scenes\levels\level_1\level_1.h">
+      <Filter>allFiles\src\scenes\game_scenes\levels\level_1</Filter>
     </ClInclude>
-    <ClInclude Include="src\game_scenes\levels\1_gameplay\gameplay_1.h">
-      <Filter>allFiles\src\game_scenes\levels\1_gameplay</Filter>
+    <ClInclude Include="src\scenes\game_scenes\levels\level_test\level_test.h">
+      <Filter>allFiles\src\scenes\game_scenes\levels\level_test</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scenes\game_scenes\screens\credits\credits.h">
+      <Filter>allFiles\src\scenes\game_scenes\screens\credits</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scenes\game_scenes\screens\main_menu\main_menu.h">
+      <Filter>allFiles\src\scenes\game_scenes\screens\main_menu</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scenes\scene\scene.h">
+      <Filter>allFiles\src\scenes\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gameplay_elements\background_elements\sign\sign.h">
+      <Filter>allFiles\src\gameplay_elements\background_elements\sign</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gameplay_elements\enemies\enemy\enemy.h">
+      <Filter>allFiles\src\gameplay_elements\enemies\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gameplay_elements\enemies\snail\snail.h">
+      <Filter>allFiles\src\gameplay_elements\enemies\snail</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gameplay_elements\enemies\wasp\wasp.h">
+      <Filter>allFiles\src\gameplay_elements\enemies\wasp</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gameplay_elements\floor\floor.h">
+      <Filter>allFiles\src\gameplay_elements\floor</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gameplay_elements\hud\hud.h">
+      <Filter>allFiles\src\gameplay_elements\hud</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gameplay_elements\items\fruit\fruit.h">
+      <Filter>allFiles\src\gameplay_elements\items\fruit</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gameplay_elements\obstacles\bonfire\bonfire.h">
+      <Filter>allFiles\src\gameplay_elements\obstacles\bonfire</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gameplay_elements\obstacles\stone\stone.h">
+      <Filter>allFiles\src\gameplay_elements\obstacles\stone</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gameplay_elements\platform\platform.h">
+      <Filter>allFiles\src\gameplay_elements\platform</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gameplay_elements\player\player.h">
+      <Filter>allFiles\src\gameplay_elements\player</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gameplay_elements\stone_hammer\stone_hammer.h">
+      <Filter>allFiles\src\gameplay_elements\stone_hammer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\controls_manager\controls_manager.h">
+      <Filter>allFiles\src\controls_manager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,14 +1,14 @@
 #ifndef COLLISION_MANAGER_H
 #define COLLISION_MANAGER_H
 
-#include "player/player.h"
-#include "floor/floor.h"
-#include "platform/platform.h"
-#include "stone_hammer/stone_hammer.h"
-#include "obstacles/stone/stone.h"
-#include "obstacles/bonfire/bonfire.h"
-#include "enemies/enemy/enemy.h"
-#include "items/fruit/fruit.h"
+#include "gameplay_elements/player/player.h"
+#include "gameplay_elements/floor/floor.h"
+#include "gameplay_elements/platform/platform.h"
+#include "gameplay_elements/stone_hammer/stone_hammer.h"
+#include "gameplay_elements/obstacles/stone/stone.h"
+#include "gameplay_elements/obstacles/bonfire/bonfire.h"
+#include "gameplay_elements/enemies/enemy/enemy.h"
+#include "gameplay_elements/items/fruit/fruit.h"
 
 
 namespace the_wonder_boy
