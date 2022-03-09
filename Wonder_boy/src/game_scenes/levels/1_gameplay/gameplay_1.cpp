@@ -39,6 +39,7 @@ namespace the_wonder_boy
 			cout << "La musica del gameplay no se ha cargado.\n";
 		}
 		music.play();
+		music.setLoop(true);
 
 		CurtainManager::startToShow(CURTAIN_TYPE::FADE);
 		Player::setAmountOfLives(5);
@@ -128,6 +129,7 @@ namespace the_wonder_boy
 				{
 					enemy[i]->defeat();
 					player->getPlayerStoneHammer(j)->hit();
+					player->addPoints(enemy[i]->getPoints());
 					cout << "El enemigo pierde.\n";
 				}
 			}

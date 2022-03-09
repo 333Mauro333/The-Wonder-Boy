@@ -20,8 +20,9 @@ namespace the_wonder_boy
 
 		defeated = false;
 		active = false;
+		pointsValue = 0;
 
-		bounceForce = 1000.0f; // Realizando funciones y todo para la acción de perder.
+		bounceForce = 1000.0f;
 
 		boxCollision.setFillColor(sf::Color(255, 0, 0, 128));
 
@@ -45,6 +46,10 @@ namespace the_wonder_boy
 	Vector2f Enemy::getPosition()
 	{
 		return renderer.getPosition();
+	}
+	int Enemy::getPoints()
+	{
+		return pointsValue;
 	}
 	bool Enemy::isActive()
 	{

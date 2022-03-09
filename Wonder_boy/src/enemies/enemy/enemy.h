@@ -29,6 +29,7 @@ namespace the_wonder_boy
 		virtual ENEMY_TYPE getEnemyType() = 0;
 		RectangleShape getBoxCollision();
 		Vector2f getPosition();
+		int getPoints();
 		bool isActive();
 		bool isDefeated();
 		void activate();
@@ -56,6 +57,7 @@ namespace the_wonder_boy
 
 		bool active;
 		bool defeated;
+		int pointsValue;
 
 		float bounceForce;
 

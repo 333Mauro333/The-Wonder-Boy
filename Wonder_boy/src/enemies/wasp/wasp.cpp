@@ -38,6 +38,8 @@ namespace the_wonder_boy
 
 		initSprites();
 		initAnimations(x, y);
+
+		pointsValue = 20;
 	}
 	Wasp::~Wasp()
 	{

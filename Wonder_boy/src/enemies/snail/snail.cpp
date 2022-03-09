@@ -13,6 +13,8 @@ namespace the_wonder_boy
 		initSprites();
 		initAnimations(x, y);
 
+		pointsValue = 10;
+
 		cout << "Se ha creado un caracol.\n\n";
 	}
 	Snail::~Snail()
