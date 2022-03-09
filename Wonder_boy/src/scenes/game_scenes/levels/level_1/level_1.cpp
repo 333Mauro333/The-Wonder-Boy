@@ -49,7 +49,7 @@ namespace the_wonder_boy
 	}
 	Level1::~Level1()
 	{
-
+		destroy();
 
 		cout << "El nivel de gameplay ha sido eliminado de la memoria.\n";
 	}
