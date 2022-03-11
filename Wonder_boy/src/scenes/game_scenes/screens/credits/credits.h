@@ -3,7 +3,7 @@
 
 #include "SFML/Graphics.hpp"
 
-#include "scenes/scene/scene.h"
+#include "scenes/screen/screen.h"
 #include "text_string/text_string.h"
 
 using sf::Vector2f;
@@ -12,7 +12,7 @@ using sf::RectangleShape;
 
 namespace the_wonder_boy
 {
-	class Credits : public Scene
+	class Credits : public Screen
 	{
 	public:
 		Credits(RenderWindow* window);

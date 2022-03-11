@@ -3,12 +3,11 @@
 
 #include "SFML/Audio.hpp"
 
-#include "scenes/scene/scene.h"
+#include "scenes/level/level.h"
 
 #include "text_string/text_string.h"
 #include "gameplay_elements/background_elements/sign/sign.h"
 #include "gameplay_elements/hud/hud.h"
-#include "gameplay_elements/player/player.h"
 #include "gameplay_elements/floor/floor.h"
 #include "gameplay_elements/platform/platform.h"
 #include "gameplay_elements/items/fruit/fruit.h"
@@ -22,7 +21,7 @@ using sf::Music;
 
 namespace the_wonder_boy
 {
-	class Level1 : public Scene
+	class Level1 : public Level
 	{
 	public:
 		Level1(RenderWindow* window);
@@ -41,7 +40,6 @@ namespace the_wonder_boy
 		TextString* _winMessage;
 
 		RectangleShape _background;
-		View _view;
 		Player* _player;
 		HUD* _hud;
 		Texture _texHammer;
@@ -84,8 +82,7 @@ namespace the_wonder_boy
 		void initEnemies();
 		void initPlayer();
 
-		void moveCameraInY(float start, float end, float pixelsToMove);
-		void updateCamera();
+		void updateCamera() override;
 
 		Vector2f getPlayerCheckpointPosition();
 		void resetLevel();

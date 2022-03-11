@@ -197,7 +197,9 @@
     <ClCompile Include="src\scenes\game_scenes\levels\level_1\level_1.cpp" />
     <ClCompile Include="src\scenes\game_scenes\screens\credits\credits.cpp" />
     <ClCompile Include="src\scenes\game_scenes\screens\main_menu\main_menu.cpp" />
+    <ClCompile Include="src\scenes\level\level.cpp" />
     <ClCompile Include="src\scenes\scene\scene.cpp" />
+    <ClCompile Include="src\scenes\screen\screen.cpp" />
     <ClCompile Include="src\scene_manager\scene_manager.cpp" />
     <ClCompile Include="src\text_string\text_string.cpp" />
   </ItemGroup>
@@ -225,7 +227,9 @@
     <ClInclude Include="src\scenes\game_scenes\levels\level_1\level_1.h" />
     <ClInclude Include="src\scenes\game_scenes\screens\credits\credits.h" />
     <ClInclude Include="src\scenes\game_scenes\screens\main_menu\main_menu.h" />
+    <ClInclude Include="src\scenes\level\level.h" />
     <ClInclude Include="src\scenes\scene\scene.h" />
+    <ClInclude Include="src\scenes\screen\screen.h" />
     <ClInclude Include="src\scene_manager\scene_manager.h" />
     <ClInclude Include="src\text_string\text_string.h" />
   </ItemGroup>

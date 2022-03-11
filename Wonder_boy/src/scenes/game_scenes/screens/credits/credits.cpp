@@ -11,7 +11,7 @@ using std::cout;
 
 namespace the_wonder_boy
 {
-	Credits::Credits(RenderWindow* window) : Scene(window)
+	Credits::Credits(RenderWindow* window) : Screen(window, 1)
 	{
 		cout << "Se ha creado una pantalla de creditos.\n\n";
 

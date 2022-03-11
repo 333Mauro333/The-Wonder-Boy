@@ -115,6 +115,12 @@
     <Filter Include="allFiles\src\text_string">
       <UniqueIdentifier>{9a9b0b80-3e7e-4566-b94c-bdfc3409b9bb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="allFiles\src\scenes\level">
+      <UniqueIdentifier>{68a41f6e-66cf-4ad2-bdb1-27f050ac72f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="allFiles\src\scenes\screen">
+      <UniqueIdentifier>{a824d715-4370-45d4-808e-540dfc7aac5f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -198,6 +204,12 @@
     <ClCompile Include="src\text_string\text_string.cpp">
       <Filter>allFiles\src\text_string</Filter>
     </ClCompile>
+    <ClCompile Include="src\scenes\level\level.cpp">
+      <Filter>allFiles\src\scenes\level</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scenes\screen\screen.cpp">
+      <Filter>allFiles\src\scenes\screen</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\entity\entity.h">
@@ -277,6 +289,12 @@
     </ClInclude>
     <ClInclude Include="src\text_string\text_string.h">
       <Filter>allFiles\src\text_string</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scenes\level\level.h">
+      <Filter>allFiles\src\scenes\level</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scenes\screen\screen.h">
+      <Filter>allFiles\src\scenes\screen</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

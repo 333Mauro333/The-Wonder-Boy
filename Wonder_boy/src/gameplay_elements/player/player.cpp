@@ -335,10 +335,6 @@ namespace the_wonder_boy
 	{
 		_necessaryDistanceToWin = distance;
 	}
-	void Player::stopWalkSpeed()
-	{
-		_walkingSpeed.actualSpeed = 0.0f;
-	}
 	void Player::setAmountOfLives(unsigned int newLives)
 	{
 		_lives = (newLives > _maxLives) ? _maxLives : newLives;
@@ -383,6 +379,10 @@ namespace the_wonder_boy
 		_points = (_points + points > _maxPoints) ? _maxPoints : _points + points;
 	}
 
+	void Player::stopWalkSpeed()
+	{
+		_walkingSpeed.actualSpeed = 0.0f;
+	}
 	void Player::tripOn(Stone* stone)
 	{
 		_threw = false;

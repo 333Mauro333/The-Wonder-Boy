@@ -16,11 +16,11 @@ using sf::Uint8;
 
 namespace the_wonder_boy
 {
-	MainMenu::MainMenu(RenderWindow* window, SELECTED_OPTION selectedOption) : Scene(window)
+	MainMenu::MainMenu(RenderWindow* window, SELECTED_OPTION selectedOption) : Screen(window, buttonsSize)
 	{
 		cout << "Se ha creado una pantalla de menu principal.\n\n";
 
-		option = static_cast<int>(selectedOption);
+		_actualOption = static_cast<int>(selectedOption);
 
 		init();
 	}
@@ -42,7 +42,7 @@ namespace the_wonder_boy
 
 		if (CurtainManager::screenIsBlack())
 		{
-			switch (option)
+			switch (_actualOption)
 			{
 				case 1:
 					SceneManager::loadNewScene(new Level1(_window));
@@ -71,15 +71,19 @@ namespace the_wonder_boy
 	{
 		if (key == ControlsManager::getKey(WANTED_KEY::SCREEN_UP) && !CurtainManager::isActive())
 		{
+			buttons[_actualOption - 1]->setSelected(false);
 			changeOption(OPTION_DIRECTION::PREVIOUS);
+			buttons[_actualOption - 1]->setSelected(true);
 		}
 		if (key == ControlsManager::getKey(WANTED_KEY::SCREEN_DOWN) && !CurtainManager::isActive())
 		{
+			buttons[_actualOption - 1]->setSelected(false);
 			changeOption(OPTION_DIRECTION::NEXT);
+			buttons[_actualOption - 1]->setSelected(true);
 		}
 		if (key == ControlsManager::getKey(WANTED_KEY::SCREEN_ENTER) && !CurtainManager::isActive())
 		{
-			switch (option)
+			switch (_actualOption)
 			{
 			case 1:
 			case 3:
@@ -135,7 +139,7 @@ namespace the_wonder_boy
 			firstPosition += distanceBetweenButtons;
 		}
 
-		buttons[option - 1]->setSelected(true);
+		buttons[_actualOption - 1]->setSelected(true);
 	}
 	void MainMenu::destroy()
 	{
@@ -143,26 +147,6 @@ namespace the_wonder_boy
 		{
 			delete buttons[i];
 		}
-	}
-
-	void MainMenu::changeOption(OPTION_DIRECTION optionDirection)
-	{
-		switch (optionDirection)
-		{
-		case OPTION_DIRECTION::PREVIOUS:
-			buttons[option - 1]->setSelected(false); // Apaga el botón sobre el que se está parado.
-			option = (option == 1) ? buttonsSize : --option; // Cambia a la opción anterior (la última si se está sobre la primera).
-			buttons[option - 1]->setSelected(true); // Se enciende el nuevo botón.
-			break;
-
-		case OPTION_DIRECTION::NEXT:
-			buttons[option - 1]->setSelected(false); // Apaga el botón sobre el que se está parado.
-			option = (option == buttonsSize) ? 1 : ++option; // Cambia a la opción siguiente (la primera si se está sobre la última).
-			buttons[option - 1]->setSelected(true); // Se enciende el nuevo botón.
-			break;
-		}
-
-		cout << "Opcion actual: " << option << ".\n";
 	}
 
 	void MainMenu::updateTextColor()

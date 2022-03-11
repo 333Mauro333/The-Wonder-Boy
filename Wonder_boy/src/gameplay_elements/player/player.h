@@ -65,7 +65,6 @@ namespace the_wonder_boy
 		DIRECTION getActualAnimationDirection();
 		void setPosition(Vector2f position);
 		void setNecessaryDistanceToWin(float distance);
-		void stopWalkSpeed();
 		static void setAmountOfLives(unsigned int newLives);
 		static void setAmountOfPoints(unsigned int newPoints);
 
@@ -77,6 +76,7 @@ namespace the_wonder_boy
 		void receiveDamage(float damage);
 		void addPoints(int pointsToAdd);
 
+		void stopWalkSpeed();
 		void tripOn(Stone* stone); // Tropezarse.
 		void lose(LOSING_TYPE losingType);
 		void winLevel();

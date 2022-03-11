@@ -16,7 +16,7 @@ using std::cout;
 
 namespace the_wonder_boy
 {
-	Level1::Level1(RenderWindow* window) : Scene(window)
+	Level1::Level1(RenderWindow* window) : Level(window)
 	{
 		cout << "Se ha creado un nivel de gameplay.\n\n";
 
@@ -188,7 +188,7 @@ namespace the_wonder_boy
 	{
 		_player->keyPressedOnce(key);
 
-		if (Keyboard::isKeyPressed(ControlsManager::getKey(WANTED_KEY::SCREEN_RETURN)))
+		if (key == ControlsManager::getKey(WANTED_KEY::SCREEN_RETURN))
 		{
 			_view.setCenter(_window->getSize().x / 2.0f, _window->getSize().y / 2.0f);
 			CurtainManager::setCurtainPosition(_view.getCenter());
@@ -197,7 +197,7 @@ namespace the_wonder_boy
 			_music.stop();
 			SceneManager::loadNewScene(new MainMenu(_window, SELECTED_OPTION::PLAY));
 		}
-		if (_end && Keyboard::isKeyPressed(ControlsManager::getKey(WANTED_KEY::SCREEN_ENTER)))
+		if (_end && key == ControlsManager::getKey(WANTED_KEY::SCREEN_ENTER))
 		{
 			_view.setCenter(_window->getSize().x / 2.0f, _window->getSize().y / 2.0f);
 			CurtainManager::setCurtainPosition(_view.getCenter());
@@ -555,7 +555,10 @@ namespace the_wonder_boy
 	}
 	void Level1::initPlayer()
 	{
-		_player = new Player(_sign[4]->getRenderer().getPosition().x, _sign[4]->getRenderer().getPosition().y);
+		const int signalNumber = 1;
+
+
+		_player = new Player(_sign[signalNumber - 1]->getRenderer().getPosition().x, _sign[signalNumber - 1]->getRenderer().getPosition().y);
 		_player->setNecessaryDistanceToWin(_sign[4]->getRenderer().getPosition().x + _sign[4]->getRenderer().getGlobalBounds().width);
 	}
 
@@ -571,16 +574,6 @@ namespace the_wonder_boy
 		_winMessage->setIsVisible(false);
 	}
 
-	void Level1::moveCameraInY(float start, float end, float pixelsToMove)
-	{
-		if (_player->getPosition().x >= start && _player->getPosition().x <= end)
-		{
-			const float distanceTrayectory = end - start; // Distancia total de principio a fin.
-
-			// Movimiento total / distancia entre la que se va a mover * velocidad del jugador en cada frame.
-			_view.setCenter(_view.getCenter().x, _view.getCenter().y + pixelsToMove / distanceTrayectory * _player->getSpeed() * GameManager::getDeltaTime());
-		}
-	}
 	void Level1::updateCamera()
 	{
 		const float distanceToCenter = static_cast<float>(_window->getSize().x) / 10.0f;
@@ -591,7 +584,7 @@ namespace the_wonder_boy
 		// Si el jugador avanza lo suficiente hacia la derecha...
 		if (playerRightEdgePosition + distanceToCenter > _view.getCenter().x)
 		{
-			moveCameraInY(13200.0f, 14400.0f, -650.0f);
+			moveCameraInY(_player, 13200.0f, 14600.0f, -672.0f, GameManager::getDeltaTime());
 
 			// ...lo sigue la cámara.
 			_view.setCenter(playerRightEdgePosition + distanceToCenter, _view.getCenter().y);
