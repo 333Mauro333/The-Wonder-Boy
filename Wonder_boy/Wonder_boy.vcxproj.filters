@@ -112,6 +112,9 @@
     <Filter Include="allFiles\src\controls_manager">
       <UniqueIdentifier>{1ecf0f20-35f6-49ee-aec4-8b2b769e16c3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="allFiles\src\text_string">
+      <UniqueIdentifier>{9a9b0b80-3e7e-4566-b94c-bdfc3409b9bb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -192,6 +195,9 @@
     <ClCompile Include="src\controls_manager\controls_manager.cpp">
       <Filter>allFiles\src\controls_manager</Filter>
     </ClCompile>
+    <ClCompile Include="src\text_string\text_string.cpp">
+      <Filter>allFiles\src\text_string</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\entity\entity.h">
@@ -209,7 +215,7 @@
     <ClInclude Include="src\animation\frame\frame.h">
       <Filter>allFiles\src\animation\frame</Filter>
     </ClInclude>
-    <ClInclude Include="src\button\Button.h">
+    <ClInclude Include="src\button\button.h">
       <Filter>allFiles\src\button</Filter>
     </ClInclude>
     <ClInclude Include="src\collision_manager\collision_manager.h">
@@ -268,6 +274,9 @@
     </ClInclude>
     <ClInclude Include="src\controls_manager\controls_manager.h">
       <Filter>allFiles\src\controls_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="src\text_string\text_string.h">
+      <Filter>allFiles\src\text_string</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

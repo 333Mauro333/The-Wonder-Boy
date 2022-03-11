@@ -24,21 +24,11 @@ namespace the_wonder_boy
 		_end = false;
 		_changeScene = false;
 
-		if (!_font.loadFromFile("res/fonts/retro.ttf"))
-		{
-			cout << "No se ha podido cargar la fuente de 8_bit.ttf.\n";
-		}
-		_winMessage.setFont(_font);
-		_winMessage.setString("¡Enhorabuena! ¡Has finalizado\n          el nivel!\n  Presione ENTER para volver\n      al menú principal.");
-		_winMessage.setCharacterSize(30);
-		_winMessage.setFillColor(sf::Color::Black);
-		_winMessage.setOrigin(_winMessage.getGlobalBounds().width / 2.0f, _winMessage.getGlobalBounds().height / 2.0f);
-
 		if (!_music.openFromFile("res/tracks/track_gameplay.ogg"))
 		{
 			cout << "La musica del gameplay no se ha cargado.\n";
 		}
-		_music.play();
+		//_music.play();
 		_music.setLoop(true);
 
 		CurtainManager::startToShow(CURTAIN_TYPE::FADE);
@@ -191,7 +181,7 @@ namespace the_wonder_boy
 
 		if (_end)
 		{
-			_window->draw(_winMessage);
+			_winMessage->draw(_window);
 		}
 	}
 	void Level1::checkKeyPressedOnce(Keyboard::Key key)
@@ -226,232 +216,23 @@ namespace the_wonder_boy
 	// Funciones privadas.
 	void Level1::init()
 	{
-		// Color del fondo.
-		_background.setSize(static_cast<Vector2f>(_window->getSize()));
-		_background.setFillColor(sf::Color(128, 128, 255)); // Celeste.
-		_background.setOrigin(_background.getGlobalBounds().width / 2.0f, _background.getGlobalBounds().height / 2.0f);
+		initBackground(); // Fondo.
 
-		// Pisos.
-		float x = 0.0f;
-		float y = _window->getSize().y / 4.0f * 3.5f;
-		for (int i = 0; i < 44; i++)
-		{
-			if (i == 43)
-			{
-				_floor[i] = new Floor(x, y, FLOOR_TYPE::END);
-				x -= _floor[i - 1]->getBoxCollision().getGlobalBounds().width;
-				x += _floor[i]->getBoxCollision().getGlobalBounds().width;
-				_floor[i]->setPosition(x, y);
-				x += _floor[i]->getBoxCollision().getGlobalBounds().width * 2;
-			}
-			else
-			{
-				_floor[i] = new Floor(x, y, FLOOR_TYPE::NORMAL);
-			}
+		initFloors(); // Pisos.
+		initPlatforms(); // Plataformas.
+		initSigns(); // Señales.
 
-			x += _floor[i]->getBoxCollision().getGlobalBounds().width; // 300 de ancho.
-		}
-		x = 14700.0f;
-		y = 0.0f;
-		for (int i = 44; i < 66; i++)
-		{
-			if (i == 44)
-			{
-				_floor[i] = new Floor(x, y, FLOOR_TYPE::START);
-			}
-			else if (i == 65)
-			{
-				x -= _floor[i - 1]->getBoxCollision().getGlobalBounds().width; // 300 de ancho.
-				_floor[i] = new Floor(x, y, FLOOR_TYPE::END);
-				_floor[i]->setPosition(_floor[i]->getInitialPosition().x + _floor[i]->getBoxCollision().getGlobalBounds().width, _floor[i]->getInitialPosition().y);
-			}
-			else
-			{
-				_floor[i] = new Floor(x, y, FLOOR_TYPE::NORMAL);
-			}
+		initFruits(); // Frutas.
 
-			x += _floor[i]->getBoxCollision().getGlobalBounds().width; // 300 de ancho.
-		}
-		x = 24800.0f;
-		for (int i = 66; i < _floorSize; i++)
-		{
-			if (i == 66)
-			{
-				_floor[i] = new Floor(x, _floor[44]->getInitialPosition().y, FLOOR_TYPE::START);
-			}
-			else
-			{
-				_floor[i] = new Floor(x, _floor[44]->getInitialPosition().y, FLOOR_TYPE::NORMAL);
-			}
+		initStones(); // Piedras.
+		initBonfires(); // Fogatas.
 
-			x += _floor[i]->getBoxCollision().getGlobalBounds().width;
-		}
+		initEnemies(); // Enemigos.
 
+		initPlayer(); // Jugador.
 
-		// Plataforma(s).
-		x = 13300.0f;
-		y = 500.0f;
-		_platform[0] = new Platform(x, y);
-		_platform[1] = new Platform(x + 400.0f, y - 200.0f);
-		_platform[2] = new Platform(x + 800.0f, y - 400.0f);
-		x = 20500.0f + 800.0f;
-		y = _floor[44]->getInitialPosition().y - 100.0f;
+		initText(); // Mensaje de victoria del final.
 
-		for (int i = 3; i < _platformSize; i++)
-		{
-			_platform[i] = new Platform(x, y);
-
-			x += 550.0f;
-			if (i % 2 == 0)
-			{
-				y -= 200.0f;
-			}
-			else
-			{
-				y += 200.0f;
-			}
-		}
-
-		// Señales.
-		x = _floor[1]->getInitialPosition().x;
-		y = _floor[1]->getInitialPosition().y;
-		_sign[0] = new Sign(x, y, SIGN_TYPE::FIRST);
-		_sign[1] = new Sign(8500.0f, y, SIGN_TYPE::SECOND);
-		_sign[2] = new Sign(15500.0f, _floor[44]->getInitialPosition().y, SIGN_TYPE::THIRD);
-		_sign[3] = new Sign(20500.0f, _floor[44]->getInitialPosition().y, SIGN_TYPE::FOURTH);
-		_sign[4] = new Sign(25000.0f, _floor[44]->getInitialPosition().y, SIGN_TYPE::GOAL);
-
-
-		// Frutas.
-		x = _floor[3]->getInitialPosition().x;
-		y = _floor[4]->getInitialPosition().y - 100.0f;
-		// ---- SEÑAL 1 --- //
-		_fruit[0] = new Fruit(x, y, FRUIT_TYPE::APPLE);
-		_fruit[1] = new Fruit(x + 900.0f, y - 200.0f, FRUIT_TYPE::APPLE);
-		_fruit[2] = new Fruit(x + 975.0f, y - 200.0f, FRUIT_TYPE::APPLE);
-		_fruit[3] = new Fruit(x + 1500.0f, y, FRUIT_TYPE::BANANAS);
-		_fruit[4] = new Fruit(x + 2000.0f, y - 200.0f, FRUIT_TYPE::CARROT);
-
-		_fruit[5] = new Fruit(x + 2400.0f, y - 25.0f, FRUIT_TYPE::APPLE);
-		_fruit[6] = new Fruit(x + 2500.0f, y - 25.0f, FRUIT_TYPE::BANANAS);
-		_fruit[7] = new Fruit(x + 2600.0f, y - 25.0f, FRUIT_TYPE::CARROT);
-		_fruit[8] = new Fruit(x + 2700.0f, y - 25.0f, FRUIT_TYPE::TOMATO);
-		_fruit[9] = new Fruit(x + 2800.0f, y - 25.0f, FRUIT_TYPE::TOMATO);
-		_fruit[10] = new Fruit(6600.0f, y -200.0f, FRUIT_TYPE::TOMATO);
-		// ---- SEÑAL 1 --- //
-		// ---- SEÑAL 2 --- //
-		_fruit[11] = new Fruit(_sign[1]->getRenderer().getPosition().x + 1000.0f, y - 200.0f, FRUIT_TYPE::TOMATO);
-		_fruit[12] = new Fruit(10000.0f + 1500.0f, y - 200.0f, FRUIT_TYPE::BANANAS);
-		_fruit[13] = new Fruit(10000.0f + 2200.0f, y - 50.0f, FRUIT_TYPE::CARROT);
-		_fruit[14] = new Fruit(10000.0f + 2300.0f, y - 50.0f, FRUIT_TYPE::CARROT);
-		// ---- SEÑAL 2 --- //
-		// ---- SEÑAL 3 --- //
-		x = _sign[2]->getRenderer().getPosition().x;
-		y = _sign[2]->getRenderer().getPosition().y - 100.0f;
-		_fruit[15] = new Fruit(x + 300.0f, y - 50.0f, FRUIT_TYPE::APPLE);
-		_fruit[16] = new Fruit(x + 300.0f, y - 50.0f, FRUIT_TYPE::BANANAS);
-		_fruit[17] = new Fruit(x + 300.0f, y - 50.0f, FRUIT_TYPE::CARROT);
-		_fruit[18] = new Fruit(x + 300.0f, y - 50.0f, FRUIT_TYPE::TOMATO);
-		x = _sign[2]->getRenderer().getPosition().x + 1000.0f;
-		for (int i = 19; i < _fruitSize; i++)
-		{
-			if (i % 4 == 0)
-			{
-				_fruit[i] = new Fruit(x, y - 150, FRUIT_TYPE::BANANAS);
-			}
-			else if (i % 4 == 1)
-			{
-				_fruit[i] = new Fruit(x, y - 150, FRUIT_TYPE::CARROT);
-			}
-			else if (i % 4 == 2)
-			{
-				_fruit[i] = new Fruit(x, y - 150, FRUIT_TYPE::TOMATO);
-			}
-			else
-			{
-				_fruit[i] = new Fruit(x, y - 150, FRUIT_TYPE::APPLE);
-			}
-
-			x += 200.0f;
-		}
-		// --- SEÑAL 4 --- //
-
-
-		// Piedras.
-		x = _floor[10]->getInitialPosition().x;
-		y = _floor[10]->getInitialPosition().y;
-		// ---- SEÑAL 1 --- //
-		_stone[0] = new Stone(x, y);
-		_stone[1] = new Stone(x + 1200.0f, y);
-		_stone[2] = new Stone(x + 1300.0f, y);
-		_stone[3] = new Stone(6600.0f, y);
-		_stone[4] = new Stone(6700.0f, y);
-		_stone[5] = new Stone(6800.0f, y);
-		// ---- SEÑAL 1 --- //
-		// ---- SEÑAL 2 --- //
-
-		// ---- SEÑAL 2 --- //
-
-
-		// Fogata(s).
-		x = 10000.0f;
-		y = _floor[12]->getInitialPosition().y;
-		// ---- SEÑAL 2 --- //
-		_bonfire[0] = new Bonfire(x, y);
-		// ---- SEÑAL 2 --- //
-		x = _sign[2]->getRenderer().getPosition().x;
-		y = _sign[2]->getRenderer().getPosition().y;
-		_bonfire[1] = new Bonfire(x + 1500.0f, y);
-		_bonfire[2] = new Bonfire(x + 2000.0f, y);
-		_bonfire[3] = new Bonfire(x + 2500.0f, y);
-		_bonfire[4] = new Bonfire(x + 3000.0f, y);
-
-		// Enemigos.
-		x = 6000.0f;
-		y = _floor[15]->getInitialPosition().y;
-		// ---- SEÑAL 1 --- //
-		_enemy[0] = new Snail(x, y);
-		_enemy[1] = new Snail(x + 200.0f, y);
-
-		_enemy[2] = new Snail(x + 1200.0f + 200.0f, y);
-		_enemy[3] = new Snail(x + 1350.0f + 200.0f, y);
-		_enemy[4] = new Snail(x + 1700.0f + 200.0f, y);
-		// ---- SEÑAL 1 --- //
-		// ---- SEÑAL 2 --- //
-		x = 10000.0f;
-		_enemy[5] = new Wasp(x + 500.0f, y - 125.0f, WASP_VERTICAL_SPEED::SLOW);
-		_enemy[6] = new Wasp(x + 600.0f, y - 50.0f, WASP_VERTICAL_SPEED::NORMAL);
-		_enemy[7] = new Snail(x + 900.0f, y);
-		_enemy[8] = new Snail(x + 1050.0f, y);
-		// ---- SEÑAL 2 --- //
-		// ---- SEÑAL 3 --- //
-		x = _sign[2]->getRenderer().getPosition().x + 2000.0f;
-		y = _sign[2]->getRenderer().getPosition().y;
-		for (int i = 9; i < _enemySize; i++)
-		{
-			cout << "Se ejecuta.\n";
-			if (i % 3 == 0)
-			{
-				_enemy[i] = new Snail(x, y);
-			}
-			else
-			{
-				if (i < 25)
-				{
-					_enemy[i] = new Wasp(x, y - 150.0f, WASP_VERTICAL_SPEED::NORMAL);
-				}
-				else
-				{
-					_enemy[i] = new Wasp(x, y - 150.0f, WASP_VERTICAL_SPEED::FAST);
-				}
-			}
-
-			x += 100.0f;
-		}
-
-		// Jugador.
-		_player = new Player(_sign[0]->getRenderer().getPosition().x, _sign[0]->getRenderer().getPosition().y);
-		_player->setNecessaryDistanceToWin(_sign[4]->getRenderer().getPosition().x + _sign[4]->getRenderer().getGlobalBounds().width);
 
 		_view.setSize(Vector2f(static_cast<float>(_window->getSize().x), static_cast<float>(_window->getSize().y)));
 		_view.setCenter(_player->getPosition().x, _player->getPosition().y - _window->getSize().y / 4.0f);
@@ -502,6 +283,292 @@ namespace the_wonder_boy
 		{
 			delete _enemy[i];
 		}
+
+		delete _winMessage;
+	}
+
+	void Level1::initBackground()
+	{
+		_background.setSize(static_cast<Vector2f>(_window->getSize()));
+		_background.setFillColor(sf::Color(128, 128, 255)); // Celeste.
+		_background.setOrigin(_background.getGlobalBounds().width / 2.0f, _background.getGlobalBounds().height / 2.0f);
+	}
+	void Level1::initFloors()
+	{
+		float x = 0.0f;
+		float y = _window->getSize().y / 4.0f * 3.5f;
+
+
+		for (int i = 0; i < 44; i++)
+		{
+			if (i == 43)
+			{
+				_floor[i] = new Floor(x, y, FLOOR_TYPE::END);
+				x -= _floor[i - 1]->getBoxCollision().getGlobalBounds().width;
+				x += _floor[i]->getBoxCollision().getGlobalBounds().width;
+				_floor[i]->setPosition(x, y);
+				x += _floor[i]->getBoxCollision().getGlobalBounds().width * 2;
+			}
+			else
+			{
+				_floor[i] = new Floor(x, y, FLOOR_TYPE::NORMAL);
+			}
+
+			x += _floor[i]->getBoxCollision().getGlobalBounds().width; // 300 de ancho.
+		}
+
+		x = 14700.0f;
+		y = 0.0f;
+
+		for (int i = 44; i < 66; i++)
+		{
+			if (i == 44)
+			{
+				_floor[i] = new Floor(x, y, FLOOR_TYPE::START);
+			}
+			else if (i == 65)
+			{
+				x -= _floor[i - 1]->getBoxCollision().getGlobalBounds().width; // 300 de ancho.
+				_floor[i] = new Floor(x, y, FLOOR_TYPE::END);
+				_floor[i]->setPosition(_floor[i]->getInitialPosition().x + _floor[i]->getBoxCollision().getGlobalBounds().width, _floor[i]->getInitialPosition().y);
+			}
+			else
+			{
+				_floor[i] = new Floor(x, y, FLOOR_TYPE::NORMAL);
+			}
+
+			x += _floor[i]->getBoxCollision().getGlobalBounds().width; // 300 de ancho.
+		}
+
+		x = 24800.0f;
+
+		for (int i = 66; i < _floorSize; i++)
+		{
+			if (i == 66)
+			{
+				_floor[i] = new Floor(x, _floor[44]->getInitialPosition().y, FLOOR_TYPE::START);
+			}
+			else
+			{
+				_floor[i] = new Floor(x, _floor[44]->getInitialPosition().y, FLOOR_TYPE::NORMAL);
+			}
+
+			x += _floor[i]->getBoxCollision().getGlobalBounds().width;
+		}
+	}
+	void Level1::initPlatforms()
+	{
+		float x = 13300.0f;
+		float y = 500.0f;
+
+
+		_platform[0] = new Platform(x, y);
+		_platform[1] = new Platform(x + 400.0f, y - 200.0f);
+		_platform[2] = new Platform(x + 800.0f, y - 400.0f);
+
+		x = 20500.0f + 800.0f;
+		y = _floor[44]->getInitialPosition().y - 100.0f;
+
+		for (int i = 3; i < _platformSize; i++)
+		{
+			_platform[i] = new Platform(x, y);
+
+			x += 550.0f;
+
+			if (i % 2 == 0)
+			{
+				y -= 200.0f;
+			}
+			else
+			{
+				y += 200.0f;
+			}
+		}
+	}
+	void Level1::initSigns()
+	{
+		float x = _floor[1]->getInitialPosition().x;
+		float y = _floor[1]->getInitialPosition().y;
+
+
+		_sign[0] = new Sign(x, y, SIGN_TYPE::FIRST);
+		_sign[1] = new Sign(8500.0f, y, SIGN_TYPE::SECOND);
+		_sign[2] = new Sign(15500.0f, _floor[44]->getInitialPosition().y, SIGN_TYPE::THIRD);
+		_sign[3] = new Sign(20500.0f, _floor[44]->getInitialPosition().y, SIGN_TYPE::FOURTH);
+		_sign[4] = new Sign(25000.0f, _floor[44]->getInitialPosition().y, SIGN_TYPE::GOAL);
+	}
+	void Level1::initFruits()
+	{
+		float x = _floor[3]->getInitialPosition().x;
+		float y = _floor[4]->getInitialPosition().y - 100.0f;
+
+
+		#pragma region SEÑAL 1
+
+		_fruit[0] = new Fruit(x, y, FRUIT_TYPE::APPLE);
+		_fruit[1] = new Fruit(x + 900.0f, y - 200.0f, FRUIT_TYPE::APPLE);
+		_fruit[2] = new Fruit(x + 975.0f, y - 200.0f, FRUIT_TYPE::APPLE);
+		_fruit[3] = new Fruit(x + 1500.0f, y, FRUIT_TYPE::BANANAS);
+		_fruit[4] = new Fruit(x + 2000.0f, y - 200.0f, FRUIT_TYPE::CARROT);
+
+		_fruit[5] = new Fruit(x + 2400.0f, y - 25.0f, FRUIT_TYPE::APPLE);
+		_fruit[6] = new Fruit(x + 2500.0f, y - 25.0f, FRUIT_TYPE::BANANAS);
+		_fruit[7] = new Fruit(x + 2600.0f, y - 25.0f, FRUIT_TYPE::CARROT);
+		_fruit[8] = new Fruit(x + 2700.0f, y - 25.0f, FRUIT_TYPE::TOMATO);
+		_fruit[9] = new Fruit(x + 2800.0f, y - 25.0f, FRUIT_TYPE::TOMATO);
+		_fruit[10] = new Fruit(6600.0f, y - 200.0f, FRUIT_TYPE::TOMATO);
+
+		#pragma endregion
+
+		#pragma region SEÑAL 2
+
+		_fruit[11] = new Fruit(_sign[1]->getRenderer().getPosition().x + 1000.0f, y - 200.0f, FRUIT_TYPE::TOMATO);
+		_fruit[12] = new Fruit(10000.0f + 1500.0f, y - 200.0f, FRUIT_TYPE::BANANAS);
+		_fruit[13] = new Fruit(10000.0f + 2200.0f, y - 50.0f, FRUIT_TYPE::CARROT);
+		_fruit[14] = new Fruit(10000.0f + 2300.0f, y - 50.0f, FRUIT_TYPE::CARROT);
+
+		#pragma endregion
+
+		#pragma region SEÑAL 3
+
+		x = _sign[2]->getRenderer().getPosition().x;
+		y = _sign[2]->getRenderer().getPosition().y - 100.0f;
+
+		_fruit[15] = new Fruit(x + 300.0f, y - 50.0f, FRUIT_TYPE::APPLE);
+		_fruit[16] = new Fruit(x + 300.0f, y - 50.0f, FRUIT_TYPE::BANANAS);
+		_fruit[17] = new Fruit(x + 300.0f, y - 50.0f, FRUIT_TYPE::CARROT);
+		_fruit[18] = new Fruit(x + 300.0f, y - 50.0f, FRUIT_TYPE::TOMATO);
+
+		x = _sign[2]->getRenderer().getPosition().x + 1000.0f;
+
+		for (int i = 19; i < _fruitSize; i++)
+		{
+			if (i % 4 == 0)
+			{
+				_fruit[i] = new Fruit(x, y - 150, FRUIT_TYPE::BANANAS);
+			}
+			else if (i % 4 == 1)
+			{
+				_fruit[i] = new Fruit(x, y - 150, FRUIT_TYPE::CARROT);
+			}
+			else if (i % 4 == 2)
+			{
+				_fruit[i] = new Fruit(x, y - 150, FRUIT_TYPE::TOMATO);
+			}
+			else
+			{
+				_fruit[i] = new Fruit(x, y - 150, FRUIT_TYPE::APPLE);
+			}
+
+			x += 200.0f;
+		}
+
+		#pragma endregion
+	}
+	void Level1::initStones()
+	{
+		float x = _floor[10]->getInitialPosition().x;
+		float y = _floor[10]->getInitialPosition().y;
+
+
+		_stone[0] = new Stone(x, y);
+		_stone[1] = new Stone(x + 1200.0f, y);
+		_stone[2] = new Stone(x + 1300.0f, y);
+		_stone[3] = new Stone(6600.0f, y);
+		_stone[4] = new Stone(6700.0f, y);
+		_stone[5] = new Stone(6800.0f, y);
+	}
+	void Level1::initBonfires()
+	{
+		float x = 10000.0f;
+		float y = _floor[12]->getInitialPosition().y;
+
+
+		#pragma region SEÑAL 2
+
+		_bonfire[0] = new Bonfire(x, y);
+
+		x = _sign[2]->getRenderer().getPosition().x;
+		y = _sign[2]->getRenderer().getPosition().y;
+
+		_bonfire[1] = new Bonfire(x + 1500.0f, y);
+		_bonfire[2] = new Bonfire(x + 2000.0f, y);
+		_bonfire[3] = new Bonfire(x + 2500.0f, y);
+		_bonfire[4] = new Bonfire(x + 3000.0f, y);
+
+		#pragma endregion
+	}
+	void Level1::initEnemies()
+	{
+		float x = 6000.0f;
+		float y = _floor[15]->getInitialPosition().y;
+
+
+		#pragma region SEÑAL 1
+
+		_enemy[0] = new Snail(x, y);
+		_enemy[1] = new Snail(x + 200.0f, y);
+
+		_enemy[2] = new Snail(x + 1200.0f + 200.0f, y);
+		_enemy[3] = new Snail(x + 1350.0f + 200.0f, y);
+		_enemy[4] = new Snail(x + 1700.0f + 200.0f, y);
+
+		#pragma endregion
+
+		#pragma region SEÑAL 2
+
+		x = 10000.0f;
+		_enemy[5] = new Wasp(x + 500.0f, y - 125.0f, WASP_VERTICAL_SPEED::SLOW);
+		_enemy[6] = new Wasp(x + 600.0f, y - 50.0f, WASP_VERTICAL_SPEED::NORMAL);
+		_enemy[7] = new Snail(x + 900.0f, y);
+		_enemy[8] = new Snail(x + 1050.0f, y);
+
+		#pragma endregion
+
+		#pragma region SEÑAL 3
+
+		x = _sign[2]->getRenderer().getPosition().x + 2000.0f;
+		y = _sign[2]->getRenderer().getPosition().y;
+
+		for (int i = 9; i < _enemySize; i++)
+		{
+			if (i % 3 == 0)
+			{
+				_enemy[i] = new Snail(x, y);
+			}
+			else
+			{
+				if (i < 25)
+				{
+					_enemy[i] = new Wasp(x, y - 150.0f, WASP_VERTICAL_SPEED::NORMAL);
+				}
+				else
+				{
+					_enemy[i] = new Wasp(x, y - 150.0f, WASP_VERTICAL_SPEED::FAST);
+				}
+			}
+
+			x += 100.0f;
+		}
+
+		#pragma endregion
+	}
+	void Level1::initPlayer()
+	{
+		_player = new Player(_sign[4]->getRenderer().getPosition().x, _sign[4]->getRenderer().getPosition().y);
+		_player->setNecessaryDistanceToWin(_sign[4]->getRenderer().getPosition().x + _sign[4]->getRenderer().getGlobalBounds().width);
+	}
+
+	void Level1::initText()
+	{
+		string text = "";
+		text += "¡Enhorabuena! ¡Has finalizado\n";
+		text += "          el nivel!\n";
+		text += "  Presione ENTER para volver\n";
+		text += "      al menú principal.";
+
+		_winMessage = new TextString(FONT_TYPE::RETRO, text, Vector2f(0.0f, 0.0f), Vector2f(static_cast<float>(_window->getSize().x / 1.1f), static_cast<float>(_window->getSize().y) / 3.0f), ORIGIN::CENTER);
+		_winMessage->setIsVisible(false);
 	}
 
 	void Level1::moveCameraInY(float start, float end, float pixelsToMove)
@@ -664,9 +731,13 @@ namespace the_wonder_boy
 	{
 		if (!_end && _player->won())
 		{
+			float yDistancefromCenter = _view.getSize().y / 10.0f;
+
+
 			_end = true;
 
-			_winMessage.setPosition(_view.getCenter().x, _view.getCenter().y - _view.getSize().y / 8.0f);
+			_winMessage->setPosition(Vector2f(_view.getCenter().x, _view.getCenter().y - yDistancefromCenter));
+			_winMessage->setIsVisible(true);
 		}
 	}
 }

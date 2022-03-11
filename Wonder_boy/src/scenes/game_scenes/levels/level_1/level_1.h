@@ -5,6 +5,7 @@
 
 #include "scenes/scene/scene.h"
 
+#include "text_string/text_string.h"
 #include "gameplay_elements/background_elements/sign/sign.h"
 #include "gameplay_elements/hud/hud.h"
 #include "gameplay_elements/player/player.h"
@@ -16,8 +17,6 @@
 #include "gameplay_elements/enemies/enemy/enemy.h"
 
 using sf::View;
-using sf::Font;
-using sf::Text;
 using sf::Music;
 
 
@@ -39,8 +38,7 @@ namespace the_wonder_boy
 		bool _end;
 		bool _changeScene;
 
-		Font _font;
-		Text _winMessage;
+		TextString* _winMessage;
 
 		RectangleShape _background;
 		View _view;
@@ -74,6 +72,17 @@ namespace the_wonder_boy
 
 		void init() override;
 		void destroy() override;
+
+		void initBackground();
+		void initText();
+		void initFloors();
+		void initPlatforms();
+		void initSigns();
+		void initFruits();
+		void initStones();
+		void initBonfires();
+		void initEnemies();
+		void initPlayer();
 
 		void moveCameraInY(float start, float end, float pixelsToMove);
 		void updateCamera();

@@ -6,14 +6,13 @@
 #include "SFML/Graphics.hpp"
 
 #include "entity/entity.h"
+#include "text_string/text_string.h"
 
 using std::string;
 using sf::RectangleShape;
 using sf::Texture;
 using sf::Sprite;
 using sf::RenderWindow;
-using sf::Font;
-using sf::Text;
 
 
 namespace the_wonder_boy
@@ -32,10 +31,12 @@ namespace the_wonder_boy
 	private:
 		Texture _texButton;
 		Sprite _sprButton;
-		Font _font;
-		Text _text;
+		TextString* _text;
 
-		bool _selected; // Define si el botón está seleccionado o no.
+		bool _selected;
+
+		void loadButtonSprite(float x, float y, float w, float h);
+		void loadText(float x, float y, float w, float h, string optionName);
 	};
 }
 

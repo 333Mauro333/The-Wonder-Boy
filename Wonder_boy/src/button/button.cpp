@@ -1,7 +1,5 @@
 #include "Button.h"
 
-#include <iostream>
-
 using std::cout;
 
 
@@ -11,42 +9,15 @@ namespace the_wonder_boy
 	{
 		_selected = false;
 
-		// Carga de la imagen del botón.
-		if (!_texButton.loadFromFile("res/sprites/scenes/main_menu/button.png"))
-		{
-			cout << "La textura del boton no se ha cargado.\n";
-		}
-		_sprButton.setTexture(_texButton);
-		_sprButton.setOrigin(_sprButton.getGlobalBounds().width / 2.0f, _sprButton.getGlobalBounds().height / 2.0f);
-		_sprButton.setScale(1.0f / _sprButton.getGlobalBounds().width * w, 1.0f / _sprButton.getGlobalBounds().height * h);
-		_sprButton.setPosition(x, y);
-
-		// Carga del texto que va a ir sobre el botón.
-		if (!_font.loadFromFile("res/fonts/8_bit.ttf"))
-		{
-			cout << "No se ha podido cargar la fuente de 8_bit.ttf.\n";
-		}
-		_text.setFont(_font);
-		_text.setString(optionName);
-		_text.setFillColor(sf::Color::Black);
-		_text.setCharacterSize(static_cast<unsigned int>(h / 1.6575f));
-		if (_text.getGlobalBounds().width < _sprButton.getGlobalBounds().width)
-		{
-			_text.setScale(_text.getScale().x, 1.0f / _sprButton.getGlobalBounds().height * h);
-			_text.setOrigin(_text.getGlobalBounds().width / 2.0f, _text.getGlobalBounds().height / 2.0f);
-		}
-		else
-		{
-			_text.setOrigin(_text.getGlobalBounds().width / 2.0f, _text.getGlobalBounds().height / 2.0f);
-			_text.setScale(1.0f / _text.getGlobalBounds().width * (w - (w / 20.0f)), 1.0f / _sprButton.getGlobalBounds().height * h);
-		}
-		_text.setPosition(x, y);
+		loadButtonSprite(x, y, w, h);
+		loadText(x, y, w, h, optionName);
 
 		cout << "Se ha creado un boton.\n\n";
 	}
 	Button::~Button()
 	{
-		cout << "El boton de " << _text.getString().toAnsiString() << " ha sido eliminado de la memoria.\n";
+		cout << "El boton ha sido eliminado de la memoria.\n";
+		delete _text;
 	}
 
 	// Funciones públicas.
@@ -64,11 +35,54 @@ namespace the_wonder_boy
 	void Button::draw(RenderWindow* window)
 	{
 		window->draw(_sprButton);
-		window->draw(_text);
+		_text->draw(window);
 	}
 
 	void Button::setSelected(bool selected)
 	{
 		_selected = selected;
+	}
+
+
+	// Funciones privadas.
+	void Button::loadButtonSprite(float x, float y, float w, float h)
+	{
+		if (!_texButton.loadFromFile("res/sprites/scenes/main_menu/button.png"))
+		{
+			cout << "La textura del boton no se ha cargado.\n";
+		}
+		_sprButton.setTexture(_texButton);
+		_sprButton.setOrigin(_sprButton.getGlobalBounds().width / 2.0f, _sprButton.getGlobalBounds().height / 2.0f);
+		_sprButton.setScale(1.0f / _sprButton.getGlobalBounds().width * w, 1.0f / _sprButton.getGlobalBounds().height * h);
+		_sprButton.setPosition(x, y);
+	}
+	void Button::loadText(float x, float y, float w, float h, string optionName)
+	{
+		Text text;
+		Font font;
+		float widthText = 0.0f;
+		float heightText = 0.0f;
+
+		if (!font.loadFromFile("res/fonts/8_bit.ttf"))
+		{
+			cout << "No se ha podido cargar la fuente de 8_bit.ttf.\n";
+		}
+		text.setFont(font);
+
+		text.setString(optionName);
+		text.setCharacterSize(static_cast<unsigned int>(h / 1.6575f));
+		if (text.getGlobalBounds().width < _sprButton.getGlobalBounds().width)
+		{
+			text.setScale(text.getScale().x, 1.0f / _sprButton.getGlobalBounds().height * h);
+		}
+		else
+		{
+			text.setScale(1.0f / text.getGlobalBounds().width * (w - (w / 20.0f)), 1.0f / _sprButton.getGlobalBounds().height * h);
+		}
+
+		widthText = text.getGlobalBounds().width;
+		heightText = text.getGlobalBounds().height;
+
+		_text = new TextString(FONT_TYPE::EIGHT_BIT, optionName, Vector2f(x, y), Vector2f(widthText, heightText), ORIGIN::CENTER);
 	}
 }

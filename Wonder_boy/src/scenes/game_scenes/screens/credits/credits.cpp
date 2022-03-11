@@ -19,6 +19,8 @@ namespace the_wonder_boy
 	}
 	Credits::~Credits()
 	{
+		delete _textProgrammer;
+
 		cout << "La pantalla de creditos ha sido eliminada de la memoria.\n";
 	}
 
@@ -32,7 +34,7 @@ namespace the_wonder_boy
 	{
 		_window->draw(_background);
 
-		_window->draw(_textProgrammer);
+		_textProgrammer->draw(_window);
 	}
 	void Credits::checkKeyPressedOnce(Keyboard::Key key)
 	{
@@ -43,22 +45,29 @@ namespace the_wonder_boy
 	}
 	void Credits::checkKeyReleased(Keyboard::Key key)
 	{
-
+		key;
 	}
 
 
 	// Funciones privadas.
 	void Credits::init()
 	{
-		_background.setSize(Vector2f(static_cast<float>(_window->getSize().x), static_cast<float>(_window->getSize().y)));
+		initText();
+	}
+	void Credits::destroy()
+	{
+		delete _textProgrammer;
+	}
+
+	void Credits::initText()
+	{
+		float windowSizeX = static_cast<float>(_window->getSize().x);
+		float windowSizeY = static_cast<float>(_window->getSize().y);
+		string strCredits = "";
+
+		_background.setSize(Vector2f(windowSizeX, windowSizeY));
 		_background.setFillColor(sf::Color::Magenta);
 
-		if (!_font.loadFromFile("res/fonts/retro.ttf"))
-		{
-			cout << "No se ha podido cargar la fuente de 8_bit.ttf.\n";
-		}
-		_textProgrammer.setFont(_font);
-		string strCredits = "";
 		strCredits += "         Programming:\n\n";
 		strCredits += "    Mauro Torres Velasquez\n\n\n";
 		strCredits += "            Art:\n\n";
@@ -67,14 +76,6 @@ namespace the_wonder_boy
 		strCredits += "     Original game sprites\n\n\n\n";
 		strCredits += "Press ENTER to return to menu.";
 
-		_textProgrammer.setString(strCredits);
-		_textProgrammer.setCharacterSize(30);
-		_textProgrammer.setFillColor(sf::Color::Black);
-		_textProgrammer.setOrigin(_textProgrammer.getGlobalBounds().width / 2.0f, _textProgrammer.getGlobalBounds().height / 2.0f);
-		_textProgrammer.setPosition(_window->getSize().x / 2.0f, _window->getSize().y / 2.0f);
-	}
-	void Credits::destroy()
-	{
-
+		_textProgrammer = new TextString(FONT_TYPE::RETRO, strCredits, Vector2f(windowSizeX / 2.0f, windowSizeY / 2.0f), Vector2f(windowSizeX / 1.25f, windowSizeY / 1.25f), ORIGIN::CENTER);
 	}
 }

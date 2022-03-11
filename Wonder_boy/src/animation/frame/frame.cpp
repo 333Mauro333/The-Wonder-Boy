@@ -19,6 +19,7 @@ namespace the_wonder_boy
 		cout << "El frame ha sido eliminado de la memoria.\n";
 	}
 
+
 	// Funciones públicas.
 	IntRect Frame::getRect()
 	{

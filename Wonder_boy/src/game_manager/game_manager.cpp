@@ -5,6 +5,7 @@
 
 #include "scene_manager/scene_manager.h"
 #include "curtain_manager/curtain_manager.h"
+#include "text_string/text_string.h"
 #include "scenes/game_scenes/screens/main_menu/main_menu.h"
 #include "scenes/game_scenes/levels/level_1/level_1.h"
 
@@ -68,6 +69,7 @@ namespace the_wonder_boy
 	void GameManager::init()
 	{
 		CurtainManager::initValues(_window);
+		TextString::initFonts();
 
 		SceneManager::loadNewScene(new MainMenu(_window, SELECTED_OPTION::PLAY)); // Inicio la primera escena del juego.
 	}

@@ -199,11 +199,12 @@
     <ClCompile Include="src\scenes\game_scenes\screens\main_menu\main_menu.cpp" />
     <ClCompile Include="src\scenes\scene\scene.cpp" />
     <ClCompile Include="src\scene_manager\scene_manager.cpp" />
+    <ClCompile Include="src\text_string\text_string.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\animation\animation.h" />
     <ClInclude Include="src\animation\frame\frame.h" />
-    <ClInclude Include="src\button\Button.h" />
+    <ClInclude Include="src\button\button.h" />
     <ClInclude Include="src\collision_manager\collision_manager.h" />
     <ClInclude Include="src\controls_manager\controls_manager.h" />
     <ClInclude Include="src\curtain_manager\curtain_manager.h" />
@@ -226,6 +227,7 @@
     <ClInclude Include="src\scenes\game_scenes\screens\main_menu\main_menu.h" />
     <ClInclude Include="src\scenes\scene\scene.h" />
     <ClInclude Include="src\scene_manager\scene_manager.h" />
+    <ClInclude Include="src\text_string\text_string.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

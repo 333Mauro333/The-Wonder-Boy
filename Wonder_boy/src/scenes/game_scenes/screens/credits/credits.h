@@ -1,14 +1,13 @@
 #ifndef CREDITS_H
 #define CREDITS_H
 
-#include "scenes/scene/scene.h"
-
 #include "SFML/Graphics.hpp"
+
+#include "scenes/scene/scene.h"
+#include "text_string/text_string.h"
 
 using sf::Vector2f;
 using sf::RectangleShape;
-using sf::Font;
-using sf::Text;
 
 
 namespace the_wonder_boy
@@ -26,11 +25,12 @@ namespace the_wonder_boy
 
 	private:
 		RectangleShape _background;
-		Font _font;
-		Text _textProgrammer;
+		TextString* _textProgrammer;
 
 		void init() override;
 		void destroy() override;
+
+		void initText();
 	};
 }
 
