@@ -11,6 +11,7 @@
 
 using std::cout;
 using sf::Vector2f;
+using sf::Uint8;
 
 
 namespace the_wonder_boy
@@ -68,15 +69,15 @@ namespace the_wonder_boy
 	}
 	void MainMenu::checkKeyPressedOnce(Keyboard::Key key)
 	{
-		if (Keyboard::isKeyPressed(ControlsManager::getKey(WANTED_KEY::SCREEN_UP)) && !CurtainManager::isActive())
+		if (key == ControlsManager::getKey(WANTED_KEY::SCREEN_UP) && !CurtainManager::isActive())
 		{
 			changeOption(OPTION_DIRECTION::PREVIOUS);
 		}
-		if (Keyboard::isKeyPressed(ControlsManager::getKey(WANTED_KEY::SCREEN_DOWN)) && !CurtainManager::isActive())
+		if (key == ControlsManager::getKey(WANTED_KEY::SCREEN_DOWN) && !CurtainManager::isActive())
 		{
 			changeOption(OPTION_DIRECTION::NEXT);
 		}
-		if (Keyboard::isKeyPressed(ControlsManager::getKey(WANTED_KEY::SCREEN_ENTER))&& !CurtainManager::isActive())
+		if (key == ControlsManager::getKey(WANTED_KEY::SCREEN_ENTER) && !CurtainManager::isActive())
 		{
 			switch (option)
 			{
@@ -93,15 +94,23 @@ namespace the_wonder_boy
 	}
 	void MainMenu::checkKeyReleased(Keyboard::Key key)
 	{
-
+		key;
 	}
 
 	void MainMenu::init()
 	{
-		int totalSize = _window->getSize().y / 1.5f; // Espacio que va a ocupar toda la lista de botones.
+		int totalSize = static_cast<int>(_window->getSize().y / 1.5f); // Espacio que va a ocupar toda la lista de botones.
 		int firstPosition = _window->getSize().y - totalSize; // Posición del primer botón.
 		int distanceBetweenButtons = totalSize / buttonsSize; // Diferencia de posiciones (sobre y) entre botones.
+		Vector2f desiredSize = { static_cast<float>(_window->getSize().x) / 2.0f, static_cast<float>(_window->getSize().y) / 8.0f };
 
+		// Averiguar cómo funcionan los valores de la ventana al cambiar el tamaño. Mostrar couts con TODA la info al presionar
+		// una tecla.
+		background.setSize(static_cast<Vector2f>(_window->getSize()));
+		background.setSize(Vector2f(static_cast<float>(_window->getSize().x), static_cast<float>(_window->getSize().y)));
+		background.setOrigin(static_cast<float>(background.getGlobalBounds().width) / 2.0f, background.getGlobalBounds().height / 2.0f);
+		background.setPosition(static_cast<float>(_window->getSize().x) / 2.0f, static_cast<float>(_window->getSize().y) / 2.0f);
+		background.setFillColor(sf::Color(0, 180, 0, 255)); // Color verde opaco.
 
 		if (!font.loadFromFile("res/fonts/8_bit.ttf"))
 		{
@@ -109,14 +118,12 @@ namespace the_wonder_boy
 		}
 		gameTitle.setFont(font);
 		gameTitle.setString("WONDER BOY");
-		gameTitle.setCharacterSize(85);
-		gameTitle.setFillColor(sf::Color::Black);
 		gameTitle.setOrigin(gameTitle.getGlobalBounds().width / 2.0f, gameTitle.getGlobalBounds().height / 2.0f);
+		gameTitle.setScale(1.0f / gameTitle.getGlobalBounds().width * desiredSize.x, 1.0f / gameTitle.getGlobalBounds().height * desiredSize.y);
 		gameTitle.setPosition(_window->getSize().x / 2.0f, _window->getSize().y / 10.0f);
+		gameTitle.setFillColor(sf::Color::Black);
 		toBlack = false;
 
-		background = RectangleShape(static_cast<Vector2f>(_window->getSize())); // Fondo del menú.
-		background.setFillColor(sf::Color(0, 180, 0, 255)); // Color verde opaco.
 
 		optionsList[0] = "PLAY"; // Texto que irá sobre los botones.
 		optionsList[1] = "CREDITS";
@@ -124,7 +131,7 @@ namespace the_wonder_boy
 
 		for (int i = 0; i < buttonsSize; i++)
 		{
-			buttons[i] = new Button(_window->getSize().x / 2.0f, firstPosition, _window->getSize().x / 3.0f, totalSize / (buttonsSize + 2), optionsList[i]); // Hacer una clase para el botón.
+			buttons[i] = new Button(static_cast<float>(_window->getSize().x) / 2.0f, static_cast<float>(firstPosition), static_cast<float>(_window->getSize().x) / 3.0f, static_cast<float>(totalSize / (buttonsSize + 2)), optionsList[i]); // Hacer una clase para el botón.
 			firstPosition += distanceBetweenButtons;
 		}
 
@@ -196,6 +203,6 @@ namespace the_wonder_boy
 			}
 		}
 
-		gameTitle.setFillColor(sf::Color(r, g, gameTitle.getFillColor().b));
+		gameTitle.setFillColor(sf::Color(static_cast<Uint8>(r), static_cast<Uint8>(g), gameTitle.getFillColor().b));
 	}
 }

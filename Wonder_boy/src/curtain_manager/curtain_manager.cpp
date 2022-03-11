@@ -2,12 +2,14 @@
 
 #include <iostream>
 
+using sf::View;
 using sf::Color;
 using sf::Uint8;
 
-
 namespace the_wonder_boy
 {
+	RenderWindow* CurtainManager::_window;
+
 	CURTAIN_TYPE CurtainManager::_wayToHide = CURTAIN_TYPE::FADE;
 	CURTAIN_TYPE CurtainManager::_wayToShow = CURTAIN_TYPE::FADE;
 
@@ -21,12 +23,13 @@ namespace the_wonder_boy
 
 
 	// Funciones públicas.
-	void CurtainManager::initValues(Vector2u curtainSize)
+	void CurtainManager::initValues(RenderWindow* window)
 	{
-		_curtain.setSize(Vector2f(static_cast<float>(curtainSize.x), static_cast<float>(curtainSize.y)));
+		_window = window;
+		_curtain.setSize(Vector2f(static_cast<float>(window->getSize().x), static_cast<float>(window->getSize().y)));
 		_curtain.setFillColor(Color::Black);
 		_curtain.setOrigin(_curtain.getGlobalBounds().width / 2.0f, _curtain.getGlobalBounds().height / 2.0f);
-		_curtain.setPosition(Vector2f(curtainSize.x / 2.0f, curtainSize.y / 2.0f));
+		_curtain.setPosition(Vector2f(window->getSize().x / 2.0f, window->getSize().y / 2.0f));
 	}
 	void CurtainManager::update(float deltaTime)
 	{
@@ -46,11 +49,13 @@ namespace the_wonder_boy
 
 	void CurtainManager::startToCover(CURTAIN_TYPE curtainType)
 	{
+		resetCurtainValues();
 		_fadingOut = true;
 		_wayToHide = curtainType;
 	}
 	void CurtainManager::startToShow(CURTAIN_TYPE curtainType)
 	{
+		resetCurtainValues();
 		_fadingIn = true;
 		_wayToHide = curtainType;
 	}
@@ -106,5 +111,17 @@ namespace the_wonder_boy
 		}
 
 		_curtain.setFillColor(Color(_curtain.getFillColor().b, _curtain.getFillColor().g, _curtain.getFillColor().b, static_cast<Uint8>(alpha)));
+	}
+
+	void CurtainManager::resetCurtainValues()
+	{
+		View view;
+		view.setSize(_window->getSize().x, _window->getSize().y);
+		view.setCenter(view.getSize().x / 2.0f, view.getSize().y / 2.0f);
+		_window->setView(view);
+
+		_curtain.setSize(Vector2f(static_cast<float>(_window->getSize().x), static_cast<float>(_window->getSize().y)));
+		_curtain.setOrigin(_curtain.getGlobalBounds().width / 2.0f, _curtain.getGlobalBounds().height / 2.0f);
+		_curtain.setPosition(Vector2f(_window->getSize().x / 2.0f, _window->getSize().y / 2.0f));
 	}
 }

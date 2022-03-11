@@ -18,7 +18,7 @@ namespace the_wonder_boy
 	class CurtainManager
 	{
 	public:
-		static void initValues(Vector2u curtainSize);
+		static void initValues(RenderWindow* window);
 		static void update(float deltaTime);
 		static void draw(RenderWindow* window);
 
@@ -31,6 +31,8 @@ namespace the_wonder_boy
 		static bool screenIsBlack();
 
 	private:
+		static RenderWindow* _window;
+
 		static CURTAIN_TYPE _wayToHide;
 		static CURTAIN_TYPE _wayToShow;
 
@@ -44,6 +46,8 @@ namespace the_wonder_boy
 
 		static void show(float deltaTime);
 		static void cover(float deltaTime);
+
+		static void resetCurtainValues();
 	};
 }
 

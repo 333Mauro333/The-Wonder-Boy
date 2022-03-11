@@ -1289,7 +1289,7 @@ namespace the_wonder_boy
 	{
 		if (isAlive() && !_wins)
 		{
-			const int healthPerSecond = 1.0f;
+			const float healthPerSecond = 1.0f;
 
 			_health = (_health - healthPerSecond * deltaTime > 0.0f) ? _health - healthPerSecond * deltaTime : 0.0f;
 

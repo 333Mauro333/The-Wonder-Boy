@@ -231,7 +231,6 @@ namespace the_wonder_boy
 		_background.setFillColor(sf::Color(128, 128, 255)); // Celeste.
 		_background.setOrigin(_background.getGlobalBounds().width / 2.0f, _background.getGlobalBounds().height / 2.0f);
 
-
 		// Pisos.
 		float x = 0.0f;
 		float y = _window->getSize().y / 4.0f * 3.5f;

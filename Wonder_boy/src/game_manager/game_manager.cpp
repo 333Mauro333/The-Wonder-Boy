@@ -67,7 +67,7 @@ namespace the_wonder_boy
 	// Funciones privadas.
 	void GameManager::init()
 	{
-		CurtainManager::initValues(_window->getSize());
+		CurtainManager::initValues(_window);
 
 		SceneManager::loadNewScene(new MainMenu(_window, SELECTED_OPTION::PLAY)); // Inicio la primera escena del juego.
 	}
@@ -108,13 +108,13 @@ namespace the_wonder_boy
 
 			if (event.type == Event::KeyPressed)
 			{
-				// Envía a la escena actual la tecla soltada y comprueba reacciones en base a esa tecla soltada.
+				// Envía a la escena actual la tecla presionada y comprueba reacciones.
 				SceneManager::getActualScene()->checkKeyPressedOnce(event.key.code);
 			}
 
 			if (event.type == Event::KeyReleased)
 			{
-				// Envía a la escena actual la tecla soltada y comprueba reacciones en base a esa tecla soltada.
+				// Envía a la escena actual la tecla soltada y comprueba reacciones.
 				SceneManager::getActualScene()->checkKeyReleased(event.key.code);
 			}
 		}

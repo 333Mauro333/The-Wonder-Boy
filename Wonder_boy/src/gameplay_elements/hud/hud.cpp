@@ -10,7 +10,7 @@ namespace the_wonder_boy
 		_window = window;
 		_player = player;
 
-		_backHud.setSize(Vector2f(window->getSize().x, window->getSize().y / 5.0f));
+		_backHud.setSize(Vector2f(static_cast<float>(window->getSize().x), static_cast<float>(window->getSize().y) / 5.0f));
 		_backHud.setOrigin(_backHud.getGlobalBounds().width / 2.0f, _backHud.getGlobalBounds().height / 2.0f);
 		_backHud.setFillColor(sf::Color::Black);
 		
@@ -76,7 +76,7 @@ namespace the_wonder_boy
 		Vector2f startBar = { _posZero.x + _backHud.getGlobalBounds().width / 2.5f, _posZero.y + _backHud.getGlobalBounds().height / 2.0f };
 		float widthRectangleBar = barSize.x / _amountOfRectangles;
 		float heightRectangleBar = barSize.y;
-		int amountOfColoredRectangles = _player->getHealth() / 3.125f + 1;
+		int amountOfColoredRectangles = static_cast<int>(_player->getHealth() / 3.125f + 1);
 
 		// Barra de vida.
 		for (int i = 0; i < _amountOfRectangles; i++)
@@ -141,7 +141,7 @@ namespace the_wonder_boy
 
 		stringToReturn = stringReverse;
 
-		for (int i = 0; i < stringReverse.size(); i++)
+		for (int i = 0; i < static_cast<int>(stringReverse.size()); i++)
 		{
 			int j = (stringReverse.size() - 1) - i;
 			stringToReturn[i] = stringReverse[j];

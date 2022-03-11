@@ -36,7 +36,7 @@ namespace the_wonder_boy
 
 		#if _DEBUG
 
-		window->draw(boxCollision);
+		window->draw(_boxCollision);
 
 		#endif // _DEBUG
 	}
@@ -83,10 +83,10 @@ namespace the_wonder_boy
 		frameDuration = 0.5f;
 		amountOfFrames = 3;
 
-		_sprLoader.setOrigin(frameWidth / 2.0f, static_cast<float>(frameHeight));
+		_sprLoader.setOrigin(static_cast<float>(frameWidth) / 2.0f, static_cast<float>(frameHeight));
 		_sprLoader.setPosition(x, y);
-		_boxCollision.setSize(Vector2f(frameWidth, frameHeight));
-		_boxCollision.setOrigin(frameWidth / 2.0f, frameHeight);
+		_boxCollision.setSize(Vector2f(static_cast<float>(frameWidth), static_cast<float>(frameHeight)));
+		_boxCollision.setOrigin(static_cast<float>(frameWidth) / 2.0f, static_cast<float>(frameHeight));
 		_animNormal = new Animation(_sprLoader, ANIMATION_MODE::LOOP);
 		for (int i = 0; i < amountOfFrames; i++)
 		{
@@ -110,8 +110,8 @@ namespace the_wonder_boy
 
 		_sprLoader.setOrigin(frameWidth / 2.0f, static_cast<float>(frameHeight));
 		_sprLoader.setPosition(x, y);
-		_boxCollision.setSize(Vector2f(frameWidth, frameHeight));
-		_boxCollision.setOrigin(frameWidth / 2.0f, frameHeight);
+		_boxCollision.setSize(Vector2f(static_cast<float>(frameWidth), static_cast<float>(frameHeight)));
+		_boxCollision.setOrigin(static_cast<float>(frameWidth) / 2.0f, static_cast<float>(frameHeight));
 		_animDefeated = new Animation(_sprLoader, ANIMATION_MODE::LOOP);
 		for (int i = 0; i < amountOfFrames; i++)
 		{
